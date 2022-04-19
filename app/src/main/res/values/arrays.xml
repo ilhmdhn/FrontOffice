@@ -1,0 +1,38 @@
+<resources>
+    <!-- Reply Preference -->
+    <string-array name="reply_entries">
+        <item>Reply</item>
+        <item>Reply to all</item>
+    </string-array>
+
+    <string-array name="reply_values">
+        <item>reply</item>
+        <item>reply_all</item>
+    </string-array>
+
+    <string-array name="bank_values">
+        <item>VISA</item>
+        <item>MASTER</item>
+        <item>BCA</item>
+        <item>MANDIRI</item>
+        <item>LAIN</item>
+    </string-array>
+
+    <string-array name="emoney_type">
+        <item>DANA</item>
+        <item>OVO</item>
+        <item>GOPAY</item>
+        <item>QRIS</item>
+        <item>SHOPEE PAY</item>
+        <item>LINK AJA</item>
+    </string-array>
+
+    <string-array name="piutang_type">
+        <item>PEMEGANG SAHAM OUTLET</item>
+        <item>PEMEGANG SAHAM WARALABA</item>
+        <item>OUTLET</item>
+        <item>KONSUMEN TERDAFTAR</item>
+        <item>ADVANCED</item>
+    </string-array>
+
+</resources>

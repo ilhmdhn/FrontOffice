@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+            <ImageView
+                android:id="@+id/sign_user"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_happy_puppy_group" />
+
+            <TextView
+                android:id="@+id/detail_visitor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/nama"
+                android:fontFamily="@font/sfpro_display_bold"
+                android:textColor="@color/tevelblack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:letterSpacing="0.0625"
+                android:text="@string/room_belum_dibayar"
+                android:textColor="@color/tevelgraylight1"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/checkin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_pro_display_medium"
+                    android:letterSpacing="0.0625"
+                    android:text="@string/room_belum_dibayar"
+                    android:textColor="@color/green"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="2dp"/>
+                <TextView
+                    android:id="@+id/checkout_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/sf_pro_display_medium"
+                    android:letterSpacing="0.0625"
+                    android:text="@string/room_belum_dibayar"
+                    android:textColor="@color/red"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="2dp"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/residual_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:letterSpacing="0.0625"
+                android:text="@string/room_belum_dibayar"
+                android:textColor="@color/colorOrange"
+                android:textSize="12sp"
+                android:layout_marginEnd="2dp"/>
+        </LinearLayout>
+
+        <include
+            layout="@layout/order_room"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/warning_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:ignore="ObsoleteLayoutParam,UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/image_discount_room_order"
+                android:layout_width="@dimen/img_width_height"
+                android:layout_height="@dimen/img_width_height"
+                android:src="@drawable/ic_discount"
+                android:contentDescription="@string/app_name" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="@dimen/desc_padding"
+                android:paddingRight="@dimen/desc_padding"
+                android:text="@string/anda_belum_melakukan_transaksi_ini"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/slide_desc" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_transfer"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_button_login"
+                android:text="@string/transfer_room"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_payment"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:background="@drawable/background_button_payment"
+                android:text="@string/bayar"
+                android:textColor="#fff"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

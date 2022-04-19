@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#0276B6</color>
+    <color name="colorAccent">#03A9F4</color>
+
+    <color name="colorBackground">#E2F4F7</color>
+    <color name="whitegreen">#E2F4F7</color>
+
+    <color name="textSub">#76818a</color>
+    <color name="Tex">#404547</color>
+    <color name="White">#fff</color>
+
+    <color name="green_trans">#7700838F</color>
+    <color name="transparent">#00555555</color>
+
+    <color name="darkblue">#2d5da1</color>
+    <color name="graylight">#e2e2e2</color>
+    <color name="colordevider">#f1f2f4</color>
+    <color name="colorbutton">#ff5254</color>
+    <color name="iconcolour">#9ba4ab</color>
+    <color name="strok">#ECECF1</color>
+
+
+    <color name="green">#5ccc78</color>
+    <color name="red">#ea495f</color>
+    <color name="yellow">#f8d64e</color>
+    <color name="light_green">#1bac94</color>
+
+    <color name="green_varian">#009688</color>
+
+    <color name="primary_darker">#67519c</color>
+    <color name="oldgreen">#3E7076</color>
+    <color name="whitepurple">#EAE4E8</color>
+    <color name="colorTab">#45787e</color>
+
+    <color name="primary_dark">#E12929</color>
+
+    <color name="primary">#2d4778</color>
+    <color name="iron">#CCCCCC</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="darkDeepOrange">#e64a19</color>
+
+    <color name="subText">#a2a2a2</color>
+    <color name="mainText">#454545</color>
+    <color name="colorGray">#495C67</color>
+    <color name="colorOrange">#F68159</color>
+    <color name="colorLightGray">#D9E1E6</color>
+
+    <color name="colorBackroundWhite">#f0f2ea</color>
+
+    <color name="tevelcolorPrimary">#3F51B5</color>
+    <color name="tevelcolorPrimaryDark">#303F9F</color>
+    <color name="tevelcolorAccent">#FF4081</color>
+    <color name="tevelwhite">#ffffff</color>
+    <color name="tevelblack">#000000</color>
+    <color name="tevelyellow">#ffd21d</color>
+    <color name="tevelgray">#8f8f8f</color>
+    <color name="tevelgraylight">#e2e2e2</color>
+    <color name="tevelblacklight">#2f2f39</color>
+    <color name="tevelgraydark">#9398a0</color>
+    <color name="tevelsmokegray">#f2f2f2</color>
+    <color name="tevelblue">#21549c</color>
+    <color name="tevellightgray">#33707070</color>
+    <color name="teveldarkblue">#2d5da1</color>
+    <color name="tevelgreen">#159a0a</color>
+    <color name="tevelgraylight1">#aaaaaa</color>
+    <color name="tevelgraydark1">#80000000</color>
+    <color name="tevelgraylight2">#999999</color>
+    <color name="tevelbluedarkcode">#003580</color>
+    <color name="tevelred">#d10f0f</color>
+    <color name="tevelorange">#b96f19</color>
+    <color name="tevelgraylight3">#acacac</color>
+    <color name="tevelyellowtxt">#e8a31f</color>
+    <color name="tevelgraylight4">#149398a0</color>
+    <color name="teveltransferent">#00000000</color>
+    <color name="tevelbluelight">#a62d5da1</color>
+
+</resources>

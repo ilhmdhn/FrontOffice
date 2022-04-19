@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/layout_first"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/sign_user"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/icon_happy_puppy_group"
+                android:contentDescription="TODO" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/checkin_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:fontFamily="@font/sf_pro_display_medium"
+                    android:letterSpacing="0.0625"
+                    android:text="@string/room_belum_dibayar"
+                    android:textColor="@color/green"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/checkout_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:fontFamily="@font/sf_pro_display_medium"
+                    android:letterSpacing="0.0625"
+                    android:text="@string/room_belum_dibayar"
+                    android:textColor="@color/red"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/detail_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:letterSpacing="0.0625"
+                android:text="@string/room_belum_dibayar"
+                android:textColor="@color/tevelgraylight1"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/detail_visitor_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sfpro_display_bold"
+                android:text="@string/nama"
+                android:textColor="@color/tevelblack"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/residual_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:letterSpacing="0.0625"
+                android:text="@string/room_belum_dibayar"
+                android:textColor="@color/colorOrange"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/lightgray" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layout_second"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="195dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/invoice_ruangan_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/ruangan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_extend_ruangan_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/extend_rangan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_voucher_ruangan_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/voucher_ruangan_"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_surcharge_kamar_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/surcharge_kamar"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_overpax_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/overpax"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_penjualan_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/penjualan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_retur_penjualan_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/retur_penjualan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/invoice_ruangan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/ruangan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_extend_ruangan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/extend_rangan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_voucher_ruangan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/voucher_ruangan_"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_surcharge_kamar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/surcharge_kamar"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_overpax"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/overpax"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_penjualan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/penjualan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_retur_penjualan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/retur_penjualan"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="5dp"
+            android:background="@color/lightgray" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/layout_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/invoice_sub_jumlah_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/jumlah"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_diskon_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/diskon"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_sub_sub_jumlah_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/jumlah"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_service_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/service"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_pajak_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/pajak"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_uang_muka_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/uang_muka"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_gift_voucher_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/gift_voucher"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_grand_total_"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/grand_total"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/invoice_sub_jumlah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/jumlah"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_diskon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/diskon"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:id="@+id/invoice_sub_sub_jumlah"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/jumlah"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/service"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_pajak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/pajak"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_uang_muka"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/uang_muka"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/invoice_gift_voucher"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/gift_voucher"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="1dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:id="@+id/invoice_grand_total"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:gravity="end"
+                        android:text="@string/grand_total"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/lightgray" />
+
+        <LinearLayout
+            android:id="@+id/warning_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:ignore="ObsoleteLayoutParam,UseCompoundDrawables"
+            tools:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image_discount_room_order"
+                android:layout_width="@dimen/img_width_height"
+                android:layout_height="@dimen/img_width_height"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_discount" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:paddingLeft="@dimen/desc_padding"
+                android:paddingRight="@dimen/desc_padding"
+                android:text="@string/anda_belum_melakukan_transaksi_ini"
+                android:textAlignment="center"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="@dimen/slide_desc" />
+
+        </LinearLayout>
+
+        <include
+            layout="@layout/order_room"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

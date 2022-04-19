@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/card_view"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_margin="@dimen/card_margin"
+android:clickable="true"
+android:elevation="3dp"
+android:foreground="?attr/selectableItemBackground">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/room_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:paddingLeft="@dimen/card_title_padding"
+        android:paddingTop="@dimen/card_title_padding"
+        android:paddingRight="@dimen/card_title_padding"
+        android:text="@string/app_name"
+        android:textColor="@color/colorOrange"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/room_capacity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/room_number"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/card_price_padding_bottom"
+        android:text="@string/app_name"
+        android:textColor="@color/red"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+</RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
