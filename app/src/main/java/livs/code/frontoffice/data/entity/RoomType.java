@@ -47,10 +47,6 @@ public class RoomType implements Serializable {
         return reservasiCheckinTime;
     }
 
-    public void setReservasiCheckinTime(String reservasiCheckinTime) {
-        this.reservasiCheckinTime = reservasiCheckinTime;
-    }
-
     public String getReservasiCheckoutTime() {
         return reservasiCheckoutTime;
     }
@@ -63,17 +59,6 @@ public class RoomType implements Serializable {
         return reservasiHourDuration;
     }
 
-    public void setReservasiHourDuration(int reservasiHourDuration) {
-        this.reservasiHourDuration = reservasiHourDuration;
-    }
-
-    public int getReservasiMinuteDuration() {
-        return reservasiMinuteDuration;
-    }
-
-    public void setReservasiMinuteDuration(int reservasiMinuteDuration) {
-        this.reservasiMinuteDuration = reservasiMinuteDuration;
-    }
 
     public String getRoomType() {
         return roomType;
@@ -87,23 +72,8 @@ public class RoomType implements Serializable {
         return roomTypeCapacity;
     }
 
-    public void setRoomTypeCapacity(int roomTypeCapacity) {
-        this.roomTypeCapacity = roomTypeCapacity;
-    }
-
-    public boolean isRoomTypeNotLobby() {
-        return roomTypeNotLobby;
-    }
-
-    public void setRoomTypeNotLobby(boolean roomTypeNotLobby) {
-        this.roomTypeNotLobby = roomTypeNotLobby;
-    }
 
     public int getAvailableRoom() {
         return availableRoom;
-    }
-
-    public void setAvailableRoom(int availableRoom) {
-        this.availableRoom = availableRoom;
     }
 }

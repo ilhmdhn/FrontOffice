@@ -10,31 +10,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiRestService {
-
-    //public static final String BASE_URL = "http://10.0.2.2/"; //emulator localhost
-    //public static final String BASE_URL = "http://192.168.1.234:3000";//kantor
-    //public static final String BASE_URL = "http://192.168.1.80:3000";//ainul-pc
-    //public static final String BASE_URL = "http://192.168.1.246:3000";//ainul
-
     private static Retrofit retrofit =null;
     private static String BASE_URL;
 
     public static Retrofit getClient(String baseURL) {
         if (retrofit == null) {
-        /* Gson gson = new GsonBuilder()
-              .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-              .create();
-
-            GsonBuilder builder = new GsonBuilder();
-            builder
-                    .registerTypeAdapter(Boolean.class, new BooleanTypeAdapter())
-                    .registerTypeAdapter(boolean.class, new BooleanTypeAdapter());
-            Gson gson = builder.create();
-
-            GsonBuilder builder = new GsonBuilder();
-            builder
-                    .registerTypeAdapter(ResponseListFormA.class, new ResponseListFormTypeAdapter());
-            Gson gson = builder.create();*/
             BASE_URL = baseURL+ "/";
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -71,9 +51,5 @@ public class ApiRestService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-    }
-
-    public static <S> S createService(Class<S> serviceClass) {
-        return retrofit.create(serviceClass);
     }
 }

@@ -47,10 +47,6 @@ public class EventsWrapper {
             return isSuccess;
         }
 
-        public void setSuccess(boolean success) {
-            isSuccess = success;
-        }
-
         public String getData() {
             return data;
         }
@@ -62,7 +58,7 @@ public class EventsWrapper {
 
 
     public static class DbProgressDone {
-        private boolean isProgressDone;
+        private final boolean isProgressDone;
         public DbProgressDone(Boolean success) {
             this.isProgressDone =success;
         }
@@ -71,9 +67,6 @@ public class EventsWrapper {
             return isProgressDone;
         }
 
-        public void setProgressDone(boolean progressDone) {
-            isProgressDone = progressDone;
-        }
     }
 
     public static class CheckoutRoom {
@@ -116,13 +109,6 @@ public class EventsWrapper {
             this.refresh = b;
         }
 
-        public boolean isRefresh() {
-            return refresh;
-        }
-
-        public void setRefresh(boolean refresh) {
-            this.refresh = refresh;
-        }
     }
 
     public static class TitleFragment {
@@ -225,13 +211,6 @@ public class EventsWrapper {
             this.toInvoice = toInvoice;
         }
 
-        public boolean isToInvoice() {
-            return toInvoice;
-        }
-
-        public void setToInvoice(boolean toInvoice) {
-            this.toInvoice = toInvoice;
-        }
     }
 
     public static class XZscan {

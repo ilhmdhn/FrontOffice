@@ -27,16 +27,8 @@ public class TypeEdc implements Serializable {
         return edcCode;
     }
 
-    public void setEdcCode(String edcCode) {
-        this.edcCode = edcCode;
-    }
-
     public String getEdcName() {
         return edcName;
-    }
-
-    public void setEdcName(String edcName) {
-        this.edcName = edcName;
     }
 
     public String getStatus() {

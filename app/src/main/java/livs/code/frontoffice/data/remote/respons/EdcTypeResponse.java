@@ -14,7 +14,4 @@ public class EdcTypeResponse extends BaseResponse{
         return typeEdcs;
     }
 
-    public void setTypeEdcs(List<TypeEdc> typeEdcs) {
-        this.typeEdcs = typeEdcs;
-    }
 }

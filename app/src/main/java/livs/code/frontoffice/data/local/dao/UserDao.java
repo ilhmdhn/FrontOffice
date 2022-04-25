@@ -24,7 +24,4 @@ public interface UserDao extends BaseDao<User> {
 
     @Query("SELECT * FROM user where is_login = 1 ORDER BY user_id DESC LIMIT 1")
     User getUserLogin();
-	
-	@Query("DELETE FROM user")
-    void clearAllUser();
 }

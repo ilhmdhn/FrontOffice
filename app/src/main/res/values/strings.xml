@@ -295,4 +295,5 @@
     <string name="uang_muka_transfer">Uang Muka Transfer</string>
     <string name="kode_qrcode">Kode QRCode</string>
     <string name="_manual">Isi Manual Jika Ada Kendala Scan</string>
+    <string name="jam_checkin">Jam Checkin</string>
 </resources>

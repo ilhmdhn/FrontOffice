@@ -20,7 +20,4 @@ public class FoodPromoResponse extends BaseResponse {
         return inventoryPromos;
     }
 
-    public void setInventoryPromos(List<InventoryPromo> inventoryPromos) {
-        this.inventoryPromos = inventoryPromos;
-    }
 }

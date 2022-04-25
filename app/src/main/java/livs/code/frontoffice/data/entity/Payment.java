@@ -179,21 +179,12 @@ public class  Payment implements Serializable {
         this.paymentType = paymentType;
     }
 
-
     public String getBankNameTf() {
         return bankNameTf;
     }
 
-    public void setBankNameTf(String bankNameTf) {
-        this.bankNameTf = bankNameTf;
-    }
-
     public String getBankAccountNameTf() {
         return bankAccountNameTf;
-    }
-
-    public void setBankAccountNameTf(String bankAccountNameTf) {
-        this.bankAccountNameTf = bankAccountNameTf;
     }
 
     public String getEdcDebet() {
@@ -252,13 +243,6 @@ public class  Payment implements Serializable {
         this.approvalCodeDebet = approvalCodeDebet;
     }
 
-    public String getExpiredDateDebet() {
-        return expiredDateDebet;
-    }
-
-    public void setExpiredDateDebet(String expiredDateDebet) {
-        this.expiredDateDebet = expiredDateDebet;
-    }
 
     public String getNamaUserCredit() {
         return namaUserCredit;
@@ -282,14 +266,6 @@ public class  Payment implements Serializable {
 
     public void setApprovalCodeCredit(String approvalCodeCredit) {
         this.approvalCodeCredit = approvalCodeCredit;
-    }
-
-    public String getExpiredDateCredit() {
-        return expiredDateCredit;
-    }
-
-    public void setExpiredDateCredit(String expiredDateCredit) {
-        this.expiredDateCredit = expiredDateCredit;
     }
 
     public String getTypeEmoney() {
@@ -372,60 +348,24 @@ public class  Payment implements Serializable {
         this.idMemberPiutang = idMemberPiutang;
     }
 
-    public String getIdPayment() {
-        return idPayment;
-    }
-
-    public void setIdPayment(String idPayment) {
-        this.idPayment = idPayment;
-    }
-
-    public String getEdcMachine() {
-        return edcMachine;
-    }
-
-    public void setEdcMachine(String edcMachine) {
-        this.edcMachine = edcMachine;
-    }
-
     public String getBankType() {
         return bankType;
-    }
-
-    public void setBankType(String bankType) {
-        this.bankType = bankType;
     }
 
     public String getBankAkunName() {
         return bankAkunName;
     }
 
-    public void setBankAkunName(String bankAkunName) {
-        this.bankAkunName = bankAkunName;
-    }
-
     public String getBankAkunNumber() {
         return bankAkunNumber;
-    }
-
-    public void setBankAkunNumber(String bankAkunNumber) {
-        this.bankAkunNumber = bankAkunNumber;
     }
 
     public String getBankAkunApproval() {
         return bankAkunApproval;
     }
 
-    public void setBankAkunApproval(String bankAkunApproval) {
-        this.bankAkunApproval = bankAkunApproval;
-    }
-
     public double getBayar() {
         return bayar;
-    }
-
-    public void setBayar(double bayar) {
-        this.bayar = bayar;
     }
 
     public double getKembali() {
@@ -434,14 +374,6 @@ public class  Payment implements Serializable {
 
     public void setKembali(double kembali) {
         this.kembali = kembali;
-    }
-
-    public String getEdcCode() {
-        return edcCode;
-    }
-
-    public void setEdcCode(String edcCode) {
-        this.edcCode = edcCode;
     }
 
     public TypeEdc getTypeEdc() {

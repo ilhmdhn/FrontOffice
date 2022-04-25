@@ -725,6 +725,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         });
 
         buttonCheckCodeVoucher.setOnClickListener(view -> {
+//          clean promo
             String codeVcr = inputCodeVoucher.getEditText().getText().toString();
             if (codeVcr.equals("") || codeVcr == "") {
                 Toast.makeText(getContext(),
@@ -989,6 +990,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         if (size > 0) {
             RoomPromo roomPromo = roomOrder.getRoomPromos()
                     .get(size - 1);
+            inputCodeVoucher.setEnabled(false);
+            buttonScanQRCodeVoucher.setEnabled(false);
             buttonPromoRoom.setText("Terpilih");
             buttonPromoRoom.setEnabled(false);
             promoRoomViewData(
@@ -998,6 +1001,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         if (size > 0) {
             InventoryPromo invPromo = roomOrder.getInventoryPromos()
                     .get(size - 1);
+            inputCodeVoucher.setEnabled(false);
+            buttonScanQRCodeVoucher.setEnabled(false);
             buttonPromoFood.setText("Terpilih");
             buttonPromoFood.setEnabled(false);
             promoFoodViewData(

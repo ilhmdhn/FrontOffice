@@ -35,6 +35,7 @@ import livs.code.frontoffice.R;
 import livs.code.frontoffice.data.entity.Invoice;
 import livs.code.frontoffice.data.entity.Room;
 import livs.code.frontoffice.data.entity.RoomOrder;
+import livs.code.frontoffice.data.entity.Time;
 import livs.code.frontoffice.data.entity.TypeEdc;
 import livs.code.frontoffice.data.entity.User;
 import livs.code.frontoffice.data.remote.ApiRestService;
@@ -77,6 +78,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
 
     private Room room;
     private Invoice invoice;
+    private Time timeRcp;
 
 
     private RoomOrderViewModel roomOrderViewModel;
@@ -161,6 +163,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
                         invoice = roomOrder.getInvoice();
+                        timeRcp = roomOrder.getTime();
                         setViewPager();
                     }
                     progressBar.setVisibility(View.GONE);
@@ -313,7 +316,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
         public Fragment createFragment(int position) {
             switch (position) {
                 case 0:
-                    return InvoiceFragment.newInstance(invoice, roomOrder);
+                    return InvoiceFragment.newInstance(invoice, roomOrder, timeRcp);
                 case 1:
                     return PaymentFragment.newInstance(invoice, room);
 

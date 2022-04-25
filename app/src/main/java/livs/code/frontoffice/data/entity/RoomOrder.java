@@ -68,6 +68,10 @@ public class RoomOrder implements Serializable {
     @SerializedName("invoice")
     private Invoice invoice;
 
+    @ColumnInfo(name = "time")
+    @SerializedName("time")
+    private Time time;
+
     @SerializedName("order_room")
     private List<Room> historyTransferOrderRoom;
 
@@ -118,8 +122,16 @@ public class RoomOrder implements Serializable {
         return invoice;
     }
 
+    public Time getTime(){
+        return time;
+    }
+
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
+    }
+
+    public void setTime(Time timeRcp) {
+        this.time = timeRcp;
     }
 
     public Room getCheckinRoom() {
@@ -142,24 +154,8 @@ public class RoomOrder implements Serializable {
         isSendEmailInvoice = sendEmailInvoice;
     }
 
-    public void setHistoryTransferOrderRoom(List<Room> historyTransferOrderRoom) {
-        this.historyTransferOrderRoom = historyTransferOrderRoom;
-    }
-
     public List<Room> getOrderRoomExtends() {
         return orderRoomExtends;
-    }
-
-    public void setOrderRoomExtends(List<Room> orderRoomExtends) {
-        this.orderRoomExtends = orderRoomExtends;
-    }
-
-    public List<RoomPrice> getOrderRoomPrices() {
-        return orderRoomPrices;
-    }
-
-    public void setOrderRoomPrices(List<RoomPrice> orderRoomPrices) {
-        this.orderRoomPrices = orderRoomPrices;
     }
 
     public List<Inventory> getInventories() {
@@ -174,36 +170,16 @@ public class RoomOrder implements Serializable {
         return inventoryCancelation;
     }
 
-    public void setInventoryCancelation(List<Inventory> inventoryCancelation) {
-        this.inventoryCancelation = inventoryCancelation;
-    }
-
     public List<Inventory> getInventoryOnOrderProgress() {
         return inventoryOnOrderProgress;
-    }
-
-    public void setInventoryOnOrderProgress(List<Inventory> inventoryOnOrderProgress) {
-        this.inventoryOnOrderProgress = inventoryOnOrderProgress;
     }
 
     public List<InventoryPromo> getInventoryPromos() {
         return inventoryPromos;
     }
 
-    public void setInventoryPromos(List<InventoryPromo> inventoryPromos) {
-        this.inventoryPromos = inventoryPromos;
-    }
-
     public List<RoomPromo> getRoomPromos() {
         return roomPromos;
-    }
-
-    public void setRoomPromos(List<RoomPromo> roomPromos) {
-        this.roomPromos = roomPromos;
-    }
-
-    public String getChuser() {
-        return chuser;
     }
 
     public void setChuser(String chuser) {
@@ -222,24 +198,8 @@ public class RoomOrder implements Serializable {
         return hp;
     }
 
-    public void setHp(String hp) {
-        this.hp = hp;
-    }
-
-    public int getDurasiJam() {
-        return durasiJam;
-    }
-
     public void setDurasiJam(int durasiJam) {
         this.durasiJam = durasiJam;
-    }
-
-    public int getDurasiMenit() {
-        return durasiMenit;
-    }
-
-    public void setDurasiMenit(int durasiMenit) {
-        this.durasiMenit = durasiMenit;
     }
 
     public String getRoomCode() {
@@ -278,15 +238,4 @@ public class RoomOrder implements Serializable {
         return summaryOrderInventories;
     }
 
-    public void setSummaryOrderInventories(List<Inventory> summaryOrderInventories) {
-        this.summaryOrderInventories = summaryOrderInventories;
-    }
-
-    /* public String getSignPath() {
-        return signPath;
-    }
-
-    public void setSignPath(String signPath) {
-        this.signPath = signPath;
-    }*/
 }

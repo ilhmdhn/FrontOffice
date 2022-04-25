@@ -11,7 +11,7 @@ public interface MemberClient {
 
     @GET("/member/membership/{web_membership}")
     Call<MemberResponse> checkMember(@Path("web_membership") String kodeMbr);
-    //http://192.168.1.111:3000/rsv/getRsv/R-416949916109593571
+
     @GET("rsv/getRsv/{kode_reservasi}")
     Call<MemberResponse> checkReservasi(@Path("kode_reservasi") String rsv);
 

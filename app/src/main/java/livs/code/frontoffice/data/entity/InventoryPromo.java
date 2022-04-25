@@ -39,47 +39,23 @@ public class InventoryPromo implements Serializable {
         return foodPromoName;
     }
 
-    public void setFoodPromoName(String foodPromoName) {
-        this.foodPromoName = foodPromoName;
-    }
-
     public int getDiscountPercent() {
         return discountPercent;
-    }
-
-    public void setDiscountPercent(int discountPercent) {
-        this.discountPercent = discountPercent;
     }
 
     public String getDiscountRupiah() {
         return discountRupiah;
     }
 
-    public void setDiscountRupiah(String discountRupiah) {
-        this.discountRupiah = discountRupiah;
-    }
-
     public String getNotes() {
         return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 
     public String getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(String timeStart) {
-        this.timeStart = timeStart;
-    }
-
     public String getTimeEnd() {
         return timeEnd;
-    }
-
-    public void setTimeEnd(String timeEnd) {
-        this.timeEnd = timeEnd;
     }
 }
