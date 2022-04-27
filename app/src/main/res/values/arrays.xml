@@ -35,4 +35,14 @@
         <item>ADVANCED</item>
     </string-array>
 
+        <string-array name="level_user">
+            <item>ALL</item>
+            <item>OWNER</item>
+            <item>ADMINISTRATOR</item>
+            <item>ACCOUNTING</item>
+            <item>SUPERVISOR</item>
+            <item>KASIR</item>
+            <item>OPR</item>
+        </string-array>
+
 </resources>

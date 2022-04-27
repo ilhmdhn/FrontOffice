@@ -353,6 +353,18 @@
             android:name="room"
             app:argType="livs.code.frontoffice.data.entity.Room" />
     </fragment>
-
+    <fragment
+        android:id="@+id/navReportingFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.ReportingFragment"
+        android:label="ReportingFragment" >
+        <action
+            android:id="@+id/action_navReportingFragment_to_statusKasFragment"
+            app:destination="@id/navStatusKasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navStatusKasFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.StatusKasFragment"
+        android:label="fragment_status_kas"
+        tools:layout="@layout/fragment_status_kas" />
 
 </navigation>

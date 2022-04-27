@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        if (findViewById(R.id.potrait_layout) != null) {
+        if (findViewById(R.id.ll_potrait) != null) {
             //Phone layout
 
             isPortraitsLayout = true;
@@ -209,7 +209,8 @@ public class MainActivity extends AppCompatActivity
                 R.id.navRoomStatusFragment,
                 R.id.navListHistoryRoomFragment,
                 R.id.navListRoomFragment,
-                R.id.navListInventoryFragment)
+                R.id.navListInventoryFragment,
+                R.id.navReportingFragment)
                 .build();
 
 
@@ -266,6 +267,10 @@ public class MainActivity extends AppCompatActivity
                     hideBottomNav();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
+                case R.id.navStatusKasFragment:
+                    hideBottomNav();
+                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+                    break;
                 default:
                     break;
             }
@@ -291,7 +296,6 @@ public class MainActivity extends AppCompatActivity
         setupFoRct();
     }
 
-
     void observableNotifyData() {
         notificationViewModel
                 .getUnreadNotificationLiveData()
@@ -314,7 +318,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         //toolbar.setNavigationIcon(R.drawable.ic_home);
     }
-
 
     private void checkPermission() {
         Dexter.withActivity(this)

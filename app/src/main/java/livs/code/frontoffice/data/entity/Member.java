@@ -84,7 +84,7 @@ public class Member implements Serializable {
 
     @ColumnInfo(name = "pengali_poin")
     @SerializedName("pengali_poin")
-    private int pengaliPoin;
+    private float pengaliPoin;
 
     @ColumnInfo(name = "reservasi")
     @SerializedName("reservasi")

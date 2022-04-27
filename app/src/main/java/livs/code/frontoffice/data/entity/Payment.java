@@ -163,8 +163,18 @@ public class  Payment implements Serializable {
     private double kembali;
 
     @NonNull
+    @ColumnInfo(name = "chusr")
+    @SerializedName("Chusr")
+    private String chusr;
+
+    @NonNull
     public String getPaymentType() {
         return paymentType;
+    }
+
+    @NonNull
+    public String getChusr() {
+        return chusr;
     }
 
     public double getNominal() {

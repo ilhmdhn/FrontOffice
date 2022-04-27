@@ -2,13 +2,22 @@ package livs.code.frontoffice.view.fragment.reporting;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.card.MaterialCardView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import livs.code.frontoffice.R;
+import livs.code.frontoffice.databinding.FragmentReportingBinding;
+import livs.code.frontoffice.events.EventsWrapper;
+import livs.code.frontoffice.events.GlobalBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +25,9 @@ import livs.code.frontoffice.R;
  * create an instance of this fragment.
  */
 public class ReportingFragment extends Fragment {
+
+    @BindView(R.id.btn_status_kas_masuk)
+    MaterialCardView btnKasMasuk;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +73,28 @@ public class ReportingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reporting, container, false);
+        View view = inflater.inflate(R.layout.fragment_reporting, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setMainTitle();
+        btnKasMasuk.setOnClickListener(view -> {
+            Navigation.findNavController(view)
+                    .navigate(
+                          ReportingFragmentDirections
+                          .actionNavReportingFragmentToStatusKasFragment()
+                    );
+        });
+    }
+
+    private void setMainTitle() {
+        GlobalBus
+                .getBus()
+                .post(new EventsWrapper
+                        .TitleFragment("Report"));
     }
 }

@@ -189,6 +189,22 @@
                         android:text="@string/kembali"
                         android:textColor="@color/tevelblack"
                         android:textSize="12sp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="1dp"
+                        android:layout_height="1dp"
+                        android:background="@color/lightgray" />
+
+                    <TextView
+                        android:id="@+id/chusr_"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        android:text="@string/chusr"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -230,6 +246,17 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/kembali"
+                        android:textColor="@color/tevelblack"
+                        android:textSize="12sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_chusr"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/sf_pro_display_medium"
+                        tools:text="Nama Kasir"
                         android:textColor="@color/tevelblack"
                         android:textSize="12sp" />
 

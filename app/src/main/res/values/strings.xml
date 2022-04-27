@@ -296,4 +296,6 @@
     <string name="kode_qrcode">Kode QRCode</string>
     <string name="_manual">Isi Manual Jika Ada Kendala Scan</string>
     <string name="jam_checkin">Jam Checkin</string>
+    <string name="report">Laporan</string>
+    <string name="chusr">Chusr</string>
 </resources>
