@@ -3,6 +3,7 @@ package livs.code.frontoffice.view.fragment.reporting.kas
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +13,12 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
 import livs.code.frontoffice.databinding.FragmentStatusKasBinding
+import livs.code.frontoffice.events.EventsWrapper.TitleFragment
+import livs.code.frontoffice.events.GlobalBus
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -30,18 +34,38 @@ class StatusKasFragment : Fragment() {
     private  lateinit var reportViewModel: ReportViewModel
     var listUser: MutableList<String> = ArrayList()
 
+    var date: String = ""
+    var shift: String = ""
+    var user: String = ""
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         _binding = FragmentStatusKasBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setMainTitle()
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
         val levelUserArray = resources.getStringArray(R.array.level_user)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
+        binding.spinnerUser.isEnabled = false
+        binding.spinnerLevelUser.isEnabled = false
+        binding.parentSpinner.isEnabled = false
+
+        binding.cbByUser.setOnClickListener {
+            if (binding.cbByUser.isChecked){
+                binding.spinnerUser.isEnabled = true
+                binding.spinnerLevelUser.isEnabled = true
+                binding.parentSpinner.isEnabled = true
+            } else {
+                binding.spinnerUser.isEnabled = false
+                binding.spinnerLevelUser.isEnabled = false
+                binding.parentSpinner.isEnabled = false
+                binding.spinnerUser.setText("")
+            }
+        }
+
 
         val dateSetListener = object : DatePickerDialog.OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,dayOfMonth: Int) {
@@ -66,11 +90,7 @@ class StatusKasFragment : Fragment() {
                 }
             })
 
-        ArrayAdapter.createFromResource(
-            requireActivity(),
-            R.array.level_user,
-            android.R.layout.simple_spinner_item
-        ).also { adapter ->
+        ArrayAdapter.createFromResource(requireActivity(), R.array.level_user, android.R.layout.simple_spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerLevelUser.adapter = adapter
         }
@@ -87,15 +107,28 @@ class StatusKasFragment : Fragment() {
             }
         }
 
-        binding.spinnerUser.setOnClickListener{
-            binding.spinnerUser.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    listUser[p2]
-                    Toast.makeText(requireActivity(), listUser[p2], Toast.LENGTH_SHORT).show()
-                }
+        binding.btnSubmit.setOnClickListener {
+            if (binding.rbShiftSatu.isChecked){
+                shift = "shift satu"
+            } else if (binding.rbShiftDua.isChecked){
+                shift = "shift dua"
+            } else {
+                shift = ""
+            }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    TODO("Not yet implemented")
+            date = binding.tvValueDate.text.toString()
+
+            user = binding.spinnerUser.text.toString()
+
+            if (date ==  "Pilih Tanggal"){
+                Toasty.error(requireActivity(), "Tanggal belum dipilih", Toast.LENGTH_SHORT, true).show()
+            } else if (shift.isEmpty()){
+                Toasty.error(requireActivity(), "Shift belum dipilih", Toast.LENGTH_SHORT, true).show()
+            } else{
+                if (user.isEmpty()){
+                    Toast.makeText(requireActivity(), "Mencari tanpa user Tanggal $date \nshift $shift", Toast.LENGTH_SHORT).show()
+                } else{
+                    Toast.makeText(requireActivity(), "Mencari dengan user Tanggal $date \nshift $shift \nUser $user ", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -106,18 +139,24 @@ class StatusKasFragment : Fragment() {
         binding.tvValueDate.setText(dateFormat.format(calendar.time))
     }
 
-    private fun getUserList(baseUrl: String,  levelUser: String, context: Context): MutableList<String> {
+    private fun getUserList(baseUrl: String,  levelUser: String, context: Context){
         reportViewModel.getUser(baseUrl, levelUser, context).observe(viewLifecycleOwner, {user ->
             listUser.clear()
             binding.spinnerUser.setText("")
             for (i in 0..user.size-1){
                 listUser = (listUser + user[i].username.toString()) as MutableList<String>
             }
-            val spinnerAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, listUser)
+            val spinnerAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, listUser)
             spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
             binding.spinnerUser.setAdapter(spinnerAdapter)
         })
-        return listUser
+    }
+
+    private fun setMainTitle() {
+        GlobalBus
+            .getBus()
+            .post(TitleFragment("Laporan Kas"))
     }
 
     override fun onDestroy() {

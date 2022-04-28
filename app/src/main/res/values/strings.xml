@@ -298,4 +298,5 @@
     <string name="jam_checkin">Jam Checkin</string>
     <string name="report">Laporan</string>
     <string name="chusr">Chusr</string>
+    <string name="by_user">Berdasarkan User</string>
 </resources>

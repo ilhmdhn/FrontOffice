@@ -2,25 +2,20 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
-
-
     <item
         android:id="@+id/notification_menu"
         android:icon="@drawable/ic_notification"
         android:title="@string/notification"
         app:actionLayout="@layout/notify_badge_layout"
-        app:showAsAction="always"/>
+        app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/refresh_menu"
         android:icon="@drawable/ic_refresh"
         android:title="@string/refresh"
-        app:showAsAction="always"/>
+        app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/logout_menu"
         android:icon="@drawable/ic_logout"
         android:title="@string/logout"
-        app:showAsAction="always"/>
-
-
-
+        app:showAsAction="collapseActionView"/>
 </menu>
