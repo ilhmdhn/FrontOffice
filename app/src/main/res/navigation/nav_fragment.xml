@@ -365,6 +365,28 @@
         android:id="@+id/navStatusKasFragment"
         android:name="livs.code.frontoffice.view.fragment.reporting.kas.StatusKasFragment"
         android:label="fragment_status_kas"
-        tools:layout="@layout/fragment_status_kas" />
+        tools:layout="@layout/fragment_status_kas" >
+        <action
+            android:id="@+id/action_navStatusKasFragment_to_detailReportKasFragment"
+            app:destination="@id/detailReportKasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailReportKasFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.DetailReportKasFragment"
+        android:label="fragment_detail_report_kas"
+        tools:layout="@layout/fragment_detail_report_kas" >
+        <argument
+            android:name="tanggal"
+            app:argType="string"
+            android:defaultValue="00-00-0000" />
+        <argument
+            android:name="shift"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
 
 </navigation>

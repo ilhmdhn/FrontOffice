@@ -3,7 +3,6 @@ package livs.code.frontoffice.view.fragment.reporting.kas
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import android.widget.DatePicker
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
@@ -20,6 +20,7 @@ import livs.code.frontoffice.databinding.FragmentStatusKasBinding
 import livs.code.frontoffice.events.EventsWrapper.TitleFragment
 import livs.code.frontoffice.events.GlobalBus
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
+import livs.code.frontoffice.view.fragment.reporting.ReportingFragmentDirections
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -109,15 +110,13 @@ class StatusKasFragment : Fragment() {
 
         binding.btnSubmit.setOnClickListener {
             if (binding.rbShiftSatu.isChecked){
-                shift = "shift satu"
+                shift = "1"
             } else if (binding.rbShiftDua.isChecked){
-                shift = "shift dua"
+                shift = "2"
             } else {
                 shift = ""
             }
-
             date = binding.tvValueDate.text.toString()
-
             user = binding.spinnerUser.text.toString()
 
             if (date ==  "Pilih Tanggal"){
@@ -126,9 +125,17 @@ class StatusKasFragment : Fragment() {
                 Toasty.error(requireActivity(), "Shift belum dipilih", Toast.LENGTH_SHORT, true).show()
             } else{
                 if (user.isEmpty()){
-                    Toast.makeText(requireActivity(), "Mencari tanpa user Tanggal $date \nshift $shift", Toast.LENGTH_SHORT).show()
+                    val toDetailStatusKasFragment = StatusKasFragmentDirections.actionNavStatusKasFragmentToDetailReportKasFragment()
+                    toDetailStatusKasFragment.tanggal = date
+                    toDetailStatusKasFragment.shift = shift
+                    toDetailStatusKasFragment.username= "-"
+                    Navigation.findNavController(it).navigate(toDetailStatusKasFragment)
                 } else{
-                    Toast.makeText(requireActivity(), "Mencari dengan user Tanggal $date \nshift $shift \nUser $user ", Toast.LENGTH_SHORT).show()
+                    val toDetailStatusKasFragment = StatusKasFragmentDirections.actionNavStatusKasFragmentToDetailReportKasFragment()
+                    toDetailStatusKasFragment.tanggal = date
+                    toDetailStatusKasFragment.shift = shift
+                    toDetailStatusKasFragment.username= user
+                    Navigation.findNavController(it).navigate(toDetailStatusKasFragment)
                 }
             }
         }

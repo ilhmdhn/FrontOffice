@@ -11,5 +11,4 @@ interface ReportClient {
     fun getListUser(
         @Query("level_user") levelUser: String,
     ): Call<UserListResponse>
-
 }

@@ -46,6 +46,7 @@ import livs.code.frontoffice.data.remote.InventoryOrderClient;
 import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.UserResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.UserAuthRole;
@@ -83,6 +84,7 @@ public class OperasionalFnbFragment extends Fragment {
     private TextInputLayout inventoryName, inventoryCode, inventoryQty;
     private TextView countCancel, countConfirm;
     private int doQty, cancelQty;
+    private IhpRepository ihpRepository;
 
     private ImageView buttonPlusCancel, buttonMinusCancel;
     private ImageView buttonPlusConfirm, buttonMinusConfirm;
@@ -137,6 +139,7 @@ public class OperasionalFnbFragment extends Fragment {
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         roomOrderSetupData();
+        ihpRepository = new IhpRepository();
     }
 
     private void roomOrderSetupData() {
@@ -383,6 +386,7 @@ public class OperasionalFnbFragment extends Fragment {
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowCancelOrder(user)) {
+                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Cancel Order");
                                         Call<RoomOrderResponse> callCancelOrder = inventoryOrderClient.submitCancelOrderInventory(roomOrder);
                                         callCancelOrder.enqueue(new Callback<RoomOrderResponse>() {
                                             @Override

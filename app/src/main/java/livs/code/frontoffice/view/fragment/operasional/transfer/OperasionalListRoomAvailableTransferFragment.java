@@ -1,6 +1,7 @@
 package livs.code.frontoffice.view.fragment.operasional.transfer;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,7 @@ import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.UserResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.UserAuthRole;
@@ -93,6 +95,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private ArrayList<Room> roomArrayList = new ArrayList<>();
     private RoomOrderClient roomOrderClient;
     private static String BASE_URL;
+    private IhpRepository ihpRepository;
 
     //pagination
     private BasePagination p;
@@ -142,6 +145,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         roomViewModel = new ViewModelProvider(getActivity())
                 .get(RoomViewModel.class);
         setDataMember();
+        ihpRepository = new IhpRepository();
         readyRoomSetupData();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
 
@@ -354,6 +358,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                             User user = res.getUser();
                             if (UserAuthRole.isAllowTransferRoom(user)) {
                                 roomOrder.setCheckinRoom(room);
+                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
                                 submitTransferRoom(roomOrder);
                                 alertDialog.dismiss();
                             } else {

@@ -56,6 +56,7 @@ import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.EdcTypeResponse;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.UserResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
@@ -190,6 +191,7 @@ public class PaymentFragment extends Fragment
     private boolean isEdited = false;
     private int indexEditPayment;
     private static final String EMPTY_STRING = "";
+    private IhpRepository ihpRepository;
 
     private String current = "";
 
@@ -234,6 +236,8 @@ public class PaymentFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ihpRepository = new IhpRepository();
 
         buttonAddMorePayment.setOnClickListener(view -> {
             validationPayments();
@@ -968,6 +972,7 @@ public class PaymentFragment extends Fragment
                         if (res.isOkay()) {
                             User user = res.getUser();
                             if (UserAuthRole.isAllowPiutangComplimentPayment(user)) {
+                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), room.getRoomCode(), "Pembayaran Piutang");
                                 addPayments(pay);
                                 alertDialog.dismiss();
                             } else {

@@ -9,12 +9,16 @@ import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.ApiRestService
 import livs.code.frontoffice.data.remote.ReportClient
 import livs.code.frontoffice.data.remote.respons.ListUser
+import livs.code.frontoffice.data.remote.respons.StatusKasResponse
 import livs.code.frontoffice.data.remote.respons.UserListResponse
+import livs.code.frontoffice.data.repository.IhpRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class ReportViewModel: ViewModel() {
+
+    val ihpRepository =  IhpRepository()
 
     fun getUser(baseUrl: String, levelUser: String, context: Context): LiveData<List<ListUser>>{
         val resultUser = MutableLiveData<List<ListUser>>()
@@ -34,5 +38,9 @@ class ReportViewModel: ViewModel() {
             }
         })
         return resultUser
+    }
+
+    fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username:  String): LiveData<StatusKasResponse>{
+        return ihpRepository.getReportKas(baseUrl, tanggal, shift,  username)
     }
 }
