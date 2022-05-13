@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.databinding.FragmentReportKasStatusKamarBinding
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
-import livs.code.frontoffice.view.fragment.reporting.kas.pembayaran.ReportKasPembayaranFragment
 
 class ReportKasStatusKamarFragment : Fragment() {
     private var _fragmentReportKasStatusKamarBinding: FragmentReportKasStatusKamarBinding? = null
@@ -28,18 +27,17 @@ class ReportKasStatusKamarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
-        tanggal = arguments?.getString(ReportKasPembayaranFragment.DATA_TANGGAL).toString()
-        shift = arguments?.getString(ReportKasPembayaranFragment.DATA_SHIFT).toString()
-        username = arguments?.getString(ReportKasPembayaranFragment.DATA_USERNAME).toString()
+        tanggal = arguments?.getString(DATA_TANGGAL).toString()
+        shift = arguments?.getString(DATA_SHIFT).toString()
+        username = arguments?.getString(DATA_USERNAME).toString()
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         reportViewModel.getStatusKas(BASE_URL, tanggal, shift, username).observe(viewLifecycleOwner, {data ->
             binding.tvCinPaid.text  = data.dataStatusKas.jumlahTamuSudahBayar.toString()
             binding.tvJamPaid.text = data.dataStatusKas.jumlahJamSudahBayar.toString()
             binding.tvGuestPaid.text = data.dataStatusKas.jumlahTamuSudahBayar.toString()
-            binding.tvCinPiutang.text = data.dataStatusKas.jumlahCheckinSudahBayar.toString()
+            binding.tvCinPiutang.text = data.dataStatusKas.jumlahCheckinPiutang.toString()
             binding.tvJamPiutang.text = data.dataStatusKas.jumlahJamPiutang.toString()
             binding.tvGuestPiutang.text = data.dataStatusKas.jumlahTamuPiutang.toString()
-
         })
     }
 

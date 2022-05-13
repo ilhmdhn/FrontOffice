@@ -64,6 +64,9 @@ data class DataStatusKas(
 	@field:SerializedName("jumlah_pembayaran_smart_card")
 	val jumlahPembayaranSmartCard: Int = 0,
 
+	@field:SerializedName("total_pembayaran")
+	val totalPembayaran: Int = 0,
+
 	@field:SerializedName("tanggal")
 	val tanggal: String? = "00-00-0000",
 
@@ -74,5 +77,10 @@ data class DataStatusKas(
 	val jumlahPembayaranDebetCard: Int = 0,
 
 	@field:SerializedName("jumlah_uang_muka_checkin_belum_bayar")
-	val jumlahUangMukaCheckinBelumBayar: Int = 0
+	val jumlahUangMukaCheckinBelumBayar: Int = 0,
+
+	@field:SerializedName("jumlah_nilai_kamar")
+	val jumlahNilaiKamar: Int = 0,
+	@field:SerializedName("jumlah_reservasi_belum_checkin")
+	val jumlahReservasiBelumCheckin: Int = 0,
 ): Parcelable

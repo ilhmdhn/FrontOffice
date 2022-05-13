@@ -26,7 +26,7 @@ class ReportKasPembayaranFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentReportKasPembayaranBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -49,8 +49,8 @@ class ReportKasPembayaranFragment : Fragment() {
         }
 
         reportViewModel.getStatusKas(BASE_URL, tanggal, shift, username).observe(viewLifecycleOwner, { data ->
-            binding.tvJumlahTransfer.text = "0"
-            binding.tvJumlahPoinMembership.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranTransfer)
+            binding.tvJumlahTransfer.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranTransfer)
+            binding.tvJumlahPoinMembership.text = utils.getCurrency(0)
             binding.tvJumlahEmoney.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranEmoney)
             binding.tvJumlahTunai.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranCash)
             binding.tvJumlahCreditCard.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranCreditCard)
@@ -60,18 +60,7 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.tvJumlahEntertainment.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranComplimentary)
             binding.tvJumlahUangMuka.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranUangMuka)
             binding.tvJumlahSmartCard.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranSmartCard)
-            binding.tvJumlahTotal.text = utils.getCurrency((
-                data.dataStatusKas.jumlahPembayaranTransfer +
-                        data.dataStatusKas.jumlahPembayaranEmoney +
-                        data.dataStatusKas.jumlahPembayaranCash +
-                        data.dataStatusKas.jumlahPembayaranCreditCard +
-                        data.dataStatusKas.jumlahPembayaranDebetCard +
-                        data.dataStatusKas.jumlahPembayaranVoucher +
-                        data.dataStatusKas.jumlahPembayaranPiutang +
-                        data.dataStatusKas.jumlahPembayaranComplimentary +
-                        data.dataStatusKas.jumlahPembayaranUangMuka +
-                        data.dataStatusKas.jumlahPembayaranSmartCard
-                ))
+            binding.tvJumlahTotal.text = utils.getCurrency(data.dataStatusKas.totalPembayaran)
         })
     }
 
