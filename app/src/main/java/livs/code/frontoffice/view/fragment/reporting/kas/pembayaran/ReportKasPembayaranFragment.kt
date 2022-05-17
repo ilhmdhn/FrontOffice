@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.databinding.FragmentReportKasPembayaranBinding
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
+import livs.code.frontoffice.view.fragment.reporting.kas.DetailReportKasFragmentDirections
 
 class ReportKasPembayaranFragment : Fragment() {
 
@@ -48,6 +50,13 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.swipe.isRefreshing = false
         }
 
+        binding.btnCashList.setOnClickListener {
+            val toPecahanFragment = DetailReportKasFragmentDirections.actionDetailReportKasFragmentToPecahanFragment()
+            toPecahanFragment.tanggal = tanggal
+            toPecahanFragment.shift = shift
+            Navigation.findNavController(it).navigate(toPecahanFragment)
+        }
+
         reportViewModel.getStatusKas(BASE_URL, tanggal, shift, username).observe(viewLifecycleOwner, { data ->
             binding.tvJumlahTransfer.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranTransfer)
             binding.tvJumlahPoinMembership.text = utils.getCurrency(0)
@@ -61,6 +70,10 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.tvJumlahUangMuka.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranUangMuka)
             binding.tvJumlahSmartCard.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranSmartCard)
             binding.tvJumlahTotal.text = utils.getCurrency(data.dataStatusKas.totalPembayaran)
+
+            if (data.dataStatusKas.jumlahPembayaranCash != 0){
+                binding.btnCashList.isEnabled = true
+            }
         })
     }
 

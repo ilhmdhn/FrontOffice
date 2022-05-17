@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import livs.code.frontoffice.data.remote.ApiRestService
 import livs.code.frontoffice.data.remote.ApprovalClient
+import livs.code.frontoffice.data.remote.PecahanUangClient
 import livs.code.frontoffice.data.remote.StatusKasClient
+import livs.code.frontoffice.data.remote.respons.DataStatusKas
+import livs.code.frontoffice.data.remote.respons.PecahanUangResponse
 import livs.code.frontoffice.data.remote.respons.Response
 import livs.code.frontoffice.data.remote.respons.StatusKasResponse
 import retrofit2.Call
@@ -40,7 +43,22 @@ class IhpRepository {
                 }
 
             override fun onFailure(call: Call<StatusKasResponse>, t: Throwable) {
-                Log.e("Error", t.message.toString())
+                responseData.postValue(StatusKasResponse(DataStatusKas(), false, t.message))
+            }
+        })
+        return responseData
+    }
+
+    fun getCashDetail(baseUrl: String, tanggal: String, shift: String): LiveData<PecahanUangResponse>{
+        val responseData = MutableLiveData<PecahanUangResponse>()
+        val client = ApiRestService.getClient(baseUrl).create(PecahanUangClient::class.java)
+        client.getCashDetail(tanggal, shift).enqueue(object: Callback<PecahanUangResponse>{
+            override fun onResponse(call: Call<PecahanUangResponse>,response: retrofit2.Response<PecahanUangResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<PecahanUangResponse>, t: Throwable) {
+                responseData.postValue(PecahanUangResponse(null, false, t.message))
             }
         })
         return responseData

@@ -387,6 +387,23 @@
             android:name="username"
             app:argType="string"
             android:defaultValue=" " />
+        <action
+            android:id="@+id/action_detailReportKasFragment_to_pecahanFragment"
+            app:destination="@id/pecahanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pecahanFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.pembayaran.PecahanFragment"
+        android:label="fragment_pecahan"
+        tools:layout="@layout/fragment_pecahan" >
+        <argument
+            android:name="tanggal"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="shift"
+            app:argType="string"
+            android:defaultValue="  0" />
     </fragment>
 
 </navigation>

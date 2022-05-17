@@ -32,7 +32,7 @@ class ReportKasStatusKamarFragment : Fragment() {
         username = arguments?.getString(DATA_USERNAME).toString()
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         reportViewModel.getStatusKas(BASE_URL, tanggal, shift, username).observe(viewLifecycleOwner, {data ->
-            binding.tvCinPaid.text  = data.dataStatusKas.jumlahTamuSudahBayar.toString()
+            binding.tvCinPaid.text  = data.dataStatusKas.jumlahCheckinSudahBayar.toString()
             binding.tvJamPaid.text = data.dataStatusKas.jumlahJamSudahBayar.toString()
             binding.tvGuestPaid.text = data.dataStatusKas.jumlahTamuSudahBayar.toString()
             binding.tvCinPiutang.text = data.dataStatusKas.jumlahCheckinPiutang.toString()
