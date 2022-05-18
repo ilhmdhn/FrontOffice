@@ -3,14 +3,8 @@ package livs.code.frontoffice.data.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import livs.code.frontoffice.data.remote.ApiRestService
-import livs.code.frontoffice.data.remote.ApprovalClient
-import livs.code.frontoffice.data.remote.PecahanUangClient
-import livs.code.frontoffice.data.remote.StatusKasClient
-import livs.code.frontoffice.data.remote.respons.DataStatusKas
-import livs.code.frontoffice.data.remote.respons.PecahanUangResponse
-import livs.code.frontoffice.data.remote.respons.Response
-import livs.code.frontoffice.data.remote.respons.StatusKasResponse
+import livs.code.frontoffice.data.remote.*
+import livs.code.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.Callback
 
@@ -61,6 +55,38 @@ class IhpRepository {
                 responseData.postValue(PecahanUangResponse(null, false, t.message))
             }
         })
+        return responseData
+    }
+
+    fun postCashDetail(baseUrl: String, tanggal: String, shift: String, pecahanUang: PecahanUang): LiveData<Response>{
+        val responseData = MutableLiveData<Response>()
+        val  client = ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
+        client.postCashDetail(tanggal, shift, pecahanUang.seratus_ribu, pecahanUang.lima_puluh_ribu, pecahanUang.dua_puluh_ribu, pecahanUang.sepuluh_ribu, pecahanUang.lima_ribu, pecahanUang.dua_ribu, pecahanUang.seribu, pecahanUang.lima_ratus, pecahanUang.dua_ratus,  pecahanUang.seratus, pecahanUang.lima_puluh, pecahanUang.dua_lima)
+            .enqueue(object: Callback<Response>{
+                override fun onResponse(call: Call<Response>,response: retrofit2.Response<Response>) {
+                    responseData.postValue(response.body())
+                }
+
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    responseData.postValue(Response(null, false, t.message.toString()))
+                }
+            })
+        return responseData
+    }
+
+    fun updateCashDetail(baseUrl: String, tanggal: String, shift: String, pecahanUang: PecahanUang):  LiveData<Response>{
+        val responseData = MutableLiveData<Response>()
+        val client = ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
+        client.updateCashDetail(tanggal, shift, pecahanUang.seratus_ribu, pecahanUang.lima_puluh_ribu, pecahanUang.dua_puluh_ribu, pecahanUang.sepuluh_ribu, pecahanUang.lima_ribu, pecahanUang.dua_ribu, pecahanUang.seribu, pecahanUang.lima_ratus, pecahanUang.dua_ratus,  pecahanUang.seratus, pecahanUang.lima_puluh, pecahanUang.dua_lima)
+            .enqueue(object: Callback<Response>{
+                override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    responseData.postValue(response.body())
+                }
+
+                override fun onFailure(call: Call<Response>, t: Throwable) {
+                    responseData.postValue(Response(null, false, t.message.toString()))
+                }
+            })
         return responseData
     }
 }

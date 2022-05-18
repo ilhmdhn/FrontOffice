@@ -8,10 +8,7 @@ import androidx.lifecycle.ViewModel
 import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.ApiRestService
 import livs.code.frontoffice.data.remote.ReportClient
-import livs.code.frontoffice.data.remote.respons.ListUser
-import livs.code.frontoffice.data.remote.respons.PecahanUangResponse
-import livs.code.frontoffice.data.remote.respons.StatusKasResponse
-import livs.code.frontoffice.data.remote.respons.UserListResponse
+import livs.code.frontoffice.data.remote.respons.*
 import livs.code.frontoffice.data.repository.IhpRepository
 import retrofit2.Call
 import retrofit2.Callback
@@ -47,5 +44,13 @@ class ReportViewModel: ViewModel() {
 
     fun getCashDetail(baseUrl: String, tanggal: String, shift: String):LiveData<PecahanUangResponse>{
         return ihpRepository.getCashDetail(baseUrl, tanggal, shift)
+    }
+
+    fun postCashDetail(baseUrl: String, tanggal: String, shift: String, pecahanUang: PecahanUang): LiveData<livs.code.frontoffice.data.remote.respons.Response>{
+        return ihpRepository.postCashDetail(baseUrl, tanggal, shift, pecahanUang)
+    }
+
+    fun updateCashDetail(baseUrl: String, tanggal: String, shift: String, pecahanUang: PecahanUang): LiveData<livs.code.frontoffice.data.remote.respons.Response>{
+        return ihpRepository.updateCashDetail(baseUrl, tanggal, shift, pecahanUang)
     }
 }

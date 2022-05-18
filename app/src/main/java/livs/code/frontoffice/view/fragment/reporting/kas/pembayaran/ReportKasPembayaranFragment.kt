@@ -23,6 +23,7 @@ class ReportKasPembayaranFragment : Fragment() {
     private var tanggal = ""
     private var shift = ""
     private var username = ""
+    private var totalCash = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,13 +51,6 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.swipe.isRefreshing = false
         }
 
-        binding.btnCashList.setOnClickListener {
-            val toPecahanFragment = DetailReportKasFragmentDirections.actionDetailReportKasFragmentToPecahanFragment()
-            toPecahanFragment.tanggal = tanggal
-            toPecahanFragment.shift = shift
-            Navigation.findNavController(it).navigate(toPecahanFragment)
-        }
-
         reportViewModel.getStatusKas(BASE_URL, tanggal, shift, username).observe(viewLifecycleOwner, { data ->
             binding.tvJumlahTransfer.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranTransfer)
             binding.tvJumlahPoinMembership.text = utils.getCurrency(0)
@@ -70,11 +64,21 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.tvJumlahUangMuka.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranUangMuka)
             binding.tvJumlahSmartCard.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranSmartCard)
             binding.tvJumlahTotal.text = utils.getCurrency(data.dataStatusKas.totalPembayaran)
+            totalCash = data.dataStatusKas.jumlahPembayaranCash
 
             if (data.dataStatusKas.jumlahPembayaranCash != 0){
                 binding.btnCashList.isEnabled = true
             }
         })
+
+        binding.btnCashList.setOnClickListener {
+            val toPecahanFragment = DetailReportKasFragmentDirections.actionDetailReportKasFragmentToPecahanFragment()
+            toPecahanFragment.tanggal = tanggal
+            toPecahanFragment.shift = shift
+            toPecahanFragment.totalTunai = totalCash
+            Navigation.findNavController(it).navigate(toPecahanFragment)
+        }
+
     }
 
 

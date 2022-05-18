@@ -41,9 +41,12 @@
                 android:text="Rp. 100K"/>
 
             <EditText
+                android:id="@+id/et_seratus_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
+                android:text="0"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_lima_puluh_ribu"
                 android:layout_weight="1"/>
 
             <View
@@ -57,9 +60,12 @@
                 android:text="Rp. 50K"/>
 
             <EditText
+                android:id="@+id/et_lima_puluh_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusable="true"
+                android:text="0"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_dua_puluh_ribu"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -75,9 +81,13 @@
                 android:text="Rp. 20K"/>
 
             <EditText
+                android:id="@+id/et_dua_puluh_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="0"
+                android:nextFocusDown="@+id/et_sepuluh_ribu"
+                android:inputType="number"/>
 
             <View
                 android:layout_width="30dp"
@@ -90,9 +100,13 @@
                 android:text="Rp. 10K"/>
 
             <EditText
+                android:id="@+id/et_sepuluh_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_lima_ribu"
+                android:text="0"
+                android:layout_weight="1"
+                android:inputType="number"/>
         </LinearLayout>
 
         <LinearLayout
@@ -107,9 +121,13 @@
                 android:text="Rp. 5K"/>
 
             <EditText
+                android:id="@+id/et_lima_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_dua_ribu"
+                android:layout_weight="1"
+                android:text="0"
+                android:inputType="number"/>
 
             <View
                 android:layout_width="30dp"
@@ -122,9 +140,13 @@
                 android:text="Rp. 2K"/>
 
             <EditText
+                android:id="@+id/et_dua_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_seribu"
+                android:layout_weight="1"
+                android:text="0"
+                android:inputType="number"/>
         </LinearLayout>
 
         <LinearLayout
@@ -139,9 +161,13 @@
                 android:text="Rp. 1000"/>
 
             <EditText
+                android:id="@+id/et_seribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_lima_ratus"
+                android:layout_weight="1"
+                android:text="0"
+                android:inputType="number"/>
 
             <View
                 android:layout_width="30dp"
@@ -151,11 +177,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rp. 500"/>
+                android:text="Rp. 500"
+/>
 
             <EditText
+                android:id="@+id/et_lima_ratus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="0"
+                android:nextFocusDown="@+id/et_dua_ratus"
                 android:layout_weight="1"/>
         </LinearLayout>
 
@@ -171,9 +202,13 @@
                 android:text="Rp. 200"/>
 
             <EditText
+                android:id="@+id/et_dua_ratus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:text="0"
+                android:nextFocusDown="@+id/et_seratus"
+                android:inputType="number"/>
 
             <View
                 android:layout_width="30dp"
@@ -186,9 +221,13 @@
                 android:text="Rp. 100"/>
 
             <EditText
+                android:id="@+id/et_seratus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_lima_puluh"
+                android:text="0"
+                android:layout_weight="1"
+                android:inputType="number"/>
         </LinearLayout>
 
         <LinearLayout
@@ -203,9 +242,13 @@
                 android:text="Rp. 50"/>
 
             <EditText
+                android:id="@+id/et_lima_puluh"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:nextFocusDown="@+id/et_dua_lima"
+                android:text="0"
+                android:layout_weight="1"
+                android:inputType="number"/>
 
             <View
                 android:layout_width="30dp"
@@ -218,9 +261,124 @@
                 android:text="Rp. 25"/>
 
             <EditText
+                android:id="@+id/et_dua_lima"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+                android:text="0"
+                android:layout_weight="1"
+                android:inputType="number"/>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Jumlah Pecahan"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_jumlah_pecahan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Selisih"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=":"/>
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_selisih"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="SUBMIT"/>
+
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:text="UPDATE"/>
     </LinearLayout>
 </ScrollView>

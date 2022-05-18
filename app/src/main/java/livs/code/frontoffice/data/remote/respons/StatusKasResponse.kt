@@ -89,7 +89,7 @@ data class DataStatusKas(
 	val jumlahReservasiSudahCheckin: Int? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_cash")
-	val jumlahPembayaranCash: Int? = 0,
+	val jumlahPembayaranCash: Int = 0,
 
 	@field:SerializedName("jumlah_jam_sudah_bayar")
 	val jumlahJamSudahBayar: Int? = 0,
