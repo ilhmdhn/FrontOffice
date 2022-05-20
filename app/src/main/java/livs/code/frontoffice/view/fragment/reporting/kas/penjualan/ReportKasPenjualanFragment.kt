@@ -43,12 +43,12 @@ class ReportKasPenjualanFragment : Fragment() {
             binding.tvUangMukaCinBelumBayar.text = utils.getCurrency(data.dataStatusKas.jumlahUangMukaCheckinSudahBelumBayar)
 
             binding.tvUangMukaRsvBelumCheckin.text = utils.getCurrency(data.dataStatusKas.jumlahReservasiBelumCheckin)
-            binding.tvUangMukaRsvSudahCheckin.text = utils.getCurrency(0)
-            binding.tvUangMukaRsvCinBelumBayar.text = utils.getCurrency(0)
+            binding.tvUangMukaRsvSudahCheckin.text = utils.getCurrency(data.dataStatusKas.jumlahReservasiSudahCheckin)
+            binding.tvUangMukaRsvCinBelumBayar.text = utils.getCurrency(data.dataStatusKas.jumlahReservasiSudahCheckinBelumBayar)
 
             binding.tvTotalHutangRsv.text = utils.getCurrency(data.dataStatusKas.totalHutangReservasi)
             binding.tvTotalKamar.text = utils.getCurrency(data.dataStatusKas.jumlahNilaiKamar)
-            binding.tvValueFnb.text = utils.getCurrency(0)
+            binding.tvValueFnb.text = utils.getCurrency(data.dataStatusKas.makananMinuman)
             binding.tvValueSmartCard.text = utils.getCurrency(0)
 
             binding.tvTotal.text = utils.getCurrency(data.dataStatusKas.totalPenjualan)
