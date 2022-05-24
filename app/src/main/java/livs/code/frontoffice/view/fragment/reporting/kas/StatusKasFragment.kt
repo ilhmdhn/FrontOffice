@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -20,7 +21,7 @@ import livs.code.frontoffice.databinding.FragmentStatusKasBinding
 import livs.code.frontoffice.events.EventsWrapper.TitleFragment
 import livs.code.frontoffice.events.GlobalBus
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
-import livs.code.frontoffice.view.fragment.reporting.ReportingFragmentDirections
+import org.greenrobot.eventbus.Subscribe
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,7 +47,6 @@ class StatusKasFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setMainTitle()
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
         val levelUserArray = resources.getStringArray(R.array.level_user)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
@@ -141,6 +141,11 @@ class StatusKasFragment : Fragment() {
         }
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        setMainTitle()
+    }
+
     private fun setDate() {
         val dateFormat = SimpleDateFormat("dd-MM-yyy", Locale.getDefault())
         binding.tvValueDate.setText(dateFormat.format(calendar.time))
@@ -160,10 +165,21 @@ class StatusKasFragment : Fragment() {
         })
     }
 
+    override fun onStart() {
+        super.onStart()
+        (activity as AppCompatActivity).supportActionBar?.show()
+    }
+
+    @Subscribe
     private fun setMainTitle() {
         GlobalBus
             .getBus()
             .post(TitleFragment("Laporan Kas"))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        GlobalBus.getBus().unregister(this)
     }
 
     override fun onDestroy() {

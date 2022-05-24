@@ -18,7 +18,6 @@ class DetailReportKasFragment : Fragment() {
 
     private var _binding: FragmentDetailReportKasBinding? = null
     private val binding get() = _binding!!
-    private var BASE_URL = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
 
@@ -44,17 +43,16 @@ class DetailReportKasFragment : Fragment() {
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
 
-        (activity as AppCompatActivity?)!!.supportActionBar?.elevation = 0f
     }
 
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     companion object {

@@ -274,13 +274,14 @@ class PecahanFragment : Fragment() {
 
     }
 
+
     override fun onStart() {
         super.onStart()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
-    override fun onStop() {
-        super.onStop()
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

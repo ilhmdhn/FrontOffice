@@ -234,5 +234,4 @@ public class Invoice implements Serializable {
     public double getRingkasanSubTotal() {
         return ringkasanSubTotal;
     }
-
 }
