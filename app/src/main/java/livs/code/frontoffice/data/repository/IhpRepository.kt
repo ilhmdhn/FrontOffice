@@ -37,7 +37,7 @@ class IhpRepository {
                 }
 
             override fun onFailure(call: Call<StatusKasResponse>, t: Throwable) {
-                responseData.postValue(StatusKasResponse(DataStatusKas(), false, t.message))
+                responseData.postValue(StatusKasResponse(DataStatusKas(), false, t.message.toString()))
             }
         })
         return responseData
@@ -52,7 +52,7 @@ class IhpRepository {
             }
 
             override fun onFailure(call: Call<PecahanUangResponse>, t: Throwable) {
-                responseData.postValue(PecahanUangResponse(null, false, t.message))
+                responseData.postValue(PecahanUangResponse(PecahanUangData(), false, t.message))
             }
         })
         return responseData

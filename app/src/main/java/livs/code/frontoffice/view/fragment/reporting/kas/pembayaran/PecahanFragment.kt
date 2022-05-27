@@ -58,7 +58,7 @@ class PecahanFragment : Fragment() {
         baseUrl =(requireActivity().applicationContext as MyApp).baseUrl
 
         binding.tvTotal.text = utils.getCurrency(totalCash)
-        binding.tvTanggal.setText(tanggal)
+        binding.tvTanggal.setText("Tanggal: " + tanggal)
         binding.tvShift.setText("Shift: $shift");
 
         getData()

@@ -1,6 +1,7 @@
 package livs.code.frontoffice.view.fragment.reporting
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.ApiRestService
 import livs.code.frontoffice.data.remote.ReportClient
+import livs.code.frontoffice.data.remote.StatusKasClient
 import livs.code.frontoffice.data.remote.respons.*
 import livs.code.frontoffice.data.repository.IhpRepository
 import retrofit2.Call
@@ -17,6 +19,22 @@ import retrofit2.Response
 class ReportViewModel: ViewModel() {
 
     val ihpRepository =  IhpRepository()
+    private val _statusKas = MutableLiveData<StatusKasResponse>()
+    val statusKas: LiveData<StatusKasResponse> = _statusKas
+
+
+    fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username: String){
+        val client = ApiRestService.getClient(baseUrl).create(StatusKasClient::class.java)
+        client.getStatusKasReport(tanggal, shift, username).enqueue(object: Callback<StatusKasResponse>{
+            override fun onResponse(call: Call<StatusKasResponse>, response: Response<StatusKasResponse>) {
+                _statusKas.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<StatusKasResponse>, t: Throwable) {
+                _statusKas.postValue(StatusKasResponse(DataStatusKas(), false, t.message.toString()))
+            }
+        })
+    }
 
     fun getUser(baseUrl: String, levelUser: String, context: Context): LiveData<List<ListUser>>{
         val resultUser = MutableLiveData<List<ListUser>>()
@@ -36,10 +54,6 @@ class ReportViewModel: ViewModel() {
             }
         })
         return resultUser
-    }
-
-    fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username:  String): LiveData<StatusKasResponse>{
-        return ihpRepository.getReportKas(baseUrl, tanggal, shift,  username)
     }
 
     fun getCashDetail(baseUrl: String, tanggal: String, shift: String):LiveData<PecahanUangResponse>{

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/ly_swipe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,24 +10,119 @@
     android:background="@android:color/white"
     tools:context=".view.fragment.reporting.kas.DetailReportKasFragment">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/rl"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@android:color/black"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:layout_marginHorizontal="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:id="@+id/txt_status_kas_masuk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/black"
+            android:gravity="center_horizontal"
+            android:text="FORM STATUS KAS MASUK"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/ly_linear_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_status_kas_masuk"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_shift"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light"
+                android:text="Shift"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_tanggal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-light"
+                android:gravity="right"
+                android:text="Tanggal"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_shift_piutang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ly_linear_top"
+            android:layout_marginTop="3dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Piutang Shift"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_hitung_piutang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_shift_piutang"
+            android:layout_marginTop="1dp"
+            android:fontFamily="sans-serif-light"
+            android:text="(Room + FnB) - UM"
+            android:textColor="@android:color/black" />
+
+        <View
+            android:id="@+id/dummy_garis"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@android:color/black"
+            android:layout_below="@id/tv_hitung_piutang"
+            android:layout_alignStart="@id/tv_hitung_piutang"
+            android:layout_alignEnd="@id/tv_hitung_piutang"/>
+
+        <TextView
+            android:id="@+id/dummy_total_piutang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dummy_garis"
+            android:fontFamily="sans-serif-light"
+            android:text="Total :"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tv_total_piutang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/dummy_total_piutang"
+            android:layout_toRightOf="@id/dummy_total_piutang"
+            android:layout_marginStart="3dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="0"
+            android:textColor="@android:color/black" />
     </RelativeLayout>
 
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/background_tab_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,17 +131,37 @@
         app:tabIndicator="@drawable/background_tab_indicator"
         app:tabIndicatorColor="@android:color/white"
         app:tabIndicatorGravity="stretch"
-        app:tabMode="fixed"
+        app:tabPaddingTop="3dp"
+        app:tabPaddingBottom="3dp"
+        android:paddingVertical="5dp"
+        app:tabMode="auto"
         app:tabSelectedTextColor="@android:color/black"
-        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabTextAppearance="@style/text_tab"
         app:tabTextColor="@android:color/black" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabs" />
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabs" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/ic_baseline_print_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="@color/biru_samar"
+            app:layout_constraintVertical_bias="0.9"
+            app:borderWidth="0dp"
+            android:contentDescription="Print" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

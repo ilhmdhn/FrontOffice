@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+<ScrollView
     android:id="@+id/swipe"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,13 +7,10 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".view.fragment.reporting.kas.pembayaran.ReportKasPembayaranFragment">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_marginHorizontal="12dp"
-        android:layout_height="match_parent">
-        <LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
         android:orientation="vertical">
 
         <TableLayout
@@ -21,39 +18,57 @@
             android:layout_height="wrap_content">
             <TableRow
                 android:layout_width="match_parent"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text="Transfer"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_transfer"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text="Poin Membership"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_marginHorizontal="10dp"
                     android:text=":"/>
 
@@ -61,16 +76,23 @@
                     android:id="@+id/tv_jumlah_poin_membership"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_weight="1"
                     android:text="E - Money"/>
 
@@ -78,25 +100,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_emoney"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
 
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@android:color/black"
+                        android:layout_weight="1"
                         android:text="Tunai" />
 
 
@@ -104,71 +136,66 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@android:color/black"
                         android:text=":" />
 
                     <TextView
                         android:id="@+id/tv_jumlah_tunai"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="@android:color/black"
                         android:layout_weight="2"
                         tools:text="1" />
 
             </TableRow>
 
             <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/btn_cash_list"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:enabled="false"
-                    android:layout_height="wrap_content"
-                    android:text="Pecahan Tunai" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:text=""/>
-                <Button
-                    android:id="@+id/btn_cash_detail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Rincian" />
-
-            </TableRow>
-
-            <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_weight="1"
                     android:text="Kartu Kredit"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_marginHorizontal="10dp"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_credit_card"
                     android:layout_width="0dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_weight="1"
                     android:text="Kartu Debet"/>
 
@@ -176,68 +203,98 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_debit_card"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text="Voucher"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_voucher"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text="Piutang"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_piutang"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_weight="1"
                     android:text="Entertainment"/>
 
@@ -245,22 +302,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_entertainment"
                     android:layout_width="0dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_weight="1"
                     android:text="Uang Muka"/>
 
@@ -268,36 +335,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:text=":"/>
 
                 <TextView
                     android:id="@+id/tv_jumlah_uang_muka"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    tools:text="1"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Smart Card"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:text=":"/>
-
-                <TextView
-                    android:id="@+id/tv_jumlah_smart_card"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
@@ -309,15 +359,22 @@
 
             <TableRow
                 android:layout_width="wrap_content"
+                android:layout_marginVertical="4dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="0dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Total"/>
 
                 <TextView
                     android:layout_width="wrap_content"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:text=":"/>
@@ -325,12 +382,20 @@
                 <TextView
                     android:id="@+id/tv_jumlah_total"
                     android:layout_width="0dp"
+                    android:textSize="14sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@android:color/black"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     tools:text="1"/>
             </TableRow>
 
         </TableLayout>
+            <Button
+                android:id="@+id/btn_cash_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="Pecahan Tunai" />
     </LinearLayout>
 </ScrollView>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

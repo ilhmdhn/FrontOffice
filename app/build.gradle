@@ -115,4 +115,7 @@ dependencies {
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     //swipe refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+
+    //Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

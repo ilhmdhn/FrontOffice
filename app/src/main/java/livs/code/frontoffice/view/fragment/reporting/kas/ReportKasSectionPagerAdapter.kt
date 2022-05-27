@@ -31,21 +31,9 @@ class ReportKasSectionPagerAdapter(activity: AppCompatActivity): FragmentStateAd
                     putString(ReportKasPembayaranFragment.DATA_USERNAME, username)
                 }
             }
-            1 -> {
-                fragment = ReportKasPenjualanFragment()
-                fragment.arguments = Bundle().apply {
-                    putString(ReportKasPembayaranFragment.DATA_TANGGAL, tanggal)
-                    putString(ReportKasPembayaranFragment.DATA_SHIFT, shift)
-                    putString(ReportKasPembayaranFragment.DATA_USERNAME, username)                }
+            1 -> fragment = ReportKasPenjualanFragment()
+            2 -> fragment = ReportKasStatusKamarFragment()
             }
-            2 -> {
-                fragment = ReportKasStatusKamarFragment()
-                fragment.arguments = Bundle().apply {
-                    putString(ReportKasPembayaranFragment.DATA_TANGGAL, tanggal)
-                    putString(ReportKasPembayaranFragment.DATA_SHIFT, shift)
-                    putString(ReportKasPembayaranFragment.DATA_USERNAME, username)                }
-            }
-        }
         return fragment as Fragment
     }
 }

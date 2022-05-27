@@ -11,7 +11,7 @@ data class StatusKasResponse(
 	val state: Boolean? = null,
 
 	@field:SerializedName("message")
-	val message: String? = null
+	val message: String = ""
 )
 
 data class DataStatusKas(
@@ -92,14 +92,23 @@ data class DataStatusKas(
 	val jumlahPembayaranCash: Int = 0,
 
 	@field:SerializedName("jumlah_jam_sudah_bayar")
-	val jumlahJamSudahBayar: Int? = 0,
+	val jumlahJamSudahBayar: Int = 0,
 
 	@field:SerializedName("jumlah_pembayaran_smart_card")
-	val jumlahPembayaranSmartCard: Int? = 0,
+	val jumlahPembayaranSmartCard: Int = 0,
 
 	@field:SerializedName("tanggal")
-	val tanggal: String? = "",
+	val tanggal: String = "",
 
 	@field:SerializedName("jumlah_pembayaran_debet_card")
-	val jumlahPembayaranDebetCard: Int? = 0
+	val jumlahPembayaranDebetCard: Int = 0,
+
+	@field:SerializedName("piutang_room")
+	val piutangRoom: Int = 0,
+
+	@field:SerializedName("piutang_fnb")
+	val piutangFnb: Int = 0,
+
+	@field:SerializedName("uang_muka")
+	val uangMuka: Int = 0
 )
