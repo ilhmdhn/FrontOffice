@@ -20,7 +20,16 @@ class ReportViewModel: ViewModel() {
 
     val ihpRepository =  IhpRepository()
     private val _statusKas = MutableLiveData<StatusKasResponse>()
-    val statusKas: LiveData<StatusKasResponse> = _statusKas
+    val statusKas: LiveData<StatusKasResponse> = _statusKas;
+
+    private val _salesToday = MutableLiveData<MySalesResponse>()
+    val salesToday: LiveData<MySalesResponse> = _salesToday
+
+    private val _salesWeekly = MutableLiveData<MySalesResponse>()
+    val salesWeekly: LiveData<MySalesResponse> = _salesWeekly
+
+    private val _salesMonthly = MutableLiveData<MySalesResponse>()
+    val salesMonthly: LiveData<MySalesResponse> = _salesMonthly
 
 
     fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username: String){
@@ -66,5 +75,44 @@ class ReportViewModel: ViewModel() {
 
     fun updateCashDetail(baseUrl: String, tanggal: String, shift: String, pecahanUang: PecahanUang): LiveData<livs.code.frontoffice.data.remote.respons.Response>{
         return ihpRepository.updateCashDetail(baseUrl, tanggal, shift, pecahanUang)
+    }
+
+    fun getSalesToday(url: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSalesToday().enqueue(object: Callback<MySalesResponse>{
+            override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _salesToday.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _salesToday.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
+    }
+
+    fun getSalesWeekly(url: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSalesWeekly().enqueue(object: Callback<MySalesResponse>{
+            override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _salesWeekly.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _salesWeekly.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
+    }
+
+    fun getSalesMonthly(url: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSalesMonthly().enqueue(object: Callback<MySalesResponse>{
+            override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _salesMonthly.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _salesMonthly.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
     }
 }

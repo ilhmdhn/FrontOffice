@@ -24,20 +24,20 @@ class PecahanFragment : Fragment() {
     private var tanggal = ""
     private var shift = ""
     private var baseUrl = ""
-    var seratusRibu = 0
-    var limaPuluhRibu = 0
-    var duaPuluhRibu = 0
-    var sepuluhRibu = 0
-    var limaRibu = 0
-    var duaRibu = 0
-    var seribu = 0
-    var limaRatus = 0
-    var duaRatus = 0
-    var seratus = 0
-    var limaPuluh = 0
-    var duaLima = 0
-    var totalCash = 0
-    var jumlahPecahan = 0
+    var seratusRibu = 0L
+    var limaPuluhRibu = 0L
+    var duaPuluhRibu = 0L
+    var sepuluhRibu = 0L
+    var limaRibu = 0L
+    var duaRibu = 0L
+    var seribu = 0L
+    var limaRatus = 0L
+    var duaRatus = 0L
+    var seratus = 0L
+    var limaPuluh = 0L
+    var duaLima = 0L
+    var totalCash = 0L
+    var jumlahPecahan = 0L
     var pecahanUang = PecahanUang()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
@@ -164,84 +164,84 @@ class PecahanFragment : Fragment() {
             seratusRibu = 0
             binding.etSeratusRibu.setText("0")
         } else{
-            seratusRibu = binding.etSeratusRibu.text.toString().toInt() * 100000
+            seratusRibu = binding.etSeratusRibu.text.toString().toLong() * 100000
         }
 
         if (binding.etLimaPuluhRibu.text.isNullOrEmpty()){
             limaPuluhRibu = 0
             binding.etLimaPuluhRibu.setText("0")
         } else{
-            limaPuluhRibu = binding.etLimaPuluhRibu.text.toString().toInt() * 50000
+            limaPuluhRibu = binding.etLimaPuluhRibu.text.toString().toLong() * 50000
         }
 
         if (binding.etDuaPuluhRibu.text.isNullOrEmpty()){
             duaPuluhRibu = 0
             binding.etDuaPuluhRibu.setText("0")
         } else{
-            duaPuluhRibu = binding.etDuaPuluhRibu.text.toString().toInt() * 20000
+            duaPuluhRibu = binding.etDuaPuluhRibu.text.toString().toLong() * 20000
         }
 
         if (binding.etSepuluhRibu.text.isNullOrEmpty()){
             sepuluhRibu = 0
             binding.etSepuluhRibu.setText("0")
         } else{
-            sepuluhRibu = binding.etSepuluhRibu.text.toString().toInt() * 10000
+            sepuluhRibu = binding.etSepuluhRibu.text.toString().toLong() * 10000
         }
 
         if (binding.etLimaRibu.text.isNullOrEmpty()){
             limaRibu = 0
             binding.etLimaRibu.setText("0")
         } else{
-            limaRibu = binding.etLimaRibu.text.toString().toInt() * 5000
+            limaRibu = binding.etLimaRibu.text.toString().toLong() * 5000
         }
 
         if (binding.etDuaRibu.text.isNullOrEmpty()){
             duaRibu = 0
             binding.etDuaRibu.setText("0")
         } else{
-            duaRibu = binding.etDuaRibu.text.toString().toInt() * 2000
+            duaRibu = binding.etDuaRibu.text.toString().toLong() * 2000
         }
 
         if (binding.etSeribu.text.isNullOrEmpty()){
             seribu = 0
             binding.etSeribu.setText("0")
         } else{
-            seribu = binding.etSeribu.text.toString().toInt() * 1000
+            seribu = binding.etSeribu.text.toString().toLong() * 1000
         }
 
         if (binding.etLimaRatus.text.isNullOrEmpty()){
             limaRatus = 0
             binding.etLimaRatus.setText("0")
         } else{
-            limaRatus = binding.etLimaRatus.text.toString().toInt() * 500
+            limaRatus = binding.etLimaRatus.text.toString().toLong() * 500
         }
 
         if (binding.etDuaRatus.text.isNullOrEmpty()){
             duaRatus = 0
             binding.etDuaRatus.setText("0")
         } else{
-            duaRatus = binding.etDuaRatus.text.toString().toInt() * 200
+            duaRatus = binding.etDuaRatus.text.toString().toLong() * 200
         }
 
         if (binding.etSeratus.text.isNullOrEmpty()){
             seratus = 0
             binding.etSeratus.setText("0")
         } else{
-            seratus = binding.etSeratus.text.toString().toInt() * 100
+            seratus = binding.etSeratus.text.toString().toLong() * 100
         }
 
         if (binding.etLimaPuluh.text.isNullOrEmpty()){
             limaPuluh = 0
             binding.etLimaPuluh.setText("0")
         } else{
-            limaPuluh = binding.etLimaPuluh.text.toString().toInt() * 50
+            limaPuluh = binding.etLimaPuluh.text.toString().toLong() * 50
         }
 
         if (binding.etDuaLima.text.isNullOrEmpty()){
             duaLima = 0
             binding.etDuaLima.setText("0")
         } else{
-            duaLima = binding.etDuaLima.text.toString().toInt() * 25
+            duaLima = binding.etDuaLima.text.toString().toLong() * 25
         }
 
         jumlahPecahan =(seratusRibu +

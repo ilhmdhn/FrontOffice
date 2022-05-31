@@ -267,9 +267,16 @@ public class MainActivity extends AppCompatActivity
                     hideBottomNav();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
+                case R.id.navReportingFragment:
+                    showBottomNav();
+                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+                    break;
                 case R.id.navStatusKasFragment:
                     hideBottomNav();
                     params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+                    break;
+                case R.id.mySalesReportParentFragment:
+                    hideBottomNav();
                     break;
                 default:
                     break;

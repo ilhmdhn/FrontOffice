@@ -360,6 +360,9 @@
         <action
             android:id="@+id/action_navReportingFragment_to_statusKasFragment"
             app:destination="@id/navStatusKasFragment" />
+        <action
+            android:id="@+id/action_navReportingFragment_to_mySalesReportParentFragment"
+            app:destination="@id/mySalesReportParentFragment" />
     </fragment>
     <fragment
         android:id="@+id/navStatusKasFragment"
@@ -406,8 +409,13 @@
             android:defaultValue="  0" />
         <argument
             android:name="total_tunai"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
+    <fragment
+        android:id="@+id/mySalesReportParentFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.MySalesReportParentFragment"
+        android:label="fragment_my_sales_report_parent"
+        tools:layout="@layout/fragment_my_sales_report_parent" />
 
 </navigation>

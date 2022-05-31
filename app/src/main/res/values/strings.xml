@@ -302,4 +302,8 @@
     <string name="tab_penjualan">Penjualan</string>
     <string name="tab_pembayaran">Pembayaran</string>
     <string name="tab_status_kamar">Status Kamar</string>
+    <string name="today">Today</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="my_Sales">My Sales</string>
 </resources>

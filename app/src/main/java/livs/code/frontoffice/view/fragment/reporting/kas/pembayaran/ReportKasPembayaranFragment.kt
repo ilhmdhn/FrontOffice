@@ -23,7 +23,7 @@ class ReportKasPembayaranFragment : Fragment() {
     private var tanggal = ""
     private var shift = ""
     private var username = ""
-    private var totalCash = 0
+    private var totalCash = 0L
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +58,7 @@ class ReportKasPembayaranFragment : Fragment() {
             binding.tvJumlahUangMuka.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranUangMuka)
             binding.tvJumlahTotal.text = utils.getCurrency(data.dataStatusKas.totalPembayaran)
             totalCash = data.dataStatusKas.jumlahPembayaranCash
-                if (data.dataStatusKas.jumlahPembayaranCash != 0){
+                if (data.dataStatusKas.jumlahPembayaranCash != 0L){
                     binding.btnCashList.isEnabled = true
                 }
             }

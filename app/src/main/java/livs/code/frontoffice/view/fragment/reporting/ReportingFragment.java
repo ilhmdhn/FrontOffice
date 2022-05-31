@@ -3,6 +3,7 @@ package livs.code.frontoffice.view.fragment.reporting;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -28,6 +29,9 @@ public class ReportingFragment extends Fragment {
 
     @BindView(R.id.btn_status_kas_masuk)
     MaterialCardView btnKasMasuk;
+
+    @BindView(R.id.btn_my_sales)
+    MaterialCardView btnMySales;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,6 +85,13 @@ public class ReportingFragment extends Fragment {
                           .actionNavReportingFragmentToStatusKasFragment()
                     );
         });
+        btnMySales.setOnClickListener(view -> {
+            Navigation.findNavController(view)
+                    .navigate(
+                          ReportingFragmentDirections
+                          .actionNavReportingFragmentToMySalesReportParentFragment()
+                    );
+        });
     }
 
     private void setMainTitle() {
@@ -88,5 +99,11 @@ public class ReportingFragment extends Fragment {
                 .getBus()
                 .post(new EventsWrapper
                         .TitleFragment("Report"));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }

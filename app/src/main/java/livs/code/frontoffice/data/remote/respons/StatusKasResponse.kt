@@ -17,98 +17,98 @@ data class StatusKasResponse(
 data class DataStatusKas(
 
 	@field:SerializedName("jumlah_tamu_piutang")
-	val jumlahTamuPiutang: Int? = 0,
+	val jumlahTamuPiutang: Long? = 0,
 
 	@field:SerializedName("jumlah_reservasi_belum_checkin")
-	val jumlahReservasiBelumCheckin: Int? = 0,
+	val jumlahReservasiBelumCheckin: Long? = 0,
 
 	@field:SerializedName("jumlah_jam_piutang")
-	val jumlahJamPiutang: Int? = 0,
+	val jumlahJamPiutang: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_emoney")
-	val jumlahPembayaranEmoney: Int? = 0,
+	val jumlahPembayaranEmoney: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_piutang")
-	val jumlahPembayaranPiutang: Int? = 0,
+	val jumlahPembayaranPiutang: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_transfer")
-	val jumlahPembayaranTransfer: Int? = 0,
+	val jumlahPembayaranTransfer: Long? = 0,
 
 	@field:SerializedName("jumlah_reservasi_sudah_checkin_belum_bayar")
-	val jumlahReservasiSudahCheckinBelumBayar: Int? = 0,
+	val jumlahReservasiSudahCheckinBelumBayar: Long? = 0,
 
 	@field:SerializedName("hutang_smart_card")
-	val hutangSmartCard: Int? = 0,
+	val hutangSmartCard: Long? = 0,
 
 	@field:SerializedName("total_pembayaran")
-	val totalPembayaran: Int? = 0,
+	val totalPembayaran: Long? = 0,
 
 	@field:SerializedName("jumlah_tamu_sudah_bayar")
-	val jumlahTamuSudahBayar: Int? = 0,
+	val jumlahTamuSudahBayar: Long? = 0,
 
 	@field:SerializedName("jumlah_checkin_piutang")
-	val jumlahCheckinPiutang: Int? = 0,
+	val jumlahCheckinPiutang: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_poin_membership")
-	val jumlahPembayaranPoinMembership: Int? = 0,
+	val jumlahPembayaranPoinMembership: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_voucher")
-	val jumlahPembayaranVoucher: Int? = 0,
+	val jumlahPembayaranVoucher: Long? = 0,
 
 	@field:SerializedName("jumlah_nilai_kamar")
-	val jumlahNilaiKamar: Int? = 0,
+	val jumlahNilaiKamar: Long? = 0,
 
 	@field:SerializedName("total_penjualan")
-	val totalPenjualan: Int? = 0,
+	val totalPenjualan: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_uang_muka")
-	val jumlahPembayaranUangMuka: Int? = 0,
+	val jumlahPembayaranUangMuka: Long? = 0,
 
 	@field:SerializedName("jumlah_pendapatan_lain")
-	val jumlahPendapatanLain: Int? = 0,
+	val jumlahPendapatanLain: Long? = 0,
 
 	@field:SerializedName("makanan_minuman")
-	val makananMinuman: Int? = 0,
+	val makananMinuman: Long? = 0,
 
 	@field:SerializedName("total_hutang_reservasi")
-	val totalHutangReservasi: Int? = 0,
+	val totalHutangReservasi: Long? = 0,
 
 	@field:SerializedName("jumlah_checkin_sudah_bayar")
-	val jumlahCheckinSudahBayar: Int? = 0,
+	val jumlahCheckinSudahBayar: Long? = 0,
 
 	@field:SerializedName("jumlah_uang_muka_checkin_sudah_belum_bayar")
-	val jumlahUangMukaCheckinSudahBelumBayar: Int? = 0,
+	val jumlahUangMukaCheckinSudahBelumBayar: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_complimentary")
-	val jumlahPembayaranComplimentary: Int? = 0,
+	val jumlahPembayaranComplimentary: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_credit_card")
-	val jumlahPembayaranCreditCard: Int? = 0,
+	val jumlahPembayaranCreditCard: Long? = 0,
 
 	@field:SerializedName("jumlah_reservasi_sudah_checkin")
-	val jumlahReservasiSudahCheckin: Int? = 0,
+	val jumlahReservasiSudahCheckin: Long? = 0,
 
 	@field:SerializedName("jumlah_pembayaran_cash")
-	val jumlahPembayaranCash: Int = 0,
+	val jumlahPembayaranCash: Long = 0,
 
 	@field:SerializedName("jumlah_jam_sudah_bayar")
-	val jumlahJamSudahBayar: Int = 0,
+	val jumlahJamSudahBayar: Long = 0,
 
 	@field:SerializedName("jumlah_pembayaran_smart_card")
-	val jumlahPembayaranSmartCard: Int = 0,
+	val jumlahPembayaranSmartCard: Long = 0,
 
 	@field:SerializedName("tanggal")
 	val tanggal: String = "",
 
 	@field:SerializedName("jumlah_pembayaran_debet_card")
-	val jumlahPembayaranDebetCard: Int = 0,
+	val jumlahPembayaranDebetCard: Long = 0,
 
 	@field:SerializedName("piutang_room")
-	val piutangRoom: Int = 0,
+	val piutangRoom: Long = 0,
 
 	@field:SerializedName("piutang_fnb")
-	val piutangFnb: Int = 0,
+	val piutangFnb: Long = 0,
 
 	@field:SerializedName("uang_muka")
-	val uangMuka: Int = 0
+	val uangMuka: Long = 0
 )

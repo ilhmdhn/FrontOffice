@@ -4,11 +4,11 @@ import java.text.NumberFormat
 import java.util.*
 
 object utils {
-    fun getCurrency(nilai: Int?): String{
+    fun getCurrency(nilai: Long?): String{
         val localeID = Locale("in", "ID")
         val formatRupiah: NumberFormat = NumberFormat.getCurrencyInstance(localeID)
         if(nilai == null){
-            return  "0"
+            return  "null"
         }
         return formatRupiah.format(nilai).toString()
     }

@@ -1,5 +1,6 @@
 package livs.code.frontoffice.data.remote
 
+import livs.code.frontoffice.data.remote.respons.MySalesResponse
 import livs.code.frontoffice.data.remote.respons.Response
 import livs.code.frontoffice.data.remote.respons.UserListResponse
 import retrofit2.Call
@@ -48,4 +49,16 @@ interface ReportClient {
         @Query("lima_puluh") limaPuluh: Int,
         @Query("dua_lima") duaLima: Int
     ): Call<Response>
+
+    @GET("report/mysales/today")
+    fun getSalesToday(
+    ): Call<MySalesResponse>
+
+    @GET("report/mysales/weekly")
+    fun getSalesWeekly(
+    ): Call<MySalesResponse>
+
+    @GET("report/mysales/monthly")
+    fun getSalesMonthly(
+    ): Call<MySalesResponse>
 }
