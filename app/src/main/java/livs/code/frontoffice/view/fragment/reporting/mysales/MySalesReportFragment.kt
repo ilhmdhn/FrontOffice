@@ -2,25 +2,28 @@ package livs.code.frontoffice.view.fragment.reporting.mysales
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.components.XAxis.XAxisPosition
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.components.YAxis.YAxisLabelPosition
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import livs.code.frontoffice.R
 import livs.code.frontoffice.data.remote.respons.DataItemSales
 import livs.code.frontoffice.databinding.FragmentMySalesReportBinding
+import livs.code.frontoffice.helper.BarChartCustomRenderer
+import livs.code.frontoffice.helper.VerticalBarChart
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
+
 
 class MySalesReportFragment : Fragment() {
 
@@ -32,7 +35,7 @@ class MySalesReportFragment : Fragment() {
     private var totalTaxService = 0L
     private var totalDiscount = 0L
     private var totalAll = 0L
-    private lateinit var lineChart: LineChart
+    private lateinit var barChart: BarChart
     lateinit var dataList: ArrayList<DataItemSales>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,7 +46,7 @@ class MySalesReportFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
-        lineChart = binding.lineChart
+        barChart = binding.barChart
     }
 
     override fun onResume() {
@@ -119,41 +122,66 @@ class MySalesReportFragment : Fragment() {
     }
 
     private fun initLineChart(){
-        lineChart.axisLeft.setDrawGridLines(false)
-        val xAxis: XAxis = lineChart.xAxis
-        xAxis.setDrawGridLines(true)
-        xAxis.setDrawAxisLine(true)
+        //        hide grid lines
+        barChart.axisLeft.setDrawGridLines(false)
+        val xAxis: XAxis = barChart.xAxis
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(false)
 
-        lineChart.axisRight.isEnabled = false
+        //remove right y-axis
+        barChart.axisRight.isEnabled = false
 
-        lineChart.legend.isEnabled = true
+        //remove legend
+        barChart.legend.isEnabled = false
 
-        lineChart.description.isEnabled = false
 
-        lineChart.animateX(1000, Easing.EaseInSine)
+        //remove description label
+        barChart.description.isEnabled = false
 
-        xAxis.position = XAxis.XAxisPosition.BOTTOM_INSIDE
+
+        //add animation
+        barChart.animateY(3000)
+
+
+//        val verticalBarChart = VerticalBarChart(barChart, barChart.getAnimator(), barChart.getViewPortHandler())
+//        barChart.setRenderer(verticalBarChart)
+
+//        val barChartCustomRenderer = BarChartCustomRenderer(barChart, barChart.getAnimator(), barChart.getViewPortHandler())
+//        barChart.setRenderer(barChartCustomRenderer)
+
+        // to draw label on xAxis
         xAxis.valueFormatter = MyAxisFormatter()
-        xAxis.setDrawLabels(true)
         xAxis.granularity = 1f
         xAxis.labelRotationAngle = +90f
+        xAxis.position = XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+
+        val leftAxis: YAxis = barChart.getAxisLeft()
+        leftAxis.setLabelCount(8, false)
+        leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
+        leftAxis.spaceTop = 15f
+        leftAxis.maxWidth
+        leftAxis.axisMinimum = 0f
+
+        barChart.setDrawValueAboveBar(false)
     }
 
     private fun setDataToLineChart(dataItemSales: List<DataItemSales>){
 
-        val entries: ArrayList<Entry> =  ArrayList()
+        val entries: ArrayList<BarEntry> =  ArrayList()
         dataList = dataItemSales as ArrayList<DataItemSales>
 
         for (i in dataItemSales.indices){
-            entries.add(Entry(i.toFloat(), dataItemSales[i].totalPenjualan.toFloat()))
+            entries.add(BarEntry(i.toFloat(), dataItemSales[i].totalPenjualan.toFloat()))
         }
 
-        val lineDataSet = LineDataSet(entries, "")
+        val barDataSet = BarDataSet(entries, "")
+        barDataSet.setDrawValues(true)
 
-        val data = LineData(lineDataSet)
-        lineChart.data = data
+        val data = BarData(barDataSet)
+        barChart.data = data
 
-        lineChart.invalidate()
+        barChart.invalidate()
     }
 
     inner class MyAxisFormatter: IndexAxisValueFormatter(){
