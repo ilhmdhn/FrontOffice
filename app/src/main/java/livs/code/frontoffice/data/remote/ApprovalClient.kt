@@ -14,6 +14,7 @@ interface ApprovalClient {
         @Field("user_id") userId: String,
         @Field("level_user") levelUser: String,
         @Field("room") room: String,
-        @Field("keterangan") keterangan: String
+        @Field("keterangan") keterangan: String,
+        @Field("device_name") deviceName: String
     ): Call<Response>
 }

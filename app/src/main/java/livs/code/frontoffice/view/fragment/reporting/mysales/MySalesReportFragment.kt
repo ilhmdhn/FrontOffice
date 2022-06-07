@@ -1,10 +1,12 @@
 package livs.code.frontoffice.view.fragment.reporting.mysales
 
+import android.R
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.github.mikephil.charting.charts.BarChart
@@ -19,8 +21,6 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import livs.code.frontoffice.data.remote.respons.DataItemSales
 import livs.code.frontoffice.databinding.FragmentMySalesReportBinding
-import livs.code.frontoffice.helper.BarChartCustomRenderer
-import livs.code.frontoffice.helper.VerticalBarChart
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
 
@@ -32,7 +32,8 @@ class MySalesReportFragment : Fragment() {
     private lateinit var reportViewModel: ReportViewModel
     var kodePage = 0
     private var totalPenjualan = 0L
-    private var totalTaxService = 0L
+    private var totalTax = 0L
+    private var totalService = 0L
     private var totalDiscount = 0L
     private var totalAll = 0L
     private lateinit var barChart: BarChart
@@ -54,7 +55,8 @@ class MySalesReportFragment : Fragment() {
         kodePage = arguments?.getString(KODE_PAGE).toString().toInt()
 
         totalPenjualan = 0L
-        totalTaxService = 0L
+        totalTax = 0L
+        totalService = 0L
         totalDiscount = 0L
         totalAll = 0L
         dataList = arrayListOf()
@@ -74,12 +76,14 @@ class MySalesReportFragment : Fragment() {
                 val ranges = 0..data.length-1
                 for (i in ranges){
                     totalPenjualan += data.data[i].chargePenjualan
-                    totalTaxService += data.data[i].servicePenjualan + data.data[i].taxPenjualan
+                    totalTax += data.data[i].taxPenjualan
+                    totalService += data.data[i].servicePenjualan
                     totalDiscount += data.data[i].discountPenjualan
                     totalAll += data.data[i].totalPenjualan
                 }
                 binding.tvNominal.setText(utils.getCurrency(totalPenjualan))
-                binding.tvTaxService.setText(utils.getCurrency(totalTaxService))
+                binding.tvTax.setText(utils.getCurrency(totalTax))
+                binding.tvService.setText(utils.getCurrency(totalService))
                 binding.tvDiscount.setText(utils.getCurrency(totalDiscount))
                 binding.tvFinalCharge.setText(utils.getCurrency(totalAll))
                 setDataToLineChart(data.data)
@@ -94,12 +98,14 @@ class MySalesReportFragment : Fragment() {
                 val ranges = 0..data.length-1
                 for (i in ranges){
                     totalPenjualan += data.data[i].chargePenjualan
-                    totalTaxService += data.data[i].servicePenjualan + data.data[i].taxPenjualan
+                    totalTax += data.data[i].taxPenjualan
+                    totalService += data.data[i].servicePenjualan
                     totalDiscount += data.data[i].discountPenjualan
                     totalAll += data.data[i].totalPenjualan
                 }
                 binding.tvNominal.setText(utils.getCurrency(totalPenjualan))
-                binding.tvTaxService.setText(utils.getCurrency(totalTaxService))
+                binding.tvTax.setText(utils.getCurrency(totalTax))
+                binding.tvService.setText(utils.getCurrency(totalService))
                 binding.tvDiscount.setText(utils.getCurrency(totalDiscount))
                 binding.tvFinalCharge.setText(utils.getCurrency(totalAll))
                 setDataToLineChart(data.data)
@@ -112,7 +118,8 @@ class MySalesReportFragment : Fragment() {
         reportViewModel.salesToday.observe(viewLifecycleOwner, {data ->
             if (data.state == true){
                 binding.tvNominal.setText(utils.getCurrency(data.data[0].chargePenjualan))
-                binding.tvTaxService.setText(utils.getCurrency(data.data[0].taxPenjualan + data.data[0].servicePenjualan))
+                binding.tvTax.setText(utils.getCurrency(data.data[0].taxPenjualan))
+                binding.tvService.setText(utils.getCurrency(data.data[0].servicePenjualan))
                 binding.tvDiscount.setText(utils.getCurrency(data.data[0].discountPenjualan))
                 binding.tvFinalCharge.setText(utils.getCurrency(data.data[0].totalPenjualan))
                 setDataToLineChart(data.data)
@@ -122,7 +129,7 @@ class MySalesReportFragment : Fragment() {
     }
 
     private fun initLineChart(){
-        //        hide grid lines
+        //hide grid lines
         barChart.axisLeft.setDrawGridLines(false)
         val xAxis: XAxis = barChart.xAxis
         xAxis.setDrawGridLines(false)
@@ -141,13 +148,6 @@ class MySalesReportFragment : Fragment() {
 
         //add animation
         barChart.animateY(3000)
-
-
-//        val verticalBarChart = VerticalBarChart(barChart, barChart.getAnimator(), barChart.getViewPortHandler())
-//        barChart.setRenderer(verticalBarChart)
-
-//        val barChartCustomRenderer = BarChartCustomRenderer(barChart, barChart.getAnimator(), barChart.getViewPortHandler())
-//        barChart.setRenderer(barChartCustomRenderer)
 
         // to draw label on xAxis
         xAxis.valueFormatter = MyAxisFormatter()
@@ -175,13 +175,26 @@ class MySalesReportFragment : Fragment() {
             entries.add(BarEntry(i.toFloat(), dataItemSales[i].totalPenjualan.toFloat()))
         }
 
+        val startColor2 = ContextCompat.getColor(requireActivity(), R.color.holo_blue_light)
+        val startColor3 = ContextCompat.getColor(requireActivity(), R.color.holo_orange_light)
+        val startColor4 = ContextCompat.getColor(requireActivity(), R.color.holo_green_light)
+        val startColor5 = ContextCompat.getColor(requireActivity(), R.color.holo_red_light)
+
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setDrawValues(true)
+        Log.d("panjang bar", barDataSet.entryCount.toString())
+        barDataSet.setColors(startColor2,
+                            startColor3,
+                            startColor4,
+                            startColor5)
+
 
         val data = BarData(barDataSet)
+
         barChart.data = data
 
         barChart.invalidate()
+
     }
 
     inner class MyAxisFormatter: IndexAxisValueFormatter(){

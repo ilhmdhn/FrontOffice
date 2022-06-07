@@ -278,6 +278,9 @@ public class MainActivity extends AppCompatActivity
                 case R.id.mySalesReportParentFragment:
                     hideBottomNav();
                     break;
+                case R.id.itemSalesFragment:
+                    hideBottomNav();
+                    break;
                 default:
                     break;
             }

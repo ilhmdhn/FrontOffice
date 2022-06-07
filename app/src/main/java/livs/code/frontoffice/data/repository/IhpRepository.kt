@@ -1,6 +1,5 @@
 package livs.code.frontoffice.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import livs.code.frontoffice.data.remote.*
@@ -12,8 +11,9 @@ class IhpRepository {
 
     fun submitApproval(baseUrl: String, userId: String, levelUser: String, room: String, keterangan: String): Response {
         val responseData = Response()
+        val namaDevice = "${android.os.Build.BRAND} ${android.os.Build.MODEL}"
         val client = ApiRestService.getClient(baseUrl).create(ApprovalClient::class.java)
-        client.submitApproval(userId, levelUser, room, keterangan).enqueue(object :
+        client.submitApproval(userId, levelUser, room, keterangan, namaDevice).enqueue(object :
             Callback<Response> {
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                 if (response.isSuccessful){

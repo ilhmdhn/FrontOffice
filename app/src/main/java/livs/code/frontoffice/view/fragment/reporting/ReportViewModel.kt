@@ -31,6 +31,14 @@ class ReportViewModel: ViewModel() {
     private val _salesMonthly = MutableLiveData<MySalesResponse>()
     val salesMonthly: LiveData<MySalesResponse> = _salesMonthly
 
+    private val _saleItemsToday = MutableLiveData<SalesItemListResponse>()
+    val saleItemToday: LiveData<SalesItemListResponse> = _saleItemsToday
+
+    private val _saleItemWeekly = MutableLiveData<SalesItemListResponse>()
+    val saleItemWeekly: LiveData<SalesItemListResponse> = _saleItemWeekly
+
+    private val _saleItemMonthly = MutableLiveData<SalesItemListResponse>()
+    val saleItemMonthly: LiveData<SalesItemListResponse> = _saleItemMonthly
 
     fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username: String){
         val client = ApiRestService.getClient(baseUrl).create(StatusKasClient::class.java)
@@ -112,6 +120,45 @@ class ReportViewModel: ViewModel() {
 
             override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
                 _salesMonthly.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
+    }
+
+    fun getSaleItemToday(url: String, chusr: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSaleItems("dialy", chusr).enqueue(object: Callback<SalesItemListResponse>{
+            override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _saleItemsToday.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _saleItemsToday.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
+    }
+
+    fun getSaleItemWeekly(url: String, chusr: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSaleItems("weekly", chusr).enqueue(object: Callback<SalesItemListResponse>{
+            override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _saleItemWeekly.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _saleItemWeekly.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
+            }
+        })
+    }
+
+    fun getSaleItemMonthly(url: String, chusr: String){
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSaleItems("monthly", chusr).enqueue(object: Callback<SalesItemListResponse>{
+            override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _saleItemMonthly.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _saleItemMonthly.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }

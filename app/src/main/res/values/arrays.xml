@@ -43,6 +43,12 @@
             <item>SUPERVISOR</item>
             <item>KASIR</item>
             <item>OPR</item>
+            <item>SERVER</item>
+            <item>DAPUR</item>
+            <item>KAPTEN</item>
+            <item>ADMIN</item>
+            <item>BAR</item>
+            <item>DAPUR</item>
         </string-array>
 
 </resources>
