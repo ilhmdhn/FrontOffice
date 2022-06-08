@@ -19,21 +19,10 @@ data class MySalesResponse(
 
 data class DataItemSales(
 
-	@field:SerializedName("tax_penjualan")
-	val taxPenjualan: Long,
-
 	@field:SerializedName("display_waktu")
 	val displayWaktu: String,
 
-	@field:SerializedName("total_penjualan")
-	val totalPenjualan: Long,
+	@field:SerializedName("total")
+	val total: Long
 
-	@field:SerializedName("charge_penjualan")
-	val chargePenjualan: Long,
-
-	@field:SerializedName("service_penjualan")
-	val servicePenjualan: Long,
-
-	@field:SerializedName("discount_penjualan")
-	val discountPenjualan: Long
 )

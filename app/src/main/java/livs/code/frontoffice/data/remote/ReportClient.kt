@@ -53,14 +53,17 @@ interface ReportClient {
 
     @GET("report/mysales/today")
     fun getSalesToday(
+        @Query("chusr") chusr: String
     ): Call<MySalesResponse>
 
     @GET("report/mysales/weekly")
     fun getSalesWeekly(
+        @Query("chusr") chusr: String
     ): Call<MySalesResponse>
 
     @GET("report/mysales/monthly")
     fun getSalesMonthly(
+        @Query("chusr") chusr: String
     ): Call<MySalesResponse>
 
     @GET("report/salesitem")

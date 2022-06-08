@@ -19,21 +19,6 @@
             android:background="@android:color/black"/>
 
         <TextView
-            android:id="@+id/tv_value_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/black"
-            tools:text="tanggal"/>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="3dp"
-            android:background="@android:color/black"/>
-
-        <TextView
             android:id="@+id/tv_value_item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

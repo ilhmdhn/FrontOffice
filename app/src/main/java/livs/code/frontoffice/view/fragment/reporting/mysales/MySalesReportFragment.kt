@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.components.XAxis
@@ -31,11 +32,7 @@ class MySalesReportFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var reportViewModel: ReportViewModel
     var kodePage = 0
-    private var totalPenjualan = 0L
-    private var totalTax = 0L
-    private var totalService = 0L
-    private var totalDiscount = 0L
-    private var totalAll = 0L
+    private var total = 0L
     private lateinit var barChart: BarChart
     lateinit var dataList: ArrayList<DataItemSales>
 
@@ -48,17 +45,19 @@ class MySalesReportFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         barChart = binding.barChart
+
+        binding.llNominal.setOnClickListener {
+            val toSalesItemsNavigation = MySalesReportParentFragmentDirections.actionMySalesReportParentFragmentToItemSalesFragment()
+            Navigation.findNavController(it).navigate(toSalesItemsNavigation)
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
         kodePage = arguments?.getString(KODE_PAGE).toString().toInt()
 
-        totalPenjualan = 0L
-        totalTax = 0L
-        totalService = 0L
-        totalDiscount = 0L
-        totalAll = 0L
+        total = 0L
         dataList = arrayListOf()
 
         if (kodePage == 1){
@@ -75,17 +74,9 @@ class MySalesReportFragment : Fragment() {
             if (data.state == true){
                 val ranges = 0..data.length-1
                 for (i in ranges){
-                    totalPenjualan += data.data[i].chargePenjualan
-                    totalTax += data.data[i].taxPenjualan
-                    totalService += data.data[i].servicePenjualan
-                    totalDiscount += data.data[i].discountPenjualan
-                    totalAll += data.data[i].totalPenjualan
+                    total += data.data[i].total
                 }
-                binding.tvNominal.setText(utils.getCurrency(totalPenjualan))
-                binding.tvTax.setText(utils.getCurrency(totalTax))
-                binding.tvService.setText(utils.getCurrency(totalService))
-                binding.tvDiscount.setText(utils.getCurrency(totalDiscount))
-                binding.tvFinalCharge.setText(utils.getCurrency(totalAll))
+                binding.tvTotal.setText(utils.getCurrency(total))
                 setDataToLineChart(data.data)
                 initLineChart()
             }
@@ -97,17 +88,9 @@ class MySalesReportFragment : Fragment() {
             if (data.state == true){
                 val ranges = 0..data.length-1
                 for (i in ranges){
-                    totalPenjualan += data.data[i].chargePenjualan
-                    totalTax += data.data[i].taxPenjualan
-                    totalService += data.data[i].servicePenjualan
-                    totalDiscount += data.data[i].discountPenjualan
-                    totalAll += data.data[i].totalPenjualan
+                    total += data.data[i].total
                 }
-                binding.tvNominal.setText(utils.getCurrency(totalPenjualan))
-                binding.tvTax.setText(utils.getCurrency(totalTax))
-                binding.tvService.setText(utils.getCurrency(totalService))
-                binding.tvDiscount.setText(utils.getCurrency(totalDiscount))
-                binding.tvFinalCharge.setText(utils.getCurrency(totalAll))
+                binding.tvTotal.setText(utils.getCurrency(total))
                 setDataToLineChart(data.data)
                 initLineChart()
             }
@@ -117,11 +100,7 @@ class MySalesReportFragment : Fragment() {
     private fun salesToday() {
         reportViewModel.salesToday.observe(viewLifecycleOwner, {data ->
             if (data.state == true){
-                binding.tvNominal.setText(utils.getCurrency(data.data[0].chargePenjualan))
-                binding.tvTax.setText(utils.getCurrency(data.data[0].taxPenjualan))
-                binding.tvService.setText(utils.getCurrency(data.data[0].servicePenjualan))
-                binding.tvDiscount.setText(utils.getCurrency(data.data[0].discountPenjualan))
-                binding.tvFinalCharge.setText(utils.getCurrency(data.data[0].totalPenjualan))
+                binding.tvTotal.setText(utils.getCurrency(data.data[0].total))
                 setDataToLineChart(data.data)
                 initLineChart()
             }
@@ -172,7 +151,7 @@ class MySalesReportFragment : Fragment() {
         dataList = dataItemSales as ArrayList<DataItemSales>
 
         for (i in dataItemSales.indices){
-            entries.add(BarEntry(i.toFloat(), dataItemSales[i].totalPenjualan.toFloat()))
+            entries.add(BarEntry(i.toFloat(), dataItemSales[i].total.toFloat()))
         }
 
         val startColor2 = ContextCompat.getColor(requireActivity(), R.color.holo_blue_light)
@@ -182,7 +161,6 @@ class MySalesReportFragment : Fragment() {
 
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setDrawValues(true)
-        Log.d("panjang bar", barDataSet.entryCount.toString())
         barDataSet.setColors(startColor2,
                             startColor3,
                             startColor4,
@@ -211,7 +189,6 @@ class MySalesReportFragment : Fragment() {
             }
         }
     }
-
 
     companion object {
         const val KODE_PAGE = "kode"

@@ -35,7 +35,6 @@ class SalesItemAdapter: RecyclerView.Adapter<SalesItemAdapter.ListViewHolder>(){
         fun bind(data: SaleItemList){
             with(binding){
                 if (data.jumlah != 0 || data.total != 0){
-                    tvValueDate.text = data.date
                     tvValueItemName.text = data.namaItem
                     tvValueQty.text = data.jumlah.toString()
                     tvValuePrice.text = utils.getCurrency(data.total.toLong())

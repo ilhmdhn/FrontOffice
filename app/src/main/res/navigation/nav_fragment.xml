@@ -363,9 +363,6 @@
         <action
             android:id="@+id/action_navReportingFragment_to_mySalesReportParentFragment"
             app:destination="@id/mySalesReportParentFragment" />
-        <action
-            android:id="@+id/action_navReportingFragment_to_itemSalesFragment"
-            app:destination="@id/itemSalesFragment" />
     </fragment>
     <fragment
         android:id="@+id/navStatusKasFragment"
@@ -419,7 +416,11 @@
         android:id="@+id/mySalesReportParentFragment"
         android:name="livs.code.frontoffice.view.fragment.reporting.mysales.MySalesReportParentFragment"
         android:label="fragment_my_sales_report_parent"
-        tools:layout="@layout/fragment_my_sales_report_parent" />
+        tools:layout="@layout/fragment_my_sales_report_parent" >
+        <action
+            android:id="@+id/action_mySalesReportParentFragment_to_itemSalesFragment"
+            app:destination="@id/itemSalesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/itemSalesFragment"
         android:name="livs.code.frontoffice.view.fragment.reporting.itemsales.ItemSalesFragment"

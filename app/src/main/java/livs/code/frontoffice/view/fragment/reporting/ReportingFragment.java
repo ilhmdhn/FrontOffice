@@ -33,9 +33,6 @@ public class ReportingFragment extends Fragment {
     @BindView(R.id.btn_my_sales)
     MaterialCardView btnMySales;
 
-    @BindView(R.id.btn_my_sale_item)
-    MaterialCardView btnSalesItem;
-
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -93,13 +90,6 @@ public class ReportingFragment extends Fragment {
                     .navigate(
                           ReportingFragmentDirections
                           .actionNavReportingFragmentToMySalesReportParentFragment()
-                    );
-        });
-        btnSalesItem.setOnClickListener(view->{
-            Navigation.findNavController(view)
-                    .navigate(
-                            ReportingFragmentDirections
-                            .actionNavReportingFragmentToItemSalesFragment()
                     );
         });
     }

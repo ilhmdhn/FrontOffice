@@ -85,9 +85,9 @@ class ReportViewModel: ViewModel() {
         return ihpRepository.updateCashDetail(baseUrl, tanggal, shift, pecahanUang)
     }
 
-    fun getSalesToday(url: String){
+    fun getSalesToday(url: String, username: String){
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
-        client.getSalesToday().enqueue(object: Callback<MySalesResponse>{
+        client.getSalesToday(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
                 _salesToday.postValue(response.body())
             }
@@ -98,9 +98,9 @@ class ReportViewModel: ViewModel() {
         })
     }
 
-    fun getSalesWeekly(url: String){
+    fun getSalesWeekly(url: String, username: String){
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
-        client.getSalesWeekly().enqueue(object: Callback<MySalesResponse>{
+        client.getSalesWeekly(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
                 _salesWeekly.postValue(response.body())
             }
@@ -111,9 +111,9 @@ class ReportViewModel: ViewModel() {
         })
     }
 
-    fun getSalesMonthly(url: String){
+    fun getSalesMonthly(url: String, username: String){
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
-        client.getSalesMonthly().enqueue(object: Callback<MySalesResponse>{
+        client.getSalesMonthly(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
                 _salesMonthly.postValue(response.body())
             }
