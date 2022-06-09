@@ -51,6 +51,18 @@ class MySalesReportFragment : Fragment() {
             Navigation.findNavController(it).navigate(toSalesItemsNavigation)
         }
 
+
+        /*
+        LinearLayout chartHolder = (LinearLayout) getActivity().findViewById(R.id.short_performance_chart);
+        BarChart mChart = (BarChart) initializeBarChart(); //just populating data, etc
+        chartHolder.addView(mChart);
+        // Due to the fact that we are in a fragment we have to reset the height
+        mChart.getLayoutParams().height = android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+        mChart.invalidate();
+        */
+
+        binding.barChart.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+        binding.barChart.invalidate();
     }
 
     override fun onResume() {

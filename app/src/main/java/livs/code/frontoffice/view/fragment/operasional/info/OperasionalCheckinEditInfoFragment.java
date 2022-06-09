@@ -7,9 +7,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -59,14 +61,19 @@ import livs.code.frontoffice.data.entity.Voucher;
 import livs.code.frontoffice.data.remote.ApiRestService;
 import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.MemberClient;
+import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.EdcTypeResponse;
 import livs.code.frontoffice.data.remote.respons.MemberResponse;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
+import livs.code.frontoffice.data.remote.respons.UserResponse;
 import livs.code.frontoffice.data.remote.respons.VoucherResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
 import livs.code.frontoffice.helper.QRScanType;
+import livs.code.frontoffice.helper.UserAuthRole;
+import livs.code.frontoffice.view.fragment.operasional.OperasionalFragmentDirections;
 import livs.code.frontoffice.view.listadapter.ListEdcTypeAdapter;
 import livs.code.frontoffice.view.listadapter.ListPromoInventoryAdapter;
 import livs.code.frontoffice.view.listadapter.ListPromoRoomAdapter;
@@ -82,6 +89,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class OperasionalCheckinEditInfoFragment extends Fragment {
+
     @BindView(R.id.checkin_add_info_member_name)
     TextView infoNamaMember;
 
@@ -185,6 +193,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     @BindView(R.id.btn_promo_room)
     Button buttonPromoRoom;
 
+    @BindView(R.id.btn_cancel_promo)
+    Button btnCancelPromo;
+
     @BindView(R.id.txt_kode_promo_room)
     TextView kodePromoRoom;
 
@@ -266,6 +277,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     private static String BASE_URL;
     private User USER_FO;
     private String current="";
+    private IhpRepository ihpRepository;
 
     public OperasionalCheckinEditInfoFragment() {
         // Required empty public constructor
@@ -319,6 +331,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         isVoucherScanActive = false;
 
+        ihpRepository = new IhpRepository();
+
         EMPTY_PROMO = getResources().getString(R.string.kode_promo);
         choicePromoRoom = EMPTY_PROMO;
         choicePromoFood = EMPTY_PROMO;
@@ -326,6 +340,10 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         EMPTY_EDC_DP = getResources().getString(R.string.edc_mesin);
         EMPTY_CARD_DP = getResources().getString(R.string.type_card);
         choicecard = EMPTY_CARD_DP;
+
+        btnCancelPromo.setOnClickListener(view -> {
+            removePromo();
+        });
 
         inputDpNominal.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -433,6 +451,81 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
         initMemberValidationUI();
 
+    }
+
+    private void removePromo() {
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        LayoutInflater dialogInflater = this.getLayoutInflater();
+
+        View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+
+        AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+        AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+
+        EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+        EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setOnShowListener(dialogInterface -> {
+            buttonOk.setOnClickListener(it -> {
+                String email = _usernameTxt.getText().toString();
+                String password = _passwordTxt.getText().toString();
+                if (email.isEmpty() && password.isEmpty()) {
+                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                            .show();
+                    return;
+                }
+                //_loginProgress.setVisibility(View.VISIBLE);
+                UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                Call<UserResponse> call = userClient.login(email, password);
+                call.enqueue(new Callback<UserResponse>() {
+                    @Override
+                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                        UserResponse res = response.body();
+                        //_loginProgress.setVisibility(View.GONE);
+                        res.displayMessage(getContext());
+                        if (res.isOkay()) {
+                            User user = res.getUser();
+                            if (UserAuthRole.isAllowCancelPromotion(user)) {
+                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
+                                Toast.makeText(requireActivity(), "boleh cancel reception "+currentRoomCheckin.getRoomRcp(), Toast.LENGTH_SHORT).show();
+                                roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+                                alertDialog.dismiss();
+                                roomOrder.getRoomPromos().clear();
+                                Navigation.findNavController(buttonSubmit)
+                                        .navigate(
+                                                OperasionalCheckinEditInfoFragmentDirections
+                                                        .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                        );
+                            } else {
+                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        .show();
+                            }
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                        //_loginProgress.setVisibility(View.GONE);
+                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                .show();
+                    }
+                });
+
+            });
+
+            buttonCancel.setOnClickListener(view -> {
+                //_loginProgress.setVisibility(View.GONE);
+                alertDialog.dismiss();
+            });
+        });
+
+        alertDialog.show();
     }
 
     private void cardDpViewData(String card) {
@@ -993,6 +1086,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             inputCodeVoucher.setEnabled(false);
             buttonScanQRCodeVoucher.setEnabled(false);
             buttonPromoRoom.setText("Terpilih");
+            btnCancelPromo.setVisibility(View.VISIBLE);
             buttonPromoRoom.setEnabled(false);
             promoRoomViewData(
                     roomPromo.getRoomPromoName()+" "+roomPromo.getDiscountPercent()+"%");

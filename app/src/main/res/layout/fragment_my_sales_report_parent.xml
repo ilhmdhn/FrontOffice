@@ -9,20 +9,18 @@
     android:background="#F2F3F7"
     tools:context=".view.fragment.reporting.mysales.MySalesReportParentFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_margin="20dp"
-        android:layout_height="match_parent">
+        android:orientation="vertical"
+        android:layout_height="fill_parent">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/background_tab_parent"
             android:paddingVertical="5dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tabGravity="fill"
             app:tabIndicator="@drawable/background_tab_indicator"
             app:tabIndicatorColor="@android:color/white"
@@ -36,12 +34,8 @@
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabs" />
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

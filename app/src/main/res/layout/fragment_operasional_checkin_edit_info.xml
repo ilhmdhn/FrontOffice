@@ -117,7 +117,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-
+            <Button
+                android:id="@+id/btn_cancel_promo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:visibility="gone"
+                android:text="Batalkan Promo"/>
 
 
             <include

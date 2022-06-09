@@ -182,6 +182,9 @@
         <argument
             android:name="roomOrder"
             app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+        <action
+            android:id="@+id/action_navOperasionalCheckinEditInfoFragment_self"
+            app:destination="@id/navOperasionalCheckinEditInfoFragment" />
     </fragment>
 
     <fragment

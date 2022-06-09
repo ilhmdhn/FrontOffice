@@ -56,8 +56,8 @@ class MySalesReportParentFragment : Fragment() {
         reportViewModel.getSalesMonthly(url, username)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         (activity as AppCompatActivity).supportActionBar?.hide()
     }
 
