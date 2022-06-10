@@ -1,4 +1,4 @@
-package livs.code.frontoffice.view.fragment.reporting.itemsales
+package livs.code.frontoffice.view.fragment.reporting.mysales.itemsales
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
-import livs.code.frontoffice.R
-import livs.code.frontoffice.data.remote.respons.SaleItemList
 import livs.code.frontoffice.data.remote.respons.SalesItemListResponse
 import livs.code.frontoffice.databinding.FragmentSalesItemListBinding
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
@@ -58,9 +56,23 @@ class SalesItemListFragment : Fragment() {
     private fun showData(dataSales: SalesItemListResponse){
         when(dataSales.state){
             true -> {
-                salesItemAdapter.setData(dataSales.data)
+                if (dataSales.data != null){
+                    salesItemAdapter.setData(dataSales.data)
+                    binding.rvSalesItem.visibility = View.VISIBLE
+                    binding.ltEmpty.visibility = View.GONE
+                } else{
+                    binding.rvSalesItem.visibility = View.GONE
+                    binding.ltEmpty.visibility = View.VISIBLE
+                    binding.ltEmpty.setAnimation("emptybox.json")
+                }
             }
-            false -> Toasty.error(requireActivity(),  "Error ${dataSales.message}", Toast.LENGTH_SHORT).show()
+            false -> {
+                binding.rvSalesItem.visibility = View.GONE
+                binding.ltEmpty.visibility = View.VISIBLE
+                Toasty.error(requireActivity(),  dataSales.message, Toast.LENGTH_SHORT).show()
+                binding.ltEmpty.setAnimation("erroranimation.json")
+                binding.ltEmpty.playAnimation()
+            }
         }
 
         with(binding.rvSalesItem){

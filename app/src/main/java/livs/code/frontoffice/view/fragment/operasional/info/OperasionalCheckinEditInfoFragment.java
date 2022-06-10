@@ -62,6 +62,7 @@ import livs.code.frontoffice.data.remote.ApiRestService;
 import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.MemberClient;
 import livs.code.frontoffice.data.remote.UserClient;
+import livs.code.frontoffice.data.remote.respons.CheckinDirectClient;
 import livs.code.frontoffice.data.remote.respons.EdcTypeResponse;
 import livs.code.frontoffice.data.remote.respons.MemberResponse;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
@@ -491,15 +492,34 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             User user = res.getUser();
                             if (UserAuthRole.isAllowCancelPromotion(user)) {
                                 ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
-                                Toast.makeText(requireActivity(), "boleh cancel reception "+currentRoomCheckin.getRoomRcp(), Toast.LENGTH_SHORT).show();
                                 roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
-                                alertDialog.dismiss();
-                                roomOrder.getRoomPromos().clear();
-                                Navigation.findNavController(buttonSubmit)
-                                        .navigate(
-                                                OperasionalCheckinEditInfoFragmentDirections
-                                                        .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
-                                        );
+                                CheckinDirectClient checkinDirectClient = ApiRestService.getClient(BASE_URL).create(CheckinDirectClient.class);
+                                Call<livs.code.frontoffice.data.remote.respons.Response> responseRemovePromo = checkinDirectClient.removePromo(currentRoomCheckin.getRoomRcp());
+                                responseRemovePromo.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
+                                    @Override
+                                    public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
+                                        if (response.isSuccessful()){
+                                            if (responsee.body() != null) {
+                                                if(responsee.body().getState()){
+                                                    roomOrder.getRoomPromos().clear();
+                                                    alertDialog.dismiss();
+                                                    Navigation.findNavController(buttonSubmit)
+                                                            .navigate(
+                                                                    OperasionalCheckinEditInfoFragmentDirections
+                                                                            .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                                            );
+                                                    Toasty.info(requireActivity(), "Berhasil Menghapus Promo, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
+                                                }else{
+                                                    Toasty.info(requireActivity(), "Ulangi Hapus Promo", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
+                                        Toasty.error(requireActivity(), "Gagal Mengapus Promo " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             } else {
                                 Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                         .show();

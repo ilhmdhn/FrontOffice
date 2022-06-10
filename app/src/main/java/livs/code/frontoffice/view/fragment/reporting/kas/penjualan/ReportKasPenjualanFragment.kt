@@ -27,7 +27,7 @@ class ReportKasPenjualanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         reportViewModel.statusKas.observe(viewLifecycleOwner, {data ->
-            if(data.state == true) {
+            if(data.dataStatusKas != null) {
                 binding.tvPendapatanLain.text =
                     utils.getCurrency(data.dataStatusKas.jumlahPendapatanLain)
 

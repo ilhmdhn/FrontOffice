@@ -25,7 +25,7 @@ class ReportKasStatusKamarFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         reportViewModel.statusKas.observe(viewLifecycleOwner, {data ->
-            if(data.state == true) {
+            if(data.dataStatusKas != null) {
                 binding.tvCinPaid.text = data.dataStatusKas.jumlahCheckinSudahBayar.toString()
                 binding.tvJamPaid.text = data.dataStatusKas.jumlahJamSudahBayar.toString()
                 binding.tvGuestPaid.text = data.dataStatusKas.jumlahTamuSudahBayar.toString()

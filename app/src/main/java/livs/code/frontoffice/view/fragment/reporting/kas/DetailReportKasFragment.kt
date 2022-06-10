@@ -51,10 +51,27 @@ class DetailReportKasFragment : Fragment() {
         binding.tvShift.text = "Shift $shift"
         binding.tvShiftPiutang.text = "Piutang Shift $shift"
         reportViewModel.statusKas.observe(viewLifecycleOwner, { data ->
-            if(data.state == true){
-            binding.tvTanggal.setText("Tanggal: ${data.dataStatusKas.tanggal.trim()}")
-            binding.tvHitungPiutang.setText("(Room ${utils.getCurrency(data.dataStatusKas.piutangRoom)} + FnB ${utils.getCurrency(data.dataStatusKas.piutangFnb)}) - UM ${utils.getCurrency(data.dataStatusKas.uangMuka)}")
-            binding.tvTotalPiutang.setText(utils.getCurrency(data.dataStatusKas.piutangRoom+data.dataStatusKas.piutangFnb-data.dataStatusKas.uangMuka))
+            if (data.state == true) {
+                if (data.dataStatusKas != null) {
+                    binding.ltEmpty.visibility = View.GONE
+                    binding.viewPager.visibility = View.VISIBLE
+                    binding.tvTanggal.setText("Tanggal: ${data.dataStatusKas.tanggal.trim()}")
+                    binding.tvHitungPiutang.setText(
+                        "(Room ${utils.getCurrency(data.dataStatusKas.piutangRoom)} + FnB ${
+                            utils.getCurrency(
+                                data.dataStatusKas.piutangFnb
+                            )
+                        }) - UM ${utils.getCurrency(data.dataStatusKas.uangMuka)}"
+                    )
+                    binding.tvTotalPiutang.setText(utils.getCurrency(data.dataStatusKas.piutangRoom + data.dataStatusKas.piutangFnb - data.dataStatusKas.uangMuka))
+                } else {
+                    binding.viewPager.visibility = View.GONE
+                    binding.ltEmpty.visibility = View.VISIBLE
+                }
+            } else{
+                binding.viewPager.visibility = View.GONE
+                binding.ltEmpty.setAnimation("erroranimation.json")
+                binding.ltEmpty.visibility = View.VISIBLE
             }
         })
 
@@ -69,7 +86,6 @@ class DetailReportKasFragment : Fragment() {
         TabLayoutMediator(tabs, viewPager) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
-
     }
 
     override fun onStart() {

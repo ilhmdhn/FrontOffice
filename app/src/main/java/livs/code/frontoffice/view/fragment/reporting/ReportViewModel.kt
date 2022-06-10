@@ -40,6 +40,9 @@ class ReportViewModel: ViewModel() {
     private val _saleItemMonthly = MutableLiveData<SalesItemListResponse>()
     val saleItemMonthly: LiveData<SalesItemListResponse> = _saleItemMonthly
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username: String){
         val client = ApiRestService.getClient(baseUrl).create(StatusKasClient::class.java)
         client.getStatusKasReport(tanggal, shift, username).enqueue(object: Callback<StatusKasResponse>{
@@ -86,78 +89,96 @@ class ReportViewModel: ViewModel() {
     }
 
     fun getSalesToday(url: String, username: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSalesToday(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _isLoading.value = false
                 _salesToday.postValue(response.body())
             }
 
             override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _isLoading.value = false
                 _salesToday.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }
 
     fun getSalesWeekly(url: String, username: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSalesWeekly(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _isLoading.value = false
                 _salesWeekly.postValue(response.body())
             }
 
             override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _isLoading.value = false
                 _salesWeekly.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }
 
     fun getSalesMonthly(url: String, username: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSalesMonthly(username).enqueue(object: Callback<MySalesResponse>{
             override fun onResponse(call: Call<MySalesResponse>,response: Response<MySalesResponse>) {
+                _isLoading.value = false
                 _salesMonthly.postValue(response.body())
             }
 
             override fun onFailure(call: Call<MySalesResponse>, t: Throwable) {
+                _isLoading.value = false
                 _salesMonthly.postValue(MySalesResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }
 
     fun getSaleItemToday(url: String, chusr: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSaleItems("dialy", chusr).enqueue(object: Callback<SalesItemListResponse>{
             override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _isLoading.value = false
                 _saleItemsToday.postValue(response.body())
             }
 
             override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _isLoading.value = false
                 _saleItemsToday.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }
 
     fun getSaleItemWeekly(url: String, chusr: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSaleItems("weekly", chusr).enqueue(object: Callback<SalesItemListResponse>{
             override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _isLoading.value = false
                 _saleItemWeekly.postValue(response.body())
             }
 
             override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _isLoading.value = false
                 _saleItemWeekly.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })
     }
 
     fun getSaleItemMonthly(url: String, chusr: String){
+        _isLoading.value = true
         val client = ApiRestService.getClient(url).create(ReportClient::class.java)
         client.getSaleItems("monthly", chusr).enqueue(object: Callback<SalesItemListResponse>{
             override fun onResponse(call: Call<SalesItemListResponse>,response: Response<SalesItemListResponse>) {
+                _isLoading.value = false
                 _saleItemMonthly.postValue(response.body())
             }
 
             override fun onFailure(call: Call<SalesItemListResponse>, t: Throwable) {
+                _isLoading.value = false
                 _saleItemMonthly.postValue(SalesItemListResponse(mutableListOf(), 0, false, t.message.toString()))
             }
         })

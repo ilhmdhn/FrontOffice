@@ -21,6 +21,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import livs.code.frontoffice.data.remote.respons.DataItemSales
+import livs.code.frontoffice.data.remote.respons.MySalesResponse
 import livs.code.frontoffice.databinding.FragmentMySalesReportBinding
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
@@ -50,7 +51,6 @@ class MySalesReportFragment : Fragment() {
             val toSalesItemsNavigation = MySalesReportParentFragmentDirections.actionMySalesReportParentFragmentToItemSalesFragment()
             Navigation.findNavController(it).navigate(toSalesItemsNavigation)
         }
-
 
         /*
         LinearLayout chartHolder = (LinearLayout) getActivity().findViewById(R.id.short_performance_chart);
@@ -83,39 +83,31 @@ class MySalesReportFragment : Fragment() {
 
     private fun salesMonthly() {
         reportViewModel.salesMonthly.observe(viewLifecycleOwner, {data ->
-            if (data.state == true){
-                val ranges = 0..data.length-1
-                for (i in ranges){
-                    total += data.data[i].total
-                }
-                binding.tvTotal.setText(utils.getCurrency(total))
-                setDataToLineChart(data.data)
-                initLineChart()
-            }
+            insertData(data)
+        })
+
+        reportViewModel.isLoading.observe(viewLifecycleOwner, {
+            showLoading(it)
         })
     }
 
     private fun salesWeekly() {
         reportViewModel.salesWeekly.observe(viewLifecycleOwner, {data ->
-            if (data.state == true){
-                val ranges = 0..data.length-1
-                for (i in ranges){
-                    total += data.data[i].total
-                }
-                binding.tvTotal.setText(utils.getCurrency(total))
-                setDataToLineChart(data.data)
-                initLineChart()
-            }
+            insertData(data)
+        })
+
+        reportViewModel.isLoading.observe(viewLifecycleOwner, {
+            showLoading(it)
         })
     }
 
     private fun salesToday() {
         reportViewModel.salesToday.observe(viewLifecycleOwner, {data ->
-            if (data.state == true){
-                binding.tvTotal.setText(utils.getCurrency(data.data[0].total))
-                setDataToLineChart(data.data)
-                initLineChart()
-            }
+            insertData(data)
+        })
+
+        reportViewModel.isLoading.observe(viewLifecycleOwner, {
+            showLoading(it)
         })
     }
 
@@ -199,6 +191,39 @@ class MySalesReportFragment : Fragment() {
             } else{
                 ""
             }
+        }
+    }
+
+    private fun insertData(data: MySalesResponse){
+        if (data.state == true){
+            if (data.data != null){
+                val ranges = 0..data.length-1
+                for (i in ranges){
+                    total += data.data[i].total
+                }
+                binding.tvTotal.setText(utils.getCurrency(total))
+                setDataToLineChart(data.data)
+                initLineChart()
+                binding.frameLayout2.visibility = View.VISIBLE
+                binding.ltEmpty.visibility = View.GONE
+            } else{
+                binding.frameLayout2.visibility = View.GONE
+                binding.ltEmpty.visibility = View.VISIBLE
+                binding.ltEmpty.setAnimation("emptybox.json")
+            }
+        } else{
+            binding.frameLayout2.visibility = View.GONE
+            binding.ltEmpty.visibility = View.VISIBLE
+            binding.ltEmpty.setAnimation("erroranimation.json")
+            binding.ltEmpty.playAnimation()
+        }
+     }
+
+    private fun showLoading(isLoading:  Boolean){
+        if (isLoading == true){
+            binding.pbLoading.visibility = View.VISIBLE
+        } else{
+            binding.pbLoading.visibility = View.GONE
         }
     }
 

@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class StatusKasResponse(
 
 	@field:SerializedName("data")
-	val dataStatusKas: DataStatusKas,
+	val dataStatusKas: DataStatusKas? = null,
 
 	@field:SerializedName("state")
 	val state: Boolean? = null,

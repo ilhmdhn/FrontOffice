@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 data class SalesItemListResponse(
 
 	@field:SerializedName("data")
-	val data: List<SaleItemList>,
+	val data: List<SaleItemList>? = mutableListOf(),
 
 	@field:SerializedName("length")
 	val length: Int = 0,
 
 	@field:SerializedName("state")
-	val state: Boolean = false,
+	val state: Boolean,
 
 	@field:SerializedName("message")
 	val message: String = ""

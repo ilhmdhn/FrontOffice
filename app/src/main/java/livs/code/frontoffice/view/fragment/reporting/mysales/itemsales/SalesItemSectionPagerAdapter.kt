@@ -1,4 +1,4 @@
-package livs.code.frontoffice.view.fragment.reporting.itemsales
+package livs.code.frontoffice.view.fragment.reporting.mysales.itemsales
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

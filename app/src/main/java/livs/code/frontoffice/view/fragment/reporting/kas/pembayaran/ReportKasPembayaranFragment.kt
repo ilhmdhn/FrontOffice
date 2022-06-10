@@ -45,7 +45,7 @@ class ReportKasPembayaranFragment : Fragment() {
 
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         reportViewModel.statusKas.observe(viewLifecycleOwner, { data ->
-            if(data.state == true){
+            if(data.dataStatusKas != null){
             binding.tvJumlahTransfer.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranTransfer)
             binding.tvJumlahPoinMembership.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranPoinMembership)
             binding.tvJumlahEmoney.text = utils.getCurrency(data.dataStatusKas.jumlahPembayaranEmoney)

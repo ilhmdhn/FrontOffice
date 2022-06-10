@@ -115,7 +115,6 @@
             android:textColor="@android:color/black" />
     </RelativeLayout>
 
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="0dp"
@@ -138,6 +137,21 @@
         app:tabSelectedTextColor="@android:color/black"
         app:tabTextAppearance="@style/text_tab"
         app:tabTextColor="@android:color/black" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lt_empty"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:layout_marginBottom="200dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="emptybox.json"
+            app:lottie_loop="true" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"
