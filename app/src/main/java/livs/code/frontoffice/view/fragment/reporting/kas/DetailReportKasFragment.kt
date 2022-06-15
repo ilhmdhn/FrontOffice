@@ -2,22 +2,19 @@ package livs.code.frontoffice.view.fragment.reporting.kas
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
-import livs.code.frontoffice.data.remote.respons.StatusKasResponse
+import livs.code.frontoffice.data.remote.respons.DataStatusKas
 import livs.code.frontoffice.databinding.FragmentDetailReportKasBinding
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
@@ -28,6 +25,9 @@ class DetailReportKasFragment : Fragment() {
     private val binding get() = _binding!!
     private var url = ""
     private lateinit var reportViewModel: ReportViewModel
+    private var tanggal = ""
+    private var shift = ""
+    private var username = ""
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentDetailReportKasBinding.inflate(inflater, container, false)
@@ -39,15 +39,14 @@ class DetailReportKasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         url = (requireActivity().applicationContext as MyApp).baseUrl
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
-        val tanggal = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).tanggal
-        val shift = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).shift
-        val username = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).username
+        tanggal = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).tanggal
+        shift = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).shift
+        username = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).username
 
         binding.lySwipe.setOnRefreshListener {
             binding.lySwipe.isRefreshing = false
             reportViewModel.getStatusKas(url, tanggal, shift, username)
         }
-        reportViewModel.getStatusKas(url, tanggal, shift, username)
         binding.tvShift.text = "Shift $shift"
         binding.tvShiftPiutang.text = "Piutang Shift $shift"
         reportViewModel.statusKas.observe(viewLifecycleOwner, { data ->
@@ -86,6 +85,11 @@ class DetailReportKasFragment : Fragment() {
         TabLayoutMediator(tabs, viewPager) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        reportViewModel.getStatusKas(url, tanggal, shift, username)
     }
 
     override fun onStart() {

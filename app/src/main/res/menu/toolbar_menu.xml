@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_notification"
         android:title="@string/notification"
         app:actionLayout="@layout/notify_badge_layout"
-        app:showAsAction="collapseActionView"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/refresh_menu"
         android:icon="@drawable/ic_refresh"

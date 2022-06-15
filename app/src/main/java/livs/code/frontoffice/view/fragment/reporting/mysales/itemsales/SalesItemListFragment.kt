@@ -63,7 +63,9 @@ class SalesItemListFragment : Fragment() {
                 } else{
                     binding.rvSalesItem.visibility = View.GONE
                     binding.ltEmpty.visibility = View.VISIBLE
+                    Toasty.warning(requireActivity(),  dataSales.message, Toast.LENGTH_SHORT).show()
                     binding.ltEmpty.setAnimation("emptybox.json")
+                    binding.ltEmpty.playAnimation()
                 }
             }
             false -> {

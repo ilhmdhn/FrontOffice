@@ -5,16 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
-
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +21,14 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
@@ -59,8 +57,8 @@ import livs.code.frontoffice.data.entity.TypeEdc;
 import livs.code.frontoffice.data.entity.User;
 import livs.code.frontoffice.data.entity.Voucher;
 import livs.code.frontoffice.data.remote.ApiRestService;
-import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.MemberClient;
+import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.CheckinDirectClient;
 import livs.code.frontoffice.data.remote.respons.EdcTypeResponse;
@@ -74,11 +72,11 @@ import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
 import livs.code.frontoffice.helper.QRScanType;
 import livs.code.frontoffice.helper.UserAuthRole;
-import livs.code.frontoffice.view.fragment.operasional.OperasionalFragmentDirections;
 import livs.code.frontoffice.view.listadapter.ListEdcTypeAdapter;
 import livs.code.frontoffice.view.listadapter.ListPromoInventoryAdapter;
 import livs.code.frontoffice.view.listadapter.ListPromoRoomAdapter;
 import livs.code.frontoffice.viewmodel.InventoryPromoViewModel;
+import livs.code.frontoffice.viewmodel.OtherViewModel;
 import livs.code.frontoffice.viewmodel.RoomPromoViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -239,6 +237,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     private ListPromoInventoryAdapter listPromoInventoryAdapter;
     private ArrayList<InventoryPromo> promoFoodList = new ArrayList<>();
     private InventoryPromoViewModel inventoryPromoViewModel;
+    private OtherViewModel otherViewModel;
     private String choicePromoFood;
 
     private ListEdcTypeAdapter listEdcTypeAdapter;
@@ -322,7 +321,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
-
+        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
 
         return view;
     }
@@ -469,83 +468,138 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setOnShowListener(dialogInterface -> {
-            buttonOk.setOnClickListener(it -> {
-                String email = _usernameTxt.getText().toString();
-                String password = _passwordTxt.getText().toString();
-                if (email.isEmpty() && password.isEmpty()) {
-                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-                            .show();
-                    return;
-                }
-                //_loginProgress.setVisibility(View.VISIBLE);
-                UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-                Call<UserResponse> call = userClient.login(email, password);
-                call.enqueue(new Callback<UserResponse>() {
-                    @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        UserResponse res = response.body();
-                        //_loginProgress.setVisibility(View.GONE);
-                        res.displayMessage(getContext());
-                        if (res.isOkay()) {
-                            User user = res.getUser();
-                            if (UserAuthRole.isAllowCancelPromotion(user)) {
-                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
-                                roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
-                                CheckinDirectClient checkinDirectClient = ApiRestService.getClient(BASE_URL).create(CheckinDirectClient.class);
-                                Call<livs.code.frontoffice.data.remote.respons.Response> responseRemovePromo = checkinDirectClient.removePromo(currentRoomCheckin.getRoomRcp());
-                                responseRemovePromo.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
-                                    @Override
-                                    public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
-                                        if (response.isSuccessful()){
-                                            if (responsee.body() != null) {
-                                                if(responsee.body().getState()){
-                                                    roomOrder.getRoomPromos().clear();
-                                                    alertDialog.dismiss();
-                                                    Navigation.findNavController(buttonSubmit)
-                                                            .navigate(
-                                                                    OperasionalCheckinEditInfoFragmentDirections
-                                                                            .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
-                                                            );
-                                                    Toasty.info(requireActivity(), "Berhasil Menghapus Promo, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
-                                                }else{
-                                                    Toasty.info(requireActivity(), "Ulangi Hapus Promo", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+            boolean kasirApproval = data.getState();
+            if (kasirApproval) {
+//                alert dialog
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.remove_promo);
+// Add the buttons
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
+                        roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+                        CheckinDirectClient checkinDirectClient = ApiRestService.getClient(BASE_URL).create(CheckinDirectClient.class);
+                        Call<livs.code.frontoffice.data.remote.respons.Response> responseRemovePromo = checkinDirectClient.removePromo(currentRoomCheckin.getRoomRcp());
+                        responseRemovePromo.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
+                            @Override
+                            public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
+                                if (responsee.isSuccessful()){
+                                    if (responsee.body() != null) {
+                                        if(responsee.body().getState()){
+                                            roomOrder.getRoomPromos().clear();
+                                            Navigation.findNavController(buttonSubmit)
+                                                    .navigate(
+                                                            OperasionalCheckinEditInfoFragmentDirections
+                                                                    .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                                    );
+                                            Toasty.info(requireActivity(), "Berhasil Menghapus Promo, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toasty.info(requireActivity(), "Ulangi Hapus Promo", Toast.LENGTH_SHORT).show();
                                         }
                                     }
-                                    @Override
-                                    public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
-                                        Toasty.error(requireActivity(), "Gagal Mengapus Promo " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            } else {
-                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-                                        .show();
+                                }
                             }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        //_loginProgress.setVisibility(View.GONE);
-                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-                                .show();
+                            @Override
+                            public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
+                                Toasty.error(requireActivity(), "Gagal Mengapus Promo " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+// Set other dialog properties
 
-            });
+// Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-            buttonCancel.setOnClickListener(view -> {
-                //_loginProgress.setVisibility(View.GONE);
-                alertDialog.dismiss();
-            });
+//                alert dialog
+            } else{
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(dialogInterface -> {
+                    buttonOk.setOnClickListener(it -> {
+                        String email = _usernameTxt.getText().toString();
+                        String password = _passwordTxt.getText().toString();
+                        if (email.isEmpty() && password.isEmpty()) {
+                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                    .show();
+                            return;
+                        }
+                        //_loginProgress.setVisibility(View.VISIBLE);
+                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                        Call<UserResponse> call = userClient.login(email, password);
+                        call.enqueue(new Callback<UserResponse>() {
+                            @Override
+                            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                UserResponse res = response.body();
+                                //_loginProgress.setVisibility(View.GONE);
+                                res.displayMessage(getContext());
+                                if (res.isOkay()) {
+                                    User user = res.getUser();
+                                    if (UserAuthRole.isAllowCancelPromotion(user)) {
+                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
+                                        roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+                                        CheckinDirectClient checkinDirectClient = ApiRestService.getClient(BASE_URL).create(CheckinDirectClient.class);
+                                        Call<livs.code.frontoffice.data.remote.respons.Response> responseRemovePromo = checkinDirectClient.removePromo(currentRoomCheckin.getRoomRcp());
+                                        responseRemovePromo.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
+                                            @Override
+                                            public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
+                                                if (responsee.isSuccessful()){
+                                                    if (responsee.body() != null) {
+                                                        if(responsee.body().getState()){
+                                                            roomOrder.getRoomPromos().clear();
+                                                            alertDialog.dismiss();
+                                                            Navigation.findNavController(buttonSubmit)
+                                                                    .navigate(
+                                                                            OperasionalCheckinEditInfoFragmentDirections
+                                                                                    .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                                                    );
+                                                            Toasty.info(requireActivity(), "Berhasil Menghapus Promo, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            Toasty.info(requireActivity(), "Ulangi Hapus Promo", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
+                                                Toasty.error(requireActivity(), "Gagal Mengapus Promo " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                .show();
+                                    }
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserResponse> call, Throwable t) {
+                                //_loginProgress.setVisibility(View.GONE);
+                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                        .show();
+                            }
+                        });
+
+                    });
+
+                    buttonCancel.setOnClickListener(view -> {
+                        //_loginProgress.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    });
+                });
+
+                alertDialog.show();
+            }
         });
-
-        alertDialog.show();
     }
 
     private void cardDpViewData(String card) {

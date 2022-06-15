@@ -279,7 +279,7 @@
     <string name="bar_filter">Bar</string>
     <string name="pr">PR</string>
     <string name="prepare_check_sound">Prepare / Check Sound</string>
-    <string name="versi_apps">V2021_06.08</string>
+    <string name="versi_apps">V2022_06.13</string>
     <string name="status_kas_masuk">Status Kas Masuk</string>
     <string name="data_checkin">Data Checkin</string>
     <string name="stock">Stock</string>
@@ -307,4 +307,7 @@
     <string name="monthly">Monthly</string>
     <string name="my_Sales">My Sales</string>
     <string name="my_item_sale">My Sales Items</string>
+    <string name="remove_promo">Hapus Promo?</string>
+    <string name="payment_confirmation">Konfirmasi Pembayaran?</string>
+    <string name="transfer_confirmation">Konfirmasi Transfer?</string>
 </resources>

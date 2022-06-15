@@ -2,9 +2,7 @@ package livs.code.frontoffice.data.remote
 
 import livs.code.frontoffice.data.remote.respons.Response
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApprovalClient {
 
@@ -16,5 +14,10 @@ interface ApprovalClient {
         @Field("room") room: String,
         @Field("keterangan") keterangan: String,
         @Field("device_name") deviceName: String
+    ): Call<Response>
+
+    @GET("approval//jumlah-approval")
+    fun jumlahApproval(
+        @Query("chusr") username: String
     ): Call<Response>
 }

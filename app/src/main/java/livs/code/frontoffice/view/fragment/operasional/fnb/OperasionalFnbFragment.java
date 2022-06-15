@@ -51,6 +51,7 @@ import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.UserAuthRole;
 import livs.code.frontoffice.view.fragment.ruangan.RoomOrderDetailFragmentArgs;
+import livs.code.frontoffice.viewmodel.OtherViewModel;
 import livs.code.frontoffice.viewmodel.RoomOrderViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +86,7 @@ public class OperasionalFnbFragment extends Fragment {
     private TextView countCancel, countConfirm;
     private int doQty, cancelQty;
     private IhpRepository ihpRepository;
+    private OtherViewModel otherViewModel;
 
     private ImageView buttonPlusCancel, buttonMinusCancel;
     private ImageView buttonPlusConfirm, buttonMinusConfirm;
@@ -140,6 +142,7 @@ public class OperasionalFnbFragment extends Fragment {
         roomOrderViewModel.init(BASE_URL);
         roomOrderSetupData();
         ihpRepository = new IhpRepository();
+        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
     }
 
     private void roomOrderSetupData() {
@@ -338,98 +341,143 @@ public class OperasionalFnbFragment extends Fragment {
         });
 
 
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialogInterface) {
-                Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+            boolean kasirApproval = data.getState();
+            if (kasirApproval){
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.cancel_order_fnb);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
-
-                        String email = _usernameTxt.getText().toString();
-                        String password = _passwordTxt.getText().toString();
-                        if (email.isEmpty() && password.isEmpty()) {
-                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-                                    .show();
-                            return;
-                        }
-                        if (cancelQty == 0) {
-                            Toasty.warning(getContext(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
-                                    .show();
-                            return;
-                        }
-
-                        visibleProgressBar(true);
-                        button.setEnabled(false);
-
-                        Inventory cancelInventory = inventory;
-                        cancelInventory.setQty(cancelQty);
-
-                        List<Inventory> listDoInventory = new ArrayList<>();
-                        listDoInventory.add(cancelInventory);
-
-                        RoomOrder roomOrder = new RoomOrder();
-                        roomOrder.setRoomCode(room.getRoomCode());
-                        roomOrder.setKodeRcp(room.getRoomRcp());
-                        roomOrder.setChuser(USER_FO.getUserId());
-                        roomOrder.setInventories(listDoInventory);
-
-                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-                        Call<UserResponse> callOtorisasi = userClient.login(email, password);
-                        callOtorisasi.enqueue(new Callback<UserResponse>() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Cancel Order");
+                        Call<RoomOrderResponse> callCancelOrder = inventoryOrderClient.submitCancelOrderInventory(roomOrder);
+                        callCancelOrder.enqueue(new Callback<RoomOrderResponse>() {
                             @Override
-                            public void onResponse(Call<UserResponse> call1, Response<UserResponse> response) {
-                                UserResponse res = response.body();
-                                button.setEnabled(true);
+                            public void onResponse(Call<RoomOrderResponse> call2, Response<RoomOrderResponse> response) {
+                                visibleProgressBar(false);
+                                RoomOrderResponse res = response.body();
                                 res.displayMessage(getContext());
-                                if (res.isOkay()) {
-                                    User user = res.getUser();
-                                    if (UserAuthRole.isAllowCancelOrder(user)) {
-                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Cancel Order");
-                                        Call<RoomOrderResponse> callCancelOrder = inventoryOrderClient.submitCancelOrderInventory(roomOrder);
-                                        callCancelOrder.enqueue(new Callback<RoomOrderResponse>() {
-                                            @Override
-                                            public void onResponse(Call<RoomOrderResponse> call2, Response<RoomOrderResponse> response) {
-                                                visibleProgressBar(false);
-                                                RoomOrderResponse res = response.body();
-                                                res.displayMessage(getContext());
-                                                if (!res.isOkay()) {
-                                                    return;
-                                                }
-                                                roomOrderSetupData();
-                                                dialogInterface.dismiss();
-                                            }
-
-                                            @Override
-                                            public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
-                                                        .show();
-                                                visibleProgressBar(false);
-                                            }
-                                        });
-                                    } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-                                                .show();
-                                    }
-
+                                if (!res.isOkay()) {
+                                    return;
                                 }
-
+                                roomOrderSetupData();
                             }
 
                             @Override
-                            public void onFailure(Call<UserResponse> call, Throwable t) {
-                                button.setEnabled(true);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                            public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
+                                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                                         .show();
+                                visibleProgressBar(false);
                             }
                         });
                     }
                 });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }else {
+
+                final AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialogInterface) {
+                        Button button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                String email = _usernameTxt.getText().toString();
+                                String password = _passwordTxt.getText().toString();
+                                if (email.isEmpty() && password.isEmpty()) {
+                                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                            .show();
+                                    return;
+                                }
+                                if (cancelQty == 0) {
+                                    Toasty.warning(getContext(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
+                                            .show();
+                                    return;
+                                }
+
+                                visibleProgressBar(true);
+                                button.setEnabled(false);
+
+                                Inventory cancelInventory = inventory;
+                                cancelInventory.setQty(cancelQty);
+
+                                List<Inventory> listDoInventory = new ArrayList<>();
+                                listDoInventory.add(cancelInventory);
+
+                                RoomOrder roomOrder = new RoomOrder();
+                                roomOrder.setRoomCode(room.getRoomCode());
+                                roomOrder.setKodeRcp(room.getRoomRcp());
+                                roomOrder.setChuser(USER_FO.getUserId());
+                                roomOrder.setInventories(listDoInventory);
+
+                                UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                                Call<UserResponse> callOtorisasi = userClient.login(email, password);
+                                callOtorisasi.enqueue(new Callback<UserResponse>() {
+                                    @Override
+                                    public void onResponse(Call<UserResponse> call1, Response<UserResponse> response) {
+                                        UserResponse res = response.body();
+                                        button.setEnabled(true);
+                                        res.displayMessage(getContext());
+                                        if (res.isOkay()) {
+                                            User user = res.getUser();
+                                            if (UserAuthRole.isAllowCancelOrder(user)) {
+                                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Cancel Order");
+                                                Call<RoomOrderResponse> callCancelOrder = inventoryOrderClient.submitCancelOrderInventory(roomOrder);
+                                                callCancelOrder.enqueue(new Callback<RoomOrderResponse>() {
+                                                    @Override
+                                                    public void onResponse(Call<RoomOrderResponse> call2, Response<RoomOrderResponse> response) {
+                                                        visibleProgressBar(false);
+                                                        RoomOrderResponse res = response.body();
+                                                        res.displayMessage(getContext());
+                                                        if (!res.isOkay()) {
+                                                            return;
+                                                        }
+                                                        roomOrderSetupData();
+                                                        dialogInterface.dismiss();
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
+                                                        Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        visibleProgressBar(false);
+                                                    }
+                                                });
+                                            } else {
+                                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                        .show();
+                                            }
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<UserResponse> call, Throwable t) {
+                                        button.setEnabled(true);
+                                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                                .show();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                alertDialog.show();
             }
         });
 
-        alertDialog.show();
     }
 
     private void visibleProgressBar(boolean isVisible){

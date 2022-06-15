@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.respons.DataItemSales
 import livs.code.frontoffice.data.remote.respons.MySalesResponse
 import livs.code.frontoffice.databinding.FragmentMySalesReportBinding
@@ -69,7 +71,6 @@ class MySalesReportFragment : Fragment() {
         super.onResume()
         kodePage = arguments?.getString(KODE_PAGE).toString().toInt()
 
-        total = 0L
         dataList = arrayListOf()
 
         if (kodePage == 1){
@@ -195,6 +196,7 @@ class MySalesReportFragment : Fragment() {
     }
 
     private fun insertData(data: MySalesResponse){
+        total = 0L
         if (data.state == true){
             if (data.data != null){
                 val ranges = 0..data.length-1
@@ -210,11 +212,14 @@ class MySalesReportFragment : Fragment() {
                 binding.frameLayout2.visibility = View.GONE
                 binding.ltEmpty.visibility = View.VISIBLE
                 binding.ltEmpty.setAnimation("emptybox.json")
+                Toasty.warning(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()
+                binding.ltEmpty.playAnimation()
             }
         } else{
             binding.frameLayout2.visibility = View.GONE
             binding.ltEmpty.visibility = View.VISIBLE
             binding.ltEmpty.setAnimation("erroranimation.json")
+            Toasty.error(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()
             binding.ltEmpty.playAnimation()
         }
      }

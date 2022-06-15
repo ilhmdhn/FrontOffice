@@ -1,5 +1,6 @@
 package livs.code.frontoffice.data.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import livs.code.frontoffice.data.remote.*
@@ -17,7 +18,7 @@ class IhpRepository {
             Callback<Response> {
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                 if (response.isSuccessful){
-                    responseData.message = "Success"
+                    responseData.message = response.message()
                 }
             }
 
@@ -68,7 +69,7 @@ class IhpRepository {
                 }
 
                 override fun onFailure(call: Call<Response>, t: Throwable) {
-                    responseData.postValue(Response(null, false, t.message.toString()))
+                    responseData.postValue(Response(false, t.message.toString()))
                 }
             })
         return responseData
@@ -84,9 +85,25 @@ class IhpRepository {
                 }
 
                 override fun onFailure(call: Call<Response>, t: Throwable) {
-                    responseData.postValue(Response(null, false, t.message.toString()))
+                    responseData.postValue(Response(false, t.message.toString()))
                 }
             })
+        return responseData
+    }
+
+    fun getJumlahApproval(baseUrl: String, username: String):LiveData<Response>{
+        val responseData = MutableLiveData<Response>()
+        val client = ApiRestService.getClient(baseUrl).create(ApprovalClient::class.java)
+        client.jumlahApproval(username).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful){
+                    responseData.postValue(response.body())
+                }
+            }
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                    responseData.postValue(Response(false, t.message.toString()))
+            }
+        })
         return responseData
     }
 }
