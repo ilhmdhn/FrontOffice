@@ -583,5 +583,4 @@
         app:mk_color="@color/colorPrimary"
         app:mk_type="LineSpinner" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>

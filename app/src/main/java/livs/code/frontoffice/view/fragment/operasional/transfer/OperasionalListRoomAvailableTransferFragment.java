@@ -347,7 +347,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                     }
                 });
 
-                builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

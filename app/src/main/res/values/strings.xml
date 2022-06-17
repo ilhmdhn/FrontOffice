@@ -310,4 +310,5 @@
     <string name="remove_promo">Hapus Promo?</string>
     <string name="payment_confirmation">Konfirmasi Pembayaran?</string>
     <string name="transfer_confirmation">Konfirmasi Transfer?</string>
+    <string name="minus_durasi">Kurangi  Durasi</string>
 </resources>
