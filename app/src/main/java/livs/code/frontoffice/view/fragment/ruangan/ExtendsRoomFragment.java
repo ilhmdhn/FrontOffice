@@ -456,7 +456,8 @@ public class ExtendsRoomFragment extends Fragment {
                                         String.valueOf(jamXtnd),
                                         String.valueOf(menitXtnd),
                                         promoSelected,
-                                        USER_FO.getUserId());
+                                        USER_FO.getUserId(),
+                                        false);
 
                         req.enqueue(new Callback<RoomOrderResponse>() {
                             @Override
