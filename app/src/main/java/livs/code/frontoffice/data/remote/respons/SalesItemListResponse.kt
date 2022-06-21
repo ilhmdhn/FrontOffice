@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class SalesItemListResponse(
 
 	@field:SerializedName("data")
-	val data: List<SaleItemList>? = mutableListOf(),
+	val data: MutableList<SaleItemList>? = mutableListOf(),
 
 	@field:SerializedName("length")
 	val length: Int = 0,

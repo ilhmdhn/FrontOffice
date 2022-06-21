@@ -105,4 +105,46 @@ class IhpRepository {
         })
         return responseData
     }
+
+    fun getCancelItems(baseUrl: String): LiveData<CancelItemsResponse>{
+        val responseData = MutableLiveData<CancelItemsResponse>()
+        val client =  ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
+        client.getCancelItems().enqueue(object: Callback<CancelItemsResponse>{
+            override fun onResponse(call: Call<CancelItemsResponse>, response: retrofit2.Response<CancelItemsResponse>
+            ) {
+                if (response.isSuccessful) {
+                    responseData.postValue(response.body())
+                } else{
+                    responseData.postValue(CancelItemsResponse(false, mutableListOf(), "Gagal MengambilData"))
+                }
+            }
+            override fun onFailure(call: Call<CancelItemsResponse>, t: Throwable) {
+                responseData.postValue(CancelItemsResponse(false, mutableListOf(), t.message.toString()))
+            }
+        })
+        return responseData
+    }
+
+    fun getSaleItemsByName(url: String, waktu: String, namaItem: String, user: String):LiveData<SaleItemsbyNameResponse>{
+        val responseData = MutableLiveData<SaleItemsbyNameResponse>()
+        val client = ApiRestService.getClient(url).create(ReportClient::class.java)
+        client.getSalesItemByName(waktu, namaItem, user).enqueue(object: Callback<SaleItemsbyNameResponse>{
+            override fun onResponse(
+                call: Call<SaleItemsbyNameResponse>,
+                response: retrofit2.Response<SaleItemsbyNameResponse>
+            ) {
+                if (response.isSuccessful){
+                    responseData.postValue(response.body())
+                } else{
+                    responseData.postValue(SaleItemsbyNameResponse(mutableListOf(), 0, false, "Gagal Mengambil data"))
+                }
+            }
+
+            override fun onFailure(call: Call<SaleItemsbyNameResponse>, t: Throwable) {
+                responseData.postValue(SaleItemsbyNameResponse(mutableListOf(), 0, false, t.message))
+            }
+        })
+
+        return responseData
+    }
 }

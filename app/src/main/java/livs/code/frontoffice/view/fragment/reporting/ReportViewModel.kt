@@ -182,4 +182,8 @@ class ReportViewModel: ViewModel() {
             }
         })
     }
+
+    fun getCancelItems(url: String): LiveData<CancelItemsResponse>{
+        return  ihpRepository.getCancelItems(url)
+    }
 }

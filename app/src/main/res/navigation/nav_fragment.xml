@@ -366,6 +366,9 @@
         <action
             android:id="@+id/action_navReportingFragment_to_mySalesReportParentFragment"
             app:destination="@id/mySalesReportParentFragment" />
+        <action
+            android:id="@+id/action_navReportingFragment_to_cancelReportFragment"
+            app:destination="@id/cancelReportFragment" />
     </fragment>
     <fragment
         android:id="@+id/navStatusKasFragment"
@@ -428,6 +431,29 @@
         android:id="@+id/itemSalesFragment"
         android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.ItemSalesFragment"
         android:label="fragment_item_sales"
-        tools:layout="@layout/fragment_item_sales" />
+        tools:layout="@layout/fragment_item_sales" >
+        <action
+            android:id="@+id/action_itemSalesFragment_to_saleperItemListFragment"
+            app:destination="@id/saleperItemListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancelReportFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.cancelation.CancelReportFragment"
+        android:label="fragment_cancel_report"
+        tools:layout="@layout/fragment_cancel_report" />
+    <fragment
+        android:id="@+id/saleperItemListFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales.SaleperItemListFragment"
+        android:label="fragment_saleper_item_list"
+        tools:layout="@layout/fragment_saleper_item_list" >
+        <argument
+            android:name="item_name"
+            app:argType="string"
+            android:defaultValue=" " />
+        <argument
+            android:name="waktu"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
 
 </navigation>

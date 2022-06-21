@@ -1,9 +1,6 @@
 package livs.code.frontoffice.data.remote
 
-import livs.code.frontoffice.data.remote.respons.MySalesResponse
-import livs.code.frontoffice.data.remote.respons.Response
-import livs.code.frontoffice.data.remote.respons.SalesItemListResponse
-import livs.code.frontoffice.data.remote.respons.UserListResponse
+import livs.code.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -71,4 +68,15 @@ interface ReportClient {
         @Query("durasi") time: String,
         @Query("chusr") chusr: String
     ):Call<SalesItemListResponse>
+
+    @GET("/report/cancelitems")
+    fun getCancelItems(
+    ):Call<CancelItemsResponse>
+
+    @GET("/report/salesbyitemname")
+    fun getSalesItemByName(
+        @Query("durasi") durasi: String,
+        @Query("item_name") namaItem: String,
+        @Query("chusr") chusr: String
+    ):Call<SaleItemsbyNameResponse>
 }

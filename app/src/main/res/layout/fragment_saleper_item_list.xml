@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.fragment.reporting.mysales.itemsales.SalesItemListFragment">
+    tools:context=".view.fragment.reporting.mysales.itemsales.detailsales.SaleperItemListFragment">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_test"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"/>
 
         <View
             android:layout_width="match_parent"
@@ -37,10 +32,24 @@
                 android:background="@android:color/black" />
 
             <TextView
-                android:id="@+id/hd_item_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
+                android:layout_weight="1.5"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center_horizontal"
+                android:text="Tanggal"
+                android:textColor="@android:color/black" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="3dp"
+                android:background="@android:color/black" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_horizontal"
                 android:text="Nama Item"
@@ -53,29 +62,25 @@
                 android:background="@android:color/black" />
 
             <TextView
-                android:id="@+id/hd_jumlah"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_horizontal"
-                android:text="QTY"
+                android:text="Room"
                 android:textColor="@android:color/black" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:layout_marginHorizontal="3dp"
                 android:background="@android:color/black" />
-
             <TextView
-                android:id="@+id/hd_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_horizontal"
-                android:text="Total"
+                android:text="Jumlah"
                 android:textColor="@android:color/black" />
 
             <View
@@ -90,25 +95,11 @@
             android:layout_marginHorizontal="3dp"
             android:background="@android:color/black" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_sales_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/list_sales_items" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="3dp"
+        tools:listitem="@layout/list_sale_per_item"/>
 
-    </LinearLayout>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lt_empty"
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="emptybox.json"
-        app:lottie_loop="true" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
