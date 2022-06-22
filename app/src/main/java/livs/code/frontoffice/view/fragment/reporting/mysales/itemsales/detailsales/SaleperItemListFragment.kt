@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import es.dmoral.toasty.Toasty
+import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
 import livs.code.frontoffice.databinding.FragmentSaleperItemListBinding
+import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
 
 class SaleperItemListFragment : Fragment() {
 
@@ -15,6 +20,9 @@ class SaleperItemListFragment : Fragment() {
     private val binding get() = _binding!!
     var namaItem = ""
     var kodeWaktu = 0
+    var namaWaktu = ""
+    private val saleperItemAdapter = SaleperItemAdapter()
+    private lateinit var reportViewModel: ReportViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentSaleperItemListBinding.inflate(inflater, container, false)
@@ -25,11 +33,37 @@ class SaleperItemListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
+
         namaItem = arguments?.getString(item_name).toString()
         kodeWaktu = arguments?.getString(waktu).toString().toInt()
 
-        binding.tvTest.text = namaItem + kodeWaktu.toString()
+        when(kodeWaktu){
+            1 -> namaWaktu = "dialy"
+            2 -> namaWaktu = "weekly"
+            3 -> namaWaktu = "monthly"
+        }
 
+        val url = (requireActivity().applicationContext as MyApp).baseUrl
+        val user = (requireActivity().applicationContext as MyApp).userFo.userId
+
+        reportViewModel.getSaleperItems(url, namaWaktu, namaItem, user).observe(viewLifecycleOwner, {data ->
+            if (data.state == true){
+                if (data.data.isNullOrEmpty()){
+                    Toasty.warning(requireActivity(), data.message.toString(), Toasty.LENGTH_SHORT, true).show()
+                } else{
+                    saleperItemAdapter.setData(data.data)
+                }
+            }else{
+                Toasty.error(requireActivity(), data.message.toString(), Toasty.LENGTH_LONG, true).show()
+            }
+        })
+
+        with(binding.rvItem){
+            layoutManager = LinearLayoutManager(requireActivity())
+            setHasFixedSize(true)
+            adapter = saleperItemAdapter
+        }
     }
 
     companion object{

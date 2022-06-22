@@ -186,4 +186,8 @@ class ReportViewModel: ViewModel() {
     fun getCancelItems(url: String): LiveData<CancelItemsResponse>{
         return  ihpRepository.getCancelItems(url)
     }
+
+    fun getSaleperItems(url: String, waktu: String, namaItem: String, user: String): LiveData<SaleItemsbyNameResponse>{
+        return ihpRepository.getSaleItemsByName(url, waktu, namaItem, user)
+    }
 }
