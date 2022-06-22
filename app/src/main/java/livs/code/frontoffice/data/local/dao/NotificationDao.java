@@ -1,7 +1,6 @@
 package livs.code.frontoffice.data.local.dao;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -21,5 +20,4 @@ public interface NotificationDao extends BaseDao<Notification> {
 
     @Query("SELECT COUNT(*) FROM notification WHERE is_read=:isRead")
     LiveData<Integer> countUnreadNotif(boolean isRead);
-
 }
