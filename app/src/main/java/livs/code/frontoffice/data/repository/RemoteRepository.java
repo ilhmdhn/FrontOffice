@@ -644,5 +644,4 @@ public class RemoteRepository {
                 });
         return allRooms;
     }
-
 }

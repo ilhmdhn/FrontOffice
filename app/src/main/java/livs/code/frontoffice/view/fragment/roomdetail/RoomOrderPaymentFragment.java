@@ -1,11 +1,13 @@
 package livs.code.frontoffice.view.fragment.roomdetail;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -65,6 +67,9 @@ public class RoomOrderPaymentFragment extends Fragment {
     @BindView(R.id.payment_kembali)
     TextView _paymentKembali;
 
+    @BindView(R.id.tv_chusr)
+    TextView tvChusr;
+
     private Room room;
     private Payment payment;
 
@@ -117,6 +122,7 @@ public class RoomOrderPaymentFragment extends Fragment {
         return view;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -157,9 +163,17 @@ public class RoomOrderPaymentFragment extends Fragment {
         for(int a=0; a<roomOrder.getOrderRoomPayments().size();a++){
             totalRincianPembayaran=totalRincianPembayaran+roomOrder.getOrderRoomPayments().get(a).getNominal();
         }
-        _paymentBayar.setText(AppUtils.formatRupiah(roomOrder.getOrderRoomPayments().get(0).getBayar()));
-        _paymentTotal0_.setText(AppUtils.formatRupiah(totalRincianPembayaran));
-        _paymentKembali.setText(AppUtils.formatRupiah(roomOrder.getOrderRoomPayments().get(0).getKembali()));
+        if(roomOrder.getOrderRoomPayments().size() == 0){
+            _paymentBayar.setText("Belum ada pembayaaran");
+            _paymentTotal0_.setText("Belum ada pembayaaran");
+            _paymentKembali.setText("Belum ada pembayaaran");
+            tvChusr.setText("Belum ada pembayaaran");
+        }else{
+            _paymentBayar.setText(AppUtils.formatRupiah(roomOrder.getOrderRoomPayments().get(0).getBayar()));
+            _paymentTotal0_.setText(AppUtils.formatRupiah(totalRincianPembayaran));
+            _paymentKembali.setText(AppUtils.formatRupiah(roomOrder.getOrderRoomPayments().get(0).getKembali()));
+            tvChusr.setText(roomOrder.getOrderRoomPayments().get(0).getChusr());
+        }
 
         /*if (roomOrder.getSignPath() != "") {
             String imgUrl = MyApp.BASE_URL + "/" + roomOrder.getSignPath();

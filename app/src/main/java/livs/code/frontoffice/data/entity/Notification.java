@@ -52,11 +52,6 @@ public class Notification implements Serializable {
     @SerializedName("is_read")
     private boolean isRead;
 
-  /*  @ColumnInfo(name = "created_date")
-    @TypeConverters({TimestampDbConverter.class})
-    @SerializedName("created_date")
-    private Date createDate;
-*/
     public int getId() {
         return id;
     }

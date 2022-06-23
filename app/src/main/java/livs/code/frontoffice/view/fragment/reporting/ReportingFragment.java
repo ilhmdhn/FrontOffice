@@ -2,13 +2,23 @@ package livs.code.frontoffice.view.fragment.reporting;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.card.MaterialCardView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import livs.code.frontoffice.R;
+import livs.code.frontoffice.databinding.FragmentReportingBinding;
+import livs.code.frontoffice.events.EventsWrapper;
+import livs.code.frontoffice.events.GlobalBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +26,15 @@ import livs.code.frontoffice.R;
  * create an instance of this fragment.
  */
 public class ReportingFragment extends Fragment {
+
+    @BindView(R.id.btn_status_kas_masuk)
+    MaterialCardView btnKasMasuk;
+
+    @BindView(R.id.btn_my_sales)
+    MaterialCardView btnMySales;
+
+    @BindView(R.id.btn_report_cancel_order)
+    MaterialCardView btnCancelOrder;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,14 +49,6 @@ public class ReportingFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ReportingFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ReportingFragment newInstance(String param1, String param2) {
         ReportingFragment fragment = new ReportingFragment();
@@ -61,6 +72,49 @@ public class ReportingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_reporting, container, false);
+        View view = inflater.inflate(R.layout.fragment_reporting, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setMainTitle();
+        btnKasMasuk.setOnClickListener(view -> {
+            Navigation.findNavController(view)
+                    .navigate(
+                          ReportingFragmentDirections
+                          .actionNavReportingFragmentToStatusKasFragment()
+                    );
+        });
+        btnMySales.setOnClickListener(view -> {
+            Navigation.findNavController(view)
+                    .navigate(
+                          ReportingFragmentDirections
+                          .actionNavReportingFragmentToMySalesReportParentFragment()
+                    );
+        });
+
+        btnCancelOrder.setOnClickListener(view ->{
+            Navigation.findNavController(view)
+                    .navigate(
+                            ReportingFragmentDirections
+                            .actionNavReportingFragmentToCancelReportFragment()
+                    );
+        });
+    }
+
+    private void setMainTitle() {
+        GlobalBus
+                .getBus()
+                .post(new EventsWrapper
+                        .TitleFragment("Report"));
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }

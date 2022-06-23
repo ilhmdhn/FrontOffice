@@ -35,4 +35,20 @@
         <item>ADVANCED</item>
     </string-array>
 
+        <string-array name="level_user">
+            <item>ALL</item>
+            <item>OWNER</item>
+            <item>ADMINISTRATOR</item>
+            <item>ACCOUNTING</item>
+            <item>SUPERVISOR</item>
+            <item>KASIR</item>
+            <item>OPR</item>
+            <item>SERVER</item>
+            <item>DAPUR</item>
+            <item>KAPTEN</item>
+            <item>ADMIN</item>
+            <item>BAR</item>
+            <item>DAPUR</item>
+        </string-array>
+
 </resources>

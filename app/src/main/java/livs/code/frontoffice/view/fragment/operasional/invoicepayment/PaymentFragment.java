@@ -56,12 +56,14 @@ import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.EdcTypeResponse;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.UserResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
 import livs.code.frontoffice.helper.UserAuthRole;
 import livs.code.frontoffice.view.listadapter.ListEdcTypeAdapter;
 import livs.code.frontoffice.view.listadapter.ListPaymentAdapter;
+import livs.code.frontoffice.viewmodel.OtherViewModel;
 import livs.code.frontoffice.viewmodel.RoomOrderViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -190,6 +192,9 @@ public class PaymentFragment extends Fragment
     private boolean isEdited = false;
     private int indexEditPayment;
     private static final String EMPTY_STRING = "";
+    private IhpRepository ihpRepository;
+    private OtherViewModel otherViewModel;
+    private boolean kasirApproval = false;
 
     private String current = "";
 
@@ -234,6 +239,9 @@ public class PaymentFragment extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ihpRepository = new IhpRepository();
+        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
 
         buttonAddMorePayment.setOnClickListener(view -> {
             validationPayments();
@@ -946,56 +954,82 @@ public class PaymentFragment extends Fragment
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         MKLoader _loginProgress = dialogView.findViewById(R.id.progress_dialog);
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setOnShowListener(dialogInterface -> {
-            buttonOk.setOnClickListener(view -> {
-                String email = _usernameTxt.getText().toString();
-                String password = _passwordTxt.getText().toString();
-                if (email.isEmpty() && password.isEmpty()) {
-                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-                            .show();
-                    return;
-                }
-                _loginProgress.setVisibility(View.VISIBLE);
-                UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-                Call<UserResponse> call = userClient.login(email, password);
-                call.enqueue(new Callback<UserResponse>() {
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+            boolean kasirApproval = data.getState();
+
+            if (kasirApproval){
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.payment_confirmation);
+
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        UserResponse res = response.body();
-                        _loginProgress.setVisibility(View.GONE);
-                        res.displayMessage(getContext());
-                        if (res.isOkay()) {
-                            User user = res.getUser();
-                            if (UserAuthRole.isAllowPiutangComplimentPayment(user)) {
-                                addPayments(pay);
-                                alertDialog.dismiss();
-                            } else {
-                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-                                        .show();
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        _loginProgress.setVisibility(View.GONE);
-                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-                                .show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), room.getRoomCode(), "Pembayaran Piutang");
+                        addPayments(pay);
                     }
                 });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else{
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(dialogInterface -> {
+                    buttonOk.setOnClickListener(view -> {
+                        String email = _usernameTxt.getText().toString();
+                        String password = _passwordTxt.getText().toString();
+                        if (email.isEmpty() && password.isEmpty()) {
+                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                    .show();
+                            return;
+                        }
+                        _loginProgress.setVisibility(View.VISIBLE);
+                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                        Call<UserResponse> call = userClient.login(email, password);
+                        call.enqueue(new Callback<UserResponse>() {
+                            @Override
+                            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                UserResponse res = response.body();
+                                _loginProgress.setVisibility(View.GONE);
+                                res.displayMessage(getContext());
+                                if (res.isOkay()) {
+                                    User user = res.getUser();
+                                    if (UserAuthRole.isAllowPiutangComplimentPayment(user)) {
+                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), room.getRoomCode(), "Pembayaran Piutang");
+                                        addPayments(pay);
+                                        alertDialog.dismiss();
+                                    } else {
+                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                .show();
+                                    }
 
-            });
+                                }
 
-            buttonCancel.setOnClickListener(view -> {
-                _loginProgress.setVisibility(View.GONE);
-                alertDialog.dismiss();
-            });
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserResponse> call, Throwable t) {
+                                _loginProgress.setVisibility(View.GONE);
+                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                        .show();
+                            }
+                        });
+
+                    });
+
+                    buttonCancel.setOnClickListener(view -> {
+                        _loginProgress.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    });
+                });
+
+                alertDialog.show();
+            }
         });
-
-        alertDialog.show();
     }
 
     @Override

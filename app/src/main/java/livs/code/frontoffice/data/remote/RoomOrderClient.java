@@ -67,7 +67,8 @@ public interface RoomOrderClient {
             @Field("durasi_jam") String durasiJam,
             @Field("durasi_menit") String durasiMenit,
             @Field("promo[]") List<String> promoSelected,
-            @Field("chusr") String chUsr);
+            @Field("chusr") String chUsr,
+            @Field("minus") Boolean minus);
 
     @FormUrlEncoded
     @POST("checkin-direct/transfer-room")

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    android:id="@+id/ly_swipe"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F2F3F7"
+    tools:context=".view.fragment.reporting.mysales.MySalesReportParentFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:layout_height="fill_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/background_tab_parent"
+            android:paddingVertical="5dp"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/background_tab_indicator"
+            app:tabIndicatorColor="@android:color/white"
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="auto"
+            app:tabPaddingBottom="3dp"
+            app:tabPaddingTop="3dp"
+            app:tabSelectedTextColor="@android:color/black"
+            app:tabTextAppearance="@style/text_tab"
+            app:tabTextColor="@android:color/black" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"/>
+
+    </LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

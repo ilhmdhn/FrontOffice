@@ -78,15 +78,13 @@ public class Member implements Serializable {
     @SerializedName("sex")
     private String sex;
 
-
-
     @ColumnInfo(name = "member_reservasi_code")
     @SerializedName("member_reservasi_code")
     private String memberReservasiCode;
 
     @ColumnInfo(name = "pengali_poin")
     @SerializedName("pengali_poin")
-    private int pengaliPoin;
+    private float pengaliPoin;
 
     @ColumnInfo(name = "reservasi")
     @SerializedName("reservasi")
@@ -100,32 +98,12 @@ public class Member implements Serializable {
         return reservasiPayment;
     }
 
-    public void setReservasiPayment(Payment reservasiPayment) {
-        this.reservasiPayment = reservasiPayment;
-    }
-
     public RoomType getReservasiRoomType() {
         return reservasiRoomType;
     }
 
-    public void setReservasiRoomType(RoomType reservasiRoomType) {
-        this.reservasiRoomType = reservasiRoomType;
-    }
-
     public String getFotoPathNode() {
         return fotoPathNode;
-    }
-
-    public void setFotoPathNode(String fotoPathNode) {
-        this.fotoPathNode = fotoPathNode;
-    }
-
-    public String getFotoPathPhp() {
-        return fotoPathPhp;
-    }
-
-    public void setFotoPathPhp(String fotoPathPhp) {
-        this.fotoPathPhp = fotoPathPhp;
     }
 
     public String getMemberCode() {
@@ -136,131 +114,23 @@ public class Member implements Serializable {
         this.memberCode = memberCode;
     }
 
-    public String getExpireDate() {
-        return expireDate;
-    }
-
-    public void setExpireDate(String expireDate) {
-        this.expireDate = expireDate;
-    }
-
     public String getFullName() {
         return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getAlamat() {
-        return alamat;
-    }
-
-    public void setAlamat(String alamat) {
-        this.alamat = alamat;
-    }
-
-    public String getKota() {
-        return kota;
-    }
-
-    public void setKota(String kota) {
-        this.kota = kota;
     }
 
     public String getMemberReservasiCode() {
         return memberReservasiCode;
     }
 
-    public void setMemberReservasiCode(String memberReservasiCode) {
-        this.memberReservasiCode = memberReservasiCode;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
-
     public String getHp() {
         return hp;
-    }
-
-    public void setHp(String hp) {
-        this.hp = hp;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getDiskonRoom() {
-        return diskonRoom;
-    }
-
-    public void setDiskonRoom(String diskonRoom) {
-        this.diskonRoom = diskonRoom;
-    }
-
-    public String getDiskonFood() {
-        return diskonFood;
-    }
-
-    public void setDiskonFood(String diskonFood) {
-        this.diskonFood = diskonFood;
     }
 
     public int getPointReward() {
         return pointReward;
     }
 
-    public void setPointReward(int pointReward) {
-        this.pointReward = pointReward;
-    }
-
-    public String getJenisMember() {
-        return jenisMember;
-    }
-
-    public void setJenisMember(String jenisMember) {
-        this.jenisMember = jenisMember;
-    }
-
-    public int getCodeTypeMember() {
-        return codeTypeMember;
-    }
-
-    public void setCodeTypeMember(int codeTypeMember) {
-        this.codeTypeMember = codeTypeMember;
-    }
-
     public String getSex() {
         return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public int getPengaliPoin() {
-        return pengaliPoin;
-    }
-
-    public void setPengaliPoin(int pengaliPoin) {
-        this.pengaliPoin = pengaliPoin;
     }
 }

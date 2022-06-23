@@ -17,5 +17,4 @@ public interface SioEvent {
     void rejectedRoomCall(Notification not);
 
     //Flowable<ChatMessage> sendMessage(ChatMessage chatMessage);
-
 }

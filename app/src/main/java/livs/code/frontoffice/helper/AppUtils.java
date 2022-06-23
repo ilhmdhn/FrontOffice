@@ -28,93 +28,22 @@ public final class AppUtils {
 
     public static final String DATE_TIME_FORMAT_12_HOUR = "MMM d, yyyy  h:mm a";
     public static final String DATE_TIME_FORMAT_24_HOUR = "MMM d, yyyy  k:mm";
-    //public static final SimpleDateFormat tanggalJamFrmt = new SimpleDateFormat("dd-MM-yyyy h:mm:ss a");
-    //public static final SimpleDateFormat tanggalJamFrmt = new SimpleDateFormat("dd-MM-yyyy kk:mm");
     public static final SimpleDateFormat tanggalJamFrmt = new SimpleDateFormat("dd/MM/yyyy kk:mm");
     public static final SimpleDateFormat tanggalFormatNamaHari = new SimpleDateFormat("EEEE");
 
 
     public static final String formatDate(String formatString, Date dateToFormat) {
 
-/*        String userDate = formatDate("d MMM, yyyy", mUserReminderDate);
-        formatDate("k:mm", mUserReminderDate);
-        formatDate("d MMM, yyyy", date);
-        formatDate("h:mm", date);
-        amPmString = formatDate("a", date);
-        dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());*/
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatString);
         return simpleDateFormat.format(dateToFormat);
     }
-
-    public static Date strToDate(String mytime) {
-        //String mytime="Jan 17, 2012";
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        Date myDate = null;
-        try {
-            myDate = dateFormat.parse(mytime);
-            return myDate;
-        } catch (ParseException e) {
-
-            e.printStackTrace();
-            return new Date();
-        }
-
-       /* SimpleDateFormat timeFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String finalDate = timeFormat.format(myDate);*/
-
-
-    }
-
 
     public static final String getTanggal(Date dt) {
         //tanggalJamFrmt.setTimeZone(TimeZone.getTimeZone("UTC+07"));
         tanggalJamFrmt.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         return tanggalJamFrmt.format(dt);
     }
-
-    public static final String getTanggalLokal(Date dt) {
-        tanggalJamFrmt.setTimeZone(TimeZone.getTimeZone("GMT+07"));
-        return tanggalJamFrmt.format(dt);
-    }
-
-
-    public static final String getDay(Date dt) {
-        return getDayName(tanggalFormatNamaHari.format(dt));
-    }
-
-    public static final String getDayName(String dayInEnglish) {
-        String namaHari = null;
-
-        switch (dayInEnglish) {
-            case "Monday":
-                namaHari = "Senin";
-                break;
-            case "Tuesday":
-                namaHari = "Selasa";
-                break;
-            case "Wednesday":
-                namaHari = "Rabu";
-                break;
-            case "Thursday":
-                namaHari = "Kamis";
-                break;
-            case "Friday":
-                namaHari = "Jumat";
-                break;
-            case "Saturday":
-                namaHari = "Sabtu";
-                break;
-            case "Sunday":
-                namaHari = "Minggu";
-                break;
-            default:
-                System.out.println("Weekend");
-                break;
-        }
-        return namaHari;
-    }
-
+    
     private static final String getTanggalR(Date dt) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy kk:mm");
         simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));

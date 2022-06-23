@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
     Button _settingButton;
     @BindView(R.id.login_progress)
     MKLoader _loginProgress;
+    @BindView(R.id.txt_version_app)
+    TextView _tvVersion;
+
+    int i = 0;
+
 
     FrontOfficeDatabase db = MyApp.frontOfficeDatabase;
     private boolean isOut = false;
@@ -107,6 +113,17 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ConfigActivity.class);
             startActivity(intent);
             finish();
+        });
+
+
+        _tvVersion.setOnClickListener(view ->{
+            i = i + 1;
+            int berapa = 3-i;
+            if (i < 3){
+                Toast.makeText(this, "Tekan "+ berapa +"x lagi untuk menampilkan konfigurasi", Toast.LENGTH_SHORT).show();
+            }else{
+                _settingButton.setVisibility(View.VISIBLE);
+            }
         });
 
 

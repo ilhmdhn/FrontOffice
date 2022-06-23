@@ -90,6 +90,7 @@
         android:layout_gravity="end"
         android:text="@string/konfigurasi"
         android:textColor="@color/colorOrange"
+        android:visibility="invisible"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.517"

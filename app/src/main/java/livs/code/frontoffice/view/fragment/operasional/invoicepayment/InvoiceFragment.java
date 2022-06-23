@@ -1,5 +1,6 @@
 package livs.code.frontoffice.view.fragment.operasional.invoicepayment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import livs.code.frontoffice.data.entity.Inventory;
 import livs.code.frontoffice.data.entity.Invoice;
 import livs.code.frontoffice.data.entity.Room;
 import livs.code.frontoffice.data.entity.RoomOrder;
+import livs.code.frontoffice.data.entity.Time;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
@@ -42,6 +44,15 @@ public class InvoiceFragment extends Fragment {
     @BindView(R.id.payment_progressbar)
     MKLoader progressBar;
 
+
+    @BindView(R.id.tv_value_jam_checkin)
+    TextView valueCheckin;
+
+    @BindView(R.id.tv_value_jam_checkout)
+    TextView valueCheckout;
+
+    @BindView(R.id.tv_value_jam_durasi)
+    TextView valueDurasi;
 
     @BindView(R.id.value_total_ruangan)
     TextView valueRuangan;
@@ -100,6 +111,7 @@ public class InvoiceFragment extends Fragment {
 
 
     private Invoice invoice;
+    private Time timeRcp;
 
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
@@ -107,17 +119,19 @@ public class InvoiceFragment extends Fragment {
     private LinearLayout detailOrderLayout, detailTransferLayout;
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
+    private static final String ARG_PARAM3 = "TIME_RCP";
 
     public InvoiceFragment() {
         // Required empty public constructor
     }
 
 
-    public static InvoiceFragment newInstance(Invoice invoice, RoomOrder roomOrder) {
+    public static InvoiceFragment newInstance(Invoice invoice, RoomOrder roomOrder, Time timeRcp) {
         InvoiceFragment fragment = new InvoiceFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_PARAM1, invoice);
         args.putSerializable(ARG_PARAM2, roomOrder);
+        args.putSerializable(ARG_PARAM3, timeRcp);
         fragment.setArguments(args);
         return fragment;
     }
@@ -128,6 +142,7 @@ public class InvoiceFragment extends Fragment {
         if (getArguments() != null) {
             invoice = (Invoice) getArguments().getSerializable(ARG_PARAM1);
             roomOrder = (RoomOrder) getArguments().getSerializable(ARG_PARAM2);
+            timeRcp = (Time) getArguments().getSerializable(ARG_PARAM3);
         }
 
     }
@@ -214,6 +229,7 @@ public class InvoiceFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     private void initInvoice() {
         labelPenjualan.setVisibility(View.GONE);
         if (roomOrder.getSummaryOrderInventories().size() > 0) {
@@ -231,6 +247,10 @@ public class InvoiceFragment extends Fragment {
         valueRuangan.setText(AppUtils.formatNominal(invoice.getTotalRoom()));
 
         //valueFnb.setText(AppUtils.formatNominal(invoice.getTotalInventory()));
+        valueCheckin.setText(timeRcp.getCheckinTime());
+        valueCheckout.setText(timeRcp.getCheckoutTime());
+        valueDurasi.setText(timeRcp.getTimeClock()+" jam");
+
         valueJumlah.setText(AppUtils.formatNominal(invoice.getTotalRoomAndInventory()));
         valueService.setText(AppUtils.formatNominal(invoice.getTotalService()));
         valueTax.setText(AppUtils.formatNominal(invoice.getTotalTax()));

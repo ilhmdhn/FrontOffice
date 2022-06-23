@@ -48,23 +48,11 @@ public class Config implements Serializable {
         return serverPort;
     }
 
-    public void setServerPort(String serverPort) {
-        this.serverPort = serverPort;
-    }
-
     public String getServerIp() {
         return serverIp;
     }
 
-    public void setServerIp(String serverIp) {
-        this.serverIp = serverIp;
-    }
-
     public String getBaseURL() {
         return baseURL;
-    }
-
-    public void setBaseURL(String baseURL) {
-        this.baseURL = baseURL;
     }
 }

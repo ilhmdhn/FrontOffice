@@ -27,10 +27,6 @@ public abstract class FrontOfficeDatabase extends RoomDatabase {
 
         if (frontOfficeDatabase == null) {
             frontOfficeDatabase = buildDatabaseInstance(context);
-          /*  frontOfficeDatabase = Room.databaseBuilder(context.getApplicationContext(),
-                    FrontOfficeDatabase.class, "appDB")
-                    .createFromAsset("database/posfo.db")
-                    .build();*/
         }
 
         return frontOfficeDatabase;

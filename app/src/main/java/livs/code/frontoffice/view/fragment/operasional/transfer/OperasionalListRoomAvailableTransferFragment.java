@@ -1,6 +1,8 @@
 package livs.code.frontoffice.view.fragment.operasional.transfer;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -44,11 +47,13 @@ import livs.code.frontoffice.data.remote.RoomOrderClient;
 import livs.code.frontoffice.data.remote.UserClient;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.UserResponse;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.UserAuthRole;
 import livs.code.frontoffice.view.component.BasePagination;
 import livs.code.frontoffice.view.listadapter.ListOperasionalReadyRoomAdapter;
+import livs.code.frontoffice.viewmodel.OtherViewModel;
 import livs.code.frontoffice.viewmodel.RoomViewModel;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +98,9 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private ArrayList<Room> roomArrayList = new ArrayList<>();
     private RoomOrderClient roomOrderClient;
     private static String BASE_URL;
+    private User USER_FO;
+    private IhpRepository ihpRepository;
+    private OtherViewModel otherViewModel;
 
     //pagination
     private BasePagination p;
@@ -135,6 +143,8 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
         BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
         init();
     }
 
@@ -142,6 +152,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         roomViewModel = new ViewModelProvider(getActivity())
                 .get(RoomViewModel.class);
         setDataMember();
+        ihpRepository = new IhpRepository();
         readyRoomSetupData();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
 
@@ -320,68 +331,98 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         MKLoader _loginProgress = dialogView.findViewById(R.id.progress_dialog);
 
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setOnShowListener(dialogInterface -> {
-            buttonOk.setOnClickListener(view -> {
-                String email = _usernameTxt.getText().toString();
-                String password = _passwordTxt.getText().toString();
-                if (email.isEmpty() && password.isEmpty()) {
-                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-                            .show();
-                    return;
-                }
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data->{
+            boolean kasirApproval = data.getState();
+            if (kasirApproval) {
 
-                if(!oldRoomBeforeTransfer.isRoomNotLobby()){
-                    if(durasiJamtransfer<1){
-                        Toasty.warning(getContext(), "Anda belum isi durasi checkin ", Toast.LENGTH_SHORT, true)
-                                .show();
-                        return;
-                    }else{
-                        roomOrder.setDurasiJam(durasiJamtransfer);
-                    }
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.transfer_confirmation);
 
-                _loginProgress.setVisibility(View.VISIBLE);
-                UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-                Call<UserResponse> call = userClient.login(email, password);
-                call.enqueue(new Callback<UserResponse>() {
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                        UserResponse res = response.body();
-                        _loginProgress.setVisibility(View.GONE);
-                        res.displayMessage(getContext());
-                        if (res.isOkay()) {
-                            User user = res.getUser();
-                            if (UserAuthRole.isAllowTransferRoom(user)) {
-                                roomOrder.setCheckinRoom(room);
-                                submitTransferRoom(roomOrder);
-                                alertDialog.dismiss();
-                            } else {
-                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-                                        .show();
-                            }
-
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        _loginProgress.setVisibility(View.GONE);
-                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-                                .show();
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        roomOrder.setCheckinRoom(room);
+                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
+                        submitTransferRoom(roomOrder);
                     }
                 });
 
-            });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
 
-            buttonCancel.setOnClickListener(view -> {
-                _loginProgress.setVisibility(View.GONE);
-                alertDialog.dismiss();
-            });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+            } else{
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(dialogInterface -> {
+                    buttonOk.setOnClickListener(view -> {
+                        String email = _usernameTxt.getText().toString();
+                        String password = _passwordTxt.getText().toString();
+                        if (email.isEmpty() && password.isEmpty()) {
+                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                    .show();
+                            return;
+                        }
+
+                        if(!oldRoomBeforeTransfer.isRoomNotLobby()){
+                            if(durasiJamtransfer<1){
+                                Toasty.warning(getContext(), "Anda belum isi durasi checkin ", Toast.LENGTH_SHORT, true)
+                                        .show();
+                                return;
+                            }else{
+                                roomOrder.setDurasiJam(durasiJamtransfer);
+                            }
+                        }
+
+                        _loginProgress.setVisibility(View.VISIBLE);
+                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                        Call<UserResponse> call = userClient.login(email, password);
+                        call.enqueue(new Callback<UserResponse>() {
+                            @Override
+                            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                UserResponse res = response.body();
+                                _loginProgress.setVisibility(View.GONE);
+                                res.displayMessage(getContext());
+                                if (res.isOkay()) {
+                                    User user = res.getUser();
+                                    if (UserAuthRole.isAllowTransferRoom(user)) {
+                                        roomOrder.setCheckinRoom(room);
+                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
+                                        submitTransferRoom(roomOrder);
+                                        alertDialog.dismiss();
+                                    } else {
+                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                .show();
+                                    }
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserResponse> call, Throwable t) {
+                                _loginProgress.setVisibility(View.GONE);
+                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                        .show();
+                            }
+                        });
+
+                    });
+
+                    buttonCancel.setOnClickListener(view -> {
+                        _loginProgress.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    });
+                });
+
+                alertDialog.show();
+            }
         });
-
-        alertDialog.show();
     }
 
     private void submitTransferRoom(RoomOrder roomOrder) {

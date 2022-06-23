@@ -16,7 +16,6 @@ public class NotificationViewModel extends ViewModel {
     private LocalRepository remoteRepository;
     private LiveData<Integer> unreadNotificationLiveData;
 
-
     public void init(Context application){
         if(notificationMutableLiveData !=null){
             return;

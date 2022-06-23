@@ -93,6 +93,9 @@ public class OperasionalExtendFragment extends Fragment {
     @BindView(R.id.buttonExtends)
     Button buttonSubmit;
 
+    @BindView(R.id.buttonMinus)
+    Button buttonMinus;
+
     @BindView(R.id.image_member)
     ImageView memberFoto;
 
@@ -198,7 +201,11 @@ public class OperasionalExtendFragment extends Fragment {
         });
 
         buttonSubmit.setOnClickListener(view -> {
-            submitExtendsRoom();
+            submitExtendsRoom(false);
+        });
+
+        buttonMinus.setOnClickListener(view -> {
+            submitExtendsRoom(true);
         });
 
         roomPromoViewModel = new ViewModelProvider(getActivity())
@@ -460,7 +467,7 @@ public class OperasionalExtendFragment extends Fragment {
                 .show();
     }
 
-    private void submitExtendsRoom() {
+    private void submitExtendsRoom(boolean minus) {
         if (jamXtnd == 0 && menitXtnd == 0) {
             Toast
                     .makeText(getContext(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
@@ -476,48 +483,98 @@ public class OperasionalExtendFragment extends Fragment {
             promoSelected.add(choicePromoRoom);
         }
 
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
-                .setTitle("Extend Room")
-                .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        Call<RoomOrderResponse> req = roomOrderClient
-                                .submitExtendsRoom(
-                                        room.getRoomCode(),
-                                        String.valueOf(jamXtnd),
-                                        String.valueOf(menitXtnd),
-                                        promoSelected,
-                                        USER_FO.getUserId());
+        if (!minus){
 
-                        req.enqueue(new Callback<RoomOrderResponse>() {
-                            @Override
-                            public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
-                                progressBar.setVisibility(View.GONE);
-                                RoomOrderResponse res = response.body();
-                                if (!res.isOkay()) {
-                                    res.displayMessage(getContext());
-                                    return;
+            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                    .setTitle("Extend Room")
+                    .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            Call<RoomOrderResponse> req = roomOrderClient
+                                    .submitExtendsRoom(
+                                            room.getRoomCode(),
+                                            String.valueOf(jamXtnd),
+                                            String.valueOf(menitXtnd),
+                                            promoSelected,
+                                            USER_FO.getUserId(),
+                                            minus);
+
+                            req.enqueue(new Callback<RoomOrderResponse>() {
+                                @Override
+                                public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
+                                    progressBar.setVisibility(View.GONE);
+                                    RoomOrderResponse res = response.body();
+                                    if (!res.isOkay()) {
+                                        res.displayMessage(getContext());
+                                        return;
+                                    }
+                                    navToMain();
                                 }
-                                navToMain();
-                            }
 
-                            @Override
-                            public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
-                    }
-                })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                                @Override
+                                public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
+                                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    })
+                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .show();
+                        }
+                    })
+                    .show();
+
+        } else{
+            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                    .setTitle("Kurangi Durasi Room")
+                    .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            Call<RoomOrderResponse> req = roomOrderClient
+                                    .submitExtendsRoom(
+                                            room.getRoomCode(),
+                                            String.valueOf(jamXtnd*-1),
+                                            String.valueOf(menitXtnd),
+                                            promoSelected,
+                                            USER_FO.getUserId(),
+                                            minus);
+
+                            req.enqueue(new Callback<RoomOrderResponse>() {
+                                @Override
+                                public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
+                                    progressBar.setVisibility(View.GONE);
+                                    RoomOrderResponse res = response.body();
+                                    if (!res.isOkay()) {
+                                        res.displayMessage(getContext());
+                                        return;
+                                    }
+                                    navToMain();
+                                }
+
+                                @Override
+                                public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
+                                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                    progressBar.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    })
+                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    })
+                    .show();
+        }
+
     }
 
     private void navToMain() {

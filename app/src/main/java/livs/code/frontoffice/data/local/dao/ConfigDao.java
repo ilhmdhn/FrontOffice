@@ -13,13 +13,6 @@ public interface ConfigDao extends BaseDao<Config> {
     @Query("SELECT * FROM config")
     List<Config> getList();
 
-    @Query("SELECT * FROM config LIMIT 1")
-    Config getTopConfig();
-
     @Query("SELECT * FROM config ORDER BY id DESC LIMIT 1")
     Config getLastConfig();
-
-    @Query("DELETE FROM config")
-    void clearConfig();
-
 }

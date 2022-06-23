@@ -230,136 +230,52 @@ public class Room implements Serializable {
         return summaryOrderInventories;
     }
 
-    public void setSummaryOrderInventories(List<Inventory> summaryOrderInventories) {
-        this.summaryOrderInventories = summaryOrderInventories;
-    }
-
-    public List<Inventory> getInventoryOrder() {
-        return inventoryOrder;
-    }
-
-    public void setInventoryOrder(List<Inventory> inventoryOrder) {
-        this.inventoryOrder = inventoryOrder;
-    }
-
     public List<Inventory> getInventoryCancelation() {
         return inventoryCancelation;
-    }
-
-    public void setInventoryCancelation(List<Inventory> inventoryCancelation) {
-        this.inventoryCancelation = inventoryCancelation;
     }
 
     public List<Inventory> getInventoryOnOrderProgress() {
         return inventoryOnOrderProgress;
     }
 
-    public void setInventoryOnOrderProgress(List<Inventory> inventoryOnOrderProgress) {
-        this.inventoryOnOrderProgress = inventoryOnOrderProgress;
-    }
-
     public boolean isRoomCall() {
         return roomCall;
-    }
-
-    public void setRoomCall(boolean roomCall) {
-        this.roomCall = roomCall;
     }
 
     public String getDpPaymentType() {
         return dpPaymentType;
     }
 
-    public void setDpPaymentType(String dpPaymentType) {
-        this.dpPaymentType = dpPaymentType;
-    }
-
     public int getDpPaymentNominal() {
         return dpPaymentNominal;
-    }
-
-    public void setDpPaymentNominal(int dpPaymentNominal) {
-        this.dpPaymentNominal = dpPaymentNominal;
-    }
-
-    public String getRoomIvc() {
-        return roomIvc;
-    }
-
-    public void setRoomIvc(String roomIvc) {
-        this.roomIvc = roomIvc;
     }
 
     public String getDpCardType() {
         return dpCardType;
     }
 
-    public void setDpCardType(String dpCardType) {
-        this.dpCardType = dpCardType;
-    }
-
     public String getDpEdc() {
         return dpEdc;
-    }
-
-    public String getCodeDpEdc() {
-        return codeDpEdc;
-    }
-
-    public void setCodeDpEdc(String codeDpEdc) {
-        this.codeDpEdc = codeDpEdc;
-    }
-
-    public void setDpEdc(String dpEdc) {
-        this.dpEdc = dpEdc;
     }
 
     public String getDpCardName() {
         return dpCardName;
     }
 
-    public void setDpCardName(String dpCardName) {
-        this.dpCardName = dpCardName;
-    }
-
     public String getDpCardNumber() {
         return dpCardNumber;
-    }
-
-    public void setDpCardNumber(String dpCardNumber) {
-        this.dpCardNumber = dpCardNumber;
     }
 
     public String getDpCardApprovalNumber() {
         return dpCardApprovalNumber;
     }
 
-    public void setDpCardApprovalNumber(String dpCardApprovalNumber) {
-        this.dpCardApprovalNumber = dpCardApprovalNumber;
-    }
-
     public String getVoucherCode() {
         return voucherCode;
     }
 
-    public void setVoucherCode(String voucherCode) {
-        this.voucherCode = voucherCode;
-    }
-
-    public String getVoucherNominal() {
-        return voucherNominal;
-    }
-
-    public void setVoucherNominal(String voucherNominal) {
-        this.voucherNominal = voucherNominal;
-    }
-
     public String getEventOwner() {
         return eventOwner;
-    }
-
-    public void setEventOwner(String eventOwner) {
-        this.eventOwner = eventOwner;
     }
 
     public String getDesc() {
@@ -370,143 +286,69 @@ public class Room implements Serializable {
         this.desc = desc;
     }
 
-    public String getImgGuessPath() {
-        return imgGuessPath;
-    }
-
-    public void setImgGuessPath(String imgGuessPath) {
-        this.imgGuessPath = imgGuessPath;
-    }
-
     public String getKeteranganStatusPromo() {
         return keteranganStatusPromo;
-    }
-
-    public void setKeteranganStatusPromo(String keteranganStatusPromo) {
-        this.keteranganStatusPromo = keteranganStatusPromo;
     }
 
     public String getTransferInfo() {
         return transferInfo;
     }
 
-    public void setTransferInfo(String transferInfo) {
-        this.transferInfo = transferInfo;
-    }
-
     public String getOverpaxVisitor() {
         return overpaxVisitor;
-    }
-
-    public void setOverpaxVisitor(String overpaxVisitor) {
-        this.overpaxVisitor = overpaxVisitor;
     }
 
     public Date getTimeExtends() {
         return timeExtends;
     }
 
-    public void setTimeExtends(Date timeExtends) {
-        this.timeExtends = timeExtends;
-    }
-
     public int getExtendHours() {
         return extendHours;
-    }
-
-    public void setExtendHours(int extendHours) {
-        this.extendHours = extendHours;
     }
 
     public int getExtendMinutes() {
         return extendMinutes;
     }
 
-    public void setExtendMinutes(int extendMinutes) {
-        this.extendMinutes = extendMinutes;
-    }
-
     public String getRoomGuessHp() {
         return roomGuessHp;
-    }
-
-    public void setRoomGuessHp(String roomGuessHp) {
-        this.roomGuessHp = roomGuessHp;
     }
 
     public int getQm1() {
         return qm1;
     }
 
-    public void setQm1(int qm1) {
-        this.qm1 = qm1;
-    }
-
     public int getQm2() {
         return qm2;
-    }
-
-    public void setQm2(int qm2) {
-        this.qm2 = qm2;
     }
 
     public int getQm3() {
         return qm3;
     }
 
-    public void setQm3(int qm3) {
-        this.qm3 = qm3;
-    }
-
     public int getQm4() {
         return qm4;
-    }
-
-    public void setQm4(int qm4) {
-        this.qm4 = qm4;
     }
 
     public int getQf1() {
         return qf1;
     }
 
-    public void setQf1(int qf1) {
-        this.qf1 = qf1;
-    }
-
     public int getQf2() {
         return qf2;
-    }
-
-    public void setQf2(int qf2) {
-        this.qf2 = qf2;
     }
 
     public int getQf3() {
         return qf3;
     }
 
-    public void setQf3(int qf3) {
-        this.qf3 = qf3;
-    }
-
     public int getQf4() {
         return qf4;
-    }
-
-    public void setQf4(int qf4) {
-        this.qf4 = qf4;
     }
 
     public String getTotalVisitor() {
         return totalVisitor;
     }
-
-    public void setTotalVisitor(String totalVisitor) {
-        this.totalVisitor = totalVisitor;
-    }
-
-
 
     public String getRoomCode() {
         return roomCode;
@@ -528,10 +370,6 @@ public class Room implements Serializable {
         return roomCapacity;
     }
 
-    public void setRoomCapacity(int roomCapacity) {
-        this.roomCapacity = roomCapacity;
-    }
-
     public int getRoomState() {
         return roomState;
     }
@@ -540,28 +378,12 @@ public class Room implements Serializable {
         this.roomState = roomState;
     }
 
-    public int getRoomCallService() {
-        return roomCallService;
-    }
-
-    public void setRoomCallService(int roomCallService) {
-        this.roomCallService = roomCallService;
-    }
-
     public boolean isRoomNotLobby() {
         return roomNotLobby;
     }
 
-    public void setRoomNotLobby(boolean roomNotLobby) {
-        this.roomNotLobby = roomNotLobby;
-    }
-
     public String getRoomRcp() {
         return roomRcp;
-    }
-
-    public void setRoomRcp(String roomRcp) {
-        this.roomRcp = roomRcp;
     }
 
     public String getRoomGuessName() {
@@ -574,26 +396,6 @@ public class Room implements Serializable {
 
     public String getEventDesc() {
         return eventDesc;
-    }
-
-    public void setEventDesc(String eventDesc) {
-        this.eventDesc = eventDesc;
-    }
-
-    public String getRoomIpAddress() {
-        return roomIpAddress;
-    }
-
-    public void setRoomIpAddress(String roomIpAddress) {
-        this.roomIpAddress = roomIpAddress;
-    }
-
-    public String getRoomChusr() {
-        return roomChusr;
-    }
-
-    public void setRoomChusr(String roomChusr) {
-        this.roomChusr = roomChusr;
     }
 
     public String getMemberCode() {
@@ -616,40 +418,16 @@ public class Room implements Serializable {
         return roomCheckinDuration;
     }
 
-    public void setRoomCheckinDuration(int roomCheckinDuration) {
-        this.roomCheckinDuration = roomCheckinDuration;
-    }
-
-    public int getRoomResidualCheckinTime() {
-        return roomResidualCheckinTime;
-    }
-
-    public void setRoomResidualCheckinTime(int roomResidualCheckinTime) {
-        this.roomResidualCheckinTime = roomResidualCheckinTime;
-    }
-
     public Date getRoomCheckinHours() {
         return roomCheckinHours;
-    }
-
-    public void setRoomCheckinHours(Date roomCheckinHours) {
-        this.roomCheckinHours = roomCheckinHours;
     }
 
     public Date getRoomCheckoutHours() {
         return roomCheckoutHours;
     }
 
-    public void setRoomCheckoutHours(Date roomCheckoutHours) {
-        this.roomCheckoutHours = roomCheckoutHours;
-    }
-
     public int getRoomResidualCheckinHoursTime() {
         return roomResidualCheckinHoursTime;
-    }
-
-    public void setRoomResidualCheckinHoursTime(int roomResidualCheckinHoursTime) {
-        this.roomResidualCheckinHoursTime = roomResidualCheckinHoursTime;
     }
 
     public int getRoomResidualCheckinHoursMinutesTime() {
@@ -664,18 +442,7 @@ public class Room implements Serializable {
         return totalAllInvoice;
     }
 
-    public void setTotalAllInvoice(double totalAllInvoice) {
-        this.totalAllInvoice = totalAllInvoice;
-    }
-
     public String getCodeMemberRef() {
         return codeMemberRef;
     }
-
-    public void setCodeMemberRef(String codeMemberRef) {
-        this.codeMemberRef = codeMemberRef;
-    }
-
-    /* @ToMany(referencedJoinProperty = "receptionRoom")
-    private List<Order> orders;*/
 }

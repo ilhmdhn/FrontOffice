@@ -182,6 +182,9 @@
         <argument
             android:name="roomOrder"
             app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+        <action
+            android:id="@+id/action_navOperasionalCheckinEditInfoFragment_self"
+            app:destination="@id/navOperasionalCheckinEditInfoFragment" />
     </fragment>
 
     <fragment
@@ -353,6 +356,104 @@
             android:name="room"
             app:argType="livs.code.frontoffice.data.entity.Room" />
     </fragment>
-
+    <fragment
+        android:id="@+id/navReportingFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.ReportingFragment"
+        android:label="ReportingFragment" >
+        <action
+            android:id="@+id/action_navReportingFragment_to_statusKasFragment"
+            app:destination="@id/navStatusKasFragment" />
+        <action
+            android:id="@+id/action_navReportingFragment_to_mySalesReportParentFragment"
+            app:destination="@id/mySalesReportParentFragment" />
+        <action
+            android:id="@+id/action_navReportingFragment_to_cancelReportFragment"
+            app:destination="@id/cancelReportFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/navStatusKasFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.StatusKasFragment"
+        android:label="fragment_status_kas"
+        tools:layout="@layout/fragment_status_kas" >
+        <action
+            android:id="@+id/action_navStatusKasFragment_to_detailReportKasFragment"
+            app:destination="@id/detailReportKasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailReportKasFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.DetailReportKasFragment"
+        android:label="fragment_detail_report_kas"
+        tools:layout="@layout/fragment_detail_report_kas" >
+        <argument
+            android:name="tanggal"
+            app:argType="string"
+            android:defaultValue="00-00-0000" />
+        <argument
+            android:name="shift"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            android:defaultValue=" " />
+        <action
+            android:id="@+id/action_detailReportKasFragment_to_pecahanFragment"
+            app:destination="@id/pecahanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pecahanFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.kas.pembayaran.PecahanFragment"
+        android:label="fragment_pecahan"
+        tools:layout="@layout/fragment_pecahan" >
+        <argument
+            android:name="tanggal"
+            app:argType="string"
+            android:defaultValue="0" />
+        <argument
+            android:name="shift"
+            app:argType="string"
+            android:defaultValue="  0" />
+        <argument
+            android:name="total_tunai"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
+    <fragment
+        android:id="@+id/mySalesReportParentFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.MySalesReportParentFragment"
+        android:label="fragment_my_sales_report_parent"
+        tools:layout="@layout/fragment_my_sales_report_parent" >
+        <action
+            android:id="@+id/action_mySalesReportParentFragment_to_itemSalesFragment"
+            app:destination="@id/itemSalesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/itemSalesFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.ItemSalesFragment"
+        android:label="fragment_item_sales"
+        tools:layout="@layout/fragment_item_sales" >
+        <action
+            android:id="@+id/action_itemSalesFragment_to_saleperItemListFragment"
+            app:destination="@id/saleperItemListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancelReportFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.cancelation.CancelReportFragment"
+        android:label="fragment_cancel_report"
+        tools:layout="@layout/fragment_cancel_report" />
+    <fragment
+        android:id="@+id/saleperItemListFragment"
+        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales.SaleperItemListFragment"
+        android:label="fragment_saleper_item_list"
+        tools:layout="@layout/fragment_saleper_item_list" >
+        <argument
+            android:name="item_name"
+            app:argType="string"
+            android:defaultValue=" " />
+        <argument
+            android:name="waktu"
+            app:argType="string"
+            android:defaultValue=" " />
+    </fragment>
 
 </navigation>

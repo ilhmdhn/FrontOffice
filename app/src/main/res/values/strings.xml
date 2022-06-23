@@ -203,7 +203,7 @@
     <string name="refresh">Refresh</string>
     <string name="laporan">Laporan</string>
     <string name="monitor">Status</string>
-    <string name="history">History</string>
+    <string name="history">Histori</string>
     <string name="operasional">Operation</string>
     <string name="jumlah_semua_room">Jumlah Semua Room</string>
     <string name="_5">5</string>
@@ -279,7 +279,7 @@
     <string name="bar_filter">Bar</string>
     <string name="pr">PR</string>
     <string name="prepare_check_sound">Prepare / Check Sound</string>
-    <string name="versi_apps">V2021_06.08</string>
+    <string name="versi_apps">V2022_06.13</string>
     <string name="status_kas_masuk">Status Kas Masuk</string>
     <string name="data_checkin">Data Checkin</string>
     <string name="stock">Stock</string>
@@ -295,4 +295,21 @@
     <string name="uang_muka_transfer">Uang Muka Transfer</string>
     <string name="kode_qrcode">Kode QRCode</string>
     <string name="_manual">Isi Manual Jika Ada Kendala Scan</string>
+    <string name="jam_checkin">Jam Checkin</string>
+    <string name="report">Laporan</string>
+    <string name="chusr">Chusr</string>
+    <string name="by_user">Berdasarkan User</string>
+    <string name="tab_penjualan">Penjualan</string>
+    <string name="tab_pembayaran">Pembayaran</string>
+    <string name="tab_status_kamar">Status Kamar</string>
+    <string name="today">Today</string>
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+    <string name="my_Sales">My Sales</string>
+    <string name="my_item_sale">My Sales Items</string>
+    <string name="remove_promo">Hapus Promo?</string>
+    <string name="payment_confirmation">Konfirmasi Pembayaran?</string>
+    <string name="transfer_confirmation">Konfirmasi Transfer?</string>
+    <string name="minus_durasi">Kurangi  Durasi</string>
+    <string name="remove_fnb">Remove FnB?</string>
 </resources>

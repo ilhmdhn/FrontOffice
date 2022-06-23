@@ -13,8 +13,4 @@ public class RoomExtendResponse extends BaseResponse{
     public List<Room> getRoomOrderExtends() {
         return roomOrderExtends;
     }
-
-    public void setRoomOrderExtends(List<Room> roomOrderExtends) {
-        this.roomOrderExtends = roomOrderExtends;
-    }
 }

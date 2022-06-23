@@ -32,4 +32,12 @@
         android:enabled="true"
         app:showAsAction="ifRoom" />
 
+    <item
+        android:id="@+id/navReportingFragment"
+        android:checkable="true"
+        android:icon="@drawable/ic_notes"
+        android:title="@string/report"
+        android:enabled="true"
+        app:showAsAction="ifRoom" />
+
 </menu>

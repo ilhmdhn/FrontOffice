@@ -20,7 +20,4 @@ public class RoomPromoResponse extends BaseResponse {
         return roomPromos;
     }
 
-    public void setRoomPromos(List<RoomPromo> roomPromos) {
-        this.roomPromos = roomPromos;
-    }
 }
