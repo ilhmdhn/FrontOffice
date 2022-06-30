@@ -96,12 +96,31 @@
 
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include
+                    layout="@layout/extends_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp" />
+
+                <Button
+                    android:id="@+id/btn_reduce_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Kurangi Durasi"/>
+
+            </LinearLayout>
+
             <include
                 layout="@layout/checkin_visitor_male"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-
             <include
                 layout="@layout/checkin_voucher"
                 android:layout_width="match_parent"

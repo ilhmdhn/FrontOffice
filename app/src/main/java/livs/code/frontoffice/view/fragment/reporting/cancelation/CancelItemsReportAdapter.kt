@@ -20,8 +20,13 @@ class CancelItemsReportAdapter: RecyclerView.Adapter<CancelItemsReportAdapter.Li
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding = ListCancelItemsBinding.bind(itemView)
-        fun bind(data: DataCancelItems){
+        fun bind(data: DataCancelItems, kodeWarna: Int){
             with(binding){
+                if (kodeWarna == 1){
+                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                } else{
+                    itemView.setBackgroundResource(R.drawable.background_white)
+                }
                 tvJam.text = data.jam
                 tvItemName.text = data.namaItem
                 tvKamar.text = data.kamar
@@ -41,7 +46,13 @@ class CancelItemsReportAdapter: RecyclerView.Adapter<CancelItemsReportAdapter.Li
 
     override fun onBindViewHolder(holder: CancelItemsReportAdapter.ListViewHolder, position: Int) {
         val data = listData[position]
-        holder.bind(data)
+        val backgroundColor: Int
+        if (position % 2 == 0){
+            backgroundColor = 1
+        } else{
+            backgroundColor = 2
+        }
+        holder.bind(data, backgroundColor)
     }
 
     override fun getItemCount(): Int {

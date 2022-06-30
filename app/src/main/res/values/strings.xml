@@ -312,4 +312,5 @@
     <string name="transfer_confirmation">Konfirmasi Transfer?</string>
     <string name="minus_durasi">Kurangi  Durasi</string>
     <string name="remove_fnb">Remove FnB?</string>
+    <string name="reduce_duration">Kurangi Durasi Checkin?</string>
 </resources>

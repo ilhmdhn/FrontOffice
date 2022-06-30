@@ -36,6 +36,7 @@ import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.w3c.dom.Text;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -223,6 +224,17 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     @BindView(R.id.txt_output_cek_code_member)
     TextView outputCheckTxtMember;
     private boolean isMemberScanActive;
+    @BindView(R.id.extendsMinHours)
+    ImageView btnMinHours;
+    @BindView(R.id.extendsPlusHours)
+    ImageView btnPlusHour;
+    @BindView(R.id.extendsCountHours)
+    TextView tvMinHour;
+    @BindView(R.id.btn_reduce_duration)
+    Button btnReduceDuration;
+
+    Integer jamMinus = 0;
+
 
     @BindView(R.id.checkinProgressbar)
     MKLoader progressBar;
@@ -341,6 +353,22 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         EMPTY_CARD_DP = getResources().getString(R.string.type_card);
         choicecard = EMPTY_CARD_DP;
 
+        btnPlusHour.setOnClickListener(view ->{
+            jamMinus++;
+            tvMinHour.setText(String.valueOf(jamMinus));
+        });
+
+        btnMinHours.setOnClickListener(view -> {
+            if (jamMinus >= 1){
+                jamMinus--;
+            }
+            tvMinHour.setText(String.valueOf(jamMinus));
+        });
+
+        btnReduceDuration.setOnClickListener(view ->{
+            reduceDuration();
+        });
+
         btnCancelPromo.setOnClickListener(view -> {
             removePromo();
         });
@@ -451,6 +479,148 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
         initMemberValidationUI();
 
+    }
+
+    private void reduceDuration() {
+        if(currentRoomCheckin.getRoomResidualCheckinHoursTime() - jamMinus < 1){
+            if (currentRoomCheckin.getRoomResidualCheckinHoursTime() - jamMinus < 0){
+                Toasty.warning(requireActivity(), "Pastikan setelah dikurangi sisa waktu lebih dari 10 menit", Toasty.LENGTH_SHORT, true).show();
+                return;
+            } else if(currentRoomCheckin.getRoomResidualCheckinHoursMinutesTime()<10){
+                Toasty.warning(requireActivity(), "Pastikan setelah dikurangi sisa waktu lebih dari 10 menit", Toasty.LENGTH_SHORT, true).show();
+                return;
+            }
+        }
+
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        LayoutInflater dialogInflater = this.getLayoutInflater();
+
+        View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(false);
+
+        AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+        AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+
+        EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+        EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+            boolean kasirApproval = data.getState();
+            if (kasirApproval) {
+//                alert dialog
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage(R.string.reduce_duration);
+// Add the buttons
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+                        Call<livs.code.frontoffice.data.remote.respons.Response> responseReduceDuration = roomOrderClient.reduceDurationClient(currentRoomCheckin.getRoomRcp(), jamMinus.toString(), USER_FO.getUserId());
+                        responseReduceDuration.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
+                            @Override
+                            public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
+                                if (responsee.isSuccessful()){
+                                    if (responsee.body() != null) {
+                                        if(responsee.body().getState()){
+                                            Toasty.info(requireActivity(), "Berhasil Mengurangi Durasi, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
+                                        }else{
+                                            Toasty.info(requireActivity(), "Ulangi Proses", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
+                                Toasty.error(requireActivity(), "Mengurangi Durasi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+// Set other dialog properties
+
+// Create the AlertDialog
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
+//                alert dialog
+            }
+            else{
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(dialogInterface -> {
+                    buttonOk.setOnClickListener(it -> {
+                        String email = _usernameTxt.getText().toString();
+                        String password = _passwordTxt.getText().toString();
+                        if (email.isEmpty() && password.isEmpty()) {
+                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                    .show();
+                            return;
+                        }
+                        //_loginProgress.setVisibility(View.VISIBLE);
+                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                        Call<UserResponse> call = userClient.login(email, password);
+                        call.enqueue(new Callback<UserResponse>() {
+                            @Override
+                            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                UserResponse res = response.body();
+                                //_loginProgress.setVisibility(View.GONE);
+                                res.displayMessage(getContext());
+                                if (res.isOkay()) {
+                                    User user = res.getUser();
+                                    if (UserAuthRole.isAllowReduceCheckinDuration(user)) {
+                                        roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+                                        Call<livs.code.frontoffice.data.remote.respons.Response> responseReduceDuration = roomOrderClient.reduceDurationClient(currentRoomCheckin.getRoomRcp(), jamMinus.toString(), USER_FO.getUserId());
+                                        responseReduceDuration.enqueue(new Callback<livs.code.frontoffice.data.remote.respons.Response>() {
+                                            @Override
+                                            public void onResponse(Call<livs.code.frontoffice.data.remote.respons.Response> call, Response<livs.code.frontoffice.data.remote.respons.Response> responsee) {
+                                                if (responsee.isSuccessful()){
+                                                    if (responsee.body() != null) {
+                                                        if(responsee.body().getState()){
+                                                            Toasty.info(requireActivity(), "Berhasil Mengurangi Durasi, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
+                                                        }else{
+                                                            Toasty.info(requireActivity(), "Ulangi Proses", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            @Override
+                                            public void onFailure(Call<livs.code.frontoffice.data.remote.respons.Response> call, Throwable t) {
+                                                Toasty.error(requireActivity(), "Mengurangi Durasi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    } else {
+                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                .show();
+                                    }
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<UserResponse> call, Throwable t) {
+                                //_loginProgress.setVisibility(View.GONE);
+                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                        .show();
+                            }
+                        });
+
+                    });
+
+                    buttonCancel.setOnClickListener(view -> {
+                        //_loginProgress.setVisibility(View.GONE);
+                        alertDialog.dismiss();
+                    });
+                });
+
+                alertDialog.show();
+            }
+        });
     }
 
     private void removePromo() {

@@ -1,6 +1,7 @@
 package livs.code.frontoffice.view.fragment.reporting.mysales.itemsales
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,17 +32,29 @@ class SalesItemAdapter: RecyclerView.Adapter<SalesItemAdapter.ListViewHolder>(){
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listData[position]
-
-        holder.bind(data, waktu)
+        val backgroundColor: Int
+        if (position % 2 == 0){
+            backgroundColor = 1
+        } else{
+            backgroundColor = 2
+        }
+        holder.bind(data, waktu, backgroundColor)
     }
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ListSalesItemsBinding.bind(itemView)
-        fun bind(data: SaleItemList, waktu: Int){
+        @SuppressLint("ResourceAsColor")
+        fun bind(data: SaleItemList, waktu: Int, color: Int){
             with(binding){
-                    tvValueItemName.text = data.namaItem
-                    tvValueQty.text = data.jumlah.toString()
-                    tvValuePrice.text = utils.getCurrency(data.total.toLong())
+                if (color == 1){
+                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                } else{
+                    lyParentList.setBackgroundResource(R.drawable.background_white)
+                }
+                Log.d("cek warna", color.toString())
+                tvValueItemName.text = data.namaItem
+                tvValueQty.text = data.jumlah.toString()
+                tvValuePrice.text = utils.getCurrency(data.total.toLong())
                 itemView.setOnClickListener {
                     val toSaleperItemsNavigation = ItemSalesFragmentDirections.actionItemSalesFragmentToSaleperItemListFragment()
                     toSaleperItemsNavigation.itemName = data.namaItem
