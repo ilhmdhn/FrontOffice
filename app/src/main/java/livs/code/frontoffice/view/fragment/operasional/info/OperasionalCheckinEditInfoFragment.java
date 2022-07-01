@@ -505,8 +505,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
 
-        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data ->{
             boolean kasirApproval = data.getState();
+            Log.d("cek approval kasir ", String.valueOf(kasirApproval));
             if (kasirApproval) {
 //                alert dialog
 
@@ -523,6 +524,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                 if (responsee.isSuccessful()){
                                     if (responsee.body() != null) {
                                         if(responsee.body().getState()){
+                                            ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(),USER_FO.getLevelUser(), currentRoomCheckin.getRoomCode(), "Reduce Duration Checkin");
                                             Toasty.info(requireActivity(), "Berhasil Mengurangi Durasi, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
                                         }else{
                                             Toasty.info(requireActivity(), "Ulangi Proses", Toast.LENGTH_SHORT).show();
@@ -609,7 +611,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                         .show();
                             }
                         });
-
+                        alertDialog.dismiss();
                     });
 
                     buttonCancel.setOnClickListener(view -> {
