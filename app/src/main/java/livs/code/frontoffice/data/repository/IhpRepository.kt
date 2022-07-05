@@ -1,11 +1,14 @@
 package livs.code.frontoffice.data.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.*
 import livs.code.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.create
 
 class IhpRepository {
 
@@ -146,5 +149,19 @@ class IhpRepository {
         })
 
         return responseData
+    }
+
+    fun printKas(baseUrl: String, tanggal: String, shift: String, username: String, context: Context){
+        val client = ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
+        client.printKas(tanggal, shift, username).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    Toasty.info(context, response.message(), Toasty.LENGTH_SHORT, true).show()
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toasty.error(context, t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+            }
+
+        })
     }
 }

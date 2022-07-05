@@ -1,11 +1,13 @@
 package livs.code.frontoffice.view.fragment.reporting.kas
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +17,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
 import livs.code.frontoffice.data.remote.respons.DataStatusKas
+import livs.code.frontoffice.data.repository.IhpRepository
 import livs.code.frontoffice.databinding.FragmentDetailReportKasBinding
 import livs.code.frontoffice.helper.utils
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
@@ -28,6 +31,8 @@ class DetailReportKasFragment : Fragment() {
     private var tanggal = ""
     private var shift = ""
     private var username = ""
+    private var chusr = ""
+    private val ihpRepository = IhpRepository()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentDetailReportKasBinding.inflate(inflater, container, false)
@@ -42,6 +47,7 @@ class DetailReportKasFragment : Fragment() {
         tanggal = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).tanggal
         shift = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).shift
         username = DetailReportKasFragmentArgs.fromBundle(arguments as Bundle).username
+        chusr = (requireActivity().applicationContext as MyApp).userFo.userId
 
         binding.lySwipe.setOnRefreshListener {
             binding.lySwipe.isRefreshing = false
@@ -85,6 +91,20 @@ class DetailReportKasFragment : Fragment() {
         TabLayoutMediator(tabs, viewPager) {tab, position ->
             tab.text = resources.getString(TAB_TITLES[position])
         }.attach()
+
+        binding.fabPrint.setOnClickListener {
+
+            val builder = AlertDialog.Builder(requireActivity())
+            builder.setMessage(R.string.print_kas)
+            builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+                ihpRepository.printKas(url, tanggal, shift, chusr, requireActivity())
+            }
+
+            builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+                dialog.dismiss()
+            }
+            builder.show()
+        }
     }
 
     override fun onResume() {
