@@ -3,6 +3,7 @@ package livs.code.frontoffice.view.fragment.operasional.invoicepayment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.tuyenmonkey.mkloader.MKLoader;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import livs.code.frontoffice.MyApp;
 import livs.code.frontoffice.R;
 import livs.code.frontoffice.data.entity.Inventory;
@@ -26,6 +28,7 @@ import livs.code.frontoffice.data.entity.Invoice;
 import livs.code.frontoffice.data.entity.Room;
 import livs.code.frontoffice.data.entity.RoomOrder;
 import livs.code.frontoffice.data.entity.Time;
+import livs.code.frontoffice.data.repository.IhpRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
@@ -112,6 +115,8 @@ public class InvoiceFragment extends Fragment {
 
     private Invoice invoice;
     private Time timeRcp;
+    private IhpRepository ihpRepository;
+    private String user;
 
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
@@ -155,6 +160,8 @@ public class InvoiceFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        user = ((MyApp) getActivity().getApplicationContext()).getUserFo().getUserId();
+        ihpRepository = new IhpRepository();
 
         return view;
     }
@@ -170,15 +177,14 @@ public class InvoiceFragment extends Fragment {
             GlobalBus
                     .getBus()
                     .post(new EventsWrapper.NavigationInvoicePayment(true));
-
         });
 
         btnToPrint.setOnClickListener(view -> {
-            GlobalBus.getBus()
-                    .post(new EventsWrapper
-                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));
+            ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity());
+//            GlobalBus.getBus()
+//                    .post(new EventsWrapper
+//                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));
         });
-
     }
 
     private void addDetailInventoryOrder() {
