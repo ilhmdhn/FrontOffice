@@ -180,4 +180,22 @@ class IhpRepository {
             }
         })
     }
+
+    fun printInvoice(url: String, rcp: String, context: Context) {
+        val client = ApiRestService.getClient(url).create(PrintClient::class.java)
+        client.printInvoice(rcp).enqueue(object:Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful && response.body() != null) {
+                    Toasty.info(context, "Server Response "+ response.body()!!.message, Toasty.LENGTH_SHORT).show()
+                } else{
+                    Toasty.error(context,"Error " , Toasty.LENGTH_SHORT, true).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toasty.error(context,"Gagal Print Invoice " + t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+            }
+
+        })
+    }
 }

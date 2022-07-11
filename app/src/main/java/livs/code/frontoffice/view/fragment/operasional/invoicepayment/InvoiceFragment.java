@@ -34,19 +34,10 @@ import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.AppUtils;
 import livs.code.frontoffice.viewmodel.RoomOrderViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link InvoiceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class InvoiceFragment extends Fragment {
-
-    // TODO : Rename parameter arguments, choose names that match
-
 
     @BindView(R.id.payment_progressbar)
     MKLoader progressBar;
-
 
     @BindView(R.id.tv_value_jam_checkin)
     TextView valueCheckin;
@@ -62,9 +53,6 @@ public class InvoiceFragment extends Fragment {
 
     @BindView(R.id.value_voucher)
     TextView valueVoucher;
-
-  /*  @BindView(R.id.value_total_penjualan)
-    TextView valueFnb;*/
 
     @BindView(R.id.value_total_all)
     TextView valueJumlah;
@@ -111,8 +99,6 @@ public class InvoiceFragment extends Fragment {
     @BindView(R.id.btn_to_payment)
     AppCompatButton btnToPayment;
 
-
-
     private Invoice invoice;
     private Time timeRcp;
     private IhpRepository ihpRepository;
@@ -129,7 +115,6 @@ public class InvoiceFragment extends Fragment {
     public InvoiceFragment() {
         // Required empty public constructor
     }
-
 
     public static InvoiceFragment newInstance(Invoice invoice, RoomOrder roomOrder, Time timeRcp) {
         InvoiceFragment fragment = new InvoiceFragment();
@@ -234,7 +219,6 @@ public class InvoiceFragment extends Fragment {
         }
     }
 
-
     @SuppressLint("SetTextI18n")
     private void initInvoice() {
         labelPenjualan.setVisibility(View.GONE);
@@ -289,5 +273,4 @@ public class InvoiceFragment extends Fragment {
         valueFinalTotal.setText(AppUtils.formatNominal(invoice.getTotalFinal()));
         infoValueTotalInvoice.setText(AppUtils.formatNominal(invoice.getTotalFinal()));
     }
-
 }

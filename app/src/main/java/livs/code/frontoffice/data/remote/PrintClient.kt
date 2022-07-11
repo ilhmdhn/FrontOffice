@@ -14,4 +14,10 @@ interface PrintClient {
         @Field("rcp") rcp: String,
         @Field("chusr") user: String
     ): Call<Response>
+
+    @FormUrlEncoded
+    @POST("printer/print-invoice")
+    fun printInvoice(
+        @Field("rcp") rcp: String
+    ): Call<Response>
 }
