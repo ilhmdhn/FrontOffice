@@ -583,6 +583,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                                 if (responsee.isSuccessful()){
                                                     if (responsee.body() != null) {
                                                         if(responsee.body().getState()){
+                                                            ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(),currentRoomCheckin.getRoomCode(), "Reduce Checkin Duration");
                                                             Toasty.info(requireActivity(), "Berhasil Mengurangi Durasi, Silahkan Lengkapi Data Checkin", Toast.LENGTH_SHORT).show();
                                                         }else{
                                                             Toasty.info(requireActivity(), "Ulangi Proses", Toast.LENGTH_SHORT).show();
@@ -715,7 +716,6 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowCancelPromotion(user)) {
-                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
                                         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
                                         CheckinDirectClient checkinDirectClient = ApiRestService.getClient(BASE_URL).create(CheckinDirectClient.class);
                                         Call<livs.code.frontoffice.data.remote.respons.Response> responseRemovePromo = checkinDirectClient.removePromo(currentRoomCheckin.getRoomRcp());
@@ -727,6 +727,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                                         if(responsee.body().getState()){
                                                             roomOrder.getRoomPromos().clear();
                                                             alertDialog.dismiss();
+                                                            ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), currentRoomCheckin.getRoomCode(), "Remove Promo");
                                                             Navigation.findNavController(buttonSubmit)
                                                                     .navigate(
                                                                             OperasionalCheckinEditInfoFragmentDirections

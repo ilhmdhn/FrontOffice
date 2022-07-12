@@ -49,4 +49,13 @@ public class UserAuthRole {
         }
         return false;
     }
+
+    public static boolean isAllowReprintBill(User user){
+        if (user.getLevelUser().equals(UserRole.SUPERVISOR.getRole()) ||
+                user.getLevelUser().equals(UserRole.ACCOUNTING.getRole()) ||
+                user.getLevelUser().equals(UserRole.KAPTEN.getRole())){
+            return true;
+        }
+        return false;
+    }
 }
