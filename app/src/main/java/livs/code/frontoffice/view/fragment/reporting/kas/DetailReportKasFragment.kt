@@ -73,9 +73,13 @@ class DetailReportKasFragment : Fragment() {
                     binding.viewPager.visibility = View.GONE
                     binding.ltEmpty.visibility = View.VISIBLE
                 }
-            } else{
+            } else if(data.state == false){
                 binding.viewPager.visibility = View.GONE
                 binding.ltEmpty.setAnimation("erroranimation.json")
+                binding.ltEmpty.visibility = View.VISIBLE
+            } else{
+                binding.viewPager.visibility = View.GONE
+                binding.ltEmpty.setAnimation("loading.json")
                 binding.ltEmpty.visibility = View.VISIBLE
             }
         })
