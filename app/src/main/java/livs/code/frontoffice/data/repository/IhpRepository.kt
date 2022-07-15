@@ -1,11 +1,14 @@
 package livs.code.frontoffice.data.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.*
 import livs.code.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.create
 
 class IhpRepository {
 
@@ -17,7 +20,7 @@ class IhpRepository {
             Callback<Response> {
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                 if (response.isSuccessful){
-                    responseData.message = response.message()
+                    responseData.message = response.body()!!.message
                 }
             }
 
@@ -146,5 +149,80 @@ class IhpRepository {
         })
 
         return responseData
+    }
+
+    fun printKas(baseUrl: String, tanggal: String, shift: String, username: String, context: Context){
+        val client = ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
+        client.printKas(tanggal, shift, username).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                    Toasty.info(context, response.message(), Toasty.LENGTH_SHORT, true).show()
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toasty.error(context, t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+            }
+
+        })
+    }
+
+    fun printBill(url: String, rcp: String, user: String, context: Context):Boolean{
+        var hasil = false
+        val client = ApiRestService.getClient(url).create(PrintClient::class.java)
+        client.printTagihan(rcp, user).enqueue(object:Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful && response.body() != null) {
+                    Toasty.info(context, "Server Response "+ response.body()!!.message, Toasty.LENGTH_SHORT).show()
+                    if (response.body()!!.state==true){
+                        hasil = true
+                    }else{
+                        hasil = false
+                    }
+                } else{
+                    Toasty.error(context,"Error " , Toasty.LENGTH_SHORT, true).show()
+                    hasil = false;
+                }
+            }
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toasty.error(context,"Error " + t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+                hasil = false
+            }
+        })
+        return hasil
+    }
+
+    fun printInvoice(url: String, rcp: String, context: Context) {
+        val client = ApiRestService.getClient(url).create(PrintClient::class.java)
+        client.printInvoice(rcp).enqueue(object:Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful && response.body() != null) {
+                    Toasty.info(context, "Server Response "+ response.body()!!.message, Toasty.LENGTH_SHORT).show()
+                } else{
+                    Toasty.error(context,"Error " , Toasty.LENGTH_SHORT, true).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toasty.error(context,"Gagal Print Invoice " + t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+            }
+        })
+    }
+
+    fun printStatus(url: String, rcp: String):LiveData<PrintStatusResponse>{
+        val dataResponse= MutableLiveData<PrintStatusResponse>()
+        val client = ApiRestService.getClient(url).create(PrintClient::class.java)
+        client.printStatus(rcp).enqueue(object: Callback<PrintStatusResponse>{
+            override fun onResponse(call: Call<PrintStatusResponse>, response: retrofit2.Response<PrintStatusResponse>) {
+                if(response.isSuccessful){
+                    dataResponse.postValue(response.body())
+                } else{
+                    dataResponse.postValue(PrintStatusResponse(PrintStatusResult("5"),  false, "Gagal cek print status"))
+                }
+            }
+
+            override fun onFailure(call: Call<PrintStatusResponse>, t: Throwable) {
+                dataResponse.postValue(PrintStatusResponse(PrintStatusResult("5"),  false, t.message.toString()))
+            }
+        })
+        return dataResponse
     }
 }

@@ -13,7 +13,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -25,7 +24,6 @@ import livs.code.frontoffice.MyApp;
 import livs.code.frontoffice.R;
 import livs.code.frontoffice.data.entity.User;
 import livs.code.frontoffice.data.repository.LocalRepository;
-import livs.code.frontoffice.view.MainActivity;
 import livs.code.frontoffice.view.SplashActivity;
 
 public class SioBackgroundService extends Service {
@@ -95,10 +93,6 @@ public class SioBackgroundService extends Service {
         return START_STICKY;
     }
 
-
-
-
-
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -110,15 +104,15 @@ public class SioBackgroundService extends Service {
     public void onDestroy() {
         super.onDestroy();
         sioBackgroundThread.endThread();
-       /* if(!startedService){
+//        if(!startedService){
+//
+//            Intent broadcastIntent = new Intent();
+//            broadcastIntent.setAction("restartservice");
+//            broadcastIntent.setClass(this, SioBackgroundReceiver.class);
+//            this.sendBroadcast(broadcastIntent);
+//
+//        }
 
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction("restartservice");
-            broadcastIntent.setClass(this, SioBackgroundReceiver.class);
-            this.sendBroadcast(broadcastIntent);
-
-        }
-*/
         Log.i(TAG, "onDestroy");
     }
 

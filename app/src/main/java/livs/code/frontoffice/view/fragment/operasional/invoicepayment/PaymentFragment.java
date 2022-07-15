@@ -194,7 +194,7 @@ public class PaymentFragment extends Fragment
     private static final String EMPTY_STRING = "";
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
-    private boolean kasirApproval = false;
+    private final boolean kasirApproval = false;
 
     private String current = "";
 
@@ -659,7 +659,7 @@ public class PaymentFragment extends Fragment
                     return;
                 }
                 navToMain();
-
+                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
             }
 
             @Override

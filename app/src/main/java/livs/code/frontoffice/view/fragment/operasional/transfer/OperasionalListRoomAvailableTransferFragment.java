@@ -342,7 +342,6 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         roomOrder.setCheckinRoom(room);
-                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
                         submitTransferRoom(roomOrder);
                     }
                 });
@@ -444,7 +443,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                 if (!res.isOkay()) {
                     return;
                 }
-
+                ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
                 Navigation
                         .findNavController(getView())
                         .navigate(

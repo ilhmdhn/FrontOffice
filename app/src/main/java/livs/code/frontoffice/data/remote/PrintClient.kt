@@ -1,0 +1,27 @@
+package livs.code.frontoffice.data.remote
+
+import livs.code.frontoffice.data.remote.respons.PrintStatusResponse
+import livs.code.frontoffice.data.remote.respons.Response
+import retrofit2.Call
+import retrofit2.http.*
+
+interface PrintClient {
+
+    @FormUrlEncoded
+    @POST("printer/print-tagihan")
+    fun printTagihan(
+        @Field("rcp") rcp: String,
+        @Field("chusr") user: String
+    ): Call<Response>
+
+    @FormUrlEncoded
+    @POST("printer/print-invoice")
+    fun printInvoice(
+        @Field("rcp") rcp: String
+    ): Call<Response>
+
+    @GET("printer/print-status")
+    fun printStatus(
+        @Query("rcp")  rcp: String
+    ): Call<PrintStatusResponse>
+}

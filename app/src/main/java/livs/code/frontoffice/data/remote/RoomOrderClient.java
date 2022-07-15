@@ -4,6 +4,7 @@ package livs.code.frontoffice.data.remote;
 import java.util.List;
 
 import livs.code.frontoffice.data.entity.RoomOrder;
+import livs.code.frontoffice.data.remote.respons.Response;
 import livs.code.frontoffice.data.remote.respons.RoomExtendResponse;
 import livs.code.frontoffice.data.remote.respons.RoomOrderResponse;
 import livs.code.frontoffice.data.remote.respons.RoomResponse;
@@ -87,7 +88,6 @@ public interface RoomOrderClient {
             @Field("qf3") int qfDewasa,
             @Field("qf4") int qfTua);
 
-
     @FormUrlEncoded
     @POST("checkin-direct/direct-checkin")
     Call<RoomOrderResponse> submitOrderRoom(
@@ -158,4 +158,14 @@ public interface RoomOrderClient {
 
     @POST("checkin-direct/transfer-lobby-to-room")
     Call<RoomOrderResponse> submitTransferLobbyToRoom(@Body RoomOrder jsonRoomOrder);
+
+    @FormUrlEncoded
+    @POST("checkin-direct/reduce_duration")
+    Call<Response> reduceDurationClient(
+            @Field("rcp") String kodeRcp,
+            @Field("durasi") String durasi,
+            @Field("chusr") String chusr
+    );
+
+    //@Path("reception") String reception,
 }

@@ -2,6 +2,7 @@ package livs.code.frontoffice.view.fragment.operasional.extend;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
 import livs.code.frontoffice.MyApp;
 import livs.code.frontoffice.R;
 import livs.code.frontoffice.data.entity.InventoryPromo;
@@ -179,6 +181,9 @@ public class OperasionalExtendFragment extends Fragment {
         USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         historyXtndView.setVisibility(View.GONE);
+
+        Toasty.info(requireActivity(), room.getRoomCheckinHours().toString(), Toasty.LENGTH_LONG, true).show();
+        Log.d("cek data room", String.valueOf(room.getRoomResidualCheckinHoursTime() + "\n"  + room.getRoomResidualCheckinHoursMinutesTime()));
 
         EMPTY_PROMO = getResources().getString(R.string.kode_promo);
         choicePromoRoom = EMPTY_PROMO;
@@ -530,6 +535,16 @@ public class OperasionalExtendFragment extends Fragment {
                     .show();
 
         } else{
+            if(room.getRoomResidualCheckinHoursTime() - jamXtnd < 1){
+                if (room.getRoomResidualCheckinHoursTime() - jamXtnd < 0){
+                    Toasty.warning(requireActivity(), "Pastikan setelah dikurangi sisa waktu lebih dari 10 menit", Toasty.LENGTH_SHORT, true).show();
+                    return;
+                } else if(room.getRoomResidualCheckinHoursMinutesTime()<10){
+                    Toasty.warning(requireActivity(), "Pastikan setelah dikurangi sisa waktu lebih dari 10 menit", Toasty.LENGTH_SHORT, true).show();
+                    return;
+                }
+            }
+
             new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
                     .setTitle("Kurangi Durasi Room")
                     .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
@@ -540,7 +555,7 @@ public class OperasionalExtendFragment extends Fragment {
                             Call<RoomOrderResponse> req = roomOrderClient
                                     .submitExtendsRoom(
                                             room.getRoomCode(),
-                                            String.valueOf(jamXtnd*-1),
+                                            String.valueOf(jamXtnd),
                                             String.valueOf(menitXtnd),
                                             promoSelected,
                                             USER_FO.getUserId(),

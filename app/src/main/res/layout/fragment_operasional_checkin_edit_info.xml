@@ -96,12 +96,11 @@
 
 
             </LinearLayout>
+
             <include
                 layout="@layout/checkin_visitor_male"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-
-
             <include
                 layout="@layout/checkin_voucher"
                 android:layout_width="match_parent"
@@ -192,6 +191,47 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:layout_marginVertical="12dp"
+                android:paddingVertical="6dp"
+                android:background="@drawable/background_border"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:textSize="18sp"
+                    android:text="Kurangi Durasi Checkin"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center">
+                <include
+                    layout="@layout/extends_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <View
+                    android:layout_width="30dp"
+                    android:layout_height="1dp"/>
+
+                <Button
+                    android:id="@+id/btn_reduce_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit"
+                    android:orientation="horizontal"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:foregroundGravity="center"
                 android:padding="10dp"
@@ -210,6 +250,7 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+
 
 
         </LinearLayout>

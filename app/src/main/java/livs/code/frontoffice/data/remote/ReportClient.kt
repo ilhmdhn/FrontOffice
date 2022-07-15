@@ -79,4 +79,12 @@ interface ReportClient {
         @Query("item_name") namaItem: String,
         @Query("chusr") chusr: String
     ):Call<SaleItemsbyNameResponse>
+
+    @FormUrlEncoded
+    @POST("/printer/print-kas")
+    fun printKas(
+        @Field("tanggal") tanggal: String,
+        @Field("shift") shift: String,
+        @Field("chusr") username: String,
+    ): Call<Response>
 }

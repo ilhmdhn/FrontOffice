@@ -43,6 +43,7 @@ class ReportViewModel: ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     fun getStatusKas(baseUrl: String, tanggal: String, shift: String, username: String){
+        _statusKas.postValue(StatusKasResponse())
         val client = ApiRestService.getClient(baseUrl).create(StatusKasClient::class.java)
         client.getStatusKasReport(tanggal, shift, username).enqueue(object: Callback<StatusKasResponse>{
             override fun onResponse(call: Call<StatusKasResponse>, response: Response<StatusKasResponse>) {

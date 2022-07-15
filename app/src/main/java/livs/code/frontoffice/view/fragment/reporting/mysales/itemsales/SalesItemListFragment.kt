@@ -1,20 +1,20 @@
 package livs.code.frontoffice.view.fragment.reporting.mysales.itemsales
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.data.remote.respons.SaleItemList
 import livs.code.frontoffice.data.remote.respons.SalesItemListResponse
 import livs.code.frontoffice.databinding.FragmentSalesItemListBinding
 import livs.code.frontoffice.view.fragment.reporting.ReportViewModel
-import java.util.*
+
 
 class SalesItemListFragment : Fragment() {
 

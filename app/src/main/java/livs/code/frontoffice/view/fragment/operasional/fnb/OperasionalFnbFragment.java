@@ -471,11 +471,6 @@ public class OperasionalFnbFragment extends Fragment {
                                         if (res.isOkay()) {
                                             User user = res.getUser();
                                             if (UserAuthRole.isAllowCancelOrder(user)) {
-                                                String kodeRoom = room.getRoomCode();
-                                                if (kodeRoom  == null){
-                                                    kodeRoom = "";
-                                                }
-                                                ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), kodeRoom, "Cancel Order");
                                                 Call<RoomOrderResponse> callCancelOrder = inventoryOrderClient.submitCancelOrderInventory(roomOrder);
                                                 callCancelOrder.enqueue(new Callback<RoomOrderResponse>() {
                                                     @Override
@@ -486,6 +481,11 @@ public class OperasionalFnbFragment extends Fragment {
                                                         if (!res.isOkay()) {
                                                             return;
                                                         }
+                                                        String kodeRoom = room.getRoomCode();
+                                                        if (kodeRoom  == null){
+                                                            kodeRoom = "";
+                                                        }
+                                                        ihpRepository.submitApproval(BASE_URL, user.getUserId(), user.getLevelUser(), kodeRoom, "Cancel Order");
                                                         roomOrderSetupData();
                                                         dialogInterface.dismiss();
                                                     }
