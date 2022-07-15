@@ -20,8 +20,13 @@ class SaleperItemAdapter: RecyclerView.Adapter<SaleperItemAdapter.ListViewHolder
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val binding = ListSalePerItemBinding.bind(itemView)
-        fun bind(data: SalesItembyName){
+        fun bind(data: SalesItembyName, colorCode: Int){
             with(binding){
+                if (colorCode == 1){
+                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                } else{
+                    itemView.setBackgroundResource(R.drawable.background_white)
+                }
                 tvTanggal.text = data.tanggal
                 tvNamaItem.text = data.namaItem
                 tvRoom.text = data.room
@@ -37,7 +42,13 @@ class SaleperItemAdapter: RecyclerView.Adapter<SaleperItemAdapter.ListViewHolder
 
     override fun onBindViewHolder(holder: SaleperItemAdapter.ListViewHolder, position: Int) {
         val data = listData[position]
-        holder.bind(data)
+        val backgroundColor:  Int
+        if (position % 2==0){
+            backgroundColor = 1
+        }else{
+            backgroundColor = 2
+        }
+        holder.bind(data,  backgroundColor)
     }
 
     override fun getItemCount(): Int = listData.size

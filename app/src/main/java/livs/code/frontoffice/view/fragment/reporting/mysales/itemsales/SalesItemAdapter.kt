@@ -51,7 +51,6 @@ class SalesItemAdapter: RecyclerView.Adapter<SalesItemAdapter.ListViewHolder>(){
                 } else{
                     lyParentList.setBackgroundResource(R.drawable.background_white)
                 }
-                Log.d("cek warna", color.toString())
                 tvValueItemName.text = data.namaItem
                 tvValueQty.text = data.jumlah.toString()
                 tvValuePrice.text = utils.getCurrency(data.total.toLong())

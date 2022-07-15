@@ -39,12 +39,12 @@ class CancelItemsReportAdapter: RecyclerView.Adapter<CancelItemsReportAdapter.Li
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CancelItemsReportAdapter.ListViewHolder {
+    ): ListViewHolder {
         val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_cancel_items, parent, false)
         return ListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CancelItemsReportAdapter.ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listData[position]
         val backgroundColor: Int
         if (position % 2 == 0){

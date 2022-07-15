@@ -21,6 +21,8 @@ class SaleperItemListFragment : Fragment() {
     var namaItem = ""
     var kodeWaktu = 0
     var namaWaktu = ""
+    var url = ""
+    var user = ""
     private val saleperItemAdapter = SaleperItemAdapter()
     private lateinit var reportViewModel: ReportViewModel
 
@@ -44,9 +46,17 @@ class SaleperItemListFragment : Fragment() {
             3 -> namaWaktu = "monthly"
         }
 
-        val url = (requireActivity().applicationContext as MyApp).baseUrl
-        val user = (requireActivity().applicationContext as MyApp).userFo.userId
+        url = (requireActivity().applicationContext as MyApp).baseUrl
+        user = (requireActivity().applicationContext as MyApp).userFo.userId
 
+        getData()
+        binding.lySwipe.setOnRefreshListener {
+            getData()
+            binding.lySwipe.isRefreshing = false
+        }
+    }
+
+    private fun getData(){
         reportViewModel.getSaleperItems(url, namaWaktu, namaItem, user).observe(viewLifecycleOwner, {data ->
             if (data.state == true){
                 if (data.data.isNullOrEmpty()){
