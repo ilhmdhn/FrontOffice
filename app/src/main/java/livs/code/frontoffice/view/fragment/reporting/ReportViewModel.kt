@@ -64,7 +64,7 @@ class ReportViewModel: ViewModel() {
                 if (response.isSuccessful && response.body()?.data != null){
                     resultUser.postValue(response.body()?.data as List<ListUser>?)
                 }else{
-                    Toasty.info(context, "User Kosong", Toast.LENGTH_SHORT, true).show()
+//                    Toasty.info(context, "User Kosong", Toast.LENGTH_SHORT, true).show()
                     resultUser.postValue(mutableListOf())
                 }
             }
