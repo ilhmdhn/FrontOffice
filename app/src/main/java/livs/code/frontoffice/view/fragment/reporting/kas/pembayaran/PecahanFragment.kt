@@ -39,6 +39,7 @@ class PecahanFragment : Fragment() {
     var totalCash = 0L
     var jumlahPecahan = 0L
     var pecahanUang = PecahanUang()
+    var selisih = 0L
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentPecahanBinding.inflate(layoutInflater, container,false)
@@ -102,16 +103,15 @@ class PecahanFragment : Fragment() {
 
         binding.btnSubmit.setOnClickListener {
             postCashDetail()
-            getData()
         }
 
         binding.btnUpdate.setOnClickListener {
             updateCashDetail()
-            getData()
         }
     }
 
     private fun getData(){
+
         reportViewModel.getCashDetail(baseUrl, tanggal, shift).observe(viewLifecycleOwner, {data ->
             if (data.state == true && data.pecahanUangData != null){
                 binding.etSeratusRibu.setText(data.pecahanUangData.seratusRibu.toString())
@@ -138,6 +138,10 @@ class PecahanFragment : Fragment() {
 
     private fun updateCashDetail() {
         hitungPecahan()
+        if (selisih > 1000 || selisih < 0){
+            Toasty.warning(requireActivity(), "Jumlah uang tidak boleh melebihi 1000 dan kurang dari 0", Toasty.LENGTH_SHORT, true).show()
+            return
+        }
         reportViewModel.updateCashDetail(baseUrl, tanggal, shift, pecahanUang).observe(viewLifecycleOwner, {data ->
             if (data.state != true){
                 Toasty.error(requireActivity(), data.message.toString(), Toast.LENGTH_SHORT).show()
@@ -149,6 +153,10 @@ class PecahanFragment : Fragment() {
 
     private fun postCashDetail() {
         hitungPecahan()
+        if (selisih > 1000 || selisih < 0){
+            Toasty.warning(requireActivity(), "Jumlah uang tidak boleh melebihi 1000 dan kurang dari 0", Toasty.LENGTH_SHORT, true).show()
+            return
+        }
         reportViewModel.postCashDetail(baseUrl, tanggal, shift, pecahanUang).observe(viewLifecycleOwner, {data ->
             if (data.state != true){
                 Toasty.error(requireActivity(), data.message.toString(), Toast.LENGTH_SHORT).show()
@@ -270,8 +278,8 @@ class PecahanFragment : Fragment() {
         pecahanUang.dua_lima = binding.etDuaLima.text.toString().toInt()
 
         binding.tvJumlahPecahan.text = utils.getCurrency(jumlahPecahan)
-        binding.tvSelisih.text = utils.getCurrency(totalCash - jumlahPecahan)
-
+        binding.tvSelisih.text = utils.getCurrency( jumlahPecahan - totalCash)
+        selisih = jumlahPecahan - totalCash
     }
 
 

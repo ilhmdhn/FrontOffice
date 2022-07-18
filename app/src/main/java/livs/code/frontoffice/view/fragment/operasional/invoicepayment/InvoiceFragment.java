@@ -382,7 +382,7 @@ public class InvoiceFragment extends Fragment {
         //valueFnb.setText(AppUtils.formatNominal(invoice.getTotalInventory()));
         valueCheckin.setText(timeRcp.getCheckinTime());
         valueCheckout.setText(timeRcp.getCheckoutTime());
-        valueDurasi.setText(timeRcp.getTimeClock()+" jam");
+        valueDurasi.setText(timeRcp.getTimeClock());
 
         valueJumlah.setText(AppUtils.formatNominal(invoice.getTotalRoomAndInventory()));
         valueService.setText(AppUtils.formatNominal(invoice.getTotalService()));

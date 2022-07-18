@@ -29,7 +29,7 @@ data class SaleItemList(
 	val jumlah: Int = 0,
 
 	@field:SerializedName("Total")
-	val total: Int = 0,
+	val total: Long = 0,
 
 	@field:SerializedName("nama_item")
 	val namaItem: String = "",

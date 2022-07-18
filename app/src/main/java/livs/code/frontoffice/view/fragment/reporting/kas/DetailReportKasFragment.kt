@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
 import livs.code.frontoffice.data.remote.respons.DataStatusKas
@@ -54,13 +55,13 @@ class DetailReportKasFragment : Fragment() {
             reportViewModel.getStatusKas(url, tanggal, shift, username)
         }
         binding.tvShift.text = "Shift $shift"
+        binding.tvTanggal.setText("Tanggal: $tanggal")
         binding.tvShiftPiutang.text = "Piutang Shift $shift"
         reportViewModel.statusKas.observe(viewLifecycleOwner, { data ->
             if (data.state == true) {
                 if (data.dataStatusKas != null) {
                     binding.ltEmpty.visibility = View.GONE
                     binding.viewPager.visibility = View.VISIBLE
-                    binding.tvTanggal.setText("Tanggal: ${data.dataStatusKas.tanggal.trim()}")
                     binding.tvHitungPiutang.setText(
                         "(Room ${utils.getCurrency(data.dataStatusKas.piutangRoom)} + FnB ${
                             utils.getCurrency(
@@ -76,10 +77,13 @@ class DetailReportKasFragment : Fragment() {
             } else if(data.state == false){
                 binding.viewPager.visibility = View.GONE
                 binding.ltEmpty.setAnimation("erroranimation.json")
+                binding.ltEmpty.playAnimation()
+                Toasty.error(requireActivity(),  data.message, Toasty.LENGTH_SHORT, true).show()
                 binding.ltEmpty.visibility = View.VISIBLE
             } else{
                 binding.viewPager.visibility = View.GONE
                 binding.ltEmpty.setAnimation("loading.json")
+                binding.ltEmpty.playAnimation()
                 binding.ltEmpty.visibility = View.VISIBLE
             }
         })

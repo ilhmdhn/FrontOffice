@@ -155,7 +155,13 @@ class IhpRepository {
         val client = ApiRestService.getClient(baseUrl).create(ReportClient::class.java)
         client.printKas(tanggal, shift, username).enqueue(object: Callback<Response>{
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
-                    Toasty.info(context, response.message(), Toasty.LENGTH_SHORT, true).show()
+                val message: String
+                if(response.body() == null){
+                    message = "Server tidak merespon"
+                }else {
+                    message =  response.body()!!.message
+                }
+                Toasty.info(context, message, Toasty.LENGTH_SHORT, true).show()
             }
 
             override fun onFailure(call: Call<Response>, t: Throwable) {

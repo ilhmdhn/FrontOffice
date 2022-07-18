@@ -365,9 +365,16 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             tvMinHour.setText(String.valueOf(jamMinus));
         });
 
-        btnReduceDuration.setOnClickListener(view ->{
-            reduceDuration();
-        });
+        int promoRoomSize = roomOrder.getRoomPromos().size();
+        if (promoRoomSize > 0) {
+            btnReduceDuration.setOnClickListener(view ->{
+            Toasty.warning(requireActivity(), "Hapus promo terlebih dahulu, setelah durasi dikurangi silahkan input promo kembali", Toasty.LENGTH_SHORT, true).show();
+            });
+        } else{
+            btnReduceDuration.setOnClickListener(view ->{
+                reduceDuration();
+            });
+        }
 
         btnCancelPromo.setOnClickListener(view -> {
             removePromo();
