@@ -130,6 +130,8 @@ class PecahanFragment : Fragment() {
             } else if(data.state == true && data.pecahanUangData == null){
                 binding.btnUpdate.visibility = View.GONE
             } else{
+                binding.btnUpdate.visibility = View.GONE
+                binding.btnSubmit.visibility = View.GONE
                 Toasty.error(requireActivity(), data.message.toString(), Toast.LENGTH_SHORT).show()
             }
             hitungPecahan()
