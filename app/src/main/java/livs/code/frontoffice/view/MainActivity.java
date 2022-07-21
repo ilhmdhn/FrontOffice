@@ -39,9 +39,6 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.shape.CornerFamily;
-import com.google.android.material.shape.MaterialShapeDrawable;
-import com.google.android.material.shape.ShapeAppearanceModel;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -51,8 +48,6 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.skyfishjy.library.RippleBackground;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.net.URISyntaxException;
 import java.util.List;
@@ -84,7 +79,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    NavigationView mNavigationView;
+//    NavigationView mNavigationView;
     BottomNavigationView bottomNavigationView;
 
 
@@ -172,16 +167,6 @@ public class MainActivity extends AppCompatActivity
 
             isPortraitsLayout = true;
             bottomNavigationView = findViewById(R.id.nav_view_bottom);
-            MaterialShapeDrawable shape = new MaterialShapeDrawable();
-            shape.setShapeAppearanceModel(
-                    new ShapeAppearanceModel()
-                            .toBuilder()
-                            .setTopRightCorner(CornerFamily.ROUNDED, 16)
-                            .setTopLeftCorner(CornerFamily.ROUNDED, 16)
-                            .build());
-
-            bottomNavigationView.setBackground(shape);
-
 
             bottomNavigationView.setItemIconTintList(null);
             if (!mUserLearnedDrawer) {
@@ -193,13 +178,13 @@ public class MainActivity extends AppCompatActivity
             //Tablet layout
             isPortraitsLayout = false;
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow()
-                        .setStatusBarColor(ContextCompat
-                                .getColor(this, R.color.colorPrimaryDark));
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                getWindow()
+//                        .setStatusBarColor(ContextCompat
+//                                .getColor(this, R.color.colorPrimaryDark));
+//            }
 
-            mNavigationView = findViewById(R.id.nav_view_side);
+//            mNavigationView = findViewById(R.id.nav_view_side);
         }
 
 
@@ -294,11 +279,12 @@ public class MainActivity extends AppCompatActivity
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
             /*NavigationUI.setupWithNavController(
                     toolbar, navController, mAppBarConfiguration);*/
-        } else {
-            NavigationUI.setupWithNavController(mNavigationView, navController);
-            /*NavigationUI.setupWithNavController(
-                    toolbar, navController, mAppBarConfiguration);*/
         }
+//        else {
+//            NavigationUI.setupWithNavController(mNavigationView, navController);
+//            /*NavigationUI.setupWithNavController(
+//                    toolbar, navController, mAppBarConfiguration);*/
+//        }
         localRepository = LocalRepository.getInstance(getApplicationContext());
         checkPermission();
 

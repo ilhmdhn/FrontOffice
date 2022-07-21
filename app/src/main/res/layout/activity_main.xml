@@ -1,48 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_potrait"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/dark_primary_background"
+    android:orientation="vertical"
     tools:context=".view.MainActivity">
 
-    <include
-        android:id="@+id/include2"
-        layout="@layout/app_bar_main"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/container"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <FrameLayout
-        android:id="@+id/container"
+    <!--App Bar-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_alignParentTop="true"
+        android:background="@color/dark_primary_background"
+        app:elevation="0dp">
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/nav_view_bottom"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:backgroundTint="@color/colorPrimary"
-            android:foreground="?attr/selectableItemBackground"
-            app:itemRippleColor="@color/tevelgraylight1"
-            app:elevation="10dp"
-            app:menu="@menu/bottom_main_menu"
-            style="@style/MyWidget.MaterialComponents.BottomNavigationView"
-            app:itemHorizontalTranslationEnabled="false"
-            app:labelVisibilityMode="labeled"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/dark_primary_background"
+            app:layout_scrollFlags="enterAlways|scroll">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:fontFamily="@font/sf_pro_display_medium"
+                android:letterSpacing="0.0625"
+                android:text="@string/operasional"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <View
+        android:id="@+id/dummy_garis"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/app_bar_layout"
+        android:background="@color/dark_stroke_primary_button" />
+
+    <!--Main Layout-->
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/nav_view_bottom"
+        android:layout_below="@id/dummy_garis"
+        android:background="@color/dark_primary_background">
+
+
+        <fragment
+            android:id="@+id/my_nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/nav_fragment"
+            tools:ignore="FragmentTagUsage"
+            tools:layout="@layout/fragment_operasional" />
 
     </FrameLayout>
 
+    <!--Bottom Navigation-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/dark_primary_background"
+        android:backgroundTint="@color/dark_primary_background"
+        android:foreground="?attr/selectableItemBackground"
+        app:elevation="10dp"
+        app:itemHorizontalTranslationEnabled="false"
+        app:itemRippleColor="@color/tevelgraylight1"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/bottom_main_menu" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
