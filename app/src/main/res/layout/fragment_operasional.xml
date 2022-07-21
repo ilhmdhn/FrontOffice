@@ -38,7 +38,6 @@
                 android:id="@+id/operasional_foto_user"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="26dp"
                 android:layout_marginTop="24dp"
                 android:src="@drawable/user"
                 app:civ_border_color="@color/whitegreen"
@@ -49,7 +48,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="@+id/operasional_foto_user"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginEnd="12dp"
-                    android:background="@color/dark_stroke_primary_button" />
+                    android:background="@color/dark_secondary_text" />
 
                 <TextView
                     android:id="@+id/dashboard_user_role"
