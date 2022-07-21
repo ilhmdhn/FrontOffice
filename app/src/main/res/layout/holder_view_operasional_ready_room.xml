@@ -10,6 +10,7 @@ android:foreground="?attr/selectableItemBackground">
 
 <RelativeLayout
     android:layout_width="match_parent"
+    android:background="@color/dark_secondary_color"
     android:layout_height="match_parent">
 
     <TextView
@@ -21,7 +22,7 @@ android:foreground="?attr/selectableItemBackground">
         android:paddingTop="@dimen/card_title_padding"
         android:paddingRight="@dimen/card_title_padding"
         android:text="@string/app_name"
-        android:textColor="@color/colorOrange"
+        android:textColor="@color/dark_primary_text"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -34,7 +35,7 @@ android:foreground="?attr/selectableItemBackground">
         android:gravity="center_horizontal"
         android:paddingBottom="@dimen/card_price_padding_bottom"
         android:text="@string/app_name"
-        android:textColor="@color/red"
+        android:textColor="@color/dark_primary_text"
         android:textSize="18sp"
         android:textStyle="bold"/>
 

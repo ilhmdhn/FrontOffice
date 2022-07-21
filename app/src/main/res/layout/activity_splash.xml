@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="Worm" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

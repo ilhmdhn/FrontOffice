@@ -11,9 +11,9 @@
 
     <!-- Base application theme for MainActivity Manifest -->
     <style name="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/dark_primary_color</item>
+        <item name="colorPrimaryDark">@color/dark_secondary_color</item>
+        <item name="colorAccent">@color/dark_blue_variant</item>
 
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
@@ -23,9 +23,9 @@
     </style>
 
     <style name="MainTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/dark_primary_background</item>
-        <item name="colorPrimaryDark">@color/dark_primary_button</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/dark_primary_color</item>
+        <item name="colorPrimaryDark">@color/dark_secondary_color</item>
+        <item name="colorAccent">@color/dark_blue_variant</item>
 
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>

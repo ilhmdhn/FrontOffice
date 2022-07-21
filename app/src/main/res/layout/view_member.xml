@@ -1,64 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_member"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:src="@drawable/user"
             app:civ_border_color="@color/whitegreen"
             app:civ_border_width="3dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/name_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            android:text="@string/username"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/image_member"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/checkin_poin_member"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:text="@string/payment_poin_member"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/phone_member"
-            app:layout_constraintStart_toEndOf="@+id/name_member" />
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/image_member"
+            app:layout_constraintStart_toEndOf="@+id/image_member"
+            app:layout_constraintTop_toTopOf="@+id/image_member">
 
-        <TextView
-            android:id="@+id/phone_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/payment_poin_member"
-            android:textSize="25sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/name_member"
-            app:layout_constraintTop_toBottomOf="@id/name_member" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/name_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
+            <TextView
+                android:id="@+id/phone_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/checkin_poin_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/dark_primary_text"
+                android:text="@string/payment_poin_member"
+                android:textSize="14sp" />
+        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
