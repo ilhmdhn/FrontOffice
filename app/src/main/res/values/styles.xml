@@ -36,7 +36,7 @@
     </style>
 
     <style name="MySearchView" parent="MainTheme">
-        <item name="colorControlNormal">@color/colorOrange</item>
+        <item name="colorControlNormal">@color/dark_primary_white</item>
     </style>
 
     <style name="RoundedInputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

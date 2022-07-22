@@ -23,9 +23,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kode_voucher"
-            app:endIconDrawable="@drawable/ic_proceso"
+            android:textColorHint="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
+            app:boxStrokeColor="@color/dark_stroke_primary_button"
+            app:boxStrokeWidth="2dp"
             app:endIconTint="@color/colorPrimaryDark"
+            app:helperTextTextColor="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,6 +40,8 @@
                 android:id="@+id/textInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
                 android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -42,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/checkin_input_code_voucher">
 
@@ -85,7 +93,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/checkin_reset_code_voucher"
                 style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
@@ -95,23 +103,25 @@
                 android:textColor="@color/red"
                 android:visibility="gone" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/checkin_check_code_voucher"
-                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_marginStart="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:background="@color/dark_primary_button"
                 android:text="@string/cek"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/dark_primary_text" />
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/checkin_button_scan_qrcode_voucher"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
+                android:layout_marginStart="8dp"
+                android:background="@color/dark_primary_button"
                 android:text="@string/scan"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/dark_primary_text"/>
 
 
         </LinearLayout>

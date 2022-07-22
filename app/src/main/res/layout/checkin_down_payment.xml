@@ -118,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/edc_mesin"
                 android:textSize="15sp"
+                android:textColor="@color/dark_primary_text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/button_choose_edc"
@@ -167,16 +168,17 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             android:hint="@string/nama"
-            app:endIconDrawable="@drawable/ic_voucher"
             app:endIconMode="custom"
-            app:endIconTint="@color/colorPrimaryDark"
-
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/dark_primary_text"
+                android:textColor="@color/dark_primary_text"
                 android:inputType="text"
                 android:textSize="18sp"/>
 
@@ -188,7 +190,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nomor_kartu"
-            app:endIconDrawable="@drawable/ic_voucher"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
 
@@ -209,7 +212,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kode_approval"
-            app:endIconDrawable="@drawable/ic_voucher"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
 
@@ -250,10 +254,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/expire_date"
-                app:endIconDrawable="@drawable/ic_calender"
                 app:endIconMode="custom"
                 app:endIconTint="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:hintTextColor="@color/dark_primary_text"
+                app:boxBackgroundColor="@color/dark_secondary_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/bttn_choose_date_dp"
                 app:layout_constraintTop_toTopOf="parent"

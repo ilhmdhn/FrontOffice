@@ -1,105 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/input_identitas_layout"
     android:layout_width="match_parent"
-    android:background="@color/dark_primary_background"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/border_white"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:paddingHorizontal="4dp">
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@color/colorAccent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
     <TextView
-        android:id="@+id/checkin_add_info_member_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        tools:text="Ilham Dohaan"
+        android:gravity="center_horizontal"
+        android:text="@string/informasi_checkin"
         android:textColor="@color/dark_primary_text"
-        android:textSize="14sp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="4dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/checkin_add_info_member_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:visibility="visible"
+            tools:text="Ilham Dohaan" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/dark_blue_variant" />
+
+        <TextView
+            android:id="@+id/checkin_add_info_type_room"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
+            android:layout_marginStart="8dp"
+            android:visibility="visible"
+            tools:text="ROOM 15 R04" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/checkin_add_info_room_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAlignment="center"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
+            android:visibility="visible"
+            tools:text="000022071122" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/dark_blue_variant" />
+
+        <TextView
+            android:id="@+id/checkin_add_info_durasi_checkin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textAlignment="center"
+            android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_room_code"
+            tools:text="3 JAM 14 MENIT" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/checkin_add_info_member_gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        tools:text="Pria"
         android:textColor="@color/dark_primary_text"
         android:textSize="20sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_member_name" />
+        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_member_name"
+        tools:text="Pria" />
 
     <TextView
         android:id="@+id/checkin_add_info_member_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        tools:text="085749086487"
         android:textColor="@color/dark_primary_text"
         android:textSize="20sp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_member_gender" />
-
-
-    <TextView
-        android:id="@+id/checkin_add_info_type_room"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="@string/nama"
-        android:textColor="@color/Tex"
-        android:textSize="20sp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <TextView
-        android:id="@+id/checkin_add_info_room_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="@string/nama"
-        android:textColor="@color/Tex"
-        android:textSize="20sp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_type_room" />
-
-    <TextView
-        android:id="@+id/checkin_add_info_durasi_checkin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:hint="@string/nama"
-        android:textColor="@color/Tex"
-        android:textSize="20sp"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_room_code" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.50" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintTop_toBottomOf="@+id/checkin_add_info_member_gender"
+        tools:text="085749086487" />
+</LinearLayout>
