@@ -71,13 +71,13 @@
         android:layout_height="wrap_content"
         android:hint="@string/nominal"
         app:boxBackgroundColor="@color/dark_secondary_color"
-        app:boxStrokeColor="@color/dark_stroke_primary_button"
         app:hintTextColor="@color/dark_primary_text"
+        android:textColorHint="@color/dark_primary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_checkin_type_dp"
         android:visibility="gone"
-        >
+        app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -156,10 +156,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintTextColor="@color/dark_primary_text"
-            app:boxBackgroundColor="@color/dark_secondary_color"
+            android:textColorHint="@color/dark_primary_text"
             android:hint="@string/nama"
-            app:boxStrokeWidth="1dp"
-            app:boxStrokeColor="@color/dark_stroke_primary_button"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -179,10 +178,10 @@
             android:layout_height="wrap_content"
             android:hint="@string/nomor_kartu"
             app:hintTextColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
-
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -201,6 +200,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/kode_approval"
             app:hintTextColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
@@ -238,6 +238,7 @@
                 app:endIconTint="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:hintTextColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
                 app:boxBackgroundColor="@color/dark_secondary_color"
                 app:shapeAppearance="@style/RoundedInputText">
 
@@ -245,10 +246,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"
+                    android:textColor="@color/dark_primary_text"
                     android:textSize="18sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-
 
         </LinearLayout>
 
@@ -269,14 +270,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nama_penyetor"
-            app:endIconDrawable="@drawable/ic_voucher"
-            app:endIconMode="custom"
-            app:endIconTint="@color/colorPrimaryDark"
+            app:boxBackgroundColor="@color/dark_secondary_color"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
                 android:inputType="text"
                 android:textSize="18sp" />
 
@@ -287,23 +290,19 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             android:hint="@string/bank_name"
-            app:endIconDrawable="@drawable/ic_voucher"
-            app:endIconMode="custom"
-            app:endIconTint="@color/colorPrimaryDark"
-
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:textColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
                 android:textSize="18sp" />
-
         </com.google.android.material.textfield.TextInputLayout>
-
-
     </LinearLayout>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

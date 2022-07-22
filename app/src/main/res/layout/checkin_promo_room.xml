@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/layout_head_promo"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/layout_head_promo"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -35,13 +33,11 @@
         android:id="@+id/txt_kode_promo_room"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:text="@string/no_promo"
-        android:textSize="16sp"
         android:textColor="@color/dark_primary_text"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/btn_promo_room"
         app:layout_constraintStart_toEndOf="@+id/btn_promo_room"
         app:layout_constraintTop_toTopOf="@+id/btn_promo_room" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

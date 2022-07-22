@@ -321,7 +321,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_operasional_checkin_edit_info, container, false);
         ButterKnife.bind(this, view);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);

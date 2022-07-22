@@ -27,7 +27,8 @@
             android:layout_marginEnd="15dp"
             android:hint="@string/username"
             app:boxBackgroundColor="@color/dark_secondary_color"
-            android:textColorHint="@color/white"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
             app:endIconDrawable="@drawable/ic_person"
             app:endIconMode="custom"
             app:endIconTint="@color/dark_primary_white"
@@ -51,12 +52,12 @@
             android:layout_height="wrap_content"
             app:boxBackgroundColor="@color/dark_secondary_color"
             android:textColorHint="@color/white"
+            app:hintTextColor="@color/dark_primary_text"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="@string/password"
             app:endIconMode="password_toggle"
             app:endIconTint="@color/dark_primary_white"
-
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText

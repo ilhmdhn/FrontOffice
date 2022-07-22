@@ -36,8 +36,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/operasional_foto_user"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="24dp"
                 android:src="@drawable/user"
                 app:civ_border_color="@color/whitegreen"
@@ -112,7 +112,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp"
+                        app:strokeWidth="1dp"
                         tools:ignore="InefficientWeight">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -234,7 +234,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -270,7 +270,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -312,7 +312,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -348,7 +348,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -393,7 +393,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -429,7 +429,7 @@
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
                         app:strokeColor="@color/dark_stroke_primary_button"
-                        app:strokeWidth="2dp">
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
