@@ -317,4 +317,5 @@
     <string name="ask_print_bill">Cetak Tagihan?</string>
     <string name="ask_reprint_bill">Cetak Ulang Tagihan?</string>
     <string name="informasi_checkin">INFORMASI CHECKIN</string>
+    <string name="no_promo">Tidak ada promo dipilih</string>
 </resources>

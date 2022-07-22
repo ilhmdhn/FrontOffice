@@ -26,6 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
             android:text="@string/non"
             android:checked="true"/>
 
@@ -34,12 +35,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
             android:text="@string/cash" />
 
         <RadioButton
             android:id="@+id/um_debet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
             android:layout_weight="1"
             android:text="@string/debet" />
 
@@ -48,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
             android:text="@string/credit" />
 
         <RadioButton
@@ -55,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:textColor="@color/dark_primary_text"
             android:text="@string/um_transfer" />
 
     </RadioGroup>
@@ -64,11 +69,10 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:shapeAppearance="@style/RoundedInputText"
-        app:endIconDrawable="@drawable/ic_voucher"
         android:hint="@string/nominal"
-        app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:boxBackgroundColor="@color/dark_secondary_color"
+        app:boxStrokeColor="@color/dark_stroke_primary_button"
+        app:hintTextColor="@color/dark_primary_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_checkin_type_dp"
@@ -79,6 +83,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:textColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text"
             android:textSize="18sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -92,76 +98,57 @@
         app:layout_constraintTop_toBottomOf="@id/checkin_input_dp_nominal"
         tools:layout_editor_absoluteX="15dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="15dp">
+            android:orientation="horizontal">
 
-
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/button_choose_edc"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="@string/pilih"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/dark_primary_text" />
 
             <TextView
                 android:id="@+id/txt_edc"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/edc_mesin"
-                android:textSize="15sp"
-                android:textColor="@color/dark_primary_text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/button_choose_edc"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="@string/edc_mesin"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_primary_text">
 
 
             </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="15dp">
+            android:orientation="horizontal">
 
 
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/bttnChooseCard"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/pilih"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/dark_primary_text"/>
 
             <TextView
                 android:id="@+id/txtCard"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="@string/type_card"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/bttnChooseCard"
-                app:layout_constraintTop_toTopOf="parent">
+                android:text="@string/type_card"
+                android:textSize="16sp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/dark_primary_text">
 
 
             </TextView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputNamaUmDebetCredit"
@@ -171,7 +158,8 @@
             app:hintTextColor="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
             android:hint="@string/nama"
-            app:endIconMode="custom"
+            app:boxStrokeWidth="1dp"
+            app:boxStrokeColor="@color/dark_stroke_primary_button"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -228,40 +216,29 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="15dp">
+            android:layout_height="wrap_content">
 
-
-            <androidx.appcompat.widget.AppCompatButton
+            <Button
                 android:id="@+id/bttn_choose_date_dp"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:text="@string/input"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textColor="@color/dark_primary_text" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_expired_date_dp_debet_credit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/expire_date"
+                android:layout_marginStart="8dp"
                 app:endIconMode="custom"
                 app:endIconTint="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:hintTextColor="@color/dark_primary_text"
                 app:boxBackgroundColor="@color/dark_secondary_color"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/bttn_choose_date_dp"
-                app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearance="@style/RoundedInputText">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -273,7 +250,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
