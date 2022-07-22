@@ -6,7 +6,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitegreen"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.ruangan.ListRoomFragment">
 
     <LinearLayout
@@ -25,79 +25,43 @@
 
             android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:text="@string/tambahkan_informasi_pengunjung"
+                android:textColor="@color/white"
+                android:textSize="24sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/first"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_vw_filter"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                card_view:cardCornerRadius="18dp"
+                card_view:cardElevation="0dp">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_room_by_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_head_fragment"
-                    android:paddingBottom="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:drawableEnd="@android:drawable/ic_menu_search"
+                    android:iconifiedByDefault="false"
+                    android:queryBackground="@android:color/transparent"
+                    android:queryHint="@string/search"
+                    android:theme="@style/MySearchView" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:gravity="center"
-                        android:text="@string/tambahkan_informasi_pengunjung"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:visibility="visible"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="16dp"
-                    android:paddingStart="25dp"
-                    android:paddingEnd="25dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/first"
-                    app:layout_constraintVertical_bias="1.0">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_vw_filter"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        card_view:cardCornerRadius="18dp"
-                        card_view:cardElevation="0dp">
-
-                        <androidx.appcompat.widget.SearchView
-                            android:id="@+id/search_room_by_code"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:drawableEnd="@android:drawable/ic_menu_search"
-                            android:iconifiedByDefault="false"
-                            android:queryBackground="@android:color/transparent"
-                            android:queryHint="@string/search"
-                            android:theme="@style/MySearchView" />
-
-                    </com.google.android.material.card.MaterialCardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -113,7 +77,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                card_view:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                card_view:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:listitem="@layout/holder_view_operasional_checkin_room" />
 
             <include
                 android:id="@+id/includePaging"
