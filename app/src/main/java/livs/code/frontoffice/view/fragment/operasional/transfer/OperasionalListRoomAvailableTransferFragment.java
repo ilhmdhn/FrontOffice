@@ -1,5 +1,6 @@
 package livs.code.frontoffice.view.fragment.operasional.transfer;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -265,6 +266,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     }
 
 
+    @SuppressLint("SetTextI18n")
     @Subscribe
     public void otorisasiOperasionalTransferRoom(EventsWrapper.OperasionalBusCheckinRoom operasionalBusCheckinRoom) {
         Room room = operasionalBusCheckinRoom.getRoom();
@@ -331,13 +333,12 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         MKLoader _loginProgress = dialogView.findViewById(R.id.progress_dialog);
 
-        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data->{
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data->{
             boolean kasirApproval = data.getState();
             if (kasirApproval) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
                 builder.setMessage(R.string.transfer_confirmation);
-
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

@@ -187,7 +187,7 @@ public class InvoiceFragment extends Fragment {
 
         btnToPrint.setOnClickListener(view -> {
             otherViewModel.printStatus(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), statusPrint -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
 
 
                 if (statusPrint.getState()) {

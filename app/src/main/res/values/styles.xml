@@ -82,6 +82,8 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+
+
 <!--    for bottom nav view-->
     <style name="ThemeOverlay.BottomNavView" parent="">
         <item name="colorPrimary">@color/tevelwhite</item>
@@ -119,4 +121,23 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="CustomAlertDialogDark" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="background">@color/dark_secondary_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
+    </style>
+
+    <style name="AlertButtonPositive">
+        <item name="backgroundTint">@color/dark_blue_variant</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AlertButtonNegative">
+        <item name="backgroundTint">@color/dark_primary_button</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 </resources>

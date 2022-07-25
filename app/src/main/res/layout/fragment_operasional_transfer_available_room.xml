@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.operasional.checkin.OperasionalListRoomAvailableCheckinFragment">
 
     <include
@@ -24,7 +24,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/available_room"
-        android:textSize="24sp"
+        android:textColor="@color/dark_primary_text"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeMember" />
 
@@ -32,31 +33,23 @@
         android:id="@+id/ready_room_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:divider="@null"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/includePaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_room_ready">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/holder_view_operasional_ready_room"
+        app:layout_constraintTop_toBottomOf="@+id/label_room_ready" />
 
     <include
         android:id="@+id/includePaging"
         layout="@layout/view_pagination_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.95" />
 
     <com.tuyenmonkey.mkloader.MKLoader
         android:id="@+id/progressbar"
@@ -67,6 +60,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorBackground"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

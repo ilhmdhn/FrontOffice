@@ -1,49 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/dark_primary_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/total_invoice_layout"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/ll_nominal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/select_payment_type"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/label_total"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/total_rp1"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/label_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/total_rp1"
-                android:textColor="@color/colorOrange"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/info_value_total_invoice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/roboto_medium"
-                android:text="@string/jumlah_total"
-                android:textColor="@color/colorOrange"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/info_value_total_invoice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="@string/jumlah_total"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/select_payment_type"
@@ -52,7 +46,7 @@
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_invoice_layout">
+        app:layout_constraintTop_toBottomOf="@+id/ll_nominal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headLayout"
@@ -90,7 +84,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_cash"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -98,7 +94,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_credit_card"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -106,7 +104,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_debet_card"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -114,7 +114,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_emoney"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -122,7 +124,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_complimentary"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -130,7 +134,9 @@
                         style="@style/Widget.MaterialComponents.Chip.Choice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:background="@color/dark_secondary_color"
                         android:text="@string/payment_piutang"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="14sp" />
 
                     <com.google.android.material.chip.Chip
@@ -160,6 +166,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/nominal"
+                app:hintTextColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
+                app:boxBackgroundColor="@color/dark_secondary_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/input_payment_type"
@@ -169,20 +178,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:textColor="@color/dark_primary_text"
+                    android:textColorHint="@color/dark_primary_text"
                     android:digits="0123456789.,"
                     android:textSize="18sp"/>
 
             </com.google.android.material.textfield.TextInputLayout>
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="0dp"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="8dp"
-                android:background="@color/colorOrange"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/payment_input_nominal" />
 
             <LinearLayout
                 android:id="@+id/view_payment_debet_credit"
@@ -190,7 +191,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintTop_toBottomOf="@id/payment_input_nominal"
                 tools:layout_editor_absoluteX="15dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,22 +211,25 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="8dp"
                             android:hint="@string/edc_mesin"
+                            android:textColor="@color/dark_primary_text"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.518">
 
 
                         </TextView>
 
-                        <androidx.appcompat.widget.AppCompatButton
+                        <Button
                             android:id="@+id/button_payment_choose_edc"
-                            style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:backgroundTint="@color/dark_secondary_color"
                             android:gravity="center"
                             android:text="@string/pilih"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/dark_primary_text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/txt_payment_edc"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -238,23 +242,25 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <androidx.appcompat.widget.AppCompatButton
+                        <Button
                             android:id="@+id/button_payment_choose_card"
-                            style="@style/Widget.AppCompat.Button.Borderless"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
                             android:gravity="center"
                             android:text="@string/pilih"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="@color/dark_primary_text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/txt_payment_card"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="51dp"
+                            android:layout_height="21dp"
+                            android:layout_marginEnd="8dp"
                             android:hint="@string/type_card"
+                            android:textColor="@color/dark_primary_text"
                             android:textSize="15sp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/button_payment_choose_card"
@@ -272,15 +278,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nama"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -291,9 +301,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nomor_kartu"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -301,6 +313,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="4"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -311,10 +325,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/kode_approval"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -322,6 +338,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLength="6"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -369,8 +387,7 @@
                             android:contentDescription="@string/app_name"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_spinner_down" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -384,16 +401,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nama"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -404,16 +425,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nomor_kartu"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -424,16 +449,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/kode_referensi_transaksi"
-                    app:endIconDrawable="@drawable/ic_voucher"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -455,7 +484,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/label_otorisasi"
-                    android:textColor="@color/colorOrange" />
+                    android:textColor="@color/dark_primary_text" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/input_payment_nama_compliment"
@@ -463,16 +492,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nama"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconDrawable="@drawable/ic_voucher"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -483,16 +517,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/payment_nama_instansi"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconDrawable="@drawable/ic_voucher"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -503,16 +542,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/payment_instruksi_penanggung_jawab"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconDrawable="@drawable/ic_voucher"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -534,7 +578,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="@string/label_otorisasi"
-                    android:textColor="@color/colorOrange" />
+                    android:textColor="@color/dark_primary_text" />
 
 
                 <androidx.cardview.widget.CardView
@@ -561,17 +605,6 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
-                            android:id="@+id/imageView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="12dp"
-                            android:contentDescription="@string/app_name"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_spinner_down" />
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
@@ -583,16 +616,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/nama"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconDrawable="@drawable/ic_voucher"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
+                        android:textColorLink="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -603,16 +642,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/payment_piutang_id_member"
+                    android:textColorHint="@color/dark_primary_text"
+                    app:boxBackgroundColor="@color/dark_secondary_color"
                     app:endIconDrawable="@drawable/ic_voucher"
+
                     app:endIconMode="custom"
                     app:endIconTint="@color/colorPrimaryDark"
-
+                    app:hintTextColor="@color/dark_primary_text"
                     app:shapeAppearance="@style/RoundedInputText">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorHint="@color/dark_primary_text"
+                        android:textColorLink="@color/dark_primary_text"
                         android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -634,16 +679,12 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_add_more_payment"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:background="@drawable/background_button_payment"
-                android:drawableStart="@drawable/ic_add_payment"
-                android:paddingStart="5dp"
-                android:paddingEnd="10dp"
+                android:layout_height="35dp"
+                android:background="@drawable/background_button_login"
                 android:text="@string/bayar"
-                android:textAllCaps="false"
-                android:textColor="#fff"
-                android:textSize="12sp"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/dark_primary_text"
+                android:drawableStart="@drawable/ic_add_payment"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -659,6 +700,7 @@
         android:scrollbars="none"
         app:layout_constraintBottom_toTopOf="@+id/bottom_payment_view"
         app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/holder_view_payment"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -758,11 +800,12 @@
             android:id="@+id/bottom_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
             android:padding="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_value_reduce_payments">
+            app:layout_constraintTop_toTopOf="@+id/info_value_reduce_payments">
 
             <ImageButton
                 android:id="@+id/btn_to_invoice"
@@ -770,11 +813,11 @@
                 android:layout_height="45dp"
                 android:layout_marginStart="4dp"
                 android:background="@drawable/background_button_print"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/ic_back_page"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/app_name" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_submit_payment"
@@ -810,7 +853,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 
 

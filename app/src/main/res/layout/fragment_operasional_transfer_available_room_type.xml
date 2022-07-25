@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,46 +12,56 @@
         android:id="@+id/includeMember"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/background_head_fragment"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:paddingBottom="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_member"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="24dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:src="@drawable/user"
-            app:civ_border_color="@color/whitegreen"
+            app:civ_border_color="@color/dark_blue_variant"
             app:civ_border_width="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/name_member"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/username"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/image_member"
             app:layout_constraintStart_toEndOf="@+id/image_member"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/image_member">
 
-        <TextView
-            android:id="@+id/checkin_poin_member"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/payment_poin_member"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/name_member"
-            app:layout_constraintTop_toBottomOf="@id/name_member" />
+            <TextView
+                android:id="@+id/name_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/image_member"
+                app:layout_constraintTop_toTopOf="@+id/image_member" />
+
+            <TextView
+                android:id="@+id/checkin_poin_member"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="@string/payment_poin_member"
+                android:textSize="12sp" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/phone_member"
@@ -59,8 +70,7 @@
             android:text="@string/payment_poin_member"
             android:textSize="25sp"
             android:visibility="gone"
-            app:layout_constraintStart_toStartOf="@+id/name_member"
-            app:layout_constraintTop_toBottomOf="@id/name_member" />
+            tools:ignore="MissingConstraints" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
@@ -68,9 +78,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/alasan_transfer"
-        android:textSize="14sp"
+        android:textSize="18sp"
+        android:textColor="@color/dark_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeMember" />
 
@@ -78,9 +89,11 @@
         android:id="@+id/input_alasan_transfer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
         android:checkedButton="@id/um_non"
         android:orientation="vertical"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/label_alasan_transfer">
@@ -107,7 +120,6 @@
             android:layout_weight="1"
             android:text="@string/vod_bermasalah" />
 
-
     </RadioGroup>
 
     <TextView
@@ -117,7 +129,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/available_room"
-        android:textSize="14sp"
+        android:textSize="18sp"
+        android:textColor="@color/dark_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_alasan_transfer" />
 
@@ -129,6 +142,7 @@
         app:layout_constraintBottom_toTopOf="@+id/includePaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/holder_view_operasional_ready_room_type"
         app:layout_constraintTop_toBottomOf="@+id/label_room_ready">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -138,18 +152,10 @@
         layout="@layout/view_pagination_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="1" />
 
 
     <com.tuyenmonkey.mkloader.MKLoader
@@ -161,6 +167,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorBackground"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>
