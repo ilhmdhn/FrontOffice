@@ -50,7 +50,7 @@ public class ListOperasionalCheckoutRoomAdapter extends RecyclerView.Adapter<Lis
         holder1._nameMember.setText(AppUtils.getFirstWord(room.getRoomGuessName()));
         holder1._roomInfo.setText(room.getRoomCode());
         holder1.setInfoTime();
-        holder1.setMemberImage();
+//        holder1.setMemberImage();
     }
 
 
@@ -70,8 +70,8 @@ public class ListOperasionalCheckoutRoomAdapter extends RecyclerView.Adapter<Lis
     class RoomViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
 
-        @BindView(R.id.image_member)
-        ImageView memberFoto;
+//        @BindView(R.id.image_member)
+//        ImageView memberFoto;
 
         @BindView(R.id.name_member)
         TextView _nameMember;

@@ -66,11 +66,11 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
     @BindView(R.id.bttn_next)
     ImageButton buttonNext;
 
-    @BindView(R.id.text_bayar_room)
-    TextView textBayarRoom;
+//    @BindView(R.id.text_bayar_room)
+//    TextView textBayarRoom;
 
-    @BindView(R.id.text_clean_room)
-    TextView textCleanRoom;
+//    @BindView(R.id.text_clean_room)
+//    TextView textCleanRoom;
 
     //pagination
     private BasePagination p;
@@ -135,7 +135,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
         roomViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         searchView.setQueryHint("Kode Room");
-        textCleanRoom.setVisibility(View.GONE);
+//        textCleanRoom.setVisibility(View.GONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -167,25 +167,25 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
             }
         });
 
-        textBayarRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view)
-                        .navigate(OperasionalListRoomToCheckoutFragmentDirections
-                                .navOperasionalListRoomToCheckoutFragmentToNavOperasionalListRoomToPaymentFragment()
-                        );
-            }
-        });
+//        textBayarRoom.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Navigation.findNavController(view)
+//                        .navigate(OperasionalListRoomToCheckoutFragmentDirections
+//                                .navOperasionalListRoomToCheckoutFragmentToNavOperasionalListRoomToPaymentFragment()
+//                        );
+//            }
+//        });
 
-        textCleanRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view)
-                        .navigate(OperasionalListRoomToCheckoutFragmentDirections
-                                .actionNavOperasionalListRoomToCheckoutFragmentToNavOperasionalListRoomToCleanFragment()
-                        );
-            }
-        });
+//        textCleanRoom.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Navigation.findNavController(view)
+//                        .navigate(OperasionalListRoomToCheckoutFragmentDirections
+//                                .actionNavOperasionalListRoomToCheckoutFragmentToNavOperasionalListRoomToCleanFragment()
+//                        );
+//            }
+//        });
 
         //paymentRoomSetupData();
 
@@ -309,7 +309,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     private void checkoutRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForCheckout);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_checkout_room, null);
         dialogBuilder.setView(dialogView);

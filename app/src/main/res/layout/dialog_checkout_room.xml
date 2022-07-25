@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,6 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingLeft="15dp"
+    android:background="@android:color/transparent"
     android:paddingRight="15dp">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -16,14 +16,19 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:hint="@string/nama"
+        android:textColorHint="@color/dark_primary_text"
+        app:boxBackgroundColor="@color/dark_secondary_color"
         app:endIconDrawable="@drawable/ic_person"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:endIconTint="@color/dark_primary_white"
+        app:hintTextColor="@color/dark_primary_text"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -34,17 +39,23 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:hint="@string/nomor_telepon"
+        android:textColorHint="@color/dark_primary_text"
+        app:boxBackgroundColor="@color/dark_secondary_color"
         app:endIconDrawable="@drawable/ic_phone"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:endIconTint="@color/dark_primary_white"
+        app:hintTextColor="@color/dark_primary_text"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/checkout_room"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -52,17 +63,23 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:hint="@string/room"
+        android:textColorHint="@color/dark_primary_text"
+        app:boxBackgroundColor="@color/dark_secondary_color"
         app:endIconDrawable="@drawable/ic_room"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:endIconTint="@color/dark_primary_white"
+        app:hintTextColor="@color/dark_primary_text"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/checkout_time_out"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
@@ -70,15 +87,20 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:hint="@string/jam_checkout"
+        android:textColorHint="@color/dark_primary_text"
+        app:boxBackgroundColor="@color/dark_secondary_color"
         app:endIconDrawable="@drawable/ic_time"
         app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:endIconTint="@color/dark_primary_white"
+        app:hintTextColor="@color/dark_primary_text"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:textColor="@color/dark_primary_text"
+            android:textColorHint="@color/dark_primary_text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

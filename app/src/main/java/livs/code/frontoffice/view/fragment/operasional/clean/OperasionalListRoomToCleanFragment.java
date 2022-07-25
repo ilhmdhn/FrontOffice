@@ -64,9 +64,6 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
     @BindView(R.id.bttn_next)
     ImageButton buttonNext;
 
-    @BindView(R.id.text_checkout_room_clean)
-    TextView textCheckoutRoomClean;
-
     //pagination
     private BasePagination p;
     private int totalPages=0;
@@ -130,7 +127,6 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
         roomViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         searchView.setQueryHint("Kode Room");
-        textCheckoutRoomClean.setVisibility(View.GONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -178,17 +174,6 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
                 toggleButtons();
             }
         });
-
-        textCheckoutRoomClean.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view)
-                        .navigate(OperasionalListRoomToCleanFragmentDirections
-                                .actionNavOperasionalListRoomToCleanFragmentToOperasionalListRoomToCheckoutFragment()
-                        );
-            }
-        });
-
     }
 
     private void setMainTitle() {
@@ -290,7 +275,7 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
 
     private void cleanRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForCheckout);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_clean_room, null);
         dialogBuilder.setView(dialogView);
