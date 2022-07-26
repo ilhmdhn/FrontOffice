@@ -885,10 +885,10 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     }
 
     private void dialogPromoFood() {
-        listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), promoFoodList);
+        listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.CustomAlertDialogDarkForNoActionBAr)
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -920,7 +920,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         visibleProgressBar(true);
         roomPromoViewModel
                 .getRoomPromoResponseMutableLiveData(currentRoomCheckin.getRoomType())
-                .observe(getActivity(), roomPromoResponse -> {
+                .observe(getViewLifecycleOwner(), roomPromoResponse -> {
                     visibleProgressBar(false);
                     if (roomPromoResponse.isOkay()) {
                         List<RoomPromo> roomPromos = roomPromoResponse.getRoomPromos();
@@ -933,10 +933,10 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     }
 
     private void dialogPromoRoom() {
-        listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), promoRoomList);
+        listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr)
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override

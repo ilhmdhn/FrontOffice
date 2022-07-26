@@ -8,12 +8,13 @@
     android:elevation="5dp"
     android:layout_marginTop="16dp"
     android:layout_marginStart="8dp"
+    android:background="@color/dark_secondary_color"
     android:layout_marginEnd="8dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="96dp">
 
         <ImageView
             android:id="@+id/food_image"
@@ -31,11 +32,11 @@
             android:id="@+id/inventory_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/semibold"
             android:text="@string/all_room_label"
-            android:textColor="#091020"
-            android:textSize="15sp"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/inventory_code"
             app:layout_constraintTop_toBottomOf="@+id/inventory_code" />
 
@@ -43,12 +44,11 @@
             android:id="@+id/inventory_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/semibold"
             android:text="@string/rp0"
-            android:textColor="#FF6813"
-            android:textSize="12sp"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/inventory_code"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -56,9 +56,10 @@
             android:id="@+id/inventory_qty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/regular"
             android:text="@string/all_room_label"
+            android:textColor="@color/dark_secondary_text"
             app:layout_constraintBottom_toBottomOf="@+id/inventory_name"
             app:layout_constraintStart_toEndOf="@+id/inventory_name" />
 
@@ -70,30 +71,23 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/regular"
             android:text="@string/extends_room"
-            android:textColor="#F06941"
-            android:textSize="12sp"
+            android:textColor="@color/dark_secondary_text"
+            android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/food_image"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/inventory_name"
-            app:layout_constraintTop_toBottomOf="@+id/inventory_name"
-            app:srcCompat="@drawable/ic_star_black_24dp" />
-
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/bttn_do"
-            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/dark_blue_variant"
             android:text="@string/deliv_order"
-            android:textColor="@color/colorAccent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inventory_name" />
+            android:textColor="@color/dark_primary_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

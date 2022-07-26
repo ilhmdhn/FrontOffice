@@ -1,5 +1,6 @@
 package livs.code.frontoffice.view.fragment.operasional.fnb;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -151,7 +152,7 @@ public class OperasionalFnbFragment extends Fragment {
         roomOrder = null;
         roomOrderViewModel
                 .getRoomOrderResponseMutableLiveData(room.getRoomCode())
-                .observe(getActivity(), roomOrderResponse -> {
+                .observe(getViewLifecycleOwner(), roomOrderResponse -> {
                     roomOrderResponse.displayMessage(getContext());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
@@ -170,14 +171,14 @@ public class OperasionalFnbFragment extends Fragment {
 
 
     private void setViewPager() {
-        viewPager2.setAdapter(new OperasionalFnbFragment.ViewPagerFragmentAdapter(getActivity()));
+        viewPager2.setAdapter(new OperasionalFnbFragment.ViewPagerFragmentAdapter(requireActivity()));
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> tab.setText(titles[position]))
                 .attach();
     }
 
     private void deliveryOrderInventoryDialog(Inventory inventory) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_delivery_order_inventory, null);
         dialogBuilder.setView(dialogView);
@@ -289,9 +290,10 @@ public class OperasionalFnbFragment extends Fragment {
         alertDialog.show();
     }
 
+    @SuppressLint("SetTextI18n")
     private void cancelInventoryOrderDialog(Inventory inventory) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_cancel_order_inventory, null);
         dialogBuilder.setView(dialogView);
@@ -346,7 +348,7 @@ public class OperasionalFnbFragment extends Fragment {
         });
 
 
-        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(),  data ->{
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(),  data ->{
             boolean kasirApproval = data.getState();
 
             if (kasirApproval){
@@ -366,7 +368,7 @@ public class OperasionalFnbFragment extends Fragment {
                             public void onClick(View view) {
 
                                 if (cancelQty == 0) {
-                                    Toasty.warning(getContext(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
+                                    Toasty.warning(requireActivity(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
                                             .show();
                                     return;
                                 }
@@ -409,7 +411,7 @@ public class OperasionalFnbFragment extends Fragment {
 
                                     @Override
                                     public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                        Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                                        Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                                                 .show();
                                         visibleProgressBar(false);
                                     }
@@ -435,12 +437,12 @@ public class OperasionalFnbFragment extends Fragment {
                                 String email = _usernameTxt.getText().toString();
                                 String password = _passwordTxt.getText().toString();
                                 if (email.isEmpty() && password.isEmpty()) {
-                                    Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                    Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                             .show();
                                     return;
                                 }
                                 if (cancelQty == 0) {
-                                    Toasty.warning(getContext(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
+                                    Toasty.warning(requireActivity(), "Belum ada perubahan data", Toast.LENGTH_SHORT, true)
                                             .show();
                                     return;
                                 }
@@ -492,13 +494,13 @@ public class OperasionalFnbFragment extends Fragment {
 
                                                     @Override
                                                     public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                                        Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                                                        Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                                                                 .show();
                                                         visibleProgressBar(false);
                                                     }
                                                 });
                                             } else {
-                                                Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                         .show();
                                             }
                                         }
@@ -507,7 +509,7 @@ public class OperasionalFnbFragment extends Fragment {
                                     @Override
                                     public void onFailure(Call<UserResponse> call, Throwable t) {
                                         button.setEnabled(true);
-                                        Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                        Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
                                 });

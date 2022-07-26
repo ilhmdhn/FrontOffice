@@ -121,8 +121,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:visibility="gone"
-                android:text="Batalkan Promo"/>
+                android:backgroundTint="@color/dark_blue_variant"
+                android:text="Batalkan Promo"
+                android:textColor="@color/dark_primary_text"
+                android:visibility="gone" />
 
 
             <include
