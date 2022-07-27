@@ -83,6 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
+            android:textCursorDrawable="@drawable/cursor_blue"
             android:textColor="@color/dark_primary_text"
             android:textColorHint="@color/dark_primary_text"
             android:textSize="18sp"/>
@@ -94,7 +95,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/checkin_input_dp_nominal"
         tools:layout_editor_absoluteX="15dp">
 
@@ -114,10 +115,10 @@
                 android:id="@+id/txt_edc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/edc_mesin"
-                android:textSize="16sp"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/dark_primary_text">
+                android:text="@string/edc_mesin"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp">
 
 
             </TextView>
@@ -135,16 +136,16 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/pilih"
-                android:textColor="@color/dark_primary_text"/>
+                android:textColor="@color/dark_primary_text" />
 
             <TextView
                 android:id="@+id/txtCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/type_card"
-                android:textSize="16sp"
                 android:layout_marginStart="8dp"
-                android:textColor="@color/dark_primary_text">
+                android:text="@string/type_card"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp">
 
 
             </TextView>
@@ -155,19 +156,20 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:hintTextColor="@color/dark_primary_text"
-            android:textColorHint="@color/dark_primary_text"
             android:hint="@string/nama"
+            android:textColorHint="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
+            app:hintTextColor="@color/dark_primary_text"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColorHint="@color/dark_primary_text"
-                android:textColor="@color/dark_primary_text"
                 android:inputType="text"
-                android:textSize="18sp"/>
+                android:textColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
+                android:textCursorDrawable="@drawable/cursor_blue"
+                android:textSize="18sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -177,19 +179,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/nomor_kartu"
-            app:hintTextColor="@color/dark_primary_text"
             android:textColorHint="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
+            app:hintTextColor="@color/dark_primary_text"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textSize="18sp"
-                android:maxLength="4"/>
+                android:maxLength="4"
+                android:textCursorDrawable="@drawable/cursor_blue"
+                android:textSize="18sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -199,11 +202,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/kode_approval"
-            app:hintTextColor="@color/dark_primary_text"
             android:textColorHint="@color/dark_primary_text"
             app:boxBackgroundColor="@color/dark_secondary_color"
             app:endIconMode="custom"
             app:endIconTint="@color/colorPrimaryDark"
+            app:hintTextColor="@color/dark_primary_text"
 
             app:shapeAppearance="@style/RoundedInputText">
 
@@ -211,8 +214,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number"
-                android:textSize="18sp"
-                android:maxLength="6"/>
+                android:maxLength="6"
+                android:textCursorDrawable="@drawable/cursor_blue"
+                android:textSize="18sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -232,14 +236,14 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/expire_date"
                 android:layout_marginStart="8dp"
-                app:endIconMode="custom"
-                app:endIconTint="@color/colorPrimaryDark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:hintTextColor="@color/dark_primary_text"
+                android:hint="@string/expire_date"
                 android:textColorHint="@color/dark_primary_text"
                 app:boxBackgroundColor="@color/dark_secondary_color"
+                app:endIconMode="custom"
+                app:endIconTint="@color/colorPrimaryDark"
+                app:hintTextColor="@color/dark_primary_text"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:shapeAppearance="@style/RoundedInputText">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -247,7 +251,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     android:textColor="@color/dark_primary_text"
-                    android:textSize="18sp"/>
+                    android:textCursorDrawable="@drawable/cursor_blue"
+                    android:textSize="18sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -281,6 +286,7 @@
                 android:textColor="@color/dark_primary_text"
                 android:textColorHint="@color/dark_primary_text"
                 android:inputType="text"
+                android:textCursorDrawable="@drawable/cursor_blue"
                 android:textSize="18sp" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -300,6 +306,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
+                android:textCursorDrawable="@drawable/cursor_blue"
                 android:textColor="@color/dark_primary_text"
                 android:textColorHint="@color/dark_primary_text"
                 android:textSize="18sp" />

@@ -1634,6 +1634,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
         if (inputCodeVoucher.getEditText().getText().toString().length() > 0) {
             finalVoucherCode = inputCodeVoucher.getEditText().getText().toString();
+        }else{
+            finalVoucherCode = "";
         }
 
         if(inputCodeMember.getEditText().getText().toString().length() > 0){

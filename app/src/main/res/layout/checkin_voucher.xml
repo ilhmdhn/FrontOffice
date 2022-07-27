@@ -40,6 +40,7 @@
                 android:id="@+id/textInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/cursor_blue"
                 android:cursorVisible="true"
                 android:textColor="@color/dark_primary_text"
                 android:textColorHint="@color/dark_primary_text"
