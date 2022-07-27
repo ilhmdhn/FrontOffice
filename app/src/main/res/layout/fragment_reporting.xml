@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval">
+    android:background="@color/dark_primary_background">
 
 
     <androidx.core.widget.NestedScrollView
@@ -16,158 +16,133 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/transparent">
+            android:layout_marginHorizontal="4dp"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingTop="5dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="5dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="80dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_status_kas_masuk"
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btn_status_kas_masuk"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    android:backgroundTint="@color/dark_secondary_color"
+                    app:strokeColor="@color/dark_stroke_primary_button"
+                    app:strokeWidth="2dp"
+                    tools:ignore="InefficientWeight">
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp"
-                        tools:ignore="InefficientWeight">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginStart="8dp"
-                                android:fontFamily="@font/sfpro_display_bold"
-                                android:text="@string/status_kas_masuk"
-                                android:textSize="18sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btn_my_sales"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp"
-                        tools:ignore="InefficientWeight">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginStart="8dp"
-                                android:fontFamily="@font/sfpro_display_bold"
-                                android:text="@string/my_Sales"
-                                android:textSize="18sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/btn_report_cancel_order"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="10dp"
-                        android:layout_weight="1"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        app:cardCornerRadius="14dp"
-                        app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp"
-                        tools:ignore="InefficientWeight">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginStart="8dp"
-                                android:fontFamily="@font/sfpro_display_bold"
-                                android:text="@string/cancel_order_fnb"
-                                android:textSize="18sp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                </LinearLayout>
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/sfpro_display_bold"
+                        android:text="@string/status_kas_masuk"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:textColor="@color/dark_primary_text"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </com.google.android.material.card.MaterialCardView>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_my_sales"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:backgroundTint="@color/dark_secondary_color"
+                    app:strokeColor="@color/dark_stroke_primary_button"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="2dp"
+                    tools:ignore="InefficientWeight">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:textColor="@color/dark_primary_text"
+                        android:fontFamily="@font/sfpro_display_bold"
+                        android:text="@string/my_Sales"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/btn_report_cancel_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:backgroundTint="@color/dark_secondary_color"
+                    app:strokeColor="@color/dark_stroke_primary_button"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="0dp"
+                    app:strokeWidth="2dp"
+                    tools:ignore="InefficientWeight">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="8dp"
+                        android:gravity="center"
+                        android:fontFamily="@font/sfpro_display_bold"
+                        android:text="@string/cancel_order_fnb"
+                        android:textColor="@color/dark_primary_text"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

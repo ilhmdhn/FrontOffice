@@ -1,7 +1,6 @@
 package livs.code.frontoffice.view.fragment.reporting.kas
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +16,6 @@ import com.google.android.material.tabs.TabLayoutMediator
 import es.dmoral.toasty.Toasty
 import livs.code.frontoffice.MyApp
 import livs.code.frontoffice.R
-import livs.code.frontoffice.data.remote.respons.DataStatusKas
 import livs.code.frontoffice.data.repository.IhpRepository
 import livs.code.frontoffice.databinding.FragmentDetailReportKasBinding
 import livs.code.frontoffice.helper.utils
