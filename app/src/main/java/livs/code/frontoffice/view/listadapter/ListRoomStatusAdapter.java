@@ -1,5 +1,6 @@
 package livs.code.frontoffice.view.listadapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.CountDownTimer;
@@ -7,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,26 +60,28 @@ public class ListRoomStatusAdapter extends RecyclerView.Adapter<ListRoomStatusAd
         vh.setRoom(room);
         vh._roomCode.setText(room.getRoomCode());
 
-        if (room.getEventOwner().length() > 10) {
-            vh._roomGuess.setText(room.getEventOwner().substring(0, 10));
-        } else if(room.getEventOwner().length()<1){
+        if(room.getEventOwner().length()<1){
             vh._roomGuess.setText("Incognito");
         } else{
             vh._roomGuess.setText(room.getEventOwner());
         }
 
         if ((room.getInventoryOnOrderProgress().size() > 1) && (RoomState.PAID.getState() != room.getRoomState())) {
-            vh._middleLayout.setVisibility(View.INVISIBLE);
+//            vh._middleLayout.setVisibility(View.INVISIBLE);
+                vh._paidState.setVisibility(View.INVISIBLE);
+                vh._orderState.setVisibility(View.GONE);
         } else {
             if (room.getInventoryOnOrderProgress().size() > 1) {
                 vh._orderState.setVisibility(View.GONE);
+                vh.lyStatusORder.setVisibility(View.VISIBLE);
             } else {
                 vh._orderState.setVisibility(View.VISIBLE);
+                vh.lyStatusORder.setVisibility(View.GONE);
             }
             if (RoomState.PAID.getState() == room.getRoomState()) {
                 vh._paidState.setVisibility(View.VISIBLE);
             } else {
-                vh._paidState.setVisibility(View.GONE);
+                vh._paidState.setVisibility(View.INVISIBLE);
             }
         }
 
@@ -101,38 +107,41 @@ public class ListRoomStatusAdapter extends RecyclerView.Adapter<ListRoomStatusAd
     class RoomViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        @BindView(R.id.input_count)
+        @BindView(R.id.tv_room_so_count)
         TextView _countAllSO;
 
-        @BindView(R.id.process_count)
+        @BindView(R.id.tv_room_order_process)
         TextView _countAllAcceptedSO;
 
-        @BindView(R.id.cancel_count)
+        @BindView(R.id.tv_room_order_return)
         TextView _countAllCancelSO;
 
-        @BindView(R.id.success_count)
+        @BindView(R.id.tv_room_order_success)
         TextView _countAllSuccessSO;
 
-        @BindView(R.id.room_code)
+        @BindView(R.id.tv_room_code)
         TextView _roomCode;
 
-        @BindView(R.id.room_guess)
+        @BindView(R.id.tv_room_guest_name)
         TextView _roomGuess;
 
-        @BindView(R.id.order_status)
+        @BindView(R.id.tv_room_order_empty)
         TextView _orderState;
 
-        @BindView(R.id.paid_status)
+        @BindView(R.id.ly_room_order_status)
+        LinearLayout lyStatusORder;
+
+        @BindView(R.id.tv_room_paid)
         TextView _paidState;
 
-        @BindView(R.id.time_residual)
+        @BindView(R.id.tv_room_duration)
         TextView _time;
 
-        @BindView(R.id.middle_layout)
-        View _middleLayout;
+//        @BindView(R.id.middle_layout)
+//        View _middleLayout;
 
-        @BindView(R.id.callroom_ic)
-        ImageView _callRoom;
+        @BindView(R.id.tv_room_call)
+        TextView _callRoom;
 
 
         private Context context;
@@ -238,7 +247,7 @@ public class ListRoomStatusAdapter extends RecyclerView.Adapter<ListRoomStatusAd
             if (room.isRoomCall()) {
                 _callRoom.setVisibility(View.VISIBLE);
             } else {
-                _callRoom.setVisibility(View.GONE);
+                _callRoom.setVisibility(View.INVISIBLE);
             }
         }
 

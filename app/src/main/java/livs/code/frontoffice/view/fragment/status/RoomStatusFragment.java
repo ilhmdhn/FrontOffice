@@ -137,7 +137,7 @@ public class RoomStatusFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String keyword) {
                 //progressBar.setVisibility(View.VISIBLE);
-                btnFilterClean.setVisibility(View.INVISIBLE);
+                btnFilterClean.setVisibility(View.GONE);
                 roomTypeParam = "";
                 roomCodeParam = "";
                 if (keyword.length() == 0) {
@@ -213,7 +213,7 @@ public class RoomStatusFragment extends Fragment {
             allRoomCheckinSetupData();
         });
         btnFilterClean.setOnClickListener(view -> {
-            btnFilterClean.setVisibility(View.INVISIBLE);
+            btnFilterClean.setVisibility(View.GONE);
             roomTypeParam = "";
             roomCodeParam = "";
             allRoomCheckinSetupData();
@@ -260,7 +260,7 @@ public class RoomStatusFragment extends Fragment {
     private void reloadRecyclerView() {
         roomCinAdapter = new ListRoomStatusAdapter(getContext(), roomArrayList);
         roomCinRecyclerView.setAdapter(roomCinAdapter);
-        roomCinRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        roomCinRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         roomCinAdapter.notifyDataSetChanged();
     }
 
@@ -274,7 +274,7 @@ public class RoomStatusFragment extends Fragment {
 
     @Subscribe
     public void refreshPage(EventsWrapper.RefreshCurrentFragment refreshCurrentFragment) {
-        btnFilterClean.setVisibility(View.INVISIBLE);
+        btnFilterClean.setVisibility(View.GONE);
         roomTypeParam = "";
         roomCodeParam = "";
         allRoomCheckinSetupData();

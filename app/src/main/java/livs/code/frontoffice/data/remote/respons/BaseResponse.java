@@ -30,7 +30,8 @@ public class BaseResponse {
         if(isOkay()){
             //Toasty.success(context, "Server Response : "+getMessage(), Toast.LENGTH_SHORT, true).show();
         }else{
-            Toasty.warning(context, "Server Response : "+getMessage(), Toast.LENGTH_SHORT, true).show();
+//            Toasty.warning(context, "Server Response : "+getMessage(), Toast.LENGTH_SHORT, true).show();
+            Toast.makeText(context, "Server Response : "+getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

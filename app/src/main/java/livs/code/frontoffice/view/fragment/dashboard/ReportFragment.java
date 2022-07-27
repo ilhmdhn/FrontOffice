@@ -143,7 +143,7 @@ public class ReportFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         roomViewModel
                 .getAllRoom(EMPTY_STRING)
-                .observe(getActivity(), roomResponse -> {
+                .observe(getViewLifecycleOwner(), roomResponse -> {
                     roomResponse.displayMessage(getContext());
                     if (roomResponse.isOkay()) {
                         listAllRoom = roomResponse.getRooms();

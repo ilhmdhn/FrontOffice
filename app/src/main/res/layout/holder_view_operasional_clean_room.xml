@@ -20,7 +20,6 @@
             android:layout_height="@dimen/card_cover_height"
             android:visibility="gone"
             android:clickable="false"
-            android:src="@drawable/card_background"
             android:scaleType="fitXY" />
 
         <TextView
