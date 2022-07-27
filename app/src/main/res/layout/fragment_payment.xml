@@ -178,6 +178,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:textCursorDrawable="@drawable/cursor_blue"
                     android:textColor="@color/dark_primary_text"
                     android:textColorHint="@color/dark_primary_text"
                     android:digits="0123456789.,"
@@ -289,6 +290,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -313,6 +315,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="4"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -338,6 +341,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLength="6"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -413,6 +417,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -437,6 +442,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -461,6 +467,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -505,6 +512,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -530,6 +538,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -555,6 +564,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textSize="18sp" />
@@ -629,6 +639,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textColorLink="@color/dark_primary_text"
@@ -655,6 +666,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
+                        android:textCursorDrawable="@drawable/cursor_blue"
                         android:textColor="@color/dark_primary_text"
                         android:textColorHint="@color/dark_primary_text"
                         android:textColorLink="@color/dark_primary_text"

@@ -99,8 +99,9 @@
 
             <include
                 layout="@layout/checkin_visitor_male"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_height="wrap_content" />
             <include
                 layout="@layout/checkin_voucher"
                 android:layout_width="match_parent"
