@@ -34,6 +34,7 @@
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/sfpro_display_bold"
                 android:text="@string/room"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/img_notif"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="@string/app_name"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/room_type"
                 app:layout_constraintTop_toBottomOf="@+id/room_type" />
@@ -56,7 +57,7 @@
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="2dp"
                 android:text="@string/app_name"
-                android:textColor="@color/subText"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/type_notif"
                 app:layout_constraintTop_toBottomOf="@+id/room_type" />

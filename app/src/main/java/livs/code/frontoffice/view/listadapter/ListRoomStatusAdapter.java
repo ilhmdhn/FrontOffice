@@ -228,10 +228,10 @@ public class ListRoomStatusAdapter extends RecyclerView.Adapter<ListRoomStatusAd
 
         @Override
         public void onClick(View view) {
-           Navigation
-                    .findNavController(view)
-                    .navigate(RoomStatusFragmentDirections
-                            .actionNavRoomStatusFragmentToNavRoomOrderStatusDetailFragment(room));
+//           Navigation
+//                    .findNavController(view)
+//                    .navigate(RoomStatusFragmentDirections
+//                            .actionNavRoomStatusFragmentToNavRoomOrderStatusDetailFragment(room));
         }
 
         public void setRoomCall() {

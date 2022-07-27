@@ -6,7 +6,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitegreen"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.ruangan.ListRoomFragment">
 
     <LinearLayout
@@ -34,7 +34,6 @@
                     android:id="@+id/first"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/background_head_fragment"
                     android:paddingBottom="40dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,6 +64,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:backgroundTint="@color/dark_secondary_color"
                         card_view:cardCornerRadius="18dp"
                         card_view:cardElevation="0dp">
 
@@ -89,8 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            tools:listitem="@layout/holder_view_notify"/>
 
     </LinearLayout>
 
@@ -103,7 +102,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 
 
