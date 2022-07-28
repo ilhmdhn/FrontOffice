@@ -102,8 +102,8 @@ public class ListHistoryRoomFragment extends Fragment {
     @BindView(R.id.toogle_all_checkin_room_history)
     MaterialButton viewAllCheckinRoomHistory;
 
-    @BindView(R.id.horizontalScrollViewHistory)
-    HorizontalScrollView horizontalScrollViewHistory;
+//    @BindView(R.id.horizontalScrollViewHistory)
+//    HorizontalScrollView horizontalScrollViewHistory;
 
     private ListRoomHistoryAdapter roomAdapter;
     private ArrayList<Room> roomArrayList = new ArrayList<>();
@@ -170,7 +170,7 @@ public class ListHistoryRoomFragment extends Fragment {
         viewAllRoomChekin.setVisibility(View.GONE);
         viewAllRoomPaid.setVisibility(View.GONE);
         viewAllRoomClean.setVisibility(View.GONE);
-        horizontalScrollViewHistory.setVisibility(View.GONE);
+//        horizontalScrollViewHistory.setVisibility(View.GONE);
         materialButtonToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {

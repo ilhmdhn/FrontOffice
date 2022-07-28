@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/dark_primary_background"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
@@ -12,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="7dp"
+        android:background="@color/dark_secondary_color"
         app:cardCornerRadius="16dp"
         app:cardElevation="0dp">
 
@@ -44,6 +46,7 @@
                         android:adjustViewBounds="true"
                         android:gravity="center"
                         android:text="@string/_031a"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="23sp" />
                 </FrameLayout>
 
@@ -52,7 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
-                    android:textColor="@color/subText"
+                    android:textColor="@color/dark_primary_text"
                     android:textSize="25sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +63,6 @@
                     app:layout_constraintStart_toEndOf="@+id/frameLayout3"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.47" />
-
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -82,10 +84,10 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_checkin_time"
-                        android:contentDescription="@string/app_name" />
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_checkin_time" />
 
                     <TextView
                         android:id="@+id/row_jam_checkin"
@@ -93,8 +95,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center|start"
                         android:text="@string/jam"
-                        android:textColor="#949DB1"
-                        android:textSize="10sp"
+                        android:textColor="@color/dark_primary_text"
+                        android:textSize="14sp"
                         tools:ignore="SmallSp" />
 
                 </LinearLayout>
@@ -107,10 +109,10 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_checkout_time"
-                        android:contentDescription="@string/app_name" />
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_checkout_time" />
 
                     <TextView
                         android:id="@+id/row_jam_checkout"
@@ -118,8 +120,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center|start"
                         android:text="@string/jam"
-                        android:textColor="#949DB1"
-                        android:textSize="10sp" />
+                        android:textColor="@color/dark_primary_text"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -131,10 +133,10 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_person"
-                        android:contentDescription="@string/app_name" />
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:contentDescription="@string/app_name"
+                        app:srcCompat="@drawable/ic_person" />
 
                     <TextView
                         android:id="@+id/row_room_member"
@@ -142,8 +144,8 @@
                         android:layout_height="match_parent"
                         android:gravity="center|start"
                         android:text="@string/app_name"
-                        android:textColor="#adb3c0"
-                        android:textSize="10sp" />
+                        android:textColor="@color/dark_primary_text"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -169,9 +171,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/bayar"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/bayar" />
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_checkout"
@@ -179,9 +181,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/checkout_room"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/checkout_room"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_transfer"
@@ -189,9 +191,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/transfer"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/transfer"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_extends"
@@ -199,18 +201,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/extends_room"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/extends_room"/>
+                    android:visibility="gone" />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_order"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/order"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/order"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_checkin"
@@ -218,9 +221,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/checkin_room"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/checkin_room"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_clean"
@@ -228,9 +231,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/cleaning"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/cleaning"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_detail"
@@ -238,9 +241,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/detail_order"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/detail_order"/>
+                    android:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/bttn_history"
@@ -248,9 +251,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:text="@string/history"
                     android:textColor="@color/colorAccent"
-                    android:visibility="gone"
-                    android:text="@string/history"/>
+                    android:visibility="gone" />
 
 
             </LinearLayout>

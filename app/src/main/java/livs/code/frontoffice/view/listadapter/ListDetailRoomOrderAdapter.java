@@ -40,7 +40,11 @@ public class ListDetailRoomOrderAdapter extends RecyclerView.Adapter<ListDetailR
         final RoomOrderViewHolder roomOrderViewHolder = (RoomOrderViewHolder) holder;
 
         roomOrderViewHolder._detailCountVisitor.setText("Total Pengunjung "+room.getTotalVisitor());
-        roomOrderViewHolder._detailCountVisitorOver.setText("Overpax " + String.valueOf(AppUtils.formatRupiah(Double.parseDouble(room.getOverpaxVisitor()))));
+        if (room.getOverpaxVisitor().equals("0")){
+            roomOrderViewHolder._detailCountVisitorOver.setVisibility(View.GONE);
+        }else{
+            roomOrderViewHolder._detailCountVisitorOver.setText("Overpax " + String.valueOf(AppUtils.formatRupiah(Double.parseDouble(room.getOverpaxVisitor()))));
+        }
         roomOrderViewHolder._detailKeteranganTransfer.setText(room.getTransferInfo());
 
         roomOrderViewHolder._detailCodeAndTypeRoom.setText(room.getRoomType()+" "+room.getRoomCode());

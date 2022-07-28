@@ -23,7 +23,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/payment"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -41,7 +41,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/bank"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -58,7 +58,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/payment_total"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -76,7 +76,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/nama"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -95,7 +95,7 @@
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:gravity="center_horizontal"
                 android:text="@string/kartu"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -113,7 +113,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/aprv"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -148,7 +148,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sfpro_display_bold"
                 android:text="@string/count_total_pengunjung"
-                android:textColor="@color/tevelblack"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
 
             <TextView
@@ -158,7 +158,7 @@
                 android:layout_marginTop="2.5dp"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/male"
-                android:textColor="@color/tevelred"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
 
             <TextView
@@ -167,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/nav_app_bar_navigate_up_description"
-                android:textColor="@color/tevelblue"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp" />
 
 
@@ -196,7 +196,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/sf_pro_display_medium"
                     android:text="@string/small_102"
-                    android:textColor="@color/tevelblue"
+                    android:textColor="@color/dark_primary_text"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -210,7 +210,7 @@
                 android:fontFamily="@font/sf_pro_display_regular"
                 android:paddingEnd="5dp"
                 android:text="@string/app_name"
-                android:textColor="@color/tevelblacklight"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
                 tools:ignore="RtlSymmetry" />
         </LinearLayout>
@@ -252,7 +252,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -269,7 +269,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -285,7 +285,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -301,7 +301,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -326,7 +326,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/anak_remaja_dewasa_tua"
-                android:textColor="@color/tevelblue"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="10.5sp"
                 tools:ignore="SmallSp" />
 
@@ -335,7 +335,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/male"
-                android:textColor="@color/tevelblue"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12.5sp" />
         </LinearLayout>
 
@@ -364,7 +364,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -380,7 +380,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -396,7 +396,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -412,7 +412,7 @@
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:gravity="center"
                         android:text="@string/_0"
-                        android:textColor="@color/tevelgraydark"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -437,7 +437,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/anak_remaja_dewasa_tua"
-                android:textColor="@color/tevelblue"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="10.5sp"
                 tools:ignore="SmallSp" />
 
@@ -446,7 +446,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/sf_pro_display_medium"
                 android:text="@string/female"
-                android:textColor="@color/tevelblue"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12.5sp" />
         </LinearLayout>
     </LinearLayout>

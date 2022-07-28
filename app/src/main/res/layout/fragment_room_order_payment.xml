@@ -167,7 +167,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/bayar"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
                     <TextView
@@ -177,7 +177,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/total"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
                     <TextView
@@ -187,7 +187,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/kembali"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
                     <View
@@ -203,7 +203,7 @@
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/chusr"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -221,7 +221,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/bayar"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
                     <TextView
@@ -231,7 +231,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/total"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
                     <View
@@ -246,7 +246,7 @@
                         android:layout_marginTop="2.5dp"
                         android:fontFamily="@font/sf_pro_display_medium"
                         android:text="@string/kembali"
-                        android:textColor="@color/tevelblack"
+                        android:textColor="@color/dark_primary_text"
                         android:textSize="12sp" />
 
 
@@ -256,9 +256,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/sf_pro_display_medium"
-                        tools:text="Nama Kasir"
-                        android:textColor="@color/tevelblack"
-                        android:textSize="12sp" />
+                        android:textColor="@color/dark_primary_text"
+                        android:textSize="12sp"
+                        tools:text="Nama Kasir" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -291,7 +291,7 @@
                 android:paddingLeft="@dimen/desc_padding"
                 android:paddingRight="@dimen/desc_padding"
                 android:textAlignment="center"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="@dimen/slide_desc" />
 
         </LinearLayout>
