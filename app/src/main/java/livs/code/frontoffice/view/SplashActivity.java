@@ -17,7 +17,8 @@ import butterknife.ButterKnife;
 import livs.code.frontoffice.MyApp;
 import livs.code.frontoffice.R;
 import livs.code.frontoffice.data.entity.User;
-import livs.code.frontoffice.sio.SioBackgroundService;
+//sio
+//import livs.code.frontoffice.sio.SioBackgroundService;
 
 
 public class SplashActivity extends AppCompatActivity {
@@ -28,7 +29,8 @@ public class SplashActivity extends AppCompatActivity {
     MKLoader _pgrrsLoad;
     User userlogin;
 
-    private SioBackgroundService mYourService;
+//sio
+//    private SioBackgroundService mYourService;
     private Intent mServiceIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,14 @@ public class SplashActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-        mYourService = new SioBackgroundService();
+//sio
+/*        mYourService = new SioBackgroundService();
         mServiceIntent = new Intent(getBaseContext(), mYourService.getClass());
+
 
         if (isMyServiceRunning(mYourService.getClass())) {
             stopService(mServiceIntent);
-        }
+        }*/
 
         _pgrrsLoad.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
@@ -75,7 +79,8 @@ public class SplashActivity extends AppCompatActivity {
         finish();
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
+//sio
+/*    private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if (serviceClass.getName().equals(service.service.getClassName())) {
@@ -85,7 +90,5 @@ public class SplashActivity extends AppCompatActivity {
         }
         Log.i(TAG, "Background Service status Not running");
         return false;
-    }
-
-
+    }*/
 }

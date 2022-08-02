@@ -149,4 +149,8 @@
         <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
         <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
     </style>
+
+    <style name="LightCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="buttonCompat">@style/AlertButtonPositive</item>
+    </style>
 </resources>

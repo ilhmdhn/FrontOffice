@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +26,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -35,10 +33,12 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.Result;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -49,7 +49,6 @@ import com.skyfishjy.library.RippleBackground;
 
 import org.greenrobot.eventbus.Subscribe;
 
-import java.net.URISyntaxException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,29 +56,21 @@ import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import livs.code.frontoffice.MyApp;
 import livs.code.frontoffice.R;
-import livs.code.frontoffice.data.entity.Notification;
 import livs.code.frontoffice.data.entity.User;
 import livs.code.frontoffice.data.repository.LocalRepository;
 import livs.code.frontoffice.events.EventsWrapper;
 import livs.code.frontoffice.events.GlobalBus;
 import livs.code.frontoffice.helper.PreferenceUi;
 import livs.code.frontoffice.helper.QRScanType;
-import livs.code.frontoffice.sio.SioBackgroundReceiver;
-import livs.code.frontoffice.sio.SioBackgroundService;
-import livs.code.frontoffice.sio.SioEvent;
-import livs.code.frontoffice.sio.SioEventImplement;
-import livs.code.frontoffice.sio.SioEventListener;
 import livs.code.frontoffice.view.component.PushNotify;
 import livs.code.frontoffice.viewmodel.NotificationViewModel;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
-public class MainActivity extends AppCompatActivity
-        implements SioEventListener {
+public class MainActivity extends AppCompatActivity{
 
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-//    NavigationView mNavigationView;
     BottomNavigationView bottomNavigationView;
 
 
@@ -106,11 +97,9 @@ public class MainActivity extends AppCompatActivity
     private NavController navController;
     private TextView textNotifyCount;
     private int notifyCount = 0;
-    private SioEvent sioEvent;
+
     private boolean currentStateInstance;
     private LocalRepository localRepository;
-
-    //page
 
     private MaterialAlertDialogBuilder dialogBuilder;
     private LayoutInflater dialogInflater;
@@ -121,7 +110,6 @@ public class MainActivity extends AppCompatActivity
     private TextView labelCallRom;
     protected PowerManager.WakeLock mWakeLock;
     private PushNotify pushNotify;
-    private SioBackgroundService mYourService;
     private Intent mServiceIntent;
     private User USER_FO;
     private String BASE_URL;
@@ -150,6 +138,20 @@ public class MainActivity extends AppCompatActivity
             setToolbarActivity();
         }
 
+
+//        token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Gagal mendapatkan token notifikasi", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String token = task.getResult();
+                        Log.d("tokennya", token);
+                    }
+                });
 
         mUserLearnedDrawer = Boolean
                 .parseBoolean(PreferenceUi
@@ -277,14 +279,8 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         if (isPortraitsLayout) {
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
-            /*NavigationUI.setupWithNavController(
-                    toolbar, navController, mAppBarConfiguration);*/
         }
-//        else {
-//            NavigationUI.setupWithNavController(mNavigationView, navController);
-//            /*NavigationUI.setupWithNavController(
-//                    toolbar, navController, mAppBarConfiguration);*/
-//        }
+
         localRepository = LocalRepository.getInstance(getApplicationContext());
         checkPermission();
 
@@ -292,7 +288,6 @@ public class MainActivity extends AppCompatActivity
                 .get(NotificationViewModel.class);
         notificationViewModel.init(getApplicationContext());
         observableNotifyData();
-        setupFoRct();
     }
 
     void observableNotifyData() {
@@ -315,7 +310,6 @@ public class MainActivity extends AppCompatActivity
         getSupportActionBar().setElevation(0);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-        //toolbar.setNavigationIcon(R.drawable.ic_home);
     }
 
     private void checkPermission() {
@@ -326,12 +320,10 @@ public class MainActivity extends AppCompatActivity
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        // check if all permissions are granted
                         if (report.areAllPermissionsGranted()) {
                             // do you work now
                         }
 
-                        // check for permanent denial of any permission
                         if (report.isAnyPermissionPermanentlyDenied()) {
                             // permission is denied permenantly, navigate user to app settings
 
@@ -372,14 +364,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    /*@Override
-    public boolean onSupportNavigateUp() {
-        navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
-    }*/
-
-
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -415,9 +399,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-       /* NavController navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
-        return NavigationUI.onNavDestinationSelected(item, navController)
-                || super.onOptionsItemSelected(item);*/
         switch (item.getItemId()) {
             case R.id.refresh_menu:
                 GlobalBus
@@ -449,12 +430,6 @@ public class MainActivity extends AppCompatActivity
                                     public void run() {
                                         isLogout = true;
                                         localRepository.setUserLogout();
-                                        sioEvent.disconnect();
-                                        if (isMyServiceRunning(mYourService.getClass())) {
-                                            stopService(mServiceIntent);
-                                        }
-                                        //((MyApp) getApplicationContext()).setBaseUrl("");
-
                                         Intent moveToMain = new Intent(MainActivity.this, LoginActivity.class);
                                         moveToMain.putExtra("OUT", true);
                                         moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -499,7 +474,6 @@ public class MainActivity extends AppCompatActivity
 
     public void hideBottomNav() {
         if (isPortraitsLayout) {
-            //NavigationUI.setupWithNavController(bottomNavigationView, navController);
             try {
                 bottomNavigationView.setVisibility(View.GONE);
             } catch (NullPointerException x) {
@@ -512,8 +486,6 @@ public class MainActivity extends AppCompatActivity
 
     public void showBottomNav() {
         if (isPortraitsLayout) {
-            //NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
             try {
                 bottomNavigationView.setVisibility(View.VISIBLE);
             } catch (NullPointerException x) {
@@ -521,6 +493,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 
     @Subscribe
     public void changeTitleFragment(EventsWrapper.TitleFragment titleFragment) {
@@ -534,21 +507,9 @@ public class MainActivity extends AppCompatActivity
         setupNotifyBadge();
     }
 
-
     @Override
     public void onStop() {
         GlobalBus.getBus().unregister(this);
-       /* Log.i(TAG, "onStop()");
-		sioEvent.disconnect();
-		if(!isLogout){
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction("restartservice");
-            broadcastIntent.setClass(this, SioBackgroundReceiver.class);
-
-            this.sendBroadcast(broadcastIntent);
-        }
-*/
-
         super.onStop();
     }
 
@@ -573,28 +534,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onDestroy() {
-        sioEvent.disconnect();
         Log.i(TAG, "onDestroy()");
         if (!isLogout) {
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction("restartservice");
-            broadcastIntent.setClass(this, SioBackgroundReceiver.class);
             this.sendBroadcast(broadcastIntent);
         }
 
         super.onDestroy();
-    }
-
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())) {
-                Log.i(TAG, "Background Service status Running");
-                return true;
-            }
-        }
-        Log.i(TAG, "Background Service status Not running");
-        return false;
     }
 
     @Override
@@ -620,152 +567,6 @@ public class MainActivity extends AppCompatActivity
         // TODO :: init sio switch background and main
 
     }
-
-    private void setupFoRct() {
-        isLogout = false;
-        sioEvent = SioEventImplement.getInstance(BASE_URL, USER_FO);
-        sioEvent.setEventListener(this);
-        mYourService = new SioBackgroundService();
-        mServiceIntent = new Intent(getBaseContext(), mYourService.getClass());
-
-        if (isMyServiceRunning(mYourService.getClass())) {
-            stopService(mServiceIntent);
-            handler.postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            try {
-                                sioEvent.connect();
-                            } catch (URISyntaxException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }, 2000);
-
-        } else {
-            try {
-
-                sioEvent.connect();
-            } catch (URISyntaxException e) {
-                e.printStackTrace();
-                Toasty.error(getApplicationContext(),
-                        "SIO connect() Error : " + e.getMessage(),
-                        Toast.LENGTH_SHORT,
-                        true)
-                        .show();
-            }
-        }
-    }
-
-
-    @Override
-    public void onConnect(Object... args) {
-        Log.i(TAG, "SIO onConnect");
-    }
-
-    @Override
-    public void onDisconnect(Object... args) {
-        Log.e(TAG, "SIO onDisconnect");
-    }
-
-    @Override
-    public void onConnectError(Object... args) {
-        Log.e(TAG, "SIO onConnectError");
-    }
-
-    @Override
-    public void onConnectTimeout(Object... args) {
-        Log.e(TAG, "SIO onConnectTimeout");
-    }
-
-    @Override
-    public void onNewOrder(Notification notification) {
-        notification.setRead(false);
-        localRepository.insertNotification(notification);
-        //notifyCount++;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pushNotify = new PushNotify(getApplication(), notification, RingtoneManager.TYPE_NOTIFICATION);
-            }
-        });
-        setupNotifyBadge();
-    }
-
-    @Override
-    public void onRoomCall(Notification notification) {
-        notification.setRead(false);
-        localRepository.insertNotification(notification);
-        //notifyCount++;
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                //new PushNotify(getApplication(), notification,RingtoneManager.TYPE_ALARM);
-                pushNotify = new PushNotify(getApplication(), notification, RingtoneManager.TYPE_NOTIFICATION);
-            }
-        });
-        setupNotifyBadge();
-
-        /*dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
-        dialogInflater = this.getLayoutInflater();
-
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-                dialogView = dialogInflater.inflate(R.layout.dialog_call_room, null);
-                dialogBuilder.setView(dialogView);
-                dialogBuilder.setCancelable(false);
-                dialogBuilder.setTitle("");
-
-                buttonConfirmCall = dialogView.findViewById(R.id.btn_confirm);
-                buttonRejectCall = dialogView.findViewById(R.id.btn_reject);
-                rippleBackground = dialogView.findViewById(R.id.ripple);
-
-                labelCallRom = dialogView.findViewById(R.id.label_info_call_room);
-                alertDialog = dialogBuilder.create();
-                alertDialog.setOnShowListener(dialogInterface -> {
-                    labelCallRom.setText("Room " + notification.getRoomCode() + " Call");
-
-                    rippleBackground.startRippleAnimation();
-
-                    buttonConfirmCall.setOnClickListener(view -> {
-                        notification.setAcceptedUser(USER_FO.getUserId());
-                        sioEvent.acceptedRoomCall(notification);
-                        pushNotify.stopPlayer();
-                        rippleBackground.stopRippleAnimation();
-                        alertDialog.dismiss();
-                    });
-
-                    buttonRejectCall.setOnClickListener(view -> {
-                        notification.setAcceptedUser(USER_FO.getUserId());
-                        sioEvent.rejectedRoomCall(notification);
-                        pushNotify.stopPlayer();
-                        rippleBackground.stopRippleAnimation();
-                        alertDialog.dismiss();
-                    });
-                });
-
-                alertDialog.show();
-            }
-        });*/
-
-
-    }
-
-    @Override
-    public void onHideRoomCall(Notification notification) {
-        /*runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (alertDialog.isShowing()) {
-                    rippleBackground.stopRippleAnimation();
-                    pushNotify.stopPlayer();
-                    alertDialog.dismiss();
-                }
-            }
-        });*/
-    }
-
 
     @Subscribe
     public void scannerDialog(EventsWrapper.XZscan scanType) {
@@ -1034,9 +835,7 @@ public class MainActivity extends AppCompatActivity
                         );
             });
         });
-
         scanQrDialog.show();
-
     }
 
 }

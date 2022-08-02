@@ -50,8 +50,6 @@ public class MyApp extends Application {
                     .show();
             baseUrl = "";
         }
-
-        //BASE_URL = "http://192.168.1.111:3000";
     }
 
     public String getBaseUrl() {

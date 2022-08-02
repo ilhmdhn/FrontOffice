@@ -82,6 +82,7 @@ class StatusKasFragment : Fragment() {
                     activity?.let {
                         DatePickerDialog(
                             it,
+                            R.style.LightCalendar,
                             dateSetListener,
                             // set DatePickerDialog to point to today's date when it loads up
                             calendar.get(Calendar.YEAR),
