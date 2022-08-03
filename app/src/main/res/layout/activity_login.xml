@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:background="@color/colorBackground"
+    android:background="@color/dark_primary_background"
     android:gravity="center">
 
     <LinearLayout
@@ -27,17 +26,22 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="@string/username"
+            app:boxBackgroundColor="@color/dark_secondary_color"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
             app:endIconDrawable="@drawable/ic_person"
             app:endIconMode="custom"
-            app:endIconTint="@color/colorAccent"
+            app:endIconTint="@color/dark_primary_white"
             app:shapeAppearance="@style/RoundedInputText">
 
             <EditText
                 android:id="@+id/input_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColorHint="@color/dark_primary_text"
                 android:inputType="text"
-                android:textColor="@android:color/primary_text_light"
+                android:textCursorDrawable="@drawable/cursor_blue"
+                android:textColor="@color/dark_primary_text"
                 android:importantForAutofill="no" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -47,18 +51,23 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:boxBackgroundColor="@color/dark_secondary_color"
+            android:textColorHint="@color/white"
+            app:hintTextColor="@color/dark_primary_text"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:hint="@string/password"
             app:endIconMode="password_toggle"
-            app:endIconTint="@color/colorAccent"
-
+            app:endIconTint="@color/dark_primary_white"
             app:shapeAppearance="@style/RoundedInputText">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textCursorDrawable="@drawable/cursor_blue"
+                android:textColor="@color/dark_primary_text"
+                android:textColorHint="@color/dark_primary_text"
                 android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +98,7 @@
         android:layout_height="0dp"
         android:layout_gravity="end"
         android:text="@string/konfigurasi"
-        android:textColor="@color/colorOrange"
+        android:textColor="@color/dark_blue_variant"
         android:visibility="invisible"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +115,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ihp_logo"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="Worm" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -126,6 +135,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/versi_apps"
+        android:textColor="@color/dark_primary_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -17,14 +16,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:hint="@string/keterangan"
-        app:endIconDrawable="@drawable/ic_reservasi"
-        app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
+        app:boxBackgroundColor="@color/dark_secondary_color"
+        app:hintTextColor="@color/dark_primary_text"
+        android:textColorHint="@color/dark_primary_text"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
+            android:textCursorDrawable="@drawable/cursor_blue"
+            android:textColorHint="@color/dark_primary_text"
             android:textSize="18sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -35,15 +37,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        app:boxBackgroundColor="@color/dark_secondary_color"
+        app:hintTextColor="@color/dark_primary_text"
+        android:textColorHint="@color/dark_primary_text"
         android:hint="@string/event_acara"
-        app:endIconDrawable="@drawable/ic_reservasi"
-        app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
+            android:textCursorDrawable="@drawable/cursor_blue"
+            android:textColorHint="@color/dark_primary_text"
             android:textSize="18sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -54,15 +59,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        app:boxBackgroundColor="@color/dark_secondary_color"
+        app:hintTextColor="@color/dark_primary_text"
+        android:textColorHint="@color/dark_primary_text"
         android:hint="@string/nama_event"
-        app:endIconDrawable="@drawable/ic_reservasi"
-        app:endIconMode="custom"
-        app:endIconTint="@color/colorPrimaryDark"
         app:shapeAppearance="@style/RoundedInputText">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
+            android:textCursorDrawable="@drawable/cursor_blue"
+            android:textColorHint="@color/dark_primary_text"
             android:textSize="18sp"/>
 
     </com.google.android.material.textfield.TextInputLayout>

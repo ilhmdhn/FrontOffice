@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@color/colorBackground"
+    android:background="@color/dark_primary_background"
     tools:context=".view.ConfigActivity">
 
     <LinearLayout
@@ -28,6 +28,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="10dp"
+            android:textColor="@color/dark_primary_text"
             android:text="@string/konfigurasi_server"
             android:textSize="24sp" />
 
@@ -36,6 +37,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             android:layout_marginBottom="2dp"
             android:hint="@string/server_ip"
             app:shapeAppearance="@style/RoundedInputText">
@@ -44,9 +48,7 @@
                 android:id="@+id/txt_server_ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:textColor="@android:color/primary_text_light"
-                />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -56,16 +58,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
+            android:hint="@string/server_port"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
             app:shapeAppearance="@style/RoundedInputText">
 
             <EditText
                 android:id="@+id/txt_server_port"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/server_port"
-                android:inputType="number"
-                android:textColor="@android:color/primary_text_light"
-                android:autofillHints="" />
+                android:inputType="number"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -73,6 +76,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:textColorHint="@color/dark_primary_text"
+            app:hintTextColor="@color/dark_primary_text"
+            app:boxBackgroundColor="@color/dark_secondary_color"
+            android:backgroundTint="@color/dark_primary_text"
             android:layout_marginBottom="2dp"
             android:hint="@string/http_baseurl"
             app:shapeAppearance="@style/RoundedInputText">
@@ -81,7 +88,6 @@
                 android:id="@+id/txt_server_base_url"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/primary_text_light"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,6 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:textColor="@color/dark_primary_text"
             android:layout_weight="1"
             android:text="@string/scan_qr_setting" />
 
@@ -111,18 +118,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:textColor="@color/dark_primary_text"
             android:layout_weight="1"
             android:text="@string/simpan" />
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         android:id="@+id/btn_config_to_login"
         style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_gravity="end"
+        android:layout_marginTop="16dp"
+        android:background="@color/dark_primary_button"
         android:text="@string/login"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -138,6 +148,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="TwinFishesSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

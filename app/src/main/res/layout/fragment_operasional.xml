@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval">
+    android:background="@color/dark_primary_background">
 
 
     <com.tuyenmonkey.mkloader.MKLoader
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -35,9 +36,8 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/operasional_foto_user"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="26dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="24dp"
                 android:src="@drawable/user"
                 app:civ_border_color="@color/whitegreen"
@@ -47,44 +47,39 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="32dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
                 android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="@+id/operasional_foto_user"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/operasional_foto_user"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toEndOf="@+id/operasional_foto_user"
+                app:layout_constraintTop_toTopOf="@+id/operasional_foto_user">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+
+                <TextView
+                    android:id="@+id/dashboard_nama_user"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/dashboard_nama_user"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="1dp"
-                        android:text="@string/app_name"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/dashboard_user_role"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="2dp"
-                        android:text="@string/username"
-                        android:textColor="@color/whitegreen"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
+                    android:layout_marginStart="1dp"
+                    android:text="@string/app_name"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="3dp"
-                    android:layout_marginEnd="70dp"
-                    android:background="@color/whitegreen" />
+                    android:layout_height="2dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@color/dark_secondary_text" />
+
+                <TextView
+                    android:id="@+id/dashboard_user_role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="Accounting"
+                    android:textColor="@color/dark_secondary_text"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -94,10 +89,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="16dp"
                 android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingTop="5dp"
-                android:paddingRight="15dp"
-                android:paddingBottom="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,25 +108,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_green_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_checkin_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                android:visibility="gone"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -144,6 +125,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_checkin"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -152,6 +134,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/operasional_reservasi_act"
                         android:layout_width="match_parent"
@@ -161,25 +144,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_reservasi_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                android:visibility="gone"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -187,6 +160,7 @@
                                 android:layout_centerHorizontal="true"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_reservasi"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -212,26 +186,16 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp"
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp"
                         tools:ignore="InefficientWeight">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_add_info_checkin_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                android:visibility="gone"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -240,6 +204,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/add_info_promo_visitor"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -265,25 +230,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_extend_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                android:visibility="gone"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -292,6 +247,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_extend"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -310,25 +266,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_transfer_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                android:visibility="gone"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -337,6 +283,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_transfer"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -351,6 +298,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:orientation="horizontal">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/operasional_fnb_act"
                         android:layout_width="match_parent"
@@ -360,25 +308,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_fnb_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group"
-                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -387,6 +325,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_fnb"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -395,6 +334,7 @@
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </com.google.android.material.card.MaterialCardView>
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/operasional_payment_act"
                         android:layout_width="match_parent"
@@ -404,25 +344,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_payment_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group"
-                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -431,6 +361,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_bayar"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -458,25 +389,15 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
-
-                            <ImageView
-                                android:id="@+id/img_checkout_act"
-                                android:layout_width="85dp"
-                                android:layout_height="85dp"
-                                android:layout_centerHorizontal="true"
-                                android:contentDescription="@string/app_name"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                app:srcCompat="@drawable/icon_happy_puppy_group"
-                                android:visibility="gone"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -485,6 +406,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_checkout"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
@@ -503,10 +425,11 @@
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/dark_primary_button"
                         app:cardCornerRadius="14dp"
                         app:cardElevation="0dp"
-                        app:strokeColor="@color/colorPrimary"
-                        app:strokeWidth="2dp">
+                        app:strokeColor="@color/dark_stroke_primary_button"
+                        app:strokeWidth="1dp">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
@@ -530,6 +453,7 @@
                                 android:layout_marginStart="8dp"
                                 android:fontFamily="@font/sfpro_display_bold"
                                 android:text="@string/operasional_clean"
+                                android:textColor="@color/dark_primary_text"
                                 android:textSize="18sp"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"

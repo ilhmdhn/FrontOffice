@@ -117,6 +117,7 @@
                 android:paddingRight="@dimen/desc_padding"
                 android:text="@string/anda_belum_melakukan_transaksi_ini"
                 android:textAlignment="center"
+                android:visibility="gone"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/slide_desc" />
 
@@ -132,6 +133,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

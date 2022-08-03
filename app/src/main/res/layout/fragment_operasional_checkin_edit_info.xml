@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/relativeLayout2"
     android:layout_width="match_parent"
+    android:background="@color/dark_primary_background"
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -28,8 +30,6 @@
                 android:paddingTop="12dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="2dp">
-
-
 
             </LinearLayout>
 
@@ -99,8 +99,9 @@
 
             <include
                 layout="@layout/checkin_visitor_male"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="wrap_content"
+                android:layout_gravity="end"
+                android:layout_height="wrap_content" />
             <include
                 layout="@layout/checkin_voucher"
                 android:layout_width="match_parent"
@@ -121,8 +122,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
-                android:visibility="gone"
-                android:text="Batalkan Promo"/>
+                android:backgroundTint="@color/dark_blue_variant"
+                android:text="Batalkan Promo"
+                android:textColor="@color/dark_primary_text"
+                android:visibility="gone" />
 
 
             <include
@@ -143,12 +146,10 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
                     android:text="@string/uang_muka"
-                    android:textColor="@color/Tex"
-                    android:textSize="20sp" />
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -169,12 +170,10 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:gravity="end"
+                    android:layout_height="wrap_content"
                     android:text="@string/keterangan"
-                    android:textColor="@color/Tex"
-                    android:textSize="20sp" />
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -201,9 +200,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:text="Kurangi Durasi Checkin"/>
+                    android:text="Kurangi Durasi Checkin"
+                    android:textColor="@color/dark_primary_text"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -219,12 +218,15 @@
                     android:layout_width="30dp"
                     android:layout_height="1dp"/>
 
-                <Button
-                    android:id="@+id/btn_reduce_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Submit"
-                    android:orientation="horizontal"/>
+                    <Button
+                        android:id="@+id/btn_reduce_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:text="Submit"
+                        android:textColor="@color/dark_primary_text"
+                        android:textColorLink="@color/dark_primary_text"
+                        app:rippleColor="@color/dark_primary_text" />
                 </LinearLayout>
 
             </LinearLayout>

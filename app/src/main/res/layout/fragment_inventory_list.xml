@@ -6,7 +6,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whitegreen"
+    android:orientation="vertical"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.ruangan.ListRoomFragment">
 
     <LinearLayout
@@ -18,94 +19,36 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_vw_filter"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="40dp"
+            android:backgroundTint="@color/dark_secondary_color"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="8dp"
+            card_view:cardCornerRadius="18dp"
+            card_view:cardElevation="0dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_room_by_code"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="vertical"
-                android:paddingBottom="5dp">
+                android:layout_height="match_parent"
+                android:drawableEnd="@android:drawable/ic_menu_search"
+                android:iconifiedByDefault="true"
+                android:backgroundTint="@color/dark_secondary_color"
+                android:queryBackground="@android:color/transparent"
+                android:queryHint="@string/search"
+                android:theme="@style/MySearchView" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/first"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/background_head_fragment"
-                    android:paddingBottom="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+        </com.google.android.material.card.MaterialCardView>
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/room_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:letterSpacing="0.0625"
-                        android:paddingStart="10dp"
-                        android:paddingEnd="10dp"
-                        android:text="@string/checkin_room_inventory"
-                        android:textColor="@color/white"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingStart="25dp"
-                    android:paddingEnd="25dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/first"
-                    app:layout_constraintVertical_bias="1.0">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_vw_filter"
-                        android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        card_view:cardCornerRadius="18dp"
-                        card_view:cardElevation="0dp">
-
-                        <androidx.appcompat.widget.SearchView
-                            android:id="@+id/search_room_by_code"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:drawableEnd="@android:drawable/ic_menu_search"
-                            android:iconifiedByDefault="true"
-                            android:queryBackground="@android:color/transparent"
-                            android:queryHint="@string/search"
-                            android:theme="@style/MySearchView" />
-
-                    </com.google.android.material.card.MaterialCardView>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/room_list_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="5dp"
-            android:scrollbars="none"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            tools:listitem="@layout/holder_view_checkin_room"/>
 
     </LinearLayout>
 
@@ -118,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorPrimary"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 
 

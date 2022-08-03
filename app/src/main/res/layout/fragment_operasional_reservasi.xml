@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.operasional.checkin.OperasionalListRoomTypeToCheckinFragment">
 
 
@@ -37,6 +37,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:text="@string/username"
+            android:textColor="@color/dark_primary_text"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/image_member"
@@ -49,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
             android:text="@string/payment_poin_member"
+            android:textColor="@color/dark_primary_text"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/phone_member"
             app:layout_constraintStart_toEndOf="@+id/name_member" />
@@ -58,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_poin_member"
+            android:textColor="@color/dark_primary_text"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/name_member"
             app:layout_constraintTop_toBottomOf="@id/name_member" />
@@ -67,6 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_poin_member"
+            android:textColor="@color/dark_primary_text"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/reservasi_durasi_room_type"
             app:layout_constraintTop_toBottomOf="@id/reservasi_durasi_room_type" />
@@ -76,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_poin_member"
+            android:textColor="@color/dark_primary_text"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/reservasi_time_checkin"
             app:layout_constraintTop_toBottomOf="@id/reservasi_time_checkin" />
@@ -86,13 +91,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/payment_poin_member"
+            android:textColor="@color/dark_primary_text"
             android:textSize="25sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@+id/name_member"
             app:layout_constraintTop_toBottomOf="@id/name_member" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
     <TextView
@@ -102,6 +106,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/available_room"
+        android:textColor="@color/dark_primary_text"
+        android:textColorHint="@color/dark_primary_text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeMember" />
@@ -114,8 +120,7 @@
         app:layout_constraintBottom_toTopOf="@+id/includePaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reservasi_type_room">
-    </androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintTop_toBottomOf="@+id/reservasi_type_room"></androidx.recyclerview.widget.RecyclerView>
 
     <include
         android:id="@+id/includePaging"
@@ -137,6 +142,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorBackground"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

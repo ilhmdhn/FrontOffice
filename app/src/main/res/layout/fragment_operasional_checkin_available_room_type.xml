@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingHorizontal="8dp"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.operasional.checkin.OperasionalListRoomTypeToCheckinFragment">
 
     <include
@@ -12,6 +13,9 @@
         layout="@layout/view_member"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:textColor="@color/dark_primary_text"
         android:text="@string/available_room"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:divider="@null"
+        tools:listitem="@layout/holder_view_operasional_ready_room_type"
         app:layout_constraintBottom_toTopOf="@+id/includePaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +54,6 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -75,18 +79,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/checkin_room"
+            android:textColor="@color/dark_primary_text"
+            android:backgroundTint="@color/dark_stroke_primary_button"
             app:rippleColor="@color/colorTab"
-            app:strokeColor="@color/colorPrimary"
+            app:strokeColor="@color/dark_stroke_primary_button"
             app:strokeWidth="0.5dp" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/dark_primary_background"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/toogle_room_clean"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
+            android:backgroundTint="@color/dark_stroke_primary_button"
             android:text="@string/cleaning"
             app:rippleColor="@color/colorTab"
-            app:strokeColor="@color/colorPrimary"
+            app:strokeColor="@color/dark_stroke_primary_button"
             app:strokeWidth="0.5dp" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -101,6 +114,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/holder_view_operasional_waiting_room"
         app:layout_constraintTop_toBottomOf="@+id/togglegroup_info_room" />
 
     <com.tuyenmonkey.mkloader.MKLoader
@@ -112,6 +126,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:mk_color="@color/colorBackground"
+        app:mk_color="@color/dark_primary_white"
         app:mk_type="LineSpinner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

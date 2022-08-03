@@ -223,7 +223,7 @@
     <string name="type_kamar_checkin">Type Kamar Checkin</string>
     <string name="kode_kamar">Kode Kamar Checkin</string>
     <string name="durasi_checkin_full">Durasi Checkin</string>
-    <string name="proses_checkin_sudah_berhasil">Proses Checkin Sudah Berhasil</string>
+    <string name="proses_checkin_sudah_berhasil">Lengkapi Informasi Checkin</string>
     <string name="lengkapi_data_checkin">Lengkapi Data Checkin</string>
     <string name="chekcin_room">Chekcin Room</string>
     <string name="_202">202</string>
@@ -316,4 +316,7 @@
     <string name="print_kas">Cetak Laporan KAS?</string>
     <string name="ask_print_bill">Cetak Tagihan?</string>
     <string name="ask_reprint_bill">Cetak Ulang Tagihan?</string>
+    <string name="informasi_checkin">INFORMASI CHECKIN</string>
+    <string name="no_promo">Tidak ada promo dipilih</string>
+    <string name="response">Tanggapi</string>
 </resources>

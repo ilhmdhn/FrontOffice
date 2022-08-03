@@ -11,55 +11,55 @@
         android:id="@+id/abc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="end"
         android:paddingStart="3dp"
         android:paddingEnd="3dp"
         android:text="@string/jumlah_pengunjung"
-        android:textSize="24sp"
+        android:textColor="@color/dark_primary_text"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/checkinMinQmDewasa"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/app_name"
         android:padding="2dp"
         android:src="@drawable/ic_item_decrement"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkinCountQmDewasa"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/abc"
+        app:layout_constraintStart_toEndOf="@+id/abc"
+        app:layout_constraintTop_toTopOf="@+id/abc" />
 
     <EditText
         android:id="@+id/checkinCountQmDewasa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="#00000000"
+        android:layout_marginStart="8dp"
+        android:background="@null"
         android:importantForAutofill="no"
         android:inputType="number"
         android:maxLength="3"
         android:text="@string/_0"
-        android:textColor="@color/textSub"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/checkinPlusQmDewasa"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textColor="@color/dark_primary_text"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkinMinQmDewasa"
+        app:layout_constraintStart_toEndOf="@+id/checkinMinQmDewasa"
+        app:layout_constraintTop_toTopOf="@+id/checkinMinQmDewasa"
         tools:ignore="LabelFor" />
 
     <ImageView
         android:id="@+id/checkinPlusQmDewasa"
-        android:layout_width="60dp"
-        android:layout_height="70dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="46dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/app_name"
         android:padding="2dp"
         android:src="@drawable/ic_item_increment"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/checkinCountQmDewasa"
+        app:layout_constraintStart_toEndOf="@+id/checkinCountQmDewasa"
+        app:layout_constraintTop_toTopOf="@+id/checkinCountQmDewasa" />
 
     <LinearLayout
         android:id="@+id/old_layout"

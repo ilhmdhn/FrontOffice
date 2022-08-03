@@ -1,6 +1,6 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,32 +10,33 @@
     </style>
 
     <!-- Base application theme for MainActivity Manifest -->
-    <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_primary_color</item>
+        <item name="colorPrimaryDark">@color/dark_secondary_color</item>
+        <item name="colorAccent">@color/dark_blue_variant</item>
 
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>
+        <item name="statusBarBackground">@color/dark_primary_background</item>
     </style>
 
-    <style name="MainTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="MainTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_primary_color</item>
+        <item name="colorPrimaryDark">@color/dark_secondary_color</item>
+        <item name="colorAccent">@color/dark_blue_variant</item>
 
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowFullscreen">false</item>
         <item name="android:windowContentOverlay">@null</item>
 
     </style>
 
     <style name="MySearchView" parent="MainTheme">
-        <item name="colorControlNormal">@color/colorOrange</item>
+        <item name="colorControlNormal">@color/dark_primary_white</item>
     </style>
 
     <style name="RoundedInputText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -81,6 +82,8 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+
+
 <!--    for bottom nav view-->
     <style name="ThemeOverlay.BottomNavView" parent="">
         <item name="colorPrimary">@color/tevelwhite</item>
@@ -118,4 +121,36 @@
         <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
+    <style name="CustomAlertDialogDark" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="background">@color/dark_secondary_color</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
+    </style>
+
+    <style name="AlertButtonPositive">
+        <item name="backgroundTint">@color/dark_blue_variant</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="AlertButtonNegative">
+        <item name="backgroundTint">@android:color/holo_red_dark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="CustomAlertDialogDarkForCheckout" parent="android:Theme.Holo.Dialog">
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+    </style>
+
+    <style name="CustomAlertDialogDarkForNoActionBAr" parent="android:Theme.Holo.Dialog.NoActionBar">
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
+    </style>
+
+    <style name="LightCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="buttonCompat">@style/AlertButtonPositive</item>
+    </style>
 </resources>

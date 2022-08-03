@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -36,13 +36,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#00000000"
-                android:hint="@string/_0"
-                android:inputType="number"
                 android:maxLength="2"
-                android:textColor="@color/textSub"
-                android:textSize="16sp"
-                tools:ignore="TextViewEdits" />
+                android:hint="0"
+                android:textColorHint="@color/dark_primary_text"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp"/>
 
             <ImageView
                 android:id="@+id/extendsPlusHours"
@@ -61,7 +59,7 @@
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
             android:text="@string/jumlah_jam"
-            android:textColor="@color/darkblue" />
+            android:textColor="@color/dark_primary_text" />
     </LinearLayout>
 
     <LinearLayout
@@ -95,13 +93,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="#00000000"
-                android:hint="@string/_0"
-                android:inputType="number"
                 android:maxLength="2"
-                android:textColor="@color/textSub"
-                android:textSize="16sp"
-                tools:ignore="TextViewEdits" />
+                android:text="0"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp"/>
 
             <ImageView
                 android:id="@+id/extendsPlusMinutes"
@@ -119,7 +114,9 @@
             android:gravity="center"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
-            android:text="@string/jumlah_menit" />
+            android:text="@string/jumlah_menit"
+            android:textColor="@color/dark_primary_text"
+            android:textColorLink="@color/dark_primary_text" />
     </LinearLayout>
 
 

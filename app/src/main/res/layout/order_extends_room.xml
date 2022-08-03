@@ -5,21 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/extendsLayoutHistory"
+    android:background="@color/dark_primary_background"
     android:layout_margin="5dp"
     android:orientation="vertical">
 
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_weight="1"
-        android:gravity="end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/extends_room"
-        android:textSize="15sp"
-        android:fontFamily="@font/sf_pro_display_medium"
-        android:letterSpacing="0.0625"
+        android:gravity="center_horizontal"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,12 +26,13 @@
         android:id="@+id/extends_history_checkin"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        tools:listitem="@layout/holder_view_extend_history"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.0" />
-
+        app:layout_constraintVertical_bias="0.0"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

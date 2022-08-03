@@ -9,23 +9,24 @@
 
     <ImageView
         android:id="@+id/iv_date_picker"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:contentDescription="Pilih tanggal"
         android:src="@drawable/ic_calender"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/dark_primary_text" />
 
     <TextView
         android:id="@+id/tv_value_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Pilih Tanggal"
-        android:textColor="@android:color/black"
+        android:text="Set Tanggal"
+        android:textColor="@color/dark_primary_text"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_date_picker"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:text="Shift"
-        android:textColor="@android:color/black"
+        android:textColor="@color/dark_primary_text"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="@+id/iv_date_picker"
         app:layout_constraintTop_toBottomOf="@+id/iv_date_picker" />
@@ -56,12 +57,14 @@
             android:id="@+id/rb_shift_satu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
             android:text="Shift 1" />
 
         <RadioButton
             android:id="@+id/rb_shift_dua"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_primary_text"
             android:text="Shift 2" />
     </RadioGroup>
 
@@ -130,14 +133,17 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_submit"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_button_login"
+        android:paddingHorizontal="8dp"
         android:text="Submit"
+        android:textColor="@color/dark_primary_text"
         app:layout_constraintEnd_toEndOf="@+id/parent_spinner"
         app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/parent_spinner" />
+        app:layout_constraintTop_toBottomOf="@+id/rg_shift" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

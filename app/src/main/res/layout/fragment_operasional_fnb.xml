@@ -15,9 +15,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabMaxWidth="0dp"
+        android:background="@color/dark_secondary_color"
         app:tabGravity="fill"
-        app:tabMode="scrollable"/>
+        app:tabIndicator="@drawable/background_tab_indicator"
+        app:tabIndicatorColor="@color/dark_stroke_primary_button"
+        app:tabIndicatorGravity="stretch"
+        app:tabTextColor="@color/dark_primary_text"
+        app:tabMode="fixed"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/room_inventory_view_pager"

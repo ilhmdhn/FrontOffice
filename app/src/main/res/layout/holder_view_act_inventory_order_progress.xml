@@ -2,22 +2,23 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     app:cardCornerRadius="15dp"
     android:elevation="5dp"
     android:layout_marginTop="16dp"
     android:layout_marginStart="8dp"
+    android:background="@color/dark_secondary_color"
     android:layout_marginEnd="8dp"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="96dp">
 
         <ImageView
             android:id="@+id/food_image"
-            android:layout_width="50dp"
+            android:layout_width="150dp"
             android:layout_height="0dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/app_name"
@@ -31,10 +32,10 @@
             android:id="@+id/inventory_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/semibold"
             android:text="@string/cleaning"
-            android:textColor="#091020"
+            android:textColor="@color/dark_primary_text"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="@+id/inventory_code"
             app:layout_constraintTop_toBottomOf="@+id/inventory_code" />
@@ -43,12 +44,11 @@
             android:id="@+id/inventory_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="@font/semibold"
             android:text="@string/rp0"
-            android:textColor="#FF6813"
-            android:textSize="12sp"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/inventory_code"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -57,10 +57,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:fontFamily="@font/regular"
             android:text="@string/small_102"
-            android:textColor="#F06941"
+            android:textColor="@color/dark_secondary_text"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/food_image"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,20 +69,22 @@
             android:id="@+id/inventory_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/regular"
             android:text="@string/all_room_label"
+            android:textColor="@color/dark_secondary_text"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/image"
-            app:layout_constraintStart_toEndOf="@+id/image" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/inventory_name" />
 
         <TextView
             android:id="@+id/inventory_qty"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/regular"
             android:text="@string/all_room_label"
+            android:textColor="@color/dark_secondary_text"
             app:layout_constraintBottom_toBottomOf="@+id/inventory_name"
             app:layout_constraintStart_toEndOf="@+id/inventory_name" />
 
@@ -90,22 +92,27 @@
             android:id="@+id/image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:contentDescription="@string/app_name"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/inventory_name"
             app:layout_constraintTop_toBottomOf="@+id/inventory_name"
             app:srcCompat="@drawable/ic_star_black_24dp" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <Button
             android:id="@+id/bttn_cancel"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@android:color/holo_red_dark"
             android:text="@string/cancel"
-            android:textColor="@color/red"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inventory_name" />
+            android:textColor="@color/dark_primary_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

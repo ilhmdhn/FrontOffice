@@ -8,16 +8,18 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/room_order_tab_layout"
-        style="@style/Widget.MaterialComponents.TabLayout.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/room_order_view_pager"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabMaxWidth="0dp"
-        app:tabGravity="fill"
-        app:tabMode="scrollable"/>
+        android:backgroundTint="@color/dark_secondary_color"
+        app:tabSelectedTextColor="@color/dark_primary_text"
+        app:tabIndicator="@drawable/background_tab_indicator"
+        app:tabIndicatorColor="@color/dark_blue_variant"
+        app:tabGravity="center"
+        app:tabMode="auto"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/room_order_view_pager"

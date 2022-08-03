@@ -1,74 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:background="@color/dark_primary_background"
     android:orientation="horizontal">
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@color/dark_secondary_color"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/img_notif"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/icon_happy_puppy_group"
+                app:srcCompat="@drawable/ic_notification"
                 android:contentDescription="@string/app_name" />
 
             <TextView
-                android:id="@+id/room_type"
+                android:id="@+id/room_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/sfpro_display_bold"
                 android:text="@string/room"
-                android:textSize="12sp"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/img_notif"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/type_notif"
+                android:id="@+id/keterangan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/app_name"
-                android:textColor="@color/colorOrange"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@+id/room_type"
-                app:layout_constraintTop_toBottomOf="@+id/room_type" />
+                app:layout_constraintStart_toStartOf="@+id/room_code"
+                app:layout_constraintTop_toBottomOf="@+id/room_code" />
 
-            <TextView
-                android:id="@+id/time_notif"
+            <Button
+                android:id="@+id/btn_response"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:text="@string/app_name"
-                android:textColor="@color/subText"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/type_notif"
-                app:layout_constraintTop_toBottomOf="@+id/room_type" />
-
-            <ImageButton
-                android:id="@+id/bttn_detail"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/button_selector_detail"
+                android:layout_marginEnd="16dp"
+                android:text="@string/response"
+                android:textColor="@color/dark_primary_text"
+                android:backgroundTint="@color/dark_blue_variant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_room_alias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="(CYGNUS)"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/room_code"
+                app:layout_constraintTop_toTopOf="@+id/room_code" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

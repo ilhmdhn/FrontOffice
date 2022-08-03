@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_oval"
+    android:background="@color/dark_primary_background"
+    android:paddingHorizontal="8dp"
     tools:context=".view.fragment.operasional.checkin.OperasionalListRoomAvailableCheckinFragment">
 
     <include
@@ -12,6 +13,7 @@
         layout="@layout/view_member"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +26,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/available_room"
-        android:textSize="14sp"
+        android:textSize="16sp"
+        android:textColor="@color/dark_primary_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/includeMember" />
 
@@ -33,6 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:divider="@null"
+        tools:listitem="@layout/holder_view_operasional_ready_room"
         app:layout_constraintBottom_toTopOf="@+id/includePaging"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
