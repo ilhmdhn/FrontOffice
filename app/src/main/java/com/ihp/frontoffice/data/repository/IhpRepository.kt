@@ -10,6 +10,7 @@ import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.create
 
 class IhpRepository {
 
@@ -248,5 +249,21 @@ class IhpRepository {
                 Toast.makeText(context, "Gagal insert token " +t.message, Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    fun getRoomCall(url: String): LiveData<RoomCallResponse>{
+        val responseData = MutableLiveData<RoomCallResponse>()
+        val client = ApiRestService.getClient(url).create(RoomCallClient::class.java)
+        client.getCallRoom().enqueue(object: Callback<RoomCallResponse>{
+            override fun onResponse(call: Call<RoomCallResponse>, response: retrofit2.Response<RoomCallResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<RoomCallResponse>, t: Throwable) {
+                responseData.postValue(RoomCallResponse(false, null, t.message))
+            }
+        })
+
+        return responseData
     }
 }

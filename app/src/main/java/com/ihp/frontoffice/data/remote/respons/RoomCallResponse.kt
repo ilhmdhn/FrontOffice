@@ -5,23 +5,20 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class RomCallResponse(
-
-    @field:SerializedName("data")
-    val data: List<DataItem?>? = null,
-
-    @field:SerializedName("length")
-    val length: Int? = null,
+data class RoomCallResponse(
 
     @field:SerializedName("state")
     val state: Boolean? = null,
+
+    @field:SerializedName("data")
+    val data: List<DataRoomCall?>? = null,
 
     @field:SerializedName("message")
     val message: String? = null
 ) : Parcelable
 
 @Parcelize
-data class DataItem(
+data class DataRoomCall(
 
     @field:SerializedName("Kamar")
     val kamar: String? = null,
