@@ -4,11 +4,12 @@ apply plugin: 'org.jetbrains.kotlin.android'
 apply plugin: "kotlin-parcelize"
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
     compileSdkVersion 32
     defaultConfig {
-        applicationId "livs.code.frontoffice"
+        applicationId "com.ihp.frontoffice"
         minSdkVersion 24
         targetSdkVersion 32
         versionCode 1
@@ -100,16 +101,7 @@ dependencies {
     //search
     implementation 'com.chetan.thakur:SearchSpinner-ModelType:1.0.0'
 
-    //Socket.io
-    implementation('io.socket:socket.io-client:1.0.0') {
-        exclude group: 'org.json', module: 'json'
-    }
-
     //progress state
-    //implementation 'com.github.baoyachi:StepView:1.9'
-    //implementation 'com.shuhart.stepview:stepview:1.2.6'
-    //implementation 'com.github.badoualy:stepper-indicator:1.0.7'
-    //implementation 'com.anton46:stepsview:0.0.2'
     implementation 'com.github.vinaygopinath:StepView:2.0.1'
 
     implementation 'com.github.bumptech.glide:glide:4.9.0'
@@ -128,4 +120,5 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+    implementation 'com.google.firebase:firebase-perf-ktx'
 }

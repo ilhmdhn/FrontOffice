@@ -7,35 +7,35 @@
 
     <fragment
         android:id="@+id/navListRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.ListRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.ListRoomFragment"
         tools:layout="@layout/fragment_room_list"/>
 
     <fragment
         android:id="@+id/navCheckinRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.CheckinRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.CheckinRoomFragment"
         tools:layout="@layout/fragment_room_checkin">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navExtendsRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.ExtendsRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.ExtendsRoomFragment"
        >
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navReportFragment"
-        android:name="livs.code.frontoffice.view.fragment.dashboard.ReportFragment"
+        android:name="com.ihp.frontoffice.view.fragment.dashboard.ReportFragment"
         tools:layout="@layout/fragment_report" />
 
     <fragment
         android:id="@+id/navRoomStatusFragment"
-        android:name="livs.code.frontoffice.view.fragment.status.RoomStatusFragment"
+        android:name="com.ihp.frontoffice.view.fragment.status.RoomStatusFragment"
         tools:layout="@layout/fragment_room_status" >
         <action
             android:id="@+id/action_navRoomStatusFragment_to_navRoomOrderStatusDetailFragment"
@@ -44,7 +44,7 @@
 
     <fragment
         android:id="@+id/navListHistoryRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.history.ListHistoryRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.history.ListHistoryRoomFragment"
         tools:layout="@layout/fragment_list_history_room">
         <action
             android:id="@+id/action_navListHistoryRoomFragment_to_navDetailHistoryRoomFragment"
@@ -53,36 +53,36 @@
 
     <fragment
         android:id="@+id/navPaymentFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.PaymentInvoiceFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.PaymentInvoiceFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navTransferRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.TransferRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.TransferRoomFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
 
 
     <fragment
         android:id="@+id/navDetailRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.ruangan.RoomOrderDetailFragment"
+        android:name="com.ihp.frontoffice.view.fragment.ruangan.RoomOrderDetailFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navListInventoryFragment"
-        android:name="livs.code.frontoffice.view.fragment.fnb.ListInventoryFragment">
+        android:name="com.ihp.frontoffice.view.fragment.fnb.ListInventoryFragment">
         <action
             android:id="@+id/action_navListInventoryFragment_to_navOperasionalFnbFragment"
             app:destination="@id/navOperasionalFnbFragment" />
@@ -90,24 +90,20 @@
 
     <fragment
         android:id="@+id/navOperasionalFnbFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.fnb.OperasionalFnbFragment">
+        android:name="com.ihp.frontoffice.view.fragment.operasional.fnb.OperasionalFnbFragment">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navNotificationFragment"
-        android:name="livs.code.frontoffice.view.fragment.notification.NotificationFragment"
-        android:label="">
-        <action
-            android:id="@+id/action_navNotificationFragment_to_navOperasionalFnbFragment"
-            app:destination="@id/navOperasionalFnbFragment" />
-    </fragment>
+        android:name="com.ihp.frontoffice.view.fragment.notification.NotificationFragment"
+        android:label=""/>
 
     <fragment
         android:id="@+id/navOperasionalFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.OperasionalFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.OperasionalFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalFragment_to_operasionalCheckinFragment"
@@ -140,7 +136,7 @@
 
     <fragment
         android:id="@+id/navOperasionalListRoomTypeToCheckinFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.checkin.OperasionalListRoomTypeToCheckinFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.checkin.OperasionalListRoomTypeToCheckinFragment"
         android:label=""
         tools:layout="@layout/fragment_operasional_checkin_available_room_type">
         <action
@@ -148,7 +144,7 @@
             app:destination="@id/navOperasionalCheckinAvailableRoomFragment" />
         <argument
             android:name="member"
-            app:argType="livs.code.frontoffice.data.entity.Member" />
+            app:argType="com.ihp.frontoffice.data.entity.Member" />
         <action
             android:id="@+id/action_navOperasionalListRoomTypeToCheckinFragment_to_navOperasionalCheckinAddInfoFragment"
             app:destination="@id/navOperasionalCheckinAddInfoFragment"
@@ -158,12 +154,12 @@
 
     <fragment
         android:id="@+id/navOperasionalCheckinAvailableRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.checkin.OperasionalListRoomAvailableCheckinFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.checkin.OperasionalListRoomAvailableCheckinFragment"
         android:label=""
         tools:layout="@layout/fragment_operasional_checkin_available_room">
         <argument
             android:name="roomOrder"
-            app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+            app:argType="com.ihp.frontoffice.data.entity.RoomOrder" />
         <action
             android:id="@+id/action_navOperasionalCheckinAvailableRoomFragment_to_navOperasionalCheckinAddInfoFragment"
             app:destination="@id/navOperasionalCheckinAddInfoFragment"
@@ -173,7 +169,7 @@
 
     <fragment
         android:id="@+id/navOperasionalCheckinEditInfoFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.info.OperasionalCheckinEditInfoFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.info.OperasionalCheckinEditInfoFragment"
         android:label="">
 
         <action
@@ -181,7 +177,7 @@
             app:destination="@id/navOperasionalFragment" />
         <argument
             android:name="roomOrder"
-            app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+            app:argType="com.ihp.frontoffice.data.entity.RoomOrder" />
         <action
             android:id="@+id/action_navOperasionalCheckinEditInfoFragment_self"
             app:destination="@id/navOperasionalCheckinEditInfoFragment" />
@@ -189,7 +185,7 @@
 
     <fragment
         android:id="@+id/navOperasionalListRoomToPaymentFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.invoicepayment.OperasionalListRoomToPaymentFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.invoicepayment.OperasionalListRoomToPaymentFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomCheckinFragment_to_operasionalPaymentFragment"
@@ -202,16 +198,16 @@
 
     <fragment
         android:id="@+id/navOperasionalInvoiceAndPaymentFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.invoicepayment.OperasionalInvoiceAndPaymentFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.invoicepayment.OperasionalInvoiceAndPaymentFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navOperasionalListRoomToCheckoutFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.checkout.OperasionalListRoomToCheckoutFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.checkout.OperasionalListRoomToCheckoutFragment"
         android:label="">
         <action
             android:id="@+id/navOperasionalListRoomToCheckoutFragment_to_navOperasionalListRoomToPaymentFragment"
@@ -224,7 +220,7 @@
 
     <fragment
         android:id="@+id/navOperasionalListRoomToCleanFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.clean.OperasionalListRoomToCleanFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.clean.OperasionalListRoomToCleanFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomToCleanFragment_to_operasionalListRoomToCheckoutFragment"
@@ -233,7 +229,7 @@
 
     <fragment
         android:id="@+id/navOperasionalListRoomToExtendFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.extend.OperasionalListRoomToExtendFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.extend.OperasionalListRoomToExtendFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomToExtendFragment_to_navOperasionalExtendFragment"
@@ -242,16 +238,16 @@
 
     <fragment
         android:id="@+id/navOperasionalExtendFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.extend.OperasionalExtendFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.extend.OperasionalExtendFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navOperasionalListRoomToTransferFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomToTransferFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomToTransferFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomToTransferFragment_to_navOperasionalRoomTypeToTransferFragment"
@@ -260,19 +256,19 @@
 
     <fragment
         android:id="@+id/navOperasionalRoomTypeToTransferFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomTypeToTransferFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomTypeToTransferFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalRoomTypeToTransferFragment_to_navOperasionalTransferAvailableRoomFragment"
             app:destination="@id/navOperasionalListRoomAvailableTransferFragment" />
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navOperasionalListRoomAvailableTransferFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomAvailableTransferFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.transfer.OperasionalListRoomAvailableTransferFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalTransferAvailableRoomFragment_to_navOperasionalListRoomToTransferFragment"
@@ -280,12 +276,12 @@
             app:popUpTo="@+id/navOperasionalFragment" />
         <argument
             android:name="roomOrder"
-            app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+            app:argType="com.ihp.frontoffice.data.entity.RoomOrder" />
     </fragment>
 
     <fragment
         android:id="@+id/navOperasionalListRoomToFnbFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.fnb.OperasionalListRoomToFnbFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.fnb.OperasionalListRoomToFnbFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomToFnbFragment_to_navOperasionalFnbFragment"
@@ -294,11 +290,11 @@
 
     <fragment
         android:id="@+id/navOperasionalReservasiFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.reservasi.OperasionalListRoomToReservasiFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.reservasi.OperasionalListRoomToReservasiFragment"
         android:label="">
         <argument
             android:name="member"
-            app:argType="livs.code.frontoffice.data.entity.Member" />
+            app:argType="com.ihp.frontoffice.data.entity.Member" />
         <action
             android:id="@+id/action_navOperasionalReservasiFragment_to_NavOperasionalReservasiAddInfoFragment"
             app:destination="@id/navOperasionalReservasiAddInfoFragment" />
@@ -306,7 +302,7 @@
 
     <fragment
         android:id="@+id/navOperasionalListRoomToEditInfoFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.info.OperasionalListRoomToEditInfoFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.info.OperasionalListRoomToEditInfoFragment"
         android:label="">
         <action
             android:id="@+id/action_navOperasionalListRoomToEditInfoFragment_to_navOperasionalCheckinEditInfoFragment"
@@ -314,11 +310,11 @@
     </fragment>
     <fragment
         android:id="@+id/navOperasionalCheckinAddInfoFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.checkin.OperasionalCheckinAddInfoFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.checkin.OperasionalCheckinAddInfoFragment"
         android:label="">
         <argument
             android:name="roomOrder"
-            app:argType="livs.code.frontoffice.data.entity.RoomOrder" />
+            app:argType="com.ihp.frontoffice.data.entity.RoomOrder" />
         <action
             android:id="@+id/action_navOperasionalCheckinAddInfoFragment_to_navOperasionalFragment"
             app:destination="@id/navOperasionalFragment"
@@ -326,14 +322,14 @@
     </fragment>
     <fragment
         android:id="@+id/navOperasionalReservasiAddInfoFragment"
-        android:name="livs.code.frontoffice.view.fragment.operasional.reservasi.OperasionalReservasiAddInfoFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.reservasi.OperasionalReservasiAddInfoFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
         <argument
             android:name="payment"
-            app:argType="livs.code.frontoffice.data.entity.Payment" />
+            app:argType="com.ihp.frontoffice.data.entity.Payment" />
         <action
             android:id="@+id/action_NavOperasionalReservasiAddInfoFragment_to_navOperasionalFragment"
             app:destination="@id/navOperasionalFragment"
@@ -341,24 +337,24 @@
     </fragment>
     <fragment
         android:id="@+id/navRoomOrderStatusDetailFragment"
-        android:name="livs.code.frontoffice.view.fragment.status.RoomOrderStatusDetailFragment"
+        android:name="com.ihp.frontoffice.view.fragment.status.RoomOrderStatusDetailFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
 
     <fragment
         android:id="@+id/navDetailHistoryRoomFragment"
-        android:name="livs.code.frontoffice.view.fragment.history.RoomOrderHistoryDetailFragment"
+        android:name="com.ihp.frontoffice.view.fragment.history.RoomOrderHistoryDetailFragment"
         android:label="">
         <argument
             android:name="room"
-            app:argType="livs.code.frontoffice.data.entity.Room" />
+            app:argType="com.ihp.frontoffice.data.entity.Room" />
     </fragment>
     <fragment
         android:id="@+id/navReportingFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.ReportingFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.ReportingFragment"
         android:label="ReportingFragment" >
         <action
             android:id="@+id/action_navReportingFragment_to_statusKasFragment"
@@ -372,7 +368,7 @@
     </fragment>
     <fragment
         android:id="@+id/navStatusKasFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.kas.StatusKasFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.kas.StatusKasFragment"
         android:label="fragment_status_kas"
         tools:layout="@layout/fragment_status_kas" >
         <action
@@ -381,7 +377,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailReportKasFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.kas.DetailReportKasFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.kas.DetailReportKasFragment"
         android:label="fragment_detail_report_kas"
         tools:layout="@layout/fragment_detail_report_kas" >
         <argument
@@ -402,7 +398,7 @@
     </fragment>
     <fragment
         android:id="@+id/pecahanFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.kas.pembayaran.PecahanFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.kas.pembayaran.PecahanFragment"
         android:label="fragment_pecahan"
         tools:layout="@layout/fragment_pecahan" >
         <argument
@@ -420,7 +416,7 @@
     </fragment>
     <fragment
         android:id="@+id/mySalesReportParentFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.MySalesReportParentFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.mysales.MySalesReportParentFragment"
         android:label="fragment_my_sales_report_parent"
         tools:layout="@layout/fragment_my_sales_report_parent" >
         <action
@@ -429,7 +425,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemSalesFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.ItemSalesFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.ItemSalesFragment"
         android:label="fragment_item_sales"
         tools:layout="@layout/fragment_item_sales" >
         <action
@@ -438,12 +434,12 @@
     </fragment>
     <fragment
         android:id="@+id/cancelReportFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.cancelation.CancelReportFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.cancelation.CancelReportFragment"
         android:label="fragment_cancel_report"
         tools:layout="@layout/fragment_cancel_report" />
     <fragment
         android:id="@+id/saleperItemListFragment"
-        android:name="livs.code.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales.SaleperItemListFragment"
+        android:name="com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales.SaleperItemListFragment"
         android:label="fragment_saleper_item_list"
         tools:layout="@layout/fragment_saleper_item_list" >
         <argument

@@ -3,23 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:background="@color/dark_primary_background"
     android:orientation="horizontal">
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:layout_weight="1"
         app:cardCornerRadius="8dp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@color/dark_secondary_color"
             android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/img_notif"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_centerHorizontal="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -35,7 +36,7 @@
                 android:fontFamily="@font/sfpro_display_bold"
                 android:text="@string/room"
                 android:textColor="@color/dark_primary_text"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/img_notif"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,33 +44,24 @@
                 android:id="@+id/type_notif"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/app_name"
                 android:textColor="@color/dark_primary_text"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="@+id/room_type"
                 app:layout_constraintTop_toBottomOf="@+id/room_type" />
 
-            <TextView
-                android:id="@+id/time_notif"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:text="@string/app_name"
+                android:layout_marginEnd="16dp"
+                android:text="@string/response"
                 android:textColor="@color/dark_primary_text"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/type_notif"
-                app:layout_constraintTop_toBottomOf="@+id/room_type" />
-
-            <ImageButton
-                android:id="@+id/bttn_detail"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:background="@drawable/button_selector_detail"
+                android:backgroundTint="@color/dark_blue_variant"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
