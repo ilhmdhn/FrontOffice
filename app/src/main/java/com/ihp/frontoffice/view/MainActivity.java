@@ -24,9 +24,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -40,7 +37,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.Result;
+import com.ihp.frontoffice.MyApp;
+import com.ihp.frontoffice.R;
+import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.data.repository.IhpRepository;
+import com.ihp.frontoffice.data.repository.LocalRepository;
+import com.ihp.frontoffice.events.EventsWrapper;
+import com.ihp.frontoffice.events.GlobalBus;
+import com.ihp.frontoffice.helper.PreferenceUi;
+import com.ihp.frontoffice.helper.QRScanType;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
@@ -56,16 +61,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import com.ihp.frontoffice.MyApp;
-import com.ihp.frontoffice.R;
-import com.ihp.frontoffice.data.entity.User;
-import com.ihp.frontoffice.data.repository.LocalRepository;
-import com.ihp.frontoffice.events.EventsWrapper;
-import com.ihp.frontoffice.events.GlobalBus;
-import com.ihp.frontoffice.helper.PreferenceUi;
-import com.ihp.frontoffice.helper.QRScanType;
-import com.ihp.frontoffice.view.component.PushNotify;
-import com.ihp.frontoffice.viewmodel.NotificationViewModel;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity{
@@ -113,12 +108,10 @@ public class MainActivity extends AppCompatActivity{
     private RippleBackground rippleBackground;
     private TextView labelCallRom;
     protected PowerManager.WakeLock mWakeLock;
-    private PushNotify pushNotify;
     private Intent mServiceIntent;
     private User USER_FO;
     private String BASE_URL;
     private Handler handler;
-    private NotificationViewModel notificationViewModel;
     private static String CURRENT_PAGE = "";
     private final static String NOTIFICATION_PAGE = "NOTIFICATION_PAGE";
     private final static String OPERASIONAL_PAGE = "OPERASIONAL_PAGE";
@@ -294,11 +287,6 @@ public class MainActivity extends AppCompatActivity{
 
         localRepository = LocalRepository.getInstance(getApplicationContext());
         checkPermission();
-
-        notificationViewModel = new ViewModelProvider(this)
-                .get(NotificationViewModel.class);
-        notificationViewModel.init(getApplicationContext());
-        observableNotifyData();
     }
 
     private void insertToken(){
@@ -317,19 +305,6 @@ public class MainActivity extends AppCompatActivity{
                         ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
                     }
                 });
-    }
-
-    void observableNotifyData() {
-        notificationViewModel
-                .getUnreadNotificationLiveData()
-                .observe(this, new Observer<Integer>() {
-                    @Override
-                    public void onChanged(Integer integer) {
-                        notifyCount = integer;
-                        setupNotifyBadge();
-                    }
-                });
-
     }
 
     private void setToolbarActivity() {
