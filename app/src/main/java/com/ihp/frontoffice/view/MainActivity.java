@@ -283,6 +283,14 @@ public class MainActivity extends AppCompatActivity{
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
 
+        Intent intent = getIntent();
+        String fromNotif = intent.getStringExtra("FromPushNotify");
+        if (fromNotif.equals("ROOM_CALL")){
+                if (!CURRENT_PAGE.equals(NOTIFICATION_PAGE)) {
+                    navController.navigate(R.id.navNotificationFragment);
+                }
+        }
+
         localRepository = LocalRepository.getInstance(getApplicationContext());
         checkPermission();
 

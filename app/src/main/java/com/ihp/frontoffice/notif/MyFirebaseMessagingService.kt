@@ -3,7 +3,9 @@ package com.ihp.frontoffice.notif
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
@@ -15,6 +17,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.ihp.frontoffice.MyApp
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.repository.IhpRepository
+import com.ihp.frontoffice.view.MainActivity
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -36,10 +39,14 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
-        val pendingIntent = NavDeepLinkBuilder(this@MyFirebaseMessagingService)
-            .setGraph(R.navigation.nav_fragment)
-            .setDestination(R.id.navNotificationFragment)
-            .createPendingIntent()
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("FromPushNotify", "ROOM_CALL")
+        val pendingIntent = PendingIntent.getActivity(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE
+        )
 
         val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
