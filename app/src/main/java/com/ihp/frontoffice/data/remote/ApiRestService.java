@@ -11,11 +11,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRestService {
     private static Retrofit retrofit =null;
-    private static String BASE_URL;
 
     public static Retrofit getClient(String baseURL) {
         if (retrofit == null) {
-            BASE_URL = baseURL+ "/";
+            String BASE_URL = baseURL + "/";
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder()
@@ -30,26 +29,7 @@ public class ApiRestService {
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(client)
                     .build();
-
         }
         return retrofit;
-    }
-
-    public static void initBaseUrl(String baseUrl) {
-        BASE_URL = baseUrl+ "/";
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .build();
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
     }
 }

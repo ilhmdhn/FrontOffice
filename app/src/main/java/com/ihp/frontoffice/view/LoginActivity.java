@@ -75,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             if (validate()) {
                 _loginProgress.setVisibility(View.VISIBLE);
                 BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
-                ApiRestService.initBaseUrl(BASE_URL);
 
                 UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
                 Call<UserResponse> call = userClient.login(email, password);
