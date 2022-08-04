@@ -14,7 +14,7 @@ import com.ihp.frontoffice.data.local.dao.UserDao;
 @Database(entities = {
         User.class,
         Config.class
-}, version = 4, exportSchema = false)
+}, version = 5, exportSchema = false)
 public abstract class FrontOfficeDatabase extends RoomDatabase {
 
     private static FrontOfficeDatabase frontOfficeDatabase;

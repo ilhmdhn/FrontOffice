@@ -8,8 +8,8 @@ import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ihp.frontoffice.MyApp
@@ -56,6 +56,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             PendingIntent.FLAG_IMMUTABLE
         )
 
+        val GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL"
         val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
@@ -64,18 +65,21 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(message.data.get("content"))
             .setPriority(NotificationCompat.PRIORITY_MAX)
             .setContentIntent(pendingIntent)
+            .setGroup(GROUP_KEY_WORK_EMAIL)
+            .setGroupSummary(true)
             .setAutoCancel(true)
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             /* Create or update. */
-            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
             channel.description = CHANNEL_NAME
             mBuilder.setChannelId(CHANNEL_ID)
             mNotificationManager.createNotificationChannel(channel)
         }
 
         val notification = mBuilder.build()
+
 
         if (userFo != null){
             if(userFo!!.isLogin){

@@ -432,6 +432,7 @@ public class MainActivity extends AppCompatActivity{
                         moveToMain.putExtra("OUT", true);
                         moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(moveToMain);
+                        finish();
                     }
                 }, 1000);
     }
@@ -454,6 +455,7 @@ public class MainActivity extends AppCompatActivity{
                                         moveToMain.putExtra("OUT", true);
                                         moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(moveToMain);
+                                        finish();
                                     }
                                 }, 1000);
 
