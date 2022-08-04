@@ -36,6 +36,11 @@ class NotificationFragment : Fragment() {
 
         val url = (requireActivity().applicationContext as MyApp).baseUrl
 
+        binding.lySwipe.setOnRefreshListener {
+            getData(url)
+            binding.lySwipe.isRefreshing = false
+        }
+
         getData(url)
     }
 

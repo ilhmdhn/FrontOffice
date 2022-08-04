@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity{
     private boolean isPortraitsLayout;
     private boolean mUserLearnedDrawer;
     private IhpRepository ihpRepository;
+    private String notifToken;
 
 
     @BindView(R.id.toolbar)
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                         String token = task.getResult();
                         Log.d("tokennya", token);
+                        notifToken = token;
                         ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
                     }
                 });
@@ -284,11 +286,13 @@ public class MainActivity extends AppCompatActivity{
         }
 
         Intent intent = getIntent();
-        String fromNotif = intent.getStringExtra("FromPushNotify");
-        if (fromNotif.equals("ROOM_CALL")){
+        if(intent.getExtras() != null){
+            String fromNotif = intent.getStringExtra("FromPushNotify");
+            if (fromNotif != null || fromNotif.equals("ROOM_CALL")){
                 if (!CURRENT_PAGE.equals(NOTIFICATION_PAGE)) {
                     navController.navigate(R.id.navNotificationFragment);
                 }
+            }
         }
 
         localRepository = LocalRepository.getInstance(getApplicationContext());
@@ -438,6 +442,7 @@ public class MainActivity extends AppCompatActivity{
                         handler.postDelayed(
                                 new Runnable() {
                                     public void run() {
+                                        ihpRepository.turnOffTOken(BASE_URL, notifToken);
                                         isLogout = true;
                                         localRepository.setUserLogout();
                                         Intent moveToMain = new Intent(MainActivity.this, LoginActivity.class);

@@ -2,9 +2,7 @@ package com.ihp.frontoffice.data.remote
 
 import com.ihp.frontoffice.data.remote.respons.Response
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface FirebaseClient {
     @FormUrlEncoded
@@ -14,4 +12,9 @@ interface FirebaseClient {
         @Field("user") user: String,
         @Field("user_level") userLevel: String
     ): Call<Response>
+
+    @PUT("/firebase/token/{token}")
+    fun turnOffToken(
+        @Path("token") token: String,
+        ): Call<Response>
 }

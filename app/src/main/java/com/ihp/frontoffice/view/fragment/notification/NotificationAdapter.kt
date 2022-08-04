@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataRoomCall
+import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.databinding.HolderViewNotifyBinding
 
 class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHolder>() {
@@ -28,9 +29,9 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
                 roomCode.text = data.kamar
                 tvRoomAlias.text = "(${data.kamarAlias})"
                 keterangan.text = "Tamu ${data.namaTamu} Memanggil"
-
+                val ihpRepository = IhpRepository()
                 btnResponse.setOnClickListener {
-                    Toast.makeText(itemView.context, "Memilih Room ${data.kamar}", Toast.LENGTH_SHORT).show()
+                    ihpRepository.responseRoomCall(itemView.context, data.kamar, 0)
                 }
             }
         }

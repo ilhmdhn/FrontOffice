@@ -21,7 +21,7 @@ data class RoomCallResponse(
 data class DataRoomCall(
 
     @field:SerializedName("Kamar")
-    val kamar: String? = null,
+    val kamar: String,
 
     @field:SerializedName("Nama_Tamu")
     val namaTamu: String? = null,
