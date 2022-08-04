@@ -15,6 +15,6 @@ interface RoomCallClient {
     fun responseCallRoom(
         @Path("room")room: String,
         @Field("state")state: Byte,
-        @Field("chusr")user: String
+        @Field("chusr")user: String?
     ): Call<Response>
 }

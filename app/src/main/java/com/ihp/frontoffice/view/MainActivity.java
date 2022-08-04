@@ -24,7 +24,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -39,6 +41,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.Result;
 import com.ihp.frontoffice.data.repository.IhpRepository;
+import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -123,6 +126,8 @@ public class MainActivity extends AppCompatActivity{
     private ZXingScannerView mScannerView;
     private AlertDialog scanQrDialog;
 
+    private OtherViewModel otherViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,28 +139,20 @@ public class MainActivity extends AppCompatActivity{
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
         this.mWakeLock.acquire();
         ihpRepository = new IhpRepository();
+        otherViewModel = new ViewModelProvider(this).get(OtherViewModel.class);
+
+        insertToken();
+
+        otherViewModel.getLoginStatus(getApplicationContext()).observe(this, data->{
+        if (data == null || !data.isLogin()){
+            getLogout();
+        }
+        });
 
         handler = new Handler();
         if (toolbar != null) {
             setToolbarActivity();
         }
-
-
-//        token
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Gagal mendapatkan token notifikasi", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String token = task.getResult();
-                        Log.d("tokennya", token);
-                        notifToken = token;
-                        ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
-                    }
-                });
 
         mUserLearnedDrawer = Boolean
                 .parseBoolean(PreferenceUi
@@ -304,6 +301,24 @@ public class MainActivity extends AppCompatActivity{
         observableNotifyData();
     }
 
+    private void insertToken(){
+        //        token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Gagal mendapatkan token notifikasi", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String token = task.getResult();
+                        Log.d("tokennya", token);
+                        notifToken = token;
+                        ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
+                    }
+                });
+    }
+
     void observableNotifyData() {
         notificationViewModel
                 .getUnreadNotificationLiveData()
@@ -387,7 +402,6 @@ public class MainActivity extends AppCompatActivity{
         return false;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -429,6 +443,22 @@ public class MainActivity extends AppCompatActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getLogout(){
+        Toast.makeText(this, "Silahkan Login Kembali", Toast.LENGTH_SHORT).show();
+        handler.postDelayed(
+                new Runnable() {
+                    public void run() {
+                        ihpRepository.turnOffTOken(BASE_URL, notifToken);
+                        isLogout = true;
+                        localRepository.setUserLogout();
+                        Intent moveToMain = new Intent(MainActivity.this, LoginActivity.class);
+                        moveToMain.putExtra("OUT", true);
+                        moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(moveToMain);
+                    }
+                }, 1000);
     }
 
     private void logOut() {
@@ -579,8 +609,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO :: init sio switch background and main
-
+        insertToken();
     }
 
     @Subscribe
@@ -852,5 +881,4 @@ public class MainActivity extends AppCompatActivity{
         });
         scanQrDialog.show();
     }
-
 }

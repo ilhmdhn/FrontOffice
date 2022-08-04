@@ -12,7 +12,7 @@ import java.lang.Exception
 class MyApp : Application() {
 
     lateinit var baseUrl: String
-    lateinit var userFo: User
+    var userFo: User = User()
 
     override fun onCreate() {
         super.onCreate()
@@ -49,11 +49,7 @@ class MyApp : Application() {
 
     fun isWifiConnect(ctx: Context?): Boolean {
         val wifiStatusNya = NetworkUtil.getConnectivityStatusString(ctx)
-        if ((wifiStatusNya == 0) or (wifiStatusNya == 2)) {
-            return false
-        } else {
-            return true
-        }
+        return !((wifiStatusNya == 0) or (wifiStatusNya == 2))
     }
 
     companion object {

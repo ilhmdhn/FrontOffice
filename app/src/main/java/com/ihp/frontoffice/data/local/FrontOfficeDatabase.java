@@ -17,7 +17,7 @@ import com.ihp.frontoffice.data.local.dao.UserDao;
         User.class,
         Config.class,
         Notification.class
-}, version = 3, exportSchema = false)
+}, version = 4, exportSchema = false)
 public abstract class FrontOfficeDatabase extends RoomDatabase {
 
     private static FrontOfficeDatabase frontOfficeDatabase;

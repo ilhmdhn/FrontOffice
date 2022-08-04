@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import java.util.List;
 
 import com.ihp.frontoffice.data.entity.Notification;
+import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.data.local.FrontOfficeDatabase;
 import com.ihp.frontoffice.data.local.dao.ConfigDao;
 import com.ihp.frontoffice.data.local.dao.NotificationDao;
@@ -32,6 +33,10 @@ public class LocalRepository {
             localRepository = new LocalRepository(app);
         }
         return localRepository;
+    }
+
+    public LiveData<User> getUser(){
+        return userDao.getLiveUser();
     }
 
     public LiveData<List<Notification>> getAllNotification() {

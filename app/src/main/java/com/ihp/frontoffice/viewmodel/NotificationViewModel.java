@@ -25,15 +25,7 @@ public class NotificationViewModel extends ViewModel {
         unreadNotificationLiveData = remoteRepository.countUnreadNotification(false);
     }
 
-    public LiveData<List<Notification>> getNotificationMutableLiveData() {
-        return notificationMutableLiveData;
-    }
-
     public LiveData<Integer> getUnreadNotificationLiveData() {
         return unreadNotificationLiveData;
-    }
-
-    public void resetNotify(){
-        remoteRepository.updateNotification();
     }
 }

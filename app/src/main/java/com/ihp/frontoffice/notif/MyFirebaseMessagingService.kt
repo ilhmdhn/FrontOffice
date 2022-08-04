@@ -35,8 +35,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         val url = (this@MyFirebaseMessagingService.applicationContext as MyApp).baseUrl
         val user = (this@MyFirebaseMessagingService.applicationContext as MyApp).userFo
-        ihpRepository.insertToken(this@MyFirebaseMessagingService, url, token, user.userId, user.levelUser)
-        Toast.makeText(this@MyFirebaseMessagingService, "TOKEN BARU "+token, Toast.LENGTH_SHORT).show()
+
+        if (!url.isNullOrEmpty()){
+            ihpRepository.insertToken(this@MyFirebaseMessagingService, url, token, user.userId, user.levelUser)
+        }
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -76,7 +78,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val notification = mBuilder.build()
 
         if (userFo != null){
-            Log.d("islogin", userFo.toString())
             if(userFo!!.isLogin){
             mNotificationManager.notify(NOTIFICATION_ID, notification)
             }

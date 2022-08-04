@@ -235,7 +235,7 @@ class IhpRepository {
         return dataResponse
     }
 
-    fun insertToken(context: Context,url: String, token: String, user: String, levelUser: String){
+    fun insertToken(context: Context,url: String, token: String, user: String?, levelUser: String?){
         val client = ApiRestService.getClient(url).create(FirebaseClient::class.java)
         client.insertToken(token, user, levelUser).enqueue(object: Callback<Response>{
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
@@ -282,7 +282,7 @@ class IhpRepository {
     }
 
     fun responseRoomCall(context: Context, room: String, state: Byte){
-        val user = (context.applicationContext as MyApp).userFo.userId
+        val user = (context.applicationContext as MyApp).userFo?.userId
         val url = (context.applicationContext as MyApp).baseUrl
         val client = ApiRestService.getClient(url).create(RoomCallClient::class.java)
         client.responseCallRoom(room, state, user).enqueue(object: Callback<Response>{
