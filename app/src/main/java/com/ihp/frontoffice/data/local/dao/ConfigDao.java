@@ -10,8 +10,6 @@ import com.ihp.frontoffice.data.entity.Config;
 @Dao
 public interface ConfigDao extends BaseDao<Config> {
     @Transaction
-    @Query("SELECT * FROM config")
-    List<Config> getList();
 
     @Query("SELECT * FROM config ORDER BY id DESC LIMIT 1")
     Config getLastConfig();

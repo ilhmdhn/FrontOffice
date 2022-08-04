@@ -13,7 +13,7 @@ import com.ihp.frontoffice.data.entity.User;
 public interface UserDao extends BaseDao<User> {
     @Transaction
 
-    @Query("UPDATE user SET is_login = 0")
+    @Query("DELETE FROM user")
     void setUserLogout();
 
     @Query("SELECT * FROM user where is_login = 1 ORDER BY user_id DESC LIMIT 1")
