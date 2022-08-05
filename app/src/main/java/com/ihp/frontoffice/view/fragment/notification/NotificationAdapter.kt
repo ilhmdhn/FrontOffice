@@ -26,12 +26,16 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
         @SuppressLint("SetTextI18n")
         fun bind(data: DataRoomCall){
             with(binding){
-                roomCode.text = data.kamar
-                tvRoomAlias.text = "(${data.kamarAlias})"
-                keterangan.text = "Tamu ${data.namaTamu} Memanggil"
+                roomCode.text = data.room
+                description.text = data.keterangan
+                if (data.isNow == 0){
+                    btnResponse.visibility = View.GONE
+                } else{
+                    btnResponse.visibility = View.VISIBLE
+                }
                 val ihpRepository = IhpRepository()
                 btnResponse.setOnClickListener {
-                    ihpRepository.responseRoomCall(itemView.context, data.kamar, 0)
+                    ihpRepository.responseRoomCall(itemView.context, data.room, 0)
                 }
             }
         }
