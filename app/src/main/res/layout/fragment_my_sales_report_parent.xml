@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F3F7"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.reporting.mysales.MySalesReportParentFragment">
 
     <LinearLayout
@@ -19,18 +19,18 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@drawable/background_tab_parent"
             android:paddingVertical="5dp"
-            app:tabGravity="fill"
-            app:tabIndicator="@drawable/background_tab_indicator"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabIndicatorGravity="stretch"
-            app:tabMode="auto"
-            app:tabPaddingBottom="3dp"
             app:tabPaddingTop="3dp"
-            app:tabSelectedTextColor="@android:color/black"
+            android:background="@color/dark_secondary_color"
+            app:tabPaddingBottom="3dp"
+            app:tabIndicator="@drawable/background_tab_indicator"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/dark_light_gray"
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/dark_secondary_color"
             app:tabTextAppearance="@style/text_tab"
-            app:tabTextColor="@android:color/black" />
+            app:tabTextColor="@color/dark_primary_text" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/view_pager"

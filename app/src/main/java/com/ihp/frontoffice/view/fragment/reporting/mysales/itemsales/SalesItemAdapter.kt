@@ -46,9 +46,9 @@ class SalesItemAdapter: RecyclerView.Adapter<SalesItemAdapter.ListViewHolder>(){
         fun bind(data: SaleItemList, waktu: Int, color: Int){
             with(binding){
                 if (color == 1){
-                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                    itemView.setBackgroundResource(R.color.dark_primary_color)
                 } else{
-                    lyParentList.setBackgroundResource(R.drawable.background_white)
+                    lyParentList.setBackgroundResource(R.color.dark_gray_primary)
                 }
                 tvValueItemName.text = data.namaItem
                 tvValueQty.text = data.jumlah.toString()

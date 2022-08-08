@@ -23,9 +23,9 @@ class CancelItemsReportAdapter: RecyclerView.Adapter<CancelItemsReportAdapter.Li
         fun bind(data: DataCancelItems, kodeWarna: Int){
             with(binding){
                 if (kodeWarna == 1){
-                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                    itemView.setBackgroundResource(R.color.dark_gray_primary)
                 } else{
-                    itemView.setBackgroundResource(R.drawable.background_white)
+                    itemView.setBackgroundResource(R.color.dark_primary_color)
                 }
                 tvJam.text = data.jam
                 tvItemName.text = data.namaItem

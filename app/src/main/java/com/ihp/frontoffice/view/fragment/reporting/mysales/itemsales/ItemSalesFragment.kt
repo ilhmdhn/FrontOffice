@@ -16,6 +16,7 @@ import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.databinding.FragmentItemSalesBinding
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
+import com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales.SalesItemSectionPagerAdapter
 
 class ItemSalesFragment : Fragment() {
 

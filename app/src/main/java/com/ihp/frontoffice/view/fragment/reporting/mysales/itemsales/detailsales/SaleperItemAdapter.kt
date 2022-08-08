@@ -23,9 +23,9 @@ class SaleperItemAdapter: RecyclerView.Adapter<SaleperItemAdapter.ListViewHolder
         fun bind(data: SalesItembyName, colorCode: Int){
             with(binding){
                 if (colorCode == 1){
-                    itemView.setBackgroundResource(R.drawable.background_baby_blue)
+                    itemView.setBackgroundResource(R.color.dark_gray_primary)
                 } else{
-                    itemView.setBackgroundResource(R.drawable.background_white)
+                    itemView.setBackgroundResource(R.color.dark_primary_color)
                 }
                 tvTanggal.text = data.tanggal
                 tvNamaItem.text = data.namaItem

@@ -1,4 +1,4 @@
-package com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales
+package com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

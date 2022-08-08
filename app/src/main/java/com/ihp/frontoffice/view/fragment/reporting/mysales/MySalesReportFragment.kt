@@ -2,7 +2,6 @@ package com.ihp.frontoffice.view.fragment.reporting.mysales
 
 import android.R
 import android.graphics.Color
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -23,14 +22,12 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.github.mikephil.charting.utils.Utils.convertDpToPixel
-import com.github.mikephil.charting.utils.Utils.getLineSpacing
-import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.respons.DataItemSales
 import com.ihp.frontoffice.data.remote.respons.MySalesResponse
 import com.ihp.frontoffice.databinding.FragmentMySalesReportBinding
 import com.ihp.frontoffice.helper.utils
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
+import es.dmoral.toasty.Toasty
 
 
 class MySalesReportFragment : Fragment() {
@@ -53,7 +50,7 @@ class MySalesReportFragment : Fragment() {
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         barChart = binding.barChart
 
-        binding.llNominal.setOnClickListener {
+        binding.btnDetail.setOnClickListener {
             val toSalesItemsNavigation = MySalesReportParentFragmentDirections.actionMySalesReportParentFragmentToItemSalesFragment()
             Navigation.findNavController(it).navigate(toSalesItemsNavigation)
         }
@@ -216,10 +213,12 @@ class MySalesReportFragment : Fragment() {
                 binding.tvTotal.setText(utils.getCurrency(total))
                 setDataToLineChart(data.data)
                 initLineChart()
+                binding.llNominal.visibility = View.VISIBLE
                 binding.frameLayout2.visibility = View.VISIBLE
                 binding.ltEmpty.visibility = View.GONE
             } else{
                 binding.frameLayout2.visibility = View.GONE
+                binding.llNominal.visibility = View.GONE
                 binding.ltEmpty.visibility = View.VISIBLE
                 binding.ltEmpty.setAnimation("emptybox.json")
                 Toasty.warning(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()
@@ -227,6 +226,7 @@ class MySalesReportFragment : Fragment() {
             }
         } else{
             binding.frameLayout2.visibility = View.GONE
+            binding.llNominal.visibility =  View.GONE
             binding.ltEmpty.visibility = View.VISIBLE
             binding.ltEmpty.setAnimation("erroranimation.json")
             Toasty.error(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()
