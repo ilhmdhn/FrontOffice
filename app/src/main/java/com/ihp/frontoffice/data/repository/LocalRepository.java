@@ -35,5 +35,4 @@ public class LocalRepository {
     public void setUserLogout() {
         userDao.setUserLogout();
     }
-
 }
