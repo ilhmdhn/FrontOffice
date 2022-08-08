@@ -16,18 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="96dp">
 
-        <ImageView
-            android:id="@+id/food_image"
-            android:layout_width="50dp"
-            android:layout_height="0dp"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/asiafood1" />
-
         <TextView
             android:id="@+id/inventory_name"
             android:layout_width="0dp"
@@ -67,13 +55,13 @@
             android:id="@+id/inventory_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/regular"
             android:text="@string/extends_room"
             android:textColor="@color/dark_secondary_text"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/food_image"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
