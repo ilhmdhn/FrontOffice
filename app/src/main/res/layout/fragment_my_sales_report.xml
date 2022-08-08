@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F2F3F7"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.reporting.mysales.MySalesReportFragment">
 
     <ProgressBar
@@ -44,12 +44,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/bar_chart"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/background_my_sales" />
+            android:background="@color/dark_secondary_color"
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
 
@@ -58,7 +57,6 @@
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/background_my_sales"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +70,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="center_horizontal"
             android:text="Total Nominal"
-            android:textColor="@android:color/black"
+            android:textColor="@color/dark_primary_text"
             android:textSize="18sp" />
 
         <View
@@ -87,7 +85,7 @@
             android:fontFamily="sans-serif-medium"
             android:gravity="center_horizontal"
             android:text="0"
-            android:textColor="@android:color/black"
+            android:textColor="@color/dark_primary_text"
             android:textSize="14sp" />
     </LinearLayout>
 

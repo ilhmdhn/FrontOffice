@@ -1,6 +1,8 @@
 package com.ihp.frontoffice.view.fragment.reporting.mysales
 
 import android.R
+import android.graphics.Color
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +23,8 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.Utils.convertDpToPixel
+import com.github.mikephil.charting.utils.Utils.getLineSpacing
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.respons.DataItemSales
 import com.ihp.frontoffice.data.remote.respons.MySalesResponse
@@ -139,13 +143,18 @@ class MySalesReportFragment : Fragment() {
         xAxis.labelRotationAngle = +90f
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
+        xAxis.textSize = 12f
+        xAxis.mLabelRotatedHeight = 35
+        xAxis.textColor=Color.WHITE
 
         val leftAxis: YAxis = barChart.getAxisLeft()
         leftAxis.setLabelCount(8, false)
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
         leftAxis.spaceTop = 15f
         leftAxis.maxWidth
+        leftAxis.spaceBottom = 12f
         leftAxis.axisMinimum = 0f
+        leftAxis.textColor = Color.WHITE
 
         barChart.setDrawValueAboveBar(false)
     }
@@ -166,6 +175,8 @@ class MySalesReportFragment : Fragment() {
 
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setDrawValues(true)
+        barDataSet.valueTextColor=Color.WHITE
+        barDataSet.valueTextSize= 14f
         barDataSet.setColors(startColor2,
                             startColor3,
                             startColor4,
@@ -175,7 +186,6 @@ class MySalesReportFragment : Fragment() {
         val data = BarData(barDataSet)
 
         barChart.data = data
-
         barChart.invalidate()
 
     }

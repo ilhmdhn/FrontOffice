@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@android:color/white"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.reporting.kas.DetailReportKasFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,7 +18,7 @@
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/white"
+        android:background="@color/dark_primary_background"
         android:layout_marginHorizontal="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,9 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/black"
             android:gravity="center_horizontal"
             android:text="FORM STATUS KAS MASUK"
+            android:textColor="@color/dark_primary_text"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-light"
                 android:text="Shift"
-                android:textColor="@android:color/black"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="16sp" />
 
             <TextView
@@ -61,7 +61,7 @@
                 android:fontFamily="sans-serif-light"
                 android:gravity="right"
                 android:text="Tanggal"
-                android:textColor="@android:color/black"
+                android:textColor="@color/dark_primary_text"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -73,7 +73,7 @@
             android:layout_marginTop="3dp"
             android:fontFamily="sans-serif-light"
             android:text="Piutang Shift"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/dark_primary_text" />
 
         <TextView
             android:id="@+id/tv_hitung_piutang"
@@ -83,16 +83,16 @@
             android:layout_marginTop="1dp"
             android:fontFamily="sans-serif-light"
             android:text="(Room + FnB) - UM"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/dark_primary_text" />
 
         <View
             android:id="@+id/dummy_garis"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@android:color/black"
             android:layout_below="@id/tv_hitung_piutang"
             android:layout_alignStart="@id/tv_hitung_piutang"
-            android:layout_alignEnd="@id/tv_hitung_piutang"/>
+            android:layout_alignEnd="@id/tv_hitung_piutang"
+            android:background="@android:color/white" />
 
         <TextView
             android:id="@+id/dummy_total_piutang"
@@ -101,27 +101,28 @@
             android:layout_below="@id/dummy_garis"
             android:fontFamily="sans-serif-light"
             android:text="Total :"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/dark_primary_text" />
 
         <TextView
             android:id="@+id/tv_total_piutang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@id/dummy_total_piutang"
-            android:layout_toRightOf="@id/dummy_total_piutang"
             android:layout_marginStart="3dp"
+            android:layout_toRightOf="@id/dummy_total_piutang"
             android:fontFamily="sans-serif-medium"
             android:text="0"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/dark_primary_text" />
     </RelativeLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="4dp"
+        android:backgroundTint="@color/dark_secondary_color"
         android:background="@drawable/background_tab_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,14 +130,14 @@
         app:tabGravity="fill"
         app:tabIndicatorGravity="stretch"
         app:tabIndicator="@drawable/background_tab_indicator"
-        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorColor="@android:color/darker_gray"
         app:tabPaddingTop="3dp"
         app:tabPaddingBottom="3dp"
         android:paddingVertical="5dp"
-        app:tabMode="auto"
-        app:tabSelectedTextColor="@android:color/black"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/dark_secondary_color"
         app:tabTextAppearance="@style/text_tab"
-        app:tabTextColor="@android:color/black" />
+        app:tabTextColor="@color/dark_primary_text" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lt_empty"
