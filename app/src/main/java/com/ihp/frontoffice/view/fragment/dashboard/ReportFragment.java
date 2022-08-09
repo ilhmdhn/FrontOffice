@@ -119,7 +119,7 @@ public class ReportFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
         setMainTitle();
-        user = db.userDao().getLastUser();
+        user = db.userDao().getUserLogin();
 
         userNama.setText(user.getUserId());
         userRole.setText(user.getLevelUser());

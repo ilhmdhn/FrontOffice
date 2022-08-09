@@ -127,7 +127,7 @@ public class ConfigActivity extends AppCompatActivity {
             String port = serverPort.getText().toString();
             setBaseUrl();
             String baseUrl = serverBaseURL.getText().toString();
-            config = new Config(ip, port, baseUrl);
+            config = new Config(1, ip, port, baseUrl);
             if (ip.isEmpty() || port.isEmpty() || baseUrl.isEmpty() || null == config) {
                 Toast.makeText(this, "Konfigurasi belum sesuai", Toast.LENGTH_LONG).show();
                 return;

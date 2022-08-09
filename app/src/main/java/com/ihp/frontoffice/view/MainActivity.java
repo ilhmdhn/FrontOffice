@@ -24,7 +24,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -38,7 +37,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.zxing.Result;
+import com.ihp.frontoffice.MyApp;
+import com.ihp.frontoffice.R;
+import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.data.repository.IhpRepository;
+import com.ihp.frontoffice.data.repository.LocalRepository;
+import com.ihp.frontoffice.events.EventsWrapper;
+import com.ihp.frontoffice.events.GlobalBus;
+import com.ihp.frontoffice.helper.PreferenceUi;
+import com.ihp.frontoffice.helper.QRScanType;
+import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -53,16 +61,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
-import com.ihp.frontoffice.MyApp;
-import com.ihp.frontoffice.R;
-import com.ihp.frontoffice.data.entity.User;
-import com.ihp.frontoffice.data.repository.LocalRepository;
-import com.ihp.frontoffice.events.EventsWrapper;
-import com.ihp.frontoffice.events.GlobalBus;
-import com.ihp.frontoffice.helper.PreferenceUi;
-import com.ihp.frontoffice.helper.QRScanType;
-import com.ihp.frontoffice.view.component.PushNotify;
-import com.ihp.frontoffice.viewmodel.NotificationViewModel;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MainActivity extends AppCompatActivity{
@@ -81,6 +79,7 @@ public class MainActivity extends AppCompatActivity{
     private boolean isPortraitsLayout;
     private boolean mUserLearnedDrawer;
     private IhpRepository ihpRepository;
+    private String notifToken;
 
 
     @BindView(R.id.toolbar)
@@ -109,18 +108,18 @@ public class MainActivity extends AppCompatActivity{
     private RippleBackground rippleBackground;
     private TextView labelCallRom;
     protected PowerManager.WakeLock mWakeLock;
-    private PushNotify pushNotify;
     private Intent mServiceIntent;
     private User USER_FO;
     private String BASE_URL;
     private Handler handler;
-    private NotificationViewModel notificationViewModel;
     private static String CURRENT_PAGE = "";
     private final static String NOTIFICATION_PAGE = "NOTIFICATION_PAGE";
     private final static String OPERASIONAL_PAGE = "OPERASIONAL_PAGE";
     private boolean isLogout = false;
     private ZXingScannerView mScannerView;
     private AlertDialog scanQrDialog;
+
+    private OtherViewModel otherViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,27 +132,20 @@ public class MainActivity extends AppCompatActivity{
         this.mWakeLock = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, TAG);
         this.mWakeLock.acquire();
         ihpRepository = new IhpRepository();
+        otherViewModel = new ViewModelProvider(this).get(OtherViewModel.class);
+
+        insertToken();
+
+        otherViewModel.getLoginStatus(getApplicationContext()).observe(this, data->{
+        if (data == null || !data.isLogin()){
+            getLogout();
+        }
+        });
 
         handler = new Handler();
         if (toolbar != null) {
             setToolbarActivity();
         }
-
-
-//        token
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Gagal mendapatkan token notifikasi", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                        String token = task.getResult();
-                        Log.d("tokennya", token);
-                        ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
-                    }
-                });
 
         mUserLearnedDrawer = Boolean
                 .parseBoolean(PreferenceUi
@@ -284,33 +276,35 @@ public class MainActivity extends AppCompatActivity{
         }
 
         Intent intent = getIntent();
-        String fromNotif = intent.getStringExtra("FromPushNotify");
-        if (fromNotif.equals("ROOM_CALL")){
+        if(intent.getExtras() != null){
+            String fromNotif = intent.getStringExtra("FromPushNotify");
+            if (fromNotif != null || fromNotif.equals("ROOM_CALL")){
                 if (!CURRENT_PAGE.equals(NOTIFICATION_PAGE)) {
                     navController.navigate(R.id.navNotificationFragment);
                 }
+            }
         }
 
         localRepository = LocalRepository.getInstance(getApplicationContext());
         checkPermission();
-
-        notificationViewModel = new ViewModelProvider(this)
-                .get(NotificationViewModel.class);
-        notificationViewModel.init(getApplicationContext());
-        observableNotifyData();
     }
 
-    void observableNotifyData() {
-        notificationViewModel
-                .getUnreadNotificationLiveData()
-                .observe(this, new Observer<Integer>() {
+    private void insertToken(){
+        //        token
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onChanged(Integer integer) {
-                        notifyCount = integer;
-                        setupNotifyBadge();
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Gagal mendapatkan token notifikasi", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String token = task.getResult();
+                        Log.d("tokennya", token);
+                        notifToken = token;
+                        ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
                     }
                 });
-
     }
 
     private void setToolbarActivity() {
@@ -383,7 +377,6 @@ public class MainActivity extends AppCompatActivity{
         return false;
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -427,6 +420,23 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    private void getLogout(){
+        Toast.makeText(this, "Silahkan Login Kembali", Toast.LENGTH_SHORT).show();
+        handler.postDelayed(
+                new Runnable() {
+                    public void run() {
+                        ihpRepository.turnOffTOken(BASE_URL, notifToken);
+                        isLogout = true;
+                        localRepository.setUserLogout();
+                        Intent moveToMain = new Intent(MainActivity.this, LoginActivity.class);
+                        moveToMain.putExtra("OUT", true);
+                        moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(moveToMain);
+                        finish();
+                    }
+                }, 1000);
+    }
+
     private void logOut() {
         new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
                 .setTitle("Log Out")
@@ -438,12 +448,14 @@ public class MainActivity extends AppCompatActivity{
                         handler.postDelayed(
                                 new Runnable() {
                                     public void run() {
+                                        ihpRepository.turnOffTOken(BASE_URL, notifToken);
                                         isLogout = true;
                                         localRepository.setUserLogout();
                                         Intent moveToMain = new Intent(MainActivity.this, LoginActivity.class);
                                         moveToMain.putExtra("OUT", true);
                                         moveToMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(moveToMain);
+                                        finish();
                                     }
                                 }, 1000);
 
@@ -574,8 +586,7 @@ public class MainActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        // TODO :: init sio switch background and main
-
+        insertToken();
     }
 
     @Subscribe
@@ -847,5 +858,4 @@ public class MainActivity extends AppCompatActivity{
         });
         scanQrDialog.show();
     }
-
 }

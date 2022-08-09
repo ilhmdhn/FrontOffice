@@ -7,17 +7,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.ihp.frontoffice.data.entity.Config;
-import com.ihp.frontoffice.data.entity.Notification;
 import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.data.local.dao.ConfigDao;
-import com.ihp.frontoffice.data.local.dao.NotificationDao;
 import com.ihp.frontoffice.data.local.dao.UserDao;
 
 @Database(entities = {
         User.class,
-        Config.class,
-        Notification.class
-}, version = 3, exportSchema = false)
+        Config.class
+}, version = 5, exportSchema = false)
 public abstract class FrontOfficeDatabase extends RoomDatabase {
 
     private static FrontOfficeDatabase frontOfficeDatabase;
@@ -43,6 +40,4 @@ public abstract class FrontOfficeDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract ConfigDao configDao();
-
-    public abstract NotificationDao notificationDao();
 }

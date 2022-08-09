@@ -1,4 +1,4 @@
-package com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales
+package com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.detailsales
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +13,7 @@ import com.ihp.frontoffice.data.remote.respons.SaleItemList
 import com.ihp.frontoffice.data.remote.respons.SalesItemListResponse
 import com.ihp.frontoffice.databinding.FragmentSalesItemListBinding
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
+import com.ihp.frontoffice.view.fragment.reporting.mysales.itemsales.SalesItemAdapter
 
 
 class SalesItemListFragment : Fragment() {

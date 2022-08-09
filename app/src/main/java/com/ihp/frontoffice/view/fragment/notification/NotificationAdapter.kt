@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataRoomCall
+import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.databinding.HolderViewNotifyBinding
 
 class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHolder>() {
@@ -25,12 +25,16 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
         @SuppressLint("SetTextI18n")
         fun bind(data: DataRoomCall){
             with(binding){
-                roomCode.text = data.kamar
-                tvRoomAlias.text = "(${data.kamarAlias})"
-                keterangan.text = "Tamu ${data.namaTamu} Memanggil"
-
+                roomCode.text = data.room
+                description.text = data.keterangan
+                if (data.isNow == 0){
+                    btnResponse.visibility = View.GONE
+                } else{
+                    btnResponse.visibility = View.VISIBLE
+                }
+                val ihpRepository = IhpRepository()
                 btnResponse.setOnClickListener {
-                    Toast.makeText(itemView.context, "Memilih Room ${data.kamar}", Toast.LENGTH_SHORT).show()
+                    ihpRepository.responseRoomCall(itemView.context, data.room, 0)
                 }
             }
         }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/dark_primary_background"
     tools:context=".view.fragment.reporting.kas.pembayaran.PecahanFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,11 +15,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DETAIL PECAHAN TUNAI"
             android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:text="DETAIL PECAHAN TUNAI"
+            android:textColor="@color/dark_primary_text"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,20 +31,20 @@
                 android:id="@+id/tv_tanggal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_weight="1"
-                android:text="Tanggal"/>
+                android:fontFamily="sans-serif-medium"
+                android:text="Tanggal"
+                android:textColor="@color/dark_primary_text" />
 
             <TextView
                 android:id="@+id/tv_shift"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:gravity="right"
                 android:layout_weight="1"
-                android:text="Shift"/>
+                android:fontFamily="sans-serif-medium"
+                android:gravity="right"
+                android:text="Shift"
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,19 +57,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 100K"/>
+                android:text="Rp. 100K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_seratus_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:inputType="number"
                 android:nextFocusDown="@+id/et_lima_puluh_ribu"
-                android:layout_weight="1"/>
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -80,17 +80,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 50K"/>
+                android:text="Rp. 50K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_lima_puluh_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:layout_weight="1"
                 android:inputType="number"
                 android:nextFocusDown="@+id/et_dua_puluh_ribu"
-                android:layout_weight="1"/>
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,8 +104,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 20K"/>
+                android:text="Rp. 20K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_dua_puluh_ribu"
@@ -112,10 +113,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="0"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_sepuluh_ribu"
-                android:inputType="number"/>
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -126,19 +127,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 10K"/>
+                android:text="Rp. 10K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_sepuluh_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_lima_ribu"
                 android:text="0"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:inputType="number"/>
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -151,19 +152,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 5K"/>
+                android:text="Rp. 5K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_lima_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:nextFocusDown="@+id/et_dua_ribu"
                 android:layout_weight="1"
-                android:text="0"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_dua_ribu"
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -174,19 +175,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 2K"/>
+                android:text="Rp. 2K"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_dua_ribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:nextFocusDown="@+id/et_seribu"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_seribu"
                 android:text="0"
-                android:inputType="number"/>
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -199,19 +200,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 1000"/>
+                android:text="Rp. 1000"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_seribu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:nextFocusDown="@+id/et_lima_ratus"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_lima_ratus"
                 android:text="0"
-                android:inputType="number"/>
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -222,20 +223,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:text="Rp. 500"
-/>
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_lima_ratus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="number"
+                android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="0"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_dua_ratus"
-                android:layout_weight="1"/>
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -248,8 +248,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 200"/>
+                android:text="Rp. 200"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_dua_ratus"
@@ -257,10 +257,10 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="0"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_seratus"
-                android:inputType="number"/>
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -271,19 +271,19 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 100"/>
+                android:text="Rp. 100"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_seratus"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-medium"
+                android:inputType="number"
                 android:nextFocusDown="@+id/et_lima_puluh"
                 android:text="0"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:inputType="number"/>
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -294,21 +294,21 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_weight="1"
-                android:text="Rp. 50"/>
+                android:fontFamily="sans-serif-medium"
+                android:text="Rp. 50"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_lima_puluh"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:nextFocusDown="@+id/et_dua_lima"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="0"
                 android:layout_weight="1"
-                android:inputType="number"/>
+                android:fontFamily="sans-serif-medium"
+                android:inputType="number"
+                android:nextFocusDown="@+id/et_dua_lima"
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="30dp"
@@ -319,18 +319,18 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Rp. 25"/>
+                android:text="Rp. 25"
+                android:textColor="@color/dark_primary_text" />
 
             <EditText
                 android:id="@+id/et_dua_lima"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="0"
                 android:layout_weight="1"
-                android:inputType="number"/>
+                android:fontFamily="sans-serif-medium"
+                android:inputType="number"
+                android:text="0"
+                android:textColor="@color/dark_primary_text" />
         </LinearLayout>
 
         <LinearLayout
@@ -341,10 +341,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_weight="1"
-                android:text="Total"/>
+                android:fontFamily="sans-serif-medium"
+                android:text="Total"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -354,8 +354,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text=":"/>
+                android:text=":"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -364,10 +364,10 @@
             <TextView
                 android:id="@+id/tv_total"
                 android:layout_width="0dp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/dark_primary_text" />
 
         </LinearLayout>
 
@@ -381,8 +381,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text="Jumlah Pecahan"/>
+                android:text="Jumlah Pecahan"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -392,8 +392,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text=":"/>
+                android:text=":"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -402,10 +402,10 @@
             <TextView
                 android:id="@+id/tv_jumlah_pecahan"
                 android:layout_width="0dp"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"/>
+                android:layout_weight="2"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@color/dark_primary_text" />
 
         </LinearLayout>
 
@@ -417,10 +417,10 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
                 android:layout_weight="1"
-                android:text="Selisih"/>
+                android:fontFamily="sans-serif-medium"
+                android:text="Selisih"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -430,8 +430,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:text=":"/>
+                android:text=":"
+                android:textColor="@color/dark_primary_text" />
 
             <View
                 android:layout_width="15dp"
@@ -441,9 +441,9 @@
                 android:id="@+id/tv_selisih"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="sans-serif-medium"
-                android:textColor="@android:color/black"
-                android:layout_weight="2"/>
+                android:textColor="@color/dark_primary_text" />
 
         </LinearLayout>
 
@@ -451,16 +451,20 @@
             android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:text="SUBMIT"/>
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/dark_blue_variant"
+            android:text="SUBMIT"
+            android:textColor="@color/dark_primary_text" />
 
         <Button
             android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_gravity="center"
-            android:text="UPDATE"/>
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/dark_blue_variant"
+            android:text="UPDATE"
+            android:textColor="@color/dark_primary_text" />
     </LinearLayout>
 </ScrollView>

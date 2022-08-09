@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
@@ -234,7 +235,7 @@ class IhpRepository {
         return dataResponse
     }
 
-    fun insertToken(context: Context,url: String, token: String, user: String, levelUser: String){
+    fun insertToken(context: Context,url: String, token: String, user: String?, levelUser: String?){
         val client = ApiRestService.getClient(url).create(FirebaseClient::class.java)
         client.insertToken(token, user, levelUser).enqueue(object: Callback<Response>{
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
@@ -265,5 +266,33 @@ class IhpRepository {
         })
 
         return responseData
+    }
+
+    fun turnOffTOken(url: String, token: String){
+        val client = ApiRestService.getClient(url).create(FirebaseClient::class.java)
+        client.turnOffToken(token).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                Log.d("token", response.message())
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Log.e("error remove token", t.message.toString())
+            }
+        })
+    }
+
+    fun responseRoomCall(context: Context, room: String, state: Byte){
+        val user = (context.applicationContext as MyApp).userFo.userId
+        val url = (context.applicationContext as MyApp).baseUrl
+        val client = ApiRestService.getClient(url).create(RoomCallClient::class.java)
+        client.responseCallRoom(room, state, user).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                Toast.makeText(context, response.message(), Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

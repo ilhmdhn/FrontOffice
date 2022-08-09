@@ -20,15 +20,21 @@ data class RoomCallResponse(
 @Parcelize
 data class DataRoomCall(
 
-    @field:SerializedName("Kamar")
-    val kamar: String? = null,
+    @field:SerializedName("waktu")
+    val isNow: Int,
 
-    @field:SerializedName("Nama_Tamu")
-    val namaTamu: String? = null,
+    @field:SerializedName("notif_type")
+    val type: Int,
 
-    @field:SerializedName("Service_Kamar")
-    val serviceKamar: Int? = null,
+    @field:SerializedName("room")
+    val room: String,
 
-    @field:SerializedName("Kamar_Alias")
-    val kamarAlias: String? = null
+    @field:SerializedName("keterangan")
+    val keterangan: String,
+
+    @field:SerializedName("chusr")
+    val user: String,
+
+    @field:SerializedName("date")
+    val date: String
 ) : Parcelable

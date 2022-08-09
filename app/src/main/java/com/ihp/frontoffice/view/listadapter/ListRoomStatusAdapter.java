@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -116,7 +117,7 @@ public class ListRoomStatusAdapter extends RecyclerView.Adapter<ListRoomStatusAd
         TextView _roomGuess;
 
         @BindView(R.id.tv_room_order_empty)
-        TextView _orderState;
+        View _orderState;
 
         @BindView(R.id.ly_room_order_status)
         LinearLayout lyStatusORder;

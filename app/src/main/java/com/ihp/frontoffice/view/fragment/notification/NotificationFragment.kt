@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.fragment.notification
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.ihp.frontoffice.data.remote.respons.DataRoomCall
 import com.ihp.frontoffice.databinding.FragmentNotificationBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.view.LoginActivity
 
 class NotificationFragment : Fragment() {
 
@@ -35,6 +37,11 @@ class NotificationFragment : Fragment() {
         notificationViewModel = ViewModelProvider(requireActivity()).get(NotificationViewModel::class.java)
 
         val url = (requireActivity().applicationContext as MyApp).baseUrl
+
+        binding.lySwipe.setOnRefreshListener {
+            getData(url)
+            binding.lySwipe.isRefreshing = false
+        }
 
         getData(url)
     }

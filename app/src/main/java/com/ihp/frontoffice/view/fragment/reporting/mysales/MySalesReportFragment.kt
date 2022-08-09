@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.view.fragment.reporting.mysales
 
 import android.R
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,12 +22,12 @@ import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.respons.DataItemSales
 import com.ihp.frontoffice.data.remote.respons.MySalesResponse
 import com.ihp.frontoffice.databinding.FragmentMySalesReportBinding
 import com.ihp.frontoffice.helper.utils
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
+import es.dmoral.toasty.Toasty
 
 
 class MySalesReportFragment : Fragment() {
@@ -49,7 +50,7 @@ class MySalesReportFragment : Fragment() {
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         barChart = binding.barChart
 
-        binding.llNominal.setOnClickListener {
+        binding.btnDetail.setOnClickListener {
             val toSalesItemsNavigation = MySalesReportParentFragmentDirections.actionMySalesReportParentFragmentToItemSalesFragment()
             Navigation.findNavController(it).navigate(toSalesItemsNavigation)
         }
@@ -139,13 +140,18 @@ class MySalesReportFragment : Fragment() {
         xAxis.labelRotationAngle = +90f
         xAxis.position = XAxisPosition.BOTTOM
         xAxis.setDrawGridLines(false)
+        xAxis.textSize = 12f
+        xAxis.mLabelRotatedHeight = 35
+        xAxis.textColor=Color.WHITE
 
         val leftAxis: YAxis = barChart.getAxisLeft()
         leftAxis.setLabelCount(8, false)
         leftAxis.setPosition(YAxisLabelPosition.OUTSIDE_CHART)
         leftAxis.spaceTop = 15f
         leftAxis.maxWidth
+        leftAxis.spaceBottom = 12f
         leftAxis.axisMinimum = 0f
+        leftAxis.textColor = Color.WHITE
 
         barChart.setDrawValueAboveBar(false)
     }
@@ -166,6 +172,8 @@ class MySalesReportFragment : Fragment() {
 
         val barDataSet = BarDataSet(entries, "")
         barDataSet.setDrawValues(true)
+        barDataSet.valueTextColor=Color.WHITE
+        barDataSet.valueTextSize= 14f
         barDataSet.setColors(startColor2,
                             startColor3,
                             startColor4,
@@ -175,7 +183,6 @@ class MySalesReportFragment : Fragment() {
         val data = BarData(barDataSet)
 
         barChart.data = data
-
         barChart.invalidate()
 
     }
@@ -206,10 +213,12 @@ class MySalesReportFragment : Fragment() {
                 binding.tvTotal.setText(utils.getCurrency(total))
                 setDataToLineChart(data.data)
                 initLineChart()
+                binding.llNominal.visibility = View.VISIBLE
                 binding.frameLayout2.visibility = View.VISIBLE
                 binding.ltEmpty.visibility = View.GONE
             } else{
                 binding.frameLayout2.visibility = View.GONE
+                binding.llNominal.visibility = View.GONE
                 binding.ltEmpty.visibility = View.VISIBLE
                 binding.ltEmpty.setAnimation("emptybox.json")
                 Toasty.warning(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()
@@ -217,6 +226,7 @@ class MySalesReportFragment : Fragment() {
             }
         } else{
             binding.frameLayout2.visibility = View.GONE
+            binding.llNominal.visibility =  View.GONE
             binding.ltEmpty.visibility = View.VISIBLE
             binding.ltEmpty.setAnimation("erroranimation.json")
             Toasty.error(requireActivity(),  data.message, Toast.LENGTH_SHORT).show()

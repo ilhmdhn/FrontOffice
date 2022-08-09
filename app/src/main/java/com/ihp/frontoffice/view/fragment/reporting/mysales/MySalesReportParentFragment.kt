@@ -33,7 +33,7 @@ class MySalesReportParentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         url = (requireActivity().applicationContext as MyApp).baseUrl
         val getUserFO = (requireActivity().applicationContext as MyApp).userFo
-        username = getUserFO.userId
+        username = getUserFO!!.userId
         val mySalesSectionPagerAdapter = MySalesSectionPagerAdapter(requireActivity() as AppCompatActivity)
 
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
