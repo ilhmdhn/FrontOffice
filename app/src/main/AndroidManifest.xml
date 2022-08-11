@@ -22,7 +22,7 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
         <service
-            android:name="com.ihp.frontoffice.notif.MyFirebaseMessagingService"
+            android:name="com.ihp.frontoffice.firebase.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>

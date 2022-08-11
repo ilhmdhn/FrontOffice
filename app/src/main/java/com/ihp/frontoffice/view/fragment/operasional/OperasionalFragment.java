@@ -19,10 +19,12 @@ import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.events.DataBusEvent;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -366,5 +368,13 @@ public class OperasionalFragment extends Fragment {
 
     }
 
-
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void approvalResponse(DataBusEvent.approvalResponse data){
+        Log.d("approval sampe sini", data.toString());
+        if (data.isApprove()){
+            Toast.makeText(requireActivity(), data.toString(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(requireActivity(), "Spv Menolak", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

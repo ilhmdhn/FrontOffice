@@ -32,10 +32,12 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihp.frontoffice.events.DataBusEvent;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -233,6 +235,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     Button btnReduceDuration;
 
     Integer jamMinus = 0;
+    private EditText _usernameTxt, _passwordTxt;
+    private TextInputLayout _parentPassword;
 
 
     @BindView(R.id.checkinProgressbar)
@@ -508,8 +512,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
         AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
 
-        EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
-        EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+        _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+        _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+        _parentPassword = dialogView.findViewById(R.id.ed_parent_password);
 
         otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data ->{
             boolean kasirApproval = data.getState();
@@ -644,8 +649,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
         AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
 
-        EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
-        EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+        _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+        _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+        _parentPassword = dialogView.findViewById(R.id.ed_parent_password);
 
         otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
             boolean kasirApproval = data.getState();
@@ -1833,6 +1839,19 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 inputCodeVoucher.getEditText().setText(scanResult.getData());
             }
             isVoucherScanActive = false;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void approvalResponse(DataBusEvent.approvalResponse data){
+        Log.d("approval sampe sini", data.toString());
+        if (data.isApprove()){
+            _usernameTxt.setText(data.getUser());
+            _passwordTxt.setText(data.getPassword());
+            _usernameTxt.setEnabled(false);
+            _parentPassword.setEnabled(false);
+        }else{
+            Toast.makeText(requireActivity(), data.getUser() +" Menolak", Toast.LENGTH_SHORT).show();
         }
     }
 }
