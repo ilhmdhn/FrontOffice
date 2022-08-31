@@ -363,8 +363,5 @@ public class OperasionalFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
-
-
 }

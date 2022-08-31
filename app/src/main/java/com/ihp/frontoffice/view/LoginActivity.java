@@ -166,6 +166,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
         if (isBaseURLset()) {
             BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
             Toast

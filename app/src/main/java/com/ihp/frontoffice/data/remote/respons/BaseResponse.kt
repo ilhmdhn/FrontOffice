@@ -16,7 +16,9 @@ open class BaseResponse {
     var message: String? = null
     fun displayMessage(context: Context?) {
         if (!isOkay) {
-            Toast.makeText(context, "Server Response : $message", Toast.LENGTH_SHORT).show()
+            if (context != null){
+                Toast.makeText(context, "Server Response : $message", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
