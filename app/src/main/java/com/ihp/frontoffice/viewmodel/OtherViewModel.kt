@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihp.frontoffice.data.entity.User
+import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
 import com.ihp.frontoffice.data.remote.respons.PrintStatusResponse
 import com.ihp.frontoffice.data.remote.respons.Response
 import com.ihp.frontoffice.data.repository.IhpRepository
@@ -23,5 +24,9 @@ class OtherViewModel: ViewModel() {
     fun getLoginStatus(context:Context): LiveData<User>{
        val localDataSource = LocalRepository.getInstance(context);
         return localDataSource.user
+    }
+
+    fun getBillData(url: String, rcp: String): LiveData<PrintBillDataResponse>{
+        return ihpRepository.printMobilePrintBill(url, rcp)
     }
 }

@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import butterknife.BindView;
@@ -124,6 +125,7 @@ public class InvoiceFragment extends Fragment {
     private RoomOrder roomOrder;
     private static String BASE_URL;
     private LinearLayout detailOrderLayout, detailTransferLayout;
+    private Printer printer;
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
     private static final String ARG_PARAM3 = "TIME_RCP";
@@ -165,6 +167,7 @@ public class InvoiceFragment extends Fragment {
         userLevel = ((MyApp) getActivity().getApplicationContext()).getUserFo().getLevelUser();
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
+        printer = new Printer();
 
         return view;
     }
@@ -196,7 +199,15 @@ public class InvoiceFragment extends Fragment {
                             builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity());
+//                                    ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity());
+                                    otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+                                        Log.d("responnya", data.toString());
+                                        if (data.getState()){
+                                            Boolean statusPrint = printer.printBill(data, user, requireActivity());
+                                        }else{
+                                            Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                                     dialogInterface.dismiss();
                                 }
                             });
@@ -221,9 +232,20 @@ public class InvoiceFragment extends Fragment {
                                     builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
-                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-                                            }
+//                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
+//                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+//                                            }
+
+                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+                                                if (data.getState()){
+                                                    Boolean statusPrint = printer.printBill(data, user, requireActivity());
+                                                    if (statusPrint){
+                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+                                                    }
+                                                }else{
+                                                    Toast.makeText(requireActivity(), "opokene dua "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                             dialogInterface.dismiss();
                                         }
                                     });
@@ -271,9 +293,21 @@ public class InvoiceFragment extends Fragment {
                                                     if (res.isOkay()) {
                                                         User userCek = res.getUser();
                                                         if (UserAuthRole.isAllowReprintBill(userCek)) {
-                                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
-                                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-                                                            }
+//                                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
+//                                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+//                                                            }
+
+                                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+                                                                if (data.getState()){
+                                                                    boolean statusPrint = printer.printBill(data, user, requireActivity());
+                                                                    if (statusPrint){
+                                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+                                                                    }
+                                                                }else{
+                                                                    Toast.makeText(requireActivity(), "opo kene tiga "+data.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                }
+                                                            });
+
                                                         } else {
                                                             Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                                     .show();
@@ -302,10 +336,10 @@ public class InvoiceFragment extends Fragment {
                     }
                 } else {
                     Toasty.error(requireActivity(), statusPrint.getMessage(), Toasty.LENGTH_SHORT, true).show();
-
-
                 }
             });
+
+            //pos lorong print bill
 //            GlobalBus.getBus()
 //                    .post(new EventsWrapper
 //                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));

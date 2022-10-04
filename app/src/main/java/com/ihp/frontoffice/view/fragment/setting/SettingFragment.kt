@@ -51,11 +51,11 @@ class SettingFragment : Fragment() {
         }
 
         try {
-            val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 55f, 35)
+            val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             printer.printFormattedText(
 //                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.ic_baseline_fastfood_24, DisplayMetrics.DENSITY_MEDIUM))+"</img>\n" +
                 "[L]\n" +
-                        "[C]==================================\n"+
+                        "[C]================================\n"+
                         "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
                         "[L]\n" +
                         "[L]\n" +

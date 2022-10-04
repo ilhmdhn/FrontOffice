@@ -10,6 +10,9 @@ object utils {
         if(nilai == null){
             return  "null"
         }
-        return formatRupiah.format(nilai).toString()
+        formatRupiah.maximumFractionDigits = 0 //hilangkan 2 koma paling belakang
+        formatRupiah.format(nilai).replace(" ".toRegex(), "")
+        return formatRupiah.format(nilai).replace("Rp".toRegex(), "")
+//        return formatRupiah.format(nilai).toString()
     }
 }

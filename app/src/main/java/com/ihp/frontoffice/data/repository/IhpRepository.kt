@@ -5,6 +5,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.dantsu.escposprinter.EscPosPrinter
+import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
@@ -294,5 +296,41 @@ class IhpRepository {
                 Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    fun printMobilePrintBill(url: String, rcp: String):LiveData<PrintBillDataResponse>{
+        val responseData = MutableLiveData<PrintBillDataResponse>()
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        client.getPrintBill(rcp).enqueue(object: Callback<PrintBillDataResponse>{
+            override fun onResponse(call: Call<PrintBillDataResponse>,response: retrofit2.Response<PrintBillDataResponse>) {
+                if (response.isSuccessful){
+                    if (response.body()?.state == true){
+                        responseData.postValue(response.body())
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<PrintBillDataResponse>, t: Throwable) {
+                responseData.postValue(PrintBillDataResponse(null, false, t.message))
+            }
+        })
+        return responseData
+    }
+
+    fun printMobileInvoice(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
+        val responseData = MutableLiveData<PrintInvoiceDataResponse>()
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        client.getPrintInvoice(rcp).enqueue(object: Callback<PrintInvoiceDataResponse>{
+            override fun onResponse(call: Call<PrintInvoiceDataResponse>, response: retrofit2.Response<PrintInvoiceDataResponse>) {
+                if (response.isSuccessful){
+                    responseData.postValue(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<PrintInvoiceDataResponse>, t: Throwable) {
+                    responseData.postValue(PrintInvoiceDataResponse(null, false, t.message))
+            }
+        })
+        return responseData
     }
 }
