@@ -1,16 +1,21 @@
 package com.ihp.frontoffice.view.listadapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
@@ -19,19 +24,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.Room;
+import com.ihp.frontoffice.data.entity.User;
+import com.ihp.frontoffice.data.remote.ApiRestService;
+import com.ihp.frontoffice.data.remote.UserClient;
+import com.ihp.frontoffice.data.remote.respons.UserResponse;
 import com.ihp.frontoffice.data.repository.IhpRepository;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
 import com.ihp.frontoffice.helper.AppUtils;
 import com.ihp.frontoffice.helper.Printer;
 import com.ihp.frontoffice.helper.RoomState;
+import com.ihp.frontoffice.helper.UserAuthRole;
 import com.ihp.frontoffice.view.fragment.history.ListHistoryRoomFragmentDirections;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;
 
@@ -181,7 +197,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         private Room room;
         private final OtherViewModel otherViewModel;
 
-        private Printer printer;
+        private final Printer printer;
 
         private RoomViewHolder(View itemView) {
             super(itemView);
@@ -264,13 +280,111 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
             });
 
             btnReprintInvoice.setOnClickListener(view ->{
+                context = itemView.getContext();
                 String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
-//                Log.d("cek value", BASE_URL + room.getRoomRcp());
-//                ihpRepository.printMobileInvoice(BASE_URL, room.getRoomRcp());
+                String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe((LifecycleOwner) itemView.getContext(), data->{
-                    if (data.getState()){
-                        context = itemView.getContext();
-                        printer.printInvoice(data, context);
+                    if (Boolean.TRUE.equals(data.getState())){
+                        if (!Objects.equals(Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint(), "2")){
+
+                            AlertDialog.Builder builder;
+                            builder = new AlertDialog.Builder(context);
+
+                            builder.setCancelable(true)
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            })
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            printer.printInvoice(data, context, true);
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.setMessage("Cetak Ulang Tagihan?");
+                            alert.show();
+                        }else if(!Objects.equals(Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint(), "1")){
+                            otherViewModel.getJumlahApproval(BASE_URL, user).observe((LifecycleOwner) context, dataApproval ->{
+                                if (dataApproval.getState()){
+                                    AlertDialog.Builder builder;
+                                    builder = new AlertDialog.Builder(context);
+                                    builder.setCancelable(true)
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            })
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    printer.printInvoice(data, context, true);
+                                                }
+                                            });
+                                    AlertDialog alert = builder.create();
+                                    alert.setMessage("Cetak Ulang Tagihan?");
+                                    alert.show();
+                                } else{
+
+                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme);
+                                    LayoutInflater dialogInflater = LayoutInflater.from(context);
+                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+                                    dialogBuilder.setView(dialogView);
+                                    dialogBuilder.setCancelable(false);
+                                    AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+                                    AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+                                    EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+                                    EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+                                    AlertDialog alertDialog = dialogBuilder.create();
+
+                                    alertDialog.setOnShowListener(dialogInterface -> {
+                                        buttonOk.setOnClickListener(it->{
+                                            String username = _usernameTxt.getText().toString();
+                                            String password = _passwordTxt.getText().toString();
+
+                                            if (username.isEmpty() && password.isEmpty()){
+                                                Toasty.warning(context, "Username / Password belum diisi", Toasty.LENGTH_SHORT, true).show();
+                                                return;
+                                            }
+
+                                            UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                                            Call<UserResponse> call = userClient.login(username, password);
+
+                                            call.enqueue(new Callback<UserResponse>() {
+                                                @Override
+                                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                                    UserResponse dataUser = response.body();
+
+                                                    dataUser.displayMessage(context);
+
+                                                    if (dataUser.isOkay()){
+                                                        User cekUser = dataUser.getUser();
+
+                                                        if (UserAuthRole.isAllowReprintBill(cekUser)){
+
+                                                        }else{
+                                                            Toasty.warning(context, "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true).show();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<UserResponse> call, Throwable t) {
+                                                    Toasty.error(context, "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true).show();
+                                                }
+                                            });
+                                            alertDialog.dismiss();
+                                        });
+                                        buttonCancel.setOnClickListener(it ->{});
+                                        alertDialog.dismiss();
+                                    });
+                                }
+                            });
+                        }
+
                     }else{
                         Toast.makeText(itemView.getContext(), data.getMessage(), Toast.LENGTH_SHORT).show();
                     }

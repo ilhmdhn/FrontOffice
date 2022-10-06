@@ -67,6 +67,9 @@ data class DataInvoice(
     @field:SerializedName("charge_lain")
     val chargeLain: Int? = null,
 
+    @field:SerializedName("status_print")
+    val statusPrint: String? = null,
+
     @field:SerializedName("overpax")
     val overpax: Int? = null,
 

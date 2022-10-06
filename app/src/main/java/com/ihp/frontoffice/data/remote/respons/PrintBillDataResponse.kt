@@ -105,6 +105,9 @@ data class DataInvoiceBill(
 	@field:SerializedName("voucher")
 	val voucher: Int? = null,
 
+	@field:SerializedName("status_print")
+	val statusPrint: String? = null,
+
 	@field:SerializedName("charge_lain")
 	val chargeLain: Int? = null,
 

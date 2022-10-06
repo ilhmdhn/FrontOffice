@@ -45,6 +45,9 @@ import com.ihp.frontoffice.helper.AppUtils;
 import com.ihp.frontoffice.helper.UserAuthRole;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.ihp.frontoffice.viewmodel.RoomOrderViewModel;
+
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -186,55 +189,78 @@ public class InvoiceFragment extends Fragment {
         });
 
         btnToPrint.setOnClickListener(view -> {
-            otherViewModel.printStatus(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), statusPrint -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
-                if (statusPrint.getState()) {
-                    String statusPrintnya = statusPrint.getData().getPrint();
 
-                    if (statusPrintnya.equals("0") || statusPrintnya.equals("-1")){
-                        builder.setMessage(R.string.ask_print_bill);
+            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
+                if (Boolean.TRUE.equals(data.getState())){
 
-                        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
-                                    Log.d("responnya", data.toString());
-                                    if (Boolean.TRUE.equals(data.getState())){
-                                        printer.printBill(data, user, requireActivity());
-                                    }else{
-                                        Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                    String statusPrint = Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
+
+                    if (Objects.equals(statusPrint, "0")){
+
+                        AlertDialog.Builder builder;
+
+                        builder = new AlertDialog.Builder(requireActivity());
+
+                        builder.setMessage("")
+                                    .setCancelable(true)
+                                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            printer.printBill(data, user, requireActivity(), false);
+                                        }
+                                    })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
                                     }
                                 });
-                                dialogInterface.dismiss();
-                            }
-                        });
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Cetak Tagihan?");
+                        alert.show();
+                    }else if( Objects.equals(statusPrint, "-2")){
+                        AlertDialog.Builder builder;
 
-                        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        });
-                        AlertDialog dialogPrintBill = builder.create();
-                        dialogPrintBill.show();
-                    }else{
-                        otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), data -> {
-                            boolean kasirApproval = data.getState();
-                            Log.d("cek approval kasir ", String.valueOf(kasirApproval));
+                        builder = new AlertDialog.Builder(requireActivity());
+
+                        builder
+                                .setCancelable(true)
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        printer.printBill(data, user, requireActivity(), true);
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                        AlertDialog alert = builder.create();
+                        //Setting the title manually
+                        alert.setTitle("Cetak Ulang Tagihan?");
+                        alert.show();
+                    }
+
+                    else{
+                        //hari ini
+                        otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), dataApproval -> {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
+                            boolean kasirApproval = dataApproval.getState();
                             if (kasirApproval) {
                                 builder.setMessage(R.string.ask_reprint_bill);
-
                                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
                                             if (Boolean.TRUE.equals(data.getState())){
-                                                boolean statusPrint = printer.printBill(data, user, requireActivity());
+                                                boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
                                                 if (statusPrint){
                                                     ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
                                                 }
                                             }else{
-                                                Log.d("Kudune kene", "iyoo");
                                                 Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
@@ -285,18 +311,14 @@ public class InvoiceFragment extends Fragment {
                                                 if (res.isOkay()) {
                                                     User userCek = res.getUser();
                                                     if (UserAuthRole.isAllowReprintBill(userCek)) {
-//                                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
-                                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-//                                                            }
-
                                                         otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
-                                                            if (data.getState()){
-                                                                boolean statusPrint = printer.printBill(data, user, requireActivity());
+                                                            if (Boolean.TRUE.equals(data.getState())){
+                                                                boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
                                                                 if (statusPrint){
                                                                     ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
                                                                 }
                                                             }else{
-                                                                Toast.makeText(requireActivity(), "opo kene tiga "+data.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
 
@@ -314,7 +336,7 @@ public class InvoiceFragment extends Fragment {
                                                         .show();
                                             }
                                         });
-
+                                        alertDialog.dismiss();
                                         //---------------------
                                     });
                                     buttonCancel.setOnClickListener(it -> {
@@ -324,9 +346,17 @@ public class InvoiceFragment extends Fragment {
                                 alertDialog.show();
                             }
                         });
+                        //hari ini
                     }
 
-//Print NodeJS
+                }else{
+                    Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+////Print NodeJS
+
 
 //                    switch (statusPrint.getData().getPrint()) {
 //                        case "-1":
@@ -471,12 +501,13 @@ public class InvoiceFragment extends Fragment {
 //                            });
 //                            break;
 //                    }
-                } else {
-                    Toasty.error(requireActivity(), statusPrint.getMessage(), Toasty.LENGTH_SHORT, true).show();
-                }
-            });
+//                } else {
+//                    Toasty.error(requireActivity(), statusPrint.getMessage(), Toasty.LENGTH_SHORT, true).show();
+//                }
+//            });
 
             //Print POS LORONG
+
 //            GlobalBus.getBus()
 //                    .post(new EventsWrapper
 //                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));

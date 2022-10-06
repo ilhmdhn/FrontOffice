@@ -174,7 +174,7 @@ public class PaymentFragment extends Fragment
     private String defaultPaymentType;
     private String emoneyPaymentType;
     private String piutangPaymentType;
-    private ArrayList<Payment> payments = new ArrayList<>();
+    private final ArrayList<Payment> payments = new ArrayList<>();
     private ListPaymentAdapter listPaymentAdapter;
     private static String EMPTY_EDC_DP;
     private static String EMPTY_CARD_DP;
@@ -661,15 +661,15 @@ public class PaymentFragment extends Fragment
                     return;
                 }
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
-                    if (data.getState()){
-                        printer.printInvoice(data, requireActivity());
+                    if (Boolean.TRUE.equals(data.getState())){
+                        printer.printInvoice(data, requireActivity(), false);
                     }else{
                         Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
                 navToMain();
-                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
+//                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
             }
 
             @Override
@@ -1012,7 +1012,7 @@ public class PaymentFragment extends Fragment
                                         addPayments(pay);
                                         alertDialog.dismiss();
                                     } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
 
@@ -1023,7 +1023,7 @@ public class PaymentFragment extends Fragment
                             @Override
                             public void onFailure(Call<UserResponse> call, Throwable t) {
                                 _loginProgress.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                         .show();
                             }
                         });

@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg
+import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
 import com.ihp.frontoffice.data.remote.respons.PrintInvoiceDataResponse
 import java.text.SimpleDateFormat
@@ -14,16 +17,23 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 class Printer {
 
-    fun printBill(billData: PrintBillDataResponse?, user: String, context: Context): Boolean {
+    fun printBill(billData: PrintBillDataResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             val selling = StringBuilder()
             val cancelOrder = StringBuilder()
             val promoFnB = StringBuilder()
             val transferRoom = StringBuilder()
+            val copies = StringBuilder()
             var totalTransfer = 0
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
+
+            if (isCopies){
+                copies.append("[R]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, getDrawable(context, R.drawable.copybnw))+"</img>\n")
+            }else{
+                copies.append("")
+            }
 
             if (billData?.data?.orderData != null) {
                 for (i: Int in billData.data.orderData.indices) {
@@ -61,6 +71,7 @@ class Printer {
             val jumlahBersih = totalTransfer + (if(billData?.data?.dataInvoice?.jumlahTotal==null) 0 else billData.data.dataInvoice.jumlahTotal) - (if(billData?.data?.dataInvoice?.uangMuka==null) 0 else billData.data.dataInvoice.uangMuka)
             printer.printFormattedText(
                 "[L]\n" +
+                        copies+
                         "[C]${billData?.data?.dataOutlet?.namaOutlet}\n" +
                         "[C]${billData?.data?.dataOutlet?.alamatOutlet}\n" +
                         "[C]${billData?.data?.dataOutlet?.kota}\n" +
@@ -104,7 +115,7 @@ class Printer {
         return false
     }
 
-    fun printInvoice(invoiceData: PrintInvoiceDataResponse, context: Context? = null){
+    fun printInvoice(invoiceData: PrintInvoiceDataResponse, context: Context, isCopies: Boolean = false){
         try {
             val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             val selling = StringBuilder()
@@ -113,8 +124,13 @@ class Printer {
             val transferRoom = StringBuilder()
             val paymentList = StringBuilder()
             var totalTransfer = 0
+            val copies = StringBuilder()
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             var totalPayment = 0
+
+            if (isCopies){
+                copies.append("[R]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, getDrawable(context, R.drawable.copybnw))+"</img>\n")
+            }
 
             if (invoiceData.data?.orderData != null){
                 for (i in invoiceData.data.orderData.indices){
@@ -162,6 +178,7 @@ class Printer {
             val jumlahBersih = totalTransfer + (if(invoiceData.data?.dataInvoice?.jumlahTotal==null) 0 else invoiceData.data.dataInvoice.jumlahTotal)
             printer.printFormattedText(
                 "[L]\n"+
+                        copies+
                         "[C]${invoiceData.data?.dataOutlet?.namaOutlet}\n"+
                         "[C]${invoiceData.data?.dataOutlet?.alamatOutlet}\n"+
                         "[C]${invoiceData.data?.dataOutlet?.kota}\n"+
@@ -193,9 +210,8 @@ class Printer {
             )
             printer.disconnectPrinter()
         }catch(e: java.lang.Exception){
-            if (context != null){
-                Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
-            }
+            Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
         }
     }
+
 }
