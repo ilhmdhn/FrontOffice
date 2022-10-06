@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import java.text.NumberFormat;
@@ -195,6 +196,7 @@ public class PaymentFragment extends Fragment
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
     private final boolean kasirApproval = false;
+    private Printer printer;
 
     private String current = "";
 
@@ -232,7 +234,7 @@ public class PaymentFragment extends Fragment
         USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
-
+        printer = new Printer();
         return view;
     }
 
@@ -241,13 +243,13 @@ public class PaymentFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         ihpRepository = new IhpRepository();
-        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
+        otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
 
         buttonAddMorePayment.setOnClickListener(view -> {
             validationPayments();
         });
         buttonSubmitPayment.setOnClickListener(view -> {
-            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                     .setTitle("Proses Pembayaran")
                     .setMessage("Anda ingin melanjutkan")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -658,6 +660,14 @@ public class PaymentFragment extends Fragment
                 if (!res.isOkay()) {
                     return;
                 }
+                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+                    if (data.getState()){
+                        printer.printInvoice(data, requireActivity());
+                    }else{
+                        Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 navToMain();
                 ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
             }
@@ -953,7 +963,6 @@ public class PaymentFragment extends Fragment
         EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         MKLoader _loginProgress = dialogView.findViewById(R.id.progress_dialog);
-
         otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
             boolean kasirApproval = data.getState();
 

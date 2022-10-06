@@ -1,14 +1,19 @@
 package com.ihp.frontoffice.view.listadapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,13 +22,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.Room;
+import com.ihp.frontoffice.data.repository.IhpRepository;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
 import com.ihp.frontoffice.helper.AppUtils;
+import com.ihp.frontoffice.helper.Printer;
 import com.ihp.frontoffice.helper.RoomState;
 import com.ihp.frontoffice.view.fragment.history.ListHistoryRoomFragmentDirections;
+import com.ihp.frontoffice.viewmodel.OtherViewModel;
 
 public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistoryAdapter.RoomViewHolder> {
     private final LayoutInflater layoutInflater;
@@ -72,12 +82,15 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
             } else if (RoomState.PAID.getState() == roomViewHolder.getRoom().getRoomState()) {
                 roomViewHolder._layoutTime.setVisibility(View.VISIBLE);
                 roomViewHolder._bttnCheckout.setVisibility(View.VISIBLE);
+                roomViewHolder.btnReprintInvoice.setVisibility(View.VISIBLE);
             } else if ((RoomState.CHECKOUT_REPAIRED.getState() == roomViewHolder.getRoom().getRoomState()) ||
                     (RoomState.CHECKSOUND.getState() == roomViewHolder.getRoom().getRoomState())) {
                 roomViewHolder._bttnClean.setVisibility(View.VISIBLE);
+                roomViewHolder.btnReprintInvoice.setVisibility(View.VISIBLE);
             } else if (RoomState.HISTORY.getState() == roomViewHolder.getRoom().getRoomState()) {
                 roomViewHolder._layoutTime.setVisibility(View.VISIBLE);
                 roomViewHolder._bttnHistory.setVisibility(View.VISIBLE);
+                roomViewHolder.btnReprintInvoice.setVisibility(View.VISIBLE);
             }
 
         } else {
@@ -160,14 +173,23 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         @BindView(R.id.bttn_history)
         Button _bttnHistory;
 
+        @BindView(R.id.btn_print_invoice)
+        Button btnReprintInvoice;
+
+
         private Context context;
         private Room room;
+        private final OtherViewModel otherViewModel;
+
+        private Printer printer;
 
         private RoomViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             this.context = itemView.getContext();
+            otherViewModel = new ViewModelProvider((ViewModelStoreOwner) itemView.getContext()).get(OtherViewModel.class);
 
+            printer = new Printer();
 
             _bttnCheckin.setVisibility(View.GONE);
             _bttnOrder.setVisibility(View.GONE);
@@ -239,6 +261,20 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                 GlobalBus
                         .getBus()
                         .post(new EventsWrapper.CleanRoom(this.room));
+            });
+
+            btnReprintInvoice.setOnClickListener(view ->{
+                String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
+//                Log.d("cek value", BASE_URL + room.getRoomRcp());
+//                ihpRepository.printMobileInvoice(BASE_URL, room.getRoomRcp());
+                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe((LifecycleOwner) itemView.getContext(), data->{
+                    if (data.getState()){
+                        context = itemView.getContext();
+                        printer.printInvoice(data, context);
+                    }else{
+                        Toast.makeText(itemView.getContext(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             });
         }
 

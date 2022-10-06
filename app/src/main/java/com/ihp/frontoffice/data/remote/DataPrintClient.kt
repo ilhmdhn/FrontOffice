@@ -10,7 +10,7 @@ interface DataPrintClient {
 
     @GET("/mobile-print/bill")
     fun getPrintBill(
-        @Query("rcp") rcp: String
+        @Query("room") room: String
     ): Call<PrintBillDataResponse>
 
     @GET("/mobile-print/invoice")

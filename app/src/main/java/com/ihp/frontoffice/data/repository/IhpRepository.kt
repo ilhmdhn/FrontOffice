@@ -298,10 +298,10 @@ class IhpRepository {
         })
     }
 
-    fun printMobilePrintBill(url: String, rcp: String):LiveData<PrintBillDataResponse>{
+    fun printMobilePrintBill(url: String, room: String):LiveData<PrintBillDataResponse>{
         val responseData = MutableLiveData<PrintBillDataResponse>()
         val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
-        client.getPrintBill(rcp).enqueue(object: Callback<PrintBillDataResponse>{
+        client.getPrintBill(room).enqueue(object: Callback<PrintBillDataResponse>{
             override fun onResponse(call: Call<PrintBillDataResponse>,response: retrofit2.Response<PrintBillDataResponse>) {
                 if (response.isSuccessful){
                     if (response.body()?.state == true){

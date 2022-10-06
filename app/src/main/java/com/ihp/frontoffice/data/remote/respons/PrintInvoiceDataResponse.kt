@@ -119,7 +119,19 @@ data class DataPrintInvoice(
     val dataOutlet: DataOutletInvoice? = null,
 
     @field:SerializedName("dataInvoice")
-    val dataInvoice: DataInvoice? = null
+    val dataInvoice: DataInvoice? = null,
+    
+    @field:SerializedName("transferListData")
+    val transferListData: List<TransferListDataItemInvoice?>? = null,
+)
+
+data class TransferListDataItemInvoice(
+
+    @field:SerializedName("transferTotal")
+    val transferTotal: Int? = null,
+
+    @field:SerializedName("room")
+    val room: String? = null
 )
 
 data class PromoOrderDataInvoice(
