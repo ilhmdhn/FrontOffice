@@ -206,7 +206,9 @@ public class InvoiceFragment extends Fragment {
                                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            printer.printBill(data, user, requireActivity(), false);
+                                            if (printer.printBill(data, user, requireActivity(), false)){
+                                                ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-2", requireActivity());
+                                            }
                                         }
                                     })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -229,7 +231,9 @@ public class InvoiceFragment extends Fragment {
                                 .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        printer.printBill(data, user, requireActivity(), true);
+                                        if (printer.printBill(data, user, requireActivity(), true)){
+                                            ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-1", requireActivity());
+                                        }
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {

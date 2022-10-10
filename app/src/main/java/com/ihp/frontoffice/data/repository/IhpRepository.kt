@@ -333,4 +333,23 @@ class IhpRepository {
         })
         return responseData
     }
+
+    fun updateStatusPrint(url: String, rcp: String, statusPrint: String, context: Context){
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        client.updateStatusPrint(rcp, statusPrint).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if (response.isSuccessful){
+                    if (response.body()?.state == true){
+                        Log.d("print status update", "SUCCESS")
+                    }
+                }else{
+                    response.body()?.message?.let { Toasty.warning(context, it, Toasty.LENGTH_SHORT,true).show() }
+                }
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                    Toasty.error(context, t.message.toString(), Toasty.LENGTH_SHORT, true).show()
+            }
+        })
+    }
 }

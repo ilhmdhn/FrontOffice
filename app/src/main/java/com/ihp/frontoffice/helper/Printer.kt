@@ -26,6 +26,7 @@ class Printer {
             val transferRoom = StringBuilder()
             val copies = StringBuilder()
             var totalTransfer = 0
+            val biayaLain = StringBuilder()
             val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
             val currentDate = sdf.format(Date())
 
@@ -33,6 +34,30 @@ class Printer {
                 copies.append("[R]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, getDrawable(context, R.drawable.copybnw))+"</img>\n")
             }else{
                 copies.append("")
+            }
+
+            if (billData?.data?.dataInvoice?.overpax !=null && billData.data.dataInvoice.overpax > 0){
+                biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(billData.data.dataInvoice.overpax.toLong())}\n")
+            }
+
+            if (billData?.data?.dataInvoice?.diskonKamar !=null && billData.data.dataInvoice.diskonKamar > 0){
+                biayaLain.append("[L][R]Diskon Kamar [R]${utils.getCurrency(billData.data.dataInvoice.diskonKamar.toLong())}\n")
+            }
+
+            if (billData?.data?.dataInvoice?.surchargeKamar !=null && billData.data.dataInvoice.surchargeKamar > 0){
+                biayaLain.append("[L][R]Surcharge Kamar [R]${utils.getCurrency(billData.data.dataInvoice.surchargeKamar.toLong())}\n")
+            }
+
+            if (billData?.data?.dataInvoice?.diskonPenjualan !=null && billData.data.dataInvoice.diskonPenjualan > 0){
+                biayaLain.append("[L][R]Diskon Penjualan [R]${utils.getCurrency(billData.data.dataInvoice.diskonPenjualan.toLong())}\n")
+            }
+
+            if (billData?.data?.dataInvoice?.voucher !=null && billData.data.dataInvoice.voucher > 0){
+                biayaLain.append("[L][R]Voucher [R]${utils.getCurrency(billData.data.dataInvoice.voucher.toLong())}\n")
+            }
+
+            if (billData?.data?.dataInvoice?.chargeLain !=null && billData.data.dataInvoice.chargeLain > 0){
+                biayaLain.append("[L][R]Charge Lain [R]${utils.getCurrency(billData.data.dataInvoice.chargeLain.toLong())}\n")
             }
 
             if (billData?.data?.orderData != null) {
@@ -97,6 +122,7 @@ class Printer {
                         "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                        biayaLain+
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                         transferRoom+
@@ -115,7 +141,7 @@ class Printer {
         return false
     }
 
-    fun printInvoice(invoiceData: PrintInvoiceDataResponse, context: Context, isCopies: Boolean = false){
+    fun printInvoice(invoiceData: PrintInvoiceDataResponse, context: Context, isCopies: Boolean = false): Boolean{
         try {
             val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             val selling = StringBuilder()
@@ -125,8 +151,32 @@ class Printer {
             val paymentList = StringBuilder()
             var totalTransfer = 0
             val copies = StringBuilder()
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val biayaLain = StringBuilder()
             var totalPayment = 0
+
+            if (invoiceData.data?.dataInvoice?.overpax !=null && invoiceData.data.dataInvoice.overpax > 0){
+                biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(invoiceData.data.dataInvoice.overpax.toLong())}\n")
+            }
+
+            if (invoiceData.data?.dataInvoice?.diskonKamar !=null && invoiceData.data.dataInvoice.diskonKamar > 0){
+                biayaLain.append("[L][R]Diskon Kamar [R]${utils.getCurrency(invoiceData.data.dataInvoice.diskonKamar.toLong())}\n")
+            }
+
+            if (invoiceData.data?.dataInvoice?.surchargeKamar !=null && invoiceData.data.dataInvoice.surchargeKamar > 0){
+                biayaLain.append("[L][R]Surcharge Kamar [R]${utils.getCurrency(invoiceData.data.dataInvoice.surchargeKamar.toLong())}\n")
+            }
+
+            if (invoiceData.data?.dataInvoice?.diskonPenjualan !=null && invoiceData.data.dataInvoice.diskonPenjualan > 0){
+                biayaLain.append("[L][R]Diskon Penjualan [R]${utils.getCurrency(invoiceData.data.dataInvoice.diskonPenjualan.toLong())}\n")
+            }
+
+            if (invoiceData.data?.dataInvoice?.voucher !=null && invoiceData.data.dataInvoice.voucher > 0){
+                biayaLain.append("[L][R]Voucher [R]${utils.getCurrency(invoiceData.data.dataInvoice.voucher.toLong())}\n")
+            }
+
+            if (invoiceData.data?.dataInvoice?.chargeLain !=null && invoiceData.data.dataInvoice.chargeLain > 0){
+                biayaLain.append("[L][R]Charge Lain [R]${utils.getCurrency(invoiceData.data.dataInvoice.chargeLain.toLong())}\n")
+            }
 
             if (isCopies){
                 copies.append("[R]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, getDrawable(context, R.drawable.copybnw))+"</img>\n")
@@ -199,6 +249,7 @@ class Printer {
                         "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                        biayaLain+
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                         transferRoom+
@@ -209,8 +260,10 @@ class Printer {
                         "[L][R]Kembali[R]${utils.getCurrency(totalPayment - jumlahBersih.toLong())}"
             )
             printer.disconnectPrinter()
+            return true
         }catch(e: java.lang.Exception){
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 

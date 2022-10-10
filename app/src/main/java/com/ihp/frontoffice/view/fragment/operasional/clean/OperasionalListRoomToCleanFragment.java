@@ -118,9 +118,9 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
-        roomViewModel = new ViewModelProvider(getActivity())
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
@@ -187,8 +187,8 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
         }
         progressBar.setVisibility(View.VISIBLE);
         roomArrayList.clear();
-        roomViewModel.getRoomCheckout(cariData).observe(getActivity(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+        roomViewModel.getRoomCheckout(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
+            roomResponse.displayMessage(requireActivity());
             progressBar.setVisibility(View.GONE);
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();

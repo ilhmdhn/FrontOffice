@@ -662,7 +662,9 @@ public class PaymentFragment extends Fragment
                 }
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
                     if (Boolean.TRUE.equals(data.getState())){
-                        printer.printInvoice(data, requireActivity(), false);
+                        if (printer.printInvoice(data, requireActivity(), false)){
+                            ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
+                        }
                     }else{
                         Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
                     }
