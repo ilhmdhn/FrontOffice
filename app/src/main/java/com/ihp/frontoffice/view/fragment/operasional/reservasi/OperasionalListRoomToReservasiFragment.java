@@ -164,11 +164,11 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
 
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
@@ -213,9 +213,9 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
 
     private void readyRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomReadyByType(reservasiRoomType).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomReadyByType(reservasiRoomType).observe(getViewLifecycleOwner(), roomResponse -> {
             progressBar.setVisibility(View.GONE);
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
@@ -229,9 +229,9 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalReadyRoomAdapter(getContext(), p.getCurrentData(page));
+        roomAdapter = new ListOperasionalReadyRoomAdapter(requireActivity(), p.getCurrentData(page));
         readyRoomRecyclerView.setAdapter(roomAdapter);
-        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -265,7 +265,7 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
     }
 
     private void setDataMember() {
-        Glide.with(getContext())
+        Glide.with(requireActivity())
                 .load(reservasiMember.getFotoPathNode())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.user)
@@ -307,7 +307,7 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
         roomOrder.setDurasiJam(jamCheckin);
         Room room = operasionalBusCheckinRoom.getRoom();
 
-        new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle(reservasiRoomType.getRoomType() + " " + reservasiRoomType.getRoomTypeCapacity())
                 .setMessage("Kode room " + room.getRoomCode() + ", Durasi " + jamCheckin + " Jam")
                 .setPositiveButton("Checkin", new DialogInterface.OnClickListener() {
@@ -378,7 +378,7 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
                     return;
                 }
                 navToMain(roomOrder.getCheckinRoom());
@@ -387,7 +387,7 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

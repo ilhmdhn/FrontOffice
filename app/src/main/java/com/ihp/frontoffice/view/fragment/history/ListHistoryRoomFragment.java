@@ -159,8 +159,8 @@ public class ListHistoryRoomFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         progressBar.setVisibility(View.VISIBLE);
 
         viewAllRoom.setVisibility(View.GONE);
@@ -287,10 +287,10 @@ public class ListHistoryRoomFragment extends Fragment {
             }
         });
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
-        roomTypeViewModel = new ViewModelProvider(getActivity())
+        roomTypeViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomTypeViewModel.class);
         roomTypeViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
@@ -341,7 +341,7 @@ public class ListHistoryRoomFragment extends Fragment {
         roomTypeArrayList.clear();
         roomTypeViewModel
                 .getRoomTypeLiveData()
-                .observe(getActivity(), roomTypeRespon -> {
+                .observe(getViewLifecycleOwner(), roomTypeRespon -> {
                     if (roomTypeRespon.isOkay()) {
                         List<RoomType> roomTypes = roomTypeRespon.getRoomTypes();
                         roomTypeArrayList.addAll(roomTypes);
@@ -356,7 +356,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void readyRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomReady().observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomReady().observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
@@ -374,7 +374,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void checkinRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomCheckin("").observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckin("").observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
@@ -391,7 +391,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void paidRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomPaid(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomPaid(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
@@ -408,7 +408,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void cleanRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomCheckout(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckout(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 roomResponse.displayMessage(getContext());
                 List<Room> listRoom = roomResponse.getRooms();
@@ -430,7 +430,7 @@ public class ListHistoryRoomFragment extends Fragment {
         refreshRecyclerView();
         roomViewModel
                 .getAllRoomHistory(cariData)
-                .observe(getActivity(), roomResponse -> {
+                .observe(getViewLifecycleOwner(), roomResponse -> {
                     roomResponse.displayMessage(getContext());
                     if (roomResponse.isOkay()) {
                         List<Room> listRoom = roomResponse.getRooms();
@@ -449,7 +449,7 @@ public class ListHistoryRoomFragment extends Fragment {
         refreshRecyclerView();
         roomViewModel
                 .getAllRoom(cariData)
-                .observe(getActivity(), roomResponse -> {
+                .observe(getViewLifecycleOwner(), roomResponse -> {
                     roomResponse.displayMessage(getContext());
                     if (roomResponse.isOkay()) {
                         List<Room> listRoom = roomResponse.getRooms();
@@ -464,7 +464,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void roomByTypeSetupData(RoomType roomType) {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomByType(roomType).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomByType(roomType).observe(getViewLifecycleOwner(), roomResponse -> {
             roomResponse.displayMessage(getContext());
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
@@ -495,7 +495,7 @@ public class ListHistoryRoomFragment extends Fragment {
     private void setupChipGroup() {
         chipGroupRoomType.removeAllViews();
         for (RoomType roomType : roomTypeArrayList) {
-            final Chip chip = new Chip(getContext());
+            final Chip chip = new Chip(requireActivity());
 
             int paddingDp = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 2,

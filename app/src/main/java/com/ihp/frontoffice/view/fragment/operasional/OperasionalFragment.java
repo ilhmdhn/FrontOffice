@@ -146,8 +146,8 @@ public class OperasionalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        user = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        user = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
 
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
@@ -329,7 +329,7 @@ public class OperasionalFragment extends Fragment {
     }
 
     private void showInfoDialog(String message, String title) {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

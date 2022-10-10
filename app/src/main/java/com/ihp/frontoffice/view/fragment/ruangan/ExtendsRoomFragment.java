@@ -170,8 +170,8 @@ public class ExtendsRoomFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         historyXtndView.setVisibility(View.GONE);
 
@@ -200,11 +200,11 @@ public class ExtendsRoomFragment extends Fragment {
         });
 
 
-        roomPromoViewModel = new ViewModelProvider(getActivity())
+        roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
 
-        inventoryPromoViewModel = new ViewModelProvider(getActivity())
+        inventoryPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
@@ -237,7 +237,7 @@ public class ExtendsRoomFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 RoomExtendResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
                     return;
                 }
                 historyXtndView.setVisibility(View.VISIBLE);
@@ -248,7 +248,7 @@ public class ExtendsRoomFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomExtendResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -256,7 +256,7 @@ public class ExtendsRoomFragment extends Fragment {
     }
 
     private void viewInfoHistoryExtend() {
-        listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(getContext(), listRoomExtendHistory);
+        listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(requireActivity(), listRoomExtendHistory);
         historyecyclerview.setAdapter(listDetailRoomOrderExtendAdapter);
         historyecyclerview.setDivider(null);
         listDetailRoomOrderExtendAdapter.notifyDataSetChanged();
@@ -335,23 +335,23 @@ public class ExtendsRoomFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         inventoryPromoViewModel
                 .getFoodPromoResponseMutableLiveData(room.getRoomType(), room.getRoomCode())
-                .observe(getActivity(), foodPromoResponse -> {
+                .observe(getViewLifecycleOwner(), foodPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (foodPromoResponse.isOkay()) {
                         this.promoFoodList
                                 .addAll(foodPromoResponse.getInventoryPromos());
                         dialogPromoFood();
                     } else {
-                        foodPromoResponse.displayMessage(getContext());
+                        foodPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoFood() {
-        listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), promoFoodList);
+        listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -360,7 +360,7 @@ public class ExtendsRoomFragment extends Fragment {
                         buttonPromoFood.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -388,23 +388,23 @@ public class ExtendsRoomFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         roomPromoViewModel
                 .getRoomPromoResponseMutableLiveData(room.getRoomType())
-                .observe(getActivity(), roomPromoResponse -> {
+                .observe(getViewLifecycleOwner(), roomPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (roomPromoResponse.isOkay()) {
                         List<RoomPromo> roomPromos = roomPromoResponse.getRoomPromos();
                         this.promoRoomList.addAll(roomPromos);
                         dialogPromoRoom();
                     } else {
-                        roomPromoResponse.displayMessage(getContext());
+                        roomPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoRoom() {
-        listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), promoRoomList);
+        listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -413,7 +413,7 @@ public class ExtendsRoomFragment extends Fragment {
                         buttonPromoRoom.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -429,7 +429,7 @@ public class ExtendsRoomFragment extends Fragment {
     private void submitExtendsRoom() {
         if (jamXtnd == 0 && menitXtnd == 0) {
             Toast
-                    .makeText(getContext(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -442,7 +442,7 @@ public class ExtendsRoomFragment extends Fragment {
             promoSelected.add(choicePromoRoom);
         }
 
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Extend Room")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -464,7 +464,7 @@ public class ExtendsRoomFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 RoomOrderResponse res = response.body();
                                 if (!res.isOkay()) {
-                                    res.displayMessage(getContext());
+                                    res.displayMessage(requireActivity());
                                     return;
                                 }
                                 navToMain();
@@ -472,7 +472,7 @@ public class ExtendsRoomFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         });

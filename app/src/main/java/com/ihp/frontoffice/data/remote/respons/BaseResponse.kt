@@ -3,6 +3,7 @@ package com.ihp.frontoffice.data.remote.respons
 import android.content.Context
 import com.google.gson.annotations.SerializedName
 import android.widget.Toast
+import es.dmoral.toasty.Toasty
 
 
 open class BaseResponse {
@@ -16,7 +17,9 @@ open class BaseResponse {
     var message: String? = null
     fun displayMessage(context: Context?) {
         if (!isOkay) {
-            Toast.makeText(context, "Server Response : $message", Toast.LENGTH_SHORT).show()
+            if (context != null) {
+                Toasty.warning(context, "Server Response : $message", Toast.LENGTH_SHORT, true).show()
+            }
         }
     }
 }

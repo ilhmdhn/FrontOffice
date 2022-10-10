@@ -100,7 +100,7 @@ public class ListInventoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         setMainTitle();
         progressBar.setVisibility(View.VISIBLE);
 
@@ -142,7 +142,7 @@ public class ListInventoryFragment extends Fragment {
             }
         });
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
 
@@ -156,7 +156,7 @@ public class ListInventoryFragment extends Fragment {
 
         roomAdapter = new ListCheckinRoomAdapter(getContext(), roomArrayList);
         roomRecyclerView.setAdapter(roomAdapter);
-        roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 1));
 
         roomAdapter.notifyDataSetChanged();
 
@@ -165,7 +165,7 @@ public class ListInventoryFragment extends Fragment {
     private void checkinRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomCheckin(keyword).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckin(keyword).observe(getViewLifecycleOwner(), roomResponse -> {
             roomResponse.displayMessage(getContext());
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();

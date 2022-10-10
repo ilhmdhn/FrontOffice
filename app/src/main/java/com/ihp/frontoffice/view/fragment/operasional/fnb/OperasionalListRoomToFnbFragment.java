@@ -98,8 +98,8 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        roomViewModel = new ViewModelProvider(getActivity())
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
         searchView.setQueryHint("Kode Room");
@@ -165,8 +165,8 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
     private void checkinRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
 
-        roomViewModel.getRoomCheckin(cariData).observe(getActivity(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+        roomViewModel.getRoomCheckin(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
+            roomResponse.displayMessage(requireActivity());
             roomArrayList.clear();
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
@@ -175,7 +175,7 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
                         .collect(Collectors.toList());
 
                 if(filterListRoomCheckin.size()<1){
-                    Toasty.info(getContext(),"Data Kosong").show();
+                    Toasty.info(requireActivity(),"Data Kosong").show();
                     roomAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
                    /* return;*/
@@ -221,9 +221,9 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalCheckinRoomAdapter(getContext(), p.getCurrentData(page));
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), p.getCurrentData(page));
         roomRecyclerView.setAdapter(roomAdapter);
-        roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -232,8 +232,8 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        roomAdapter = new ListOperasionalCheckinRoomAdapter(getContext(), roomArrayList);
-        roomRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), roomArrayList);
+        roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomRecyclerView.setAdapter(roomAdapter);
         checkinRoomSetupData();
     }

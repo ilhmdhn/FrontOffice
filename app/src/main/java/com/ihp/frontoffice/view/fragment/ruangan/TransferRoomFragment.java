@@ -207,9 +207,9 @@ public class TransferRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_transfer_room, container, false);
         ButterKnife.bind(this, view);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
-        roomViewModel = new ViewModelProvider(getActivity())
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
 
@@ -258,7 +258,7 @@ public class TransferRoomFragment extends Fragment {
     private void submitData() {
         if(null==choosedRoom||!isInputValid(descTransfer.getEditText())){
             Toast
-                    .makeText(getContext(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -287,7 +287,7 @@ public class TransferRoomFragment extends Fragment {
             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -296,7 +296,7 @@ public class TransferRoomFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -327,7 +327,7 @@ public class TransferRoomFragment extends Fragment {
             public void onResponse(Call<RoomResponse> call, Response<RoomResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -338,7 +338,7 @@ public class TransferRoomFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -380,8 +380,8 @@ public class TransferRoomFragment extends Fragment {
     private void readyRoomSetupData() {
         roomArrayList.clear();
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomReady().observe(getActivity(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+        roomViewModel.getRoomReady().observe(getViewLifecycleOwner(), roomResponse -> {
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
@@ -399,10 +399,10 @@ public class TransferRoomFragment extends Fragment {
             return;
         }*/
         Toast
-                .makeText(getContext(), "Data Room Ready Update", Toast.LENGTH_SHORT)
+                .makeText(requireActivity(), "Data Room Ready Update", Toast.LENGTH_SHORT)
                 .show();
         searchRoomReadySpinnerDialog = new SearchRoomReadySpinnerDialog(
-                getActivity(), roomArrayList, "Pilih Room Transfer"
+                requireActivity(), roomArrayList, "Pilih Room Transfer"
         );
 
         searchRoomReadySpinnerDialog.bindOnSpinerListener(new SearchRoomReadySpinnerDialog.OnSpinerItemClick() {
@@ -430,7 +430,7 @@ public class TransferRoomFragment extends Fragment {
                     }, 500);
 
                 } catch (Exception e) {
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -453,7 +453,7 @@ public class TransferRoomFragment extends Fragment {
         buttonCheckCodeVoucher.setOnClickListener(view -> {
             String codeVcr = inputCodeVoucher.getEditText().getText().toString();
             if (codeVcr.equals("") || codeVcr == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -470,18 +470,18 @@ public class TransferRoomFragment extends Fragment {
                     VoucherResponse res = response.body();
                     if (!res.isOkay()) {
                         Toast
-                                .makeText(getContext(),
+                                .makeText(requireActivity(),
                                         "Server Response : " + res.getMessage(),
                                         Toast.LENGTH_SHORT)
                                 .show();
                         outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
                         outputCheckTxtVoucher.setText("Code Invalid");
-                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Toast
-                                        .makeText(getContext(),
+                                        .makeText(requireActivity(),
                                                 "Memeriksa Voucher Lokal",
                                                 Toast.LENGTH_SHORT)
                                         .show();
@@ -495,13 +495,13 @@ public class TransferRoomFragment extends Fragment {
                     finalVoucherCode = codeVcr;
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                     outputCheckTxtVoucher.setText("Valid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                     buttonResetCodeVoucher.setVisibility(View.VISIBLE);
                 }
 
                 @Override
                 public void onFailure(Call<VoucherResponse> call, Throwable t) {
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             });
@@ -518,26 +518,26 @@ public class TransferRoomFragment extends Fragment {
                 VoucherResponse res = response.body();
                 if (!res.isOkay()) {
                     Toast
-                            .makeText(getContext(),
+                            .makeText(requireActivity(),
                                     " Server Response : " + res.getMessage(),
                                     Toast.LENGTH_SHORT)
                             .show();
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
                     outputCheckTxtVoucher.setText("Invalid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                     return;
                 }
 
                 finalVoucherCode = codVcr;
                 outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                 outputCheckTxtVoucher.setText("Valid");
-                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
 
             }
 
             @Override
             public void onFailure(Call<VoucherResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });

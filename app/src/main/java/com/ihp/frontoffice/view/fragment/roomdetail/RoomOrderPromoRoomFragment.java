@@ -162,7 +162,7 @@ public class RoomOrderPromoRoomFragment extends Fragment {
         listPromoRoom = (ArrayList<RoomPromo>) roomOrder.getRoomPromos();
         if (listPromoRoom.size() > 0) {
             if (null == listPromoRoomAdapter) {
-                listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), listPromoRoom);
+                listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), listPromoRoom);
                 detailListViewPromoRoom.setAdapter(listPromoRoomAdapter);
             }
 

@@ -114,8 +114,8 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_operasional_invoice_and_payment, container, false);
         ButterKnife.bind(this, view);
 
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
 
@@ -126,7 +126,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         roomOrderSetupData();
@@ -141,12 +141,12 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
 
     private void activeTouch(boolean set) {
         if (set) {
-            getActivity()
+            requireActivity()
                     .getWindow()
                     .clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             return;
         }
-        getActivity()
+        requireActivity()
                 .getWindow()
                 .setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                         WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
@@ -158,8 +158,8 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
         invoice = null;
         roomOrderViewModel
                 .getRoomOrderResponseMutableLiveData(room.getRoomCode())
-                .observe(getActivity(), roomOrderResponse -> {
-                    roomOrderResponse.displayMessage(getContext());
+                .observe(getViewLifecycleOwner(), roomOrderResponse -> {
+                    roomOrderResponse.displayMessage(requireActivity());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
                         invoice = roomOrder.getInvoice();
@@ -172,7 +172,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
     }
 
     private void setViewPager() {
-        viewPager2.setAdapter(new ViewPagerFragmentAdapter(getActivity()));
+        viewPager2.setAdapter(new ViewPagerFragmentAdapter(requireActivity()));
         viewPager2.setUserInputEnabled(false);
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> tab.setText(titles[position]))
                 .attach();
@@ -188,21 +188,21 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
                     showInfoDialog(response.body().getMessage(), "Info Order");
                     return;
                 } else {
-                    //Toasty.warning(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                    //Toasty.warning(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
     private void showInfoDialog(String message, String title) {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -254,7 +254,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
                 progressBar.setVisibility(View.GONE);
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -267,7 +267,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
 
     @Subscribe
     public void printBillInvoice(EventsWrapper.PrintBillInvoice printBillInvoice) {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Print Tagihan")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -280,17 +280,17 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
                             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                                 progressBar.setVisibility(View.GONE);
                                 if (response.body().isOkay()) {
-                                    Toasty.info(getContext(), "Print OK", Toast.LENGTH_SHORT).show();
+                                    Toasty.info(requireActivity(), "Print OK", Toast.LENGTH_SHORT).show();
                                     return;
                                 } else {
-                                    Toasty.warning(getContext(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toasty.warning(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
 
                             @Override
                             public void onFailure(Call<BaseResponse> call, Throwable t) {
                                 progressBar.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

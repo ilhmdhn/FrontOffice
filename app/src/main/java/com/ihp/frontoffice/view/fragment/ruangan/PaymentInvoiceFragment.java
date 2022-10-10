@@ -187,8 +187,8 @@ public class PaymentInvoiceFragment extends Fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_payment_invoice, container, false);
         ButterKnife.bind(this, view);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
 
@@ -207,7 +207,7 @@ public class PaymentInvoiceFragment extends Fragment
         buttonSubmitPayment.setOnClickListener(view -> {
             submitPayment();
         });
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         roomOrderSetupData();
@@ -228,8 +228,8 @@ public class PaymentInvoiceFragment extends Fragment
         invoice = null;
         roomOrderViewModel
                 .getRoomOrderResponseMutableLiveData(room.getRoomCode())
-                .observe(getActivity(), roomOrderResponse -> {
-                    roomOrderResponse.displayMessage(getContext());
+                .observe(getViewLifecycleOwner(), roomOrderResponse -> {
+                    roomOrderResponse.displayMessage(requireActivity());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
                         invoice = roomOrder.getInvoice();
@@ -264,9 +264,9 @@ public class PaymentInvoiceFragment extends Fragment
 
     private void setupPaymentRecyclerView() {
         if (listPaymentAdapter == null) {
-            listPaymentAdapter = new ListPaymentAdapter(getContext(), payments, this,this);
+            listPaymentAdapter = new ListPaymentAdapter(requireActivity(), payments, this,this);
             paymentListRecycle.setAdapter(listPaymentAdapter);
-            paymentListRecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+            paymentListRecycle.setLayoutManager(new LinearLayoutManager(requireActivity()));
         } else {
             listPaymentAdapter.notifyDataSetChanged();
         }
@@ -314,10 +314,10 @@ public class PaymentInvoiceFragment extends Fragment
             initEdcType();
         }
 
-        listEdcTypeAdapter = new ListEdcTypeAdapter(getContext(), typesListEdc);
+        listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -340,10 +340,10 @@ public class PaymentInvoiceFragment extends Fragment
 
     private void dialogCardType() {
         banks = getResources().getStringArray(R.array.bank_values);
-        adapterBanks = new ArrayAdapter<String>(getContext(),
+        adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -372,7 +372,7 @@ public class PaymentInvoiceFragment extends Fragment
             public void onResponse(Call<EdcTypeResponse> call, Response<EdcTypeResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 EdcTypeResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -383,7 +383,7 @@ public class PaymentInvoiceFragment extends Fragment
 
             @Override
             public void onFailure(Call<EdcTypeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -391,7 +391,7 @@ public class PaymentInvoiceFragment extends Fragment
 
     // TODO : input payments
     private void inputPaymentDialog() {
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(requireActivity());
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_payment_room, null);
         dialogBuilder.setView(dialogView);
@@ -509,7 +509,7 @@ public class PaymentInvoiceFragment extends Fragment
                         if (defaultPaymentType.equals("CASH")) {
                             if (!isInputValid(inputNominalPayment.getEditText())) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -527,7 +527,7 @@ public class PaymentInvoiceFragment extends Fragment
 
                             ) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -552,7 +552,7 @@ public class PaymentInvoiceFragment extends Fragment
                                     txtEdcDebetCredit.getText().toString().equals(EMPTY_EDC_DP)
                             ) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Lengkapi Inputan Credit", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Lengkapi Inputan Credit", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -575,7 +575,7 @@ public class PaymentInvoiceFragment extends Fragment
                                     !isInputValid(inputRefKodeEmoney.getEditText())
                             ) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Lengkapi Inputan E-money", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Lengkapi Inputan E-money", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -596,7 +596,7 @@ public class PaymentInvoiceFragment extends Fragment
                                     !isInputValid(inputInstruksiCompliment.getEditText())
                             ) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -616,7 +616,7 @@ public class PaymentInvoiceFragment extends Fragment
                                     piutangPaymentType.isEmpty()||piutangPaymentType.equals("")
                             ) {
                                 Toast
-                                        .makeText(getContext(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT)
+                                        .makeText(requireActivity(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT)
                                         .show();
                                 return;
                             }
@@ -632,7 +632,7 @@ public class PaymentInvoiceFragment extends Fragment
 
                         } else {
                             Toast
-                                    .makeText(getContext(), "Mohon Lengkapi Inputan", Toast.LENGTH_SHORT)
+                                    .makeText(requireActivity(), "Mohon Lengkapi Inputan", Toast.LENGTH_SHORT)
                                     .show();
                             return;
                         }
@@ -641,7 +641,7 @@ public class PaymentInvoiceFragment extends Fragment
                         if (null == payment) {
 
                             Toast
-                                    .makeText(getContext(), "Ok Messages", Toast.LENGTH_SHORT)
+                                    .makeText(requireActivity(), "Ok Messages", Toast.LENGTH_SHORT)
                                     .show();
 
                         } else {
@@ -664,7 +664,7 @@ public class PaymentInvoiceFragment extends Fragment
     private void submitPayment() {
 
         if (totalPayment < invoice.getTotalFinal()) {
-            Toast.makeText(getContext(), "Total Pembayaran Kurang", Toast.LENGTH_LONG)
+            Toast.makeText(requireActivity(), "Total Pembayaran Kurang", Toast.LENGTH_LONG)
                     .show();
             return;
         }
@@ -689,7 +689,7 @@ public class PaymentInvoiceFragment extends Fragment
             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -699,7 +699,7 @@ public class PaymentInvoiceFragment extends Fragment
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -738,7 +738,7 @@ public class PaymentInvoiceFragment extends Fragment
         listPaymentAdapter.notifyDataSetChanged();
         countTotalPayment();
         //listPaymentAdapter.removeFromList(index);
-        //Toast.makeText(getContext(), "Delete Payment : " + payment.getPaymentType(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(requireActivity(), "Delete Payment : " + payment.getPaymentType(), Toast.LENGTH_SHORT).show();
 
     }
     @Override

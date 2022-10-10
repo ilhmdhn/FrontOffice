@@ -165,9 +165,9 @@ public class InvoiceFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_invoice, container, false);
         ButterKnife.bind(this, view);
 
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        user = ((MyApp) getActivity().getApplicationContext()).getUserFo().getUserId();
-        userLevel = ((MyApp) getActivity().getApplicationContext()).getUserFo().getLevelUser();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        user = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getUserId();
+        userLevel = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getLevelUser();
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
         printer = new Printer();
@@ -178,7 +178,7 @@ public class InvoiceFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         initInvoice();
@@ -281,7 +281,7 @@ public class InvoiceFragment extends Fragment {
                                 AlertDialog dialogReprintBill = builder.create();
                                 dialogReprintBill.show();
                             } else {
-                                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+                                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
                                 LayoutInflater dialogInflater = this.getLayoutInflater();
                                 View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
                                 dialogBuilder.setView(dialogView);
@@ -298,7 +298,7 @@ public class InvoiceFragment extends Fragment {
                                         String email = _usernameTxt.getText().toString();
                                         String password = _passwordTxt.getText().toString();
                                         if (email.isEmpty() && password.isEmpty()) {
-                                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                                     .show();
                                             return;
                                         }
@@ -430,7 +430,7 @@ public class InvoiceFragment extends Fragment {
 //                                    AlertDialog dialogReprintBill = builder.create();
 //                                    dialogReprintBill.show();
 //                                } else {
-//                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+//                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
 //                                    LayoutInflater dialogInflater = this.getLayoutInflater();
 //                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
 //                                    dialogBuilder.setView(dialogView);
@@ -447,7 +447,7 @@ public class InvoiceFragment extends Fragment {
 //                                            String email = _usernameTxt.getText().toString();
 //                                            String password = _passwordTxt.getText().toString();
 //                                            if (email.isEmpty() && password.isEmpty()) {
-//                                                Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+//                                                Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
 //                                                        .show();
 //                                                return;
 //                                            }
@@ -520,7 +520,7 @@ public class InvoiceFragment extends Fragment {
 
     private void addDetailInventoryOrder() {
         detailOrderLayout = getView().findViewById(R.id.detail_order_layout);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         for (Inventory data : roomOrder.getSummaryOrderInventories()) {
             View rowView = inflater.inflate(R.layout.invoice_payment_detail_fnb, null);
@@ -549,7 +549,7 @@ public class InvoiceFragment extends Fragment {
 
     private void addDetailTransferRoom() {
         detailTransferLayout = getView().findViewById(R.id.detail_room_transfer_layout);
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         Room roomCheckin = roomOrder.getCheckinRoom();
         for (Room room : roomOrder.getHistoryTransferOrderRoom()) {
             if (!room.getRoomCode().equals(roomCheckin.getRoomCode())) {

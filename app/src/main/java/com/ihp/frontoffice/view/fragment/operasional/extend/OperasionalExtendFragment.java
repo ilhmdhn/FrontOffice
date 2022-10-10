@@ -177,8 +177,8 @@ public class OperasionalExtendFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         historyXtndView.setVisibility(View.GONE);
 
@@ -213,11 +213,11 @@ public class OperasionalExtendFragment extends Fragment {
             submitExtendsRoom(true);
         });
 
-        roomPromoViewModel = new ViewModelProvider(getActivity())
+        roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
 
-        inventoryPromoViewModel = new ViewModelProvider(getActivity())
+        inventoryPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
@@ -381,7 +381,7 @@ public class OperasionalExtendFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         inventoryPromoViewModel
                 .getFoodPromoResponseMutableLiveData(room.getRoomType(), room.getRoomCode())
-                .observe(getActivity(), foodPromoResponse -> {
+                .observe(getViewLifecycleOwner(), foodPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (foodPromoResponse.isOkay()) {
                         this.promoFoodList
@@ -434,7 +434,7 @@ public class OperasionalExtendFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         roomPromoViewModel
                 .getRoomPromoResponseMutableLiveData(room.getRoomType())
-                .observe(getActivity(), roomPromoResponse -> {
+                .observe(getViewLifecycleOwner(), roomPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (roomPromoResponse.isOkay()) {
                         List<RoomPromo> roomPromos = roomPromoResponse.getRoomPromos();
@@ -490,7 +490,7 @@ public class OperasionalExtendFragment extends Fragment {
 
         if (!minus){
 
-            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                     .setTitle("Extend Room")
                     .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -545,7 +545,7 @@ public class OperasionalExtendFragment extends Fragment {
                 }
             }
 
-            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                     .setTitle("Kurangi Durasi Room")
                     .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {

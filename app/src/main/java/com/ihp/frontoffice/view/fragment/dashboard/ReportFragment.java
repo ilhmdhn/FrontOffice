@@ -117,14 +117,14 @@ public class ReportFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         setMainTitle();
         user = db.userDao().getUserLogin();
 
         userNama.setText(user.getUserId());
         userRole.setText(user.getLevelUser());
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
 

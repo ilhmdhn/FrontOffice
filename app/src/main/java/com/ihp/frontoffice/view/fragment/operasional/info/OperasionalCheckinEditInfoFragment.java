@@ -324,19 +324,19 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         ButterKnife.bind(this, view);
         setMainTitle();
         BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
-        roomPromoViewModel = new ViewModelProvider(getActivity())
+        roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
 
-        inventoryPromoViewModel = new ViewModelProvider(getActivity())
+        inventoryPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
-        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
+        otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
 
         return view;
     }
@@ -395,7 +395,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     inputDpNominal.getEditText().setText(current);
                     inputDpNominal.getEditText().setSelection(current.length());
                     Toasty
-                            .warning(getContext(),"Pembayaran Maksimal Ratusan Juta")
+                            .warning(requireActivity(),"Pembayaran Maksimal Ratusan Juta")
                             .show();
                     return;
                 }
@@ -502,7 +502,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             }
         }
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
@@ -522,7 +522,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             if (kasirApproval) {
 //                alert dialog
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                 builder.setMessage(R.string.reduce_duration);
 // Add the buttons
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -570,7 +570,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         String email = _usernameTxt.getText().toString();
                         String password = _passwordTxt.getText().toString();
                         if (email.isEmpty() && password.isEmpty()) {
-                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                     .show();
                             return;
                         }
@@ -582,7 +582,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                 UserResponse res = response.body();
                                 //_loginProgress.setVisibility(View.GONE);
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowReduceCheckinDuration(user)) {
@@ -608,7 +608,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                             }
                                         });
                                     } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
 
@@ -619,7 +619,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             @Override
                             public void onFailure(Call<UserResponse> call, Throwable t) {
                                 //_loginProgress.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                         .show();
                             }
                         });
@@ -639,7 +639,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
     private void removePromo() {
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
@@ -653,12 +653,12 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         _parentPassword = dialogView.findViewById(R.id.ed_parent_password);
 
-        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data ->{
             boolean kasirApproval = data.getState();
             if (kasirApproval) {
 //                alert dialog
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                 builder.setMessage(R.string.remove_promo);
 // Add the buttons
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -712,7 +712,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         String email = _usernameTxt.getText().toString();
                         String password = _passwordTxt.getText().toString();
                         if (email.isEmpty() && password.isEmpty()) {
-                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                     .show();
                             return;
                         }
@@ -724,7 +724,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                 UserResponse res = response.body();
                                 //_loginProgress.setVisibility(View.GONE);
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowCancelPromotion(user)) {
@@ -758,7 +758,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                             }
                                         });
                                     } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
 
@@ -769,7 +769,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             @Override
                             public void onFailure(Call<UserResponse> call, Throwable t) {
                                 //_loginProgress.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                         .show();
                             }
                         });
@@ -794,10 +794,10 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
     private void dialogCardType() {
         banks = getResources().getStringArray(R.array.bank_values);
-        adapterBanks = new ArrayAdapter<String>(getContext(),
+        adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -824,10 +824,10 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             initEdcType();
         }
 
-        listEdcTypeAdapter = new ListEdcTypeAdapter(getContext(), typesListEdc);
+        listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -876,14 +876,14 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         visibleProgressBar(true);
         inventoryPromoViewModel
                 .getFoodPromoResponseMutableLiveData(currentRoomCheckin.getRoomType(), currentRoomCheckin.getRoomCode())
-                .observe(getActivity(), foodPromoResponse -> {
+                .observe(getViewLifecycleOwner(), foodPromoResponse -> {
                     visibleProgressBar(false);
                     if (foodPromoResponse.isOkay()) {
                         this.promoFoodList
                                 .addAll(foodPromoResponse.getInventoryPromos());
                         dialogPromoFood();
                     } else {
-                        foodPromoResponse.displayMessage(getContext());
+                        foodPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
@@ -901,7 +901,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         buttonPromoFood.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -931,7 +931,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         this.promoRoomList.addAll(roomPromos);
                         dialogPromoRoom();
                     } else {
-                        roomPromoResponse.displayMessage(getContext());
+                        roomPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
@@ -940,7 +940,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.CustomAlertDialogDarkForNoActionBAr)
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -949,7 +949,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         buttonPromoRoom.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -1055,7 +1055,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1080,7 +1080,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 //          clean promo
             String codeVcr = inputCodeVoucher.getEditText().getText().toString();
             if (codeVcr.equals("") || codeVcr == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -1099,12 +1099,12 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     if (!res.isOkay()) {
                         errorMessageVoucher = res.getMessage();
                         outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
-                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Toast
-                                        .makeText(getContext(),
+                                        .makeText(requireActivity(),
                                                 res.getMessage(),
                                                 Toast.LENGTH_SHORT)
                                         .show();
@@ -1120,7 +1120,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     finalVoucherCode = codeVcr;
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                     outputCheckTxtVoucher.setText("Valid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                     buttonResetCodeVoucher.setVisibility(View.VISIBLE);
                     confirmVoucher(res.getVoucher());
                 }
@@ -1128,7 +1128,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 @Override
                 public void onFailure(Call<VoucherResponse> call, Throwable t) {
 
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                     visibleProgressBar(false);
                 }
             });
@@ -1146,28 +1146,28 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 if (!res.isOkay()) {
                     errorMessageVoucher = errorMessageVoucher + "" + res.getMessage();
                     Toast
-                            .makeText(getContext(),
+                            .makeText(requireActivity(),
                                     res.getMessage(),
                                     Toast.LENGTH_SHORT)
                             .show();
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
                     outputCheckTxtVoucher.setText(errorMessageVoucher);
                     outputCheckTxtVoucher.setText("Invalid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                     return;
                 }
 
                 finalVoucherCode = codVcr;
                 outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                 outputCheckTxtVoucher.setText("Valid");
-                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                 confirmVoucher(res.getVoucher());
 
             }
 
             @Override
             public void onFailure(Call<VoucherResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 visibleProgressBar(false);
             }
         });
@@ -1177,7 +1177,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         if (!voucher.getJenis_kamar().equals("")) {
             String voucherRoom = voucher.getJenis_kamar().toUpperCase();
             if (!voucherRoom.contains(currentRoomCheckin.getRoomType())) {
-                new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                         .setTitle("Jenis Kamar Voucher Tidak Sama")
                         .setMessage("Voucher berlaku untuk Room " + voucher.getJenis_kamar() + ", lanjutkan transaksi ?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1250,7 +1250,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             buttonResetCodeMember.setVisibility(View.GONE);
             outputCheckTxtMember.setText("Valid");
             outputCheckTxtMember.setVisibility(View.VISIBLE);
-            outputCheckTxtMember.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+            outputCheckTxtMember.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
         }
 
 
@@ -1435,7 +1435,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(),
                     new DatePickerDialog.OnDateSetListener() {
 
                         @Override
@@ -1470,7 +1470,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1508,7 +1508,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
                 EdcTypeResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
 
                     return;
                 }
@@ -1524,7 +1524,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<EdcTypeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 visibleProgressBar(false);
             }
         });
@@ -1586,7 +1586,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
             if (!isInputValid(inputDpNominal.getEditText())) {
                 Toast
-                        .makeText(getContext(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
+                        .makeText(requireActivity(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
                         .show();
                 return;
             }
@@ -1599,12 +1599,12 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         .replaceAll("[.]", "");
             } catch (Exception e) {
                 Toasty
-                        .warning(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                        .warning(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                         .show();
             }
             keteranganUangMuka = dpType;
             Toast
-                    .makeText(getContext(), keteranganUangMuka, Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), keteranganUangMuka, Toast.LENGTH_SHORT)
                     .show();
             if (isUseDpCard) {
                 if (!isInputValid(inputDpNamaDebetCredit.getEditText()) ||
@@ -1613,7 +1613,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         null == choiceTypeEdc ||
                         choicecard.equals(EMPTY_CARD_DP)) {
                     Toast
-                            .makeText(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .makeText(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
@@ -1626,7 +1626,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 if (!isInputValid(inputBankNameTf.getEditText()) ||
                         !isInputValid(inputBankAccountNameTf.getEditText()) ) {
                     Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
@@ -1651,12 +1651,12 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         }
 
         if (isEmptyVisitor()) {
-            Toasty.warning(getContext(), "Harap isi jumlah tamu", Toast.LENGTH_SHORT, true)
+            Toasty.warning(requireActivity(), "Harap isi jumlah tamu", Toast.LENGTH_SHORT, true)
                     .show();
             return;
         }
         // TODO :: masih belum ngurus nama alias
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Simpan Data Checkin")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1699,7 +1699,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                                 visibleProgressBar(false);
                                 RoomOrderResponse res = response.body();
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (!res.isOkay()) {
                                     return;
                                 }
@@ -1708,7 +1708,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 visibleProgressBar(false);
                             }
                         });
@@ -1770,7 +1770,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     private void setScanResult(){
         String codeMbr = inputCodeMember.getEditText().getText().toString();
         if (codeMbr.equals("") || codeMbr == "") {
-            Toast.makeText(getContext(),
+            Toast.makeText(requireActivity(),
                     "Kode Masih Kosong",
                     Toast.LENGTH_SHORT)
                     .show();
@@ -1787,17 +1787,17 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 viewOutputCekCodeMember.setVisibility(View.VISIBLE);
                 MemberResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
                     outputCheckImgMember.setImageResource(R.drawable.ic_unverified);
                     outputCheckTxtMember.setText("Invalid");
-                    outputCheckTxtMember.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    outputCheckTxtMember.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                     return;
                 }
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
 
                 outputCheckImgMember.setImageResource(R.drawable.ic_verified);
                 outputCheckTxtMember.setText("Valid");
-                outputCheckTxtMember.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                outputCheckTxtMember.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                 buttonResetCodeMember.setVisibility(View.VISIBLE);
             }
 
@@ -1805,7 +1805,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             public void onFailure(Call<MemberResponse> call, Throwable t) {
                 Log.e(TAG, t.toString());
                 Log.e(TAG, t.getMessage());
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 visibleProgressBar(false);
             }
         });

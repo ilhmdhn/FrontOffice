@@ -145,14 +145,14 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         setMainTitle();
-        roomTypeViewModel = new ViewModelProvider(getActivity())
+        roomTypeViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomTypeViewModel.class);
         roomTypeViewModel.init(BASE_URL);
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
         setDataMember();
@@ -222,13 +222,13 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        listOperasionalReadyRoomTypeAdapter = new ListOperasionalReadyRoomTypeAdapter(getContext(), roomTypeArrayList);
+        listOperasionalReadyRoomTypeAdapter = new ListOperasionalReadyRoomTypeAdapter(requireActivity(), roomTypeArrayList);
         readyRoomTypeRecyclerView.setAdapter(listOperasionalReadyRoomTypeAdapter);
-        readyRoomTypeRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        readyRoomTypeRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
 
-        listOperasionalWaitingRoomAdapter = new ListOperasionalWaitingRoomAdapter(getContext(), waitRoomArrayList);
+        listOperasionalWaitingRoomAdapter = new ListOperasionalWaitingRoomAdapter(requireActivity(), waitRoomArrayList);
         waitingRoomInfoRecyclerView.setAdapter(listOperasionalWaitingRoomAdapter);
-        waitingRoomInfoRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        waitingRoomInfoRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
 
         setDataMember();
@@ -246,9 +246,9 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
 
     private void setDataWaitingInfoRoomClean() {
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomCheckout("").observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckout("").observe(getViewLifecycleOwner(), roomResponse -> {
             progressBar.setVisibility(View.GONE);
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 waitRoomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
@@ -263,9 +263,9 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
 
     private void setDataWaitingInfoRoomCheckin() {
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomCheckin("").observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckin("").observe(getViewLifecycleOwner(), roomResponse -> {
             progressBar.setVisibility(View.GONE);
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 waitRoomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
@@ -281,9 +281,9 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
 
     private void setupWaitingInfoRoomTypeRecyclerView() {
         if (listOperasionalWaitingRoomAdapter == null) {
-            listOperasionalWaitingRoomAdapter = new ListOperasionalWaitingRoomAdapter(getContext(), waitRoomArrayList);
+            listOperasionalWaitingRoomAdapter = new ListOperasionalWaitingRoomAdapter(requireActivity(), waitRoomArrayList);
             waitingRoomInfoRecyclerView.setAdapter(listOperasionalWaitingRoomAdapter);
-            waitingRoomInfoRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            waitingRoomInfoRecyclerView.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
         }
         listOperasionalWaitingRoomAdapter.notifyDataSetChanged();
@@ -294,9 +294,9 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         roomTypeViewModel
                 .getGroupingRoomTypeReadyLiveData()
-                .observe(getActivity(), roomTypeResponse -> {
+                .observe(getViewLifecycleOwner(), roomTypeResponse -> {
                     progressBar.setVisibility(View.GONE);
-                    roomTypeResponse.displayMessage(getContext());
+                    roomTypeResponse.displayMessage(requireActivity());
                     if (roomTypeResponse.isOkay()) {
                         roomTypeArrayList.clear();
                         List<RoomType> listRoom = roomTypeResponse.getRoomTypes();
@@ -310,9 +310,9 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
         p = new BasePagination(roomTypeArrayList);
         p.setItemsPerPage(6);
         totalPages = p.getTotalPages();
-        listOperasionalReadyRoomTypeAdapter = new ListOperasionalReadyRoomTypeAdapter(getContext(), p.getCurrentData(page));
+        listOperasionalReadyRoomTypeAdapter = new ListOperasionalReadyRoomTypeAdapter(requireActivity(), p.getCurrentData(page));
         readyRoomTypeRecyclerView.setAdapter(listOperasionalReadyRoomTypeAdapter);
-        readyRoomTypeRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        readyRoomTypeRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         listOperasionalReadyRoomTypeAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -346,7 +346,7 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
     }
 
     private void setDataMember() {
-        Glide.with(getContext())
+        Glide.with(requireActivity())
                 .load(member.getFotoPathNode())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .error(R.drawable.user)
@@ -397,7 +397,7 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -411,7 +411,7 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                         .show();
                 progressBar.setVisibility(View.GONE);
             }
