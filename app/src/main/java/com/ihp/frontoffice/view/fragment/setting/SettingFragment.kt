@@ -2,22 +2,25 @@ package com.ihp.frontoffice.view.fragment.setting
 
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.ihp.frontoffice.R
-import com.ihp.frontoffice.databinding.FragmentMySalesReportBinding
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
+import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
+import com.ihp.frontoffice.events.GlobalBus
+import es.dmoral.toasty.Toasty
 
 class SettingFragment : Fragment() {
 
@@ -33,8 +36,42 @@ class SettingFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setMainTitle()
+
+        val context = requireActivity()
+        val sharedPref = context.getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+
         binding.button.setOnClickListener {
             testPrint()
+        }
+
+        val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+
+        when(printSetting){
+            1 -> binding.rbPrintMobile.isChecked = true
+            2 -> binding.rbPrintDesktop.isChecked = true
+            3 -> binding.rbPrintBoth.isChecked = true
+        }
+
+        binding.rbPrint.setOnCheckedChangeListener { radioGroup, i ->
+            when(i){
+                R.id.rb_print_mobile -> {
+                    editor.putInt(getString(R.string.preference_print), 1)
+                    editor.apply()
+                    Toasty.info(requireActivity(), "Android Print", Toasty.LENGTH_SHORT, true).show()
+                }
+                R.id.rb_print_desktop -> {
+                    editor.putInt(getString(R.string.preference_print), 2)
+                    editor.apply()
+                    Toasty.info(requireActivity(), "Pos Lorong Print", Toasty.LENGTH_SHORT, true).show()
+                }
+                R.id.rb_print_both -> {
+                    editor.putInt(getString(R.string.preference_print), 3)
+                    editor.apply()
+                    Toasty.info(requireActivity(), "Kedua Printer Aktif", Toasty.LENGTH_SHORT, true).show()
+                }
+            }
         }
 
     }
@@ -100,4 +137,10 @@ class SettingFragment : Fragment() {
                 Log.d("test006", "${it.key} = ${it.value}")
             }
         }
+
+    private fun setMainTitle() {
+        GlobalBus
+            .getBus()
+            .post(TitleFragment("Setting"))
+    }
 }

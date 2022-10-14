@@ -2,19 +2,7 @@ package com.ihp.frontoffice.data.remote.respons
 
 import com.google.gson.annotations.SerializedName
 
-data class PrintBillDataResponse(
-
-	@field:SerializedName("data")
-	val data: DataPrintBill? = null,
-
-	@field:SerializedName("state")
-	val state: Boolean? = null,
-
-	@field:SerializedName("message")
-	val message: String? = null
-)
-
-data class DataRoomBill(
+data class DataRoomTransfer(
 
 	@field:SerializedName("ruangan")
 	val ruangan: String? = null,
@@ -32,7 +20,7 @@ data class DataRoomBill(
 	val tanggal: String? = null
 )
 
-data class TransferListDataItemBill(
+data class TransferListDataItemTransfer(
 
 	@field:SerializedName("transferTotal")
 	val transferTotal: Int? = null,
@@ -41,34 +29,31 @@ data class TransferListDataItemBill(
 	val room: String? = null
 )
 
-data class DataPrintBill(
+data class DataPrintTransfer(
 
 	@field:SerializedName("cancelOrderData")
-	val cancelOrderData: List<CancelOrderDataItemBill?>? = null,
+	val cancelOrderData: List<CancelOrderDataItemTransfer?>? = null,
 
 	@field:SerializedName("dataRoom")
-	val dataRoom: DataRoomBill? = null,
+	val dataRoom: DataRoomTransfer? = null,
 
 	@field:SerializedName("transferListData")
-	val transferListData: List<TransferListDataItemBill?>? = null,
+	val transferListData: List<TransferListDataItemTransfer?>? = null,
 
 	@field:SerializedName("orderData")
-	val orderData: List<OrderDataItemBill?>? = null,
-
-	@field:SerializedName("transferBillData")
-	val dataBillTransferOnBIll: List<DataPrintTransfer?>? = null,
+	val orderData: List<OrderDataItemTransfer?>? = null,
 
 	@field:SerializedName("promoOrderData")
-	val promoOrderData: PromoOrderDataBill? = null,
+	val promoOrderData: PromoOrderDataTransfer? = null,
 
 	@field:SerializedName("dataOutlet")
-	val dataOutlet: DataOutletBill? = null,
+	val dataOutlet: DataOutletTransfer? = null,
 
 	@field:SerializedName("dataInvoice")
-	val dataInvoice: DataInvoiceBill? = null
+	val dataInvoice: DataInvoiceTransfer? = null
 )
 
-data class PromoOrderDataBill(
+data class PromoOrderDataTransfer(
 	@field:SerializedName("promo")
 	val promo: String? = null,
 
@@ -76,7 +61,7 @@ data class PromoOrderDataBill(
 	val totalPromo: Int? = null,
 )
 
-data class OrderDataItemBill(
+data class OrderDataItemTransfer(
 
 	@field:SerializedName("total")
 	val total: Int? = null,
@@ -91,7 +76,7 @@ data class OrderDataItemBill(
 	val namaItem: String? = null
 )
 
-data class DataInvoiceBill(
+data class DataInvoiceTransfer(
 
 	@field:SerializedName("sewa_ruangan")
 	val sewaRuangan: Double? = null,
@@ -148,7 +133,7 @@ data class DataInvoiceBill(
 	val jumlahPenjualan: Int? = null
 )
 
-data class CancelOrderDataItemBill(
+data class CancelOrderDataItemTransfer(
 
 	@field:SerializedName("total")
 	val total: Int? = null,
@@ -163,7 +148,7 @@ data class CancelOrderDataItemBill(
 	val namaItem: String? = null
 )
 
-data class DataOutletBill(
+data class DataOutletTransfer(
 
 	@field:SerializedName("kota")
 	val kota: String? = null,

@@ -662,7 +662,7 @@ public class PaymentFragment extends Fragment
                 }
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
                     if (Boolean.TRUE.equals(data.getState())){
-                        if (printer.printInvoice(data, requireActivity(), false)){
+                        if (printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false)){
                             ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
                         }
                     }else{

@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.listadapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,6 +69,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         return new RoomViewHolder(itemView);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
         Room room = roomList.get(position);
@@ -303,7 +305,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if (printer.printInvoice(data, context, true)){
+                                            if (printer.printInvoice(data, context,user, true)){
                                                 ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "1", context);
                                             }
                                         }
@@ -326,7 +328,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                    if(printer.printInvoice(data, context, true)){
+                                                    if(printer.printInvoice(data, context, user, true)){
                                                         ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
                                                     }
                                                 }
@@ -370,7 +372,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                                     if (res.isOkay()) {
                                                         User userCek = res.getUser();
                                                         if (UserAuthRole.isAllowReprintInvoice(userCek)) {
-                                                            if(printer.printInvoice(data, context, true)){
+                                                            if(printer.printInvoice(data, context,user, true)){
                                                                 ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
                                                             }
                                                         } else {

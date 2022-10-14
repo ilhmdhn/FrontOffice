@@ -126,6 +126,9 @@ data class DataPrintInvoice(
     
     @field:SerializedName("transferListData")
     val transferListData: List<TransferListDataItemInvoice?>? = null,
+
+    @field:SerializedName("transferBillData")
+    val dataBillTransferOnInvoice: List<DataPrintTransfer?>? = null
 )
 
 data class TransferListDataItemInvoice(

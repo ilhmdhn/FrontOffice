@@ -4,10 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.ihp.frontoffice.data.entity.User
-import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
-import com.ihp.frontoffice.data.remote.respons.PrintInvoiceDataResponse
-import com.ihp.frontoffice.data.remote.respons.PrintStatusResponse
-import com.ihp.frontoffice.data.remote.respons.Response
+import com.ihp.frontoffice.data.remote.respons.*
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.data.repository.LocalRepository
 

@@ -414,7 +414,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
 
             case R.id.setting_menu:
-                navController.navigate(R.id.action_navOperasionalFragment_to_settingFragment);
+                navController.navigate(R.id.navSettingFragment);
                 break;
 
             case R.id.logout_menu:

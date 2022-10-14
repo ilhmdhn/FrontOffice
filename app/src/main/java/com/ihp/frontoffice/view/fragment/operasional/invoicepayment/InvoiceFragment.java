@@ -3,6 +3,7 @@ package com.ihp.frontoffice.view.fragment.operasional.invoicepayment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -132,6 +133,7 @@ public class InvoiceFragment extends Fragment {
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
     private static final String ARG_PARAM3 = "TIME_RCP";
+    private Integer statusPrint;
 
     public InvoiceFragment() {
         // Required empty public constructor
@@ -172,6 +174,8 @@ public class InvoiceFragment extends Fragment {
         otherViewModel = new OtherViewModel();
         printer = new Printer();
 
+        SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE);
+        statusPrint = sharedPref.getInt(getString(R.string.preference_print), 2);
         return view;
     }
 
@@ -190,18 +194,19 @@ public class InvoiceFragment extends Fragment {
 
         btnToPrint.setOnClickListener(view -> {
 
-            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
-                if (Boolean.TRUE.equals(data.getState())){
+            if (statusPrint == 1 || statusPrint == 3){
+                otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
+                    if (Boolean.TRUE.equals(data.getState())){
 
-                    String statusPrint = Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
+                        String statusPrint = Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
 
-                    if (Objects.equals(statusPrint, "0")){
+                        if (Objects.equals(statusPrint, "0")){
 
-                        AlertDialog.Builder builder;
+                            AlertDialog.Builder builder;
 
-                        builder = new AlertDialog.Builder(requireActivity());
+                            builder = new AlertDialog.Builder(requireActivity());
 
-                        builder.setMessage("")
+                            builder.setMessage("")
                                     .setCancelable(true)
                                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         @Override
@@ -211,153 +216,153 @@ public class InvoiceFragment extends Fragment {
                                             }
                                         }
                                     })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Cetak Tagihan?");
-                        alert.show();
-                    }else if( Objects.equals(statusPrint, "-2")){
-                        AlertDialog.Builder builder;
-
-                        builder = new AlertDialog.Builder(requireActivity());
-
-                        builder
-                                .setCancelable(true)
-                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        if (printer.printBill(data, user, requireActivity(), true)){
-                                            ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-1", requireActivity());
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
                                         }
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                        AlertDialog alert = builder.create();
-                        //Setting the title manually
-                        alert.setTitle("Cetak Ulang Tagihan?");
-                        alert.show();
-                    }
+                                    });
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setTitle("Cetak Tagihan?");
+                            alert.show();
+                        }else if( Objects.equals(statusPrint, "-2")){
+                            AlertDialog.Builder builder;
 
-                    else{
-                        //hari ini
-                        otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), dataApproval -> {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
-                            boolean kasirApproval = dataApproval.getState();
-                            if (kasirApproval) {
-                                builder.setMessage(R.string.ask_reprint_bill);
-                                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
-                                            if (Boolean.TRUE.equals(data.getState())){
-                                                boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
-                                                if (statusPrint){
-                                                    ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-                                                }
-                                            }else{
-                                                Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                            builder = new AlertDialog.Builder(requireActivity());
+
+                            builder
+                                    .setCancelable(true)
+                                    .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            if (printer.printBill(data, user, requireActivity(), true)){
+                                                ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-1", requireActivity());
                                             }
-                                        });
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-
-                                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.dismiss();
-                                    }
-                                });
-                                AlertDialog dialogReprintBill = builder.create();
-                                dialogReprintBill.show();
-                            } else {
-                                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
-                                LayoutInflater dialogInflater = this.getLayoutInflater();
-                                View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
-                                dialogBuilder.setView(dialogView);
-                                dialogBuilder.setCancelable(false);
-                                AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
-                                AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
-
-                                EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
-                                EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
-                                AlertDialog alertDialog = dialogBuilder.create();
-
-                                alertDialog.setOnShowListener(dialogInterface -> {
-                                    buttonOk.setOnClickListener(it -> {
-                                        String email = _usernameTxt.getText().toString();
-                                        String password = _passwordTxt.getText().toString();
-                                        if (email.isEmpty() && password.isEmpty()) {
-                                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-                                                    .show();
-                                            return;
                                         }
-                                        UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-                                        Call<UserResponse> call = userClient.login(email, password);
-                                        //---------------------
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            //Setting the title manually
+                            alert.setTitle("Cetak Ulang Tagihan?");
+                            alert.show();
+                        }
 
-                                        call.enqueue(new Callback<UserResponse>() {
-                                            @Override
-                                            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                                                UserResponse res = response.body();
-                                                //_loginProgress.setVisibility(View.GONE);
-                                                res.displayMessage(requireActivity());
-                                                if (res.isOkay()) {
-                                                    User userCek = res.getUser();
-                                                    if (UserAuthRole.isAllowReprintBill(userCek)) {
-                                                        otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
-                                                            if (Boolean.TRUE.equals(data.getState())){
-                                                                boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
-                                                                if (statusPrint){
-                                                                    ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+                        else{
+                            //hari ini
+                            otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), dataApproval -> {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
+                                boolean kasirApproval = dataApproval.getState();
+                                if (kasirApproval) {
+                                    builder.setMessage(R.string.ask_reprint_bill);
+                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
+                                                if (Boolean.TRUE.equals(data.getState())){
+                                                    boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                    if (statusPrint){
+                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+                                                    }
+                                                }else{
+                                                    Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+
+                                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    });
+                                    AlertDialog dialogReprintBill = builder.create();
+                                    dialogReprintBill.show();
+                                } else {
+                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+                                    LayoutInflater dialogInflater = this.getLayoutInflater();
+                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+                                    dialogBuilder.setView(dialogView);
+                                    dialogBuilder.setCancelable(false);
+                                    AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+                                    AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+
+                                    EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+                                    EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+                                    AlertDialog alertDialog = dialogBuilder.create();
+
+                                    alertDialog.setOnShowListener(dialogInterface -> {
+                                        buttonOk.setOnClickListener(it -> {
+                                            String email = _usernameTxt.getText().toString();
+                                            String password = _passwordTxt.getText().toString();
+                                            if (email.isEmpty() && password.isEmpty()) {
+                                                Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                                        .show();
+                                                return;
+                                            }
+                                            UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                                            Call<UserResponse> call = userClient.login(email, password);
+                                            //---------------------
+
+                                            call.enqueue(new Callback<UserResponse>() {
+                                                @Override
+                                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                                    UserResponse res = response.body();
+                                                    //_loginProgress.setVisibility(View.GONE);
+                                                    res.displayMessage(requireActivity());
+                                                    if (res.isOkay()) {
+                                                        User userCek = res.getUser();
+                                                        if (UserAuthRole.isAllowReprintBill(userCek)) {
+                                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
+                                                                if (Boolean.TRUE.equals(data.getState())){
+                                                                    boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                                    if (statusPrint){
+                                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
+                                                                    }
+                                                                }else{
+                                                                    Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
                                                                 }
-                                                            }else{
-                                                                Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
-                                                            }
-                                                        });
+                                                            });
 
-                                                    } else {
-                                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-                                                                .show();
+                                                        } else {
+                                                            Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                                    .show();
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onFailure(Call<UserResponse> call, Throwable t) {
-                                                //_loginProgress.setVisibility(View.GONE);
-                                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-                                                        .show();
-                                            }
+                                                @Override
+                                                public void onFailure(Call<UserResponse> call, Throwable t) {
+                                                    //_loginProgress.setVisibility(View.GONE);
+                                                    Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                                            .show();
+                                                }
+                                            });
+                                            alertDialog.dismiss();
+                                            //---------------------
                                         });
-                                        alertDialog.dismiss();
-                                        //---------------------
+                                        buttonCancel.setOnClickListener(it -> {
+                                            alertDialog.dismiss();
+                                        });
                                     });
-                                    buttonCancel.setOnClickListener(it -> {
-                                        alertDialog.dismiss();
-                                    });
-                                });
-                                alertDialog.show();
-                            }
-                        });
-                        //hari ini
+                                    alertDialog.show();
+                                }
+                            });
+                            //hari ini
+                        }
+
+                    }else{
+                        Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
                     }
-
-                }else{
-                    Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-
+                });
+            }
 
 ////Print NodeJS
 
@@ -512,10 +517,12 @@ public class InvoiceFragment extends Fragment {
 
             //Print POS LORONG
 
-//            GlobalBus.getBus()
-//                    .post(new EventsWrapper
-//                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));
-            });
+            if (statusPrint == 2 || statusPrint ==3) {
+            GlobalBus.getBus()
+                    .post(new EventsWrapper
+                            .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));
+            }
+        });
     }
 
     private void addDetailInventoryOrder() {
