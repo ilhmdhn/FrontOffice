@@ -20,10 +20,13 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 class Printer {
 
+    var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+
     val ihpRepository = IhpRepository()
     fun printBill(billData: PrintBillDataResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
-            val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+            printer.disconnectPrinter()
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             val selling = StringBuilder()
             val cancelOrder = StringBuilder()
             val promoFnB = StringBuilder()
@@ -136,7 +139,6 @@ class Printer {
                         "\n[R]${currentDate} ${user}"+
                         transferBill
             )
-            printer.disconnectPrinter()
             return true
         } catch (e: java.lang.Exception) {
             Toast.makeText(context, "Mosok kene" + e.toString(), Toast.LENGTH_SHORT).show()
@@ -148,7 +150,8 @@ class Printer {
     fun printInvoice(invoiceData: PrintInvoiceDataResponse, context: Context, user: String, isCopies: Boolean = false): Boolean{
 
         try {
-            val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+            printer.disconnectPrinter()
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
             val selling = StringBuilder()
             val cancelOrder = StringBuilder()
             val promoFnB = StringBuilder()
@@ -224,7 +227,7 @@ class Printer {
             }
 
             if (invoiceData.data?.dataBillTransferOnInvoice != null){
-                for(i in invoiceData?.data.dataBillTransferOnInvoice.indices){
+                for(i in invoiceData.data.dataBillTransferOnInvoice.indices){
                     transferBill.append(transferPrint(invoiceData.data.dataBillTransferOnInvoice[i], user))
                 }
             }
@@ -268,7 +271,6 @@ class Printer {
                         "[L]<font size='wide'><b>Kembali ${utils.getCurrency(totalPayment - jumlahBersih.toLong())}</b></font>"+
                         transferBill
             )
-            printer.disconnectPrinter()
             return true
         }catch(e: java.lang.Exception){
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
@@ -277,6 +279,9 @@ class Printer {
     }
 
     fun transferPrint(dataTransfer: DataPrintTransfer?, user: String): String{
+
+        Log.d("sampai sini loh", dataTransfer?.dataRoom?.ruangan.toString())
+
         val transferData: String
 
         val selling = StringBuilder()

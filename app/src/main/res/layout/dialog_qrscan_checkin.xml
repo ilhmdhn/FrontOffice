@@ -58,10 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:importantForAutofill="no"
-            android:textCursorDrawable="@drawable/cursor_blue"
+            android:inputType="number"
             android:textColor="@color/dark_primary_text"
             android:textColorHint="@color/dark_primary_text"
-            android:inputType="textCapCharacters"
+            android:textCursorDrawable="@drawable/cursor_blue"
             tools:ignore="LabelFor" />
     </com.google.android.material.textfield.TextInputLayout>
 
