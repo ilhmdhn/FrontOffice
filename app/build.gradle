@@ -7,13 +7,13 @@ apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
 
 android {
-    compileSdkVersion 32
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.ihp.frontoffice"
         minSdkVersion 24
-        targetSdkVersion 32
-        versionCode 2
-        versionName "2.0"
+        targetSdkVersion 33
+        versionCode 3
+        versionName "2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -119,7 +119,7 @@ dependencies {
 
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.1'
     implementation 'com.google.firebase:firebase-perf-ktx'
 
     //pos print

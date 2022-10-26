@@ -64,5 +64,15 @@
                 tools:layout_editor_absoluteX="152dp"
                 tools:layout_editor_absoluteY="45dp" />
         </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_dc_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disconnect Printer"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintTop_toTopOf="@+id/button" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

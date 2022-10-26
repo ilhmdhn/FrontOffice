@@ -10,25 +10,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.Room;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
 import com.ihp.frontoffice.helper.AppUtils;
+import com.ihp.frontoffice.helper.DataUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ListOperasionalCheckinRoomAdapter extends RecyclerView.Adapter<ListOperasionalCheckinRoomAdapter.RoomViewHolder> {
     private final LayoutInflater layoutInflater;
-    private final Context context;
-    private List<Room> roomList;
+    private final List<Room> roomList;
 
     public ListOperasionalCheckinRoomAdapter(Context context, ArrayList<Room> roomArrayList) {
         this.layoutInflater = LayoutInflater.from(context);
-        this.context = context;
         this.roomList = roomArrayList;
     }
 

@@ -1,7 +1,9 @@
 package com.ihp.frontoffice.helper
 
+import com.ihp.frontoffice.data.entity.Room
 import java.text.NumberFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 object utils {
     fun getCurrency(nilai: Long?): String{
@@ -14,5 +16,11 @@ object utils {
         formatRupiah.format(nilai).replace(" ".toRegex(), "")
         return formatRupiah.format(nilai).replace("Rp".toRegex(), "")
 //        return formatRupiah.format(nilai).toString()
+    }
+
+    fun filterBilled(arrayListData: ArrayList<Room>): ArrayList<Room>{
+        val listData = ArrayList<Room>()
+        listData.addAll(arrayListData.filter{it.statusPrinter == "0"})
+        return listData
     }
 }

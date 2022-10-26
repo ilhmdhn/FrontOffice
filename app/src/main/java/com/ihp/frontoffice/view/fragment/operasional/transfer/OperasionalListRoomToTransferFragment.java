@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ihp.frontoffice.helper.DataUtils;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -190,7 +191,13 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalCheckinRoomAdapter(getContext(), p.getCurrentData(page));
+
+        //filterBilled
+        DataUtils dataUtils = new DataUtils();
+        ArrayList<Room> filteredData = dataUtils.filterBilled(p.getCurrentData(page));
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), filteredData);
+
+//        roomAdapter = new ListOperasionalCheckinRoomAdapter(getContext(), p.getCurrentData(page));
         roomRecyclerView.setAdapter(roomAdapter);
         roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         roomAdapter.notifyDataSetChanged();

@@ -24,6 +24,14 @@ public class Room implements Serializable {
     @SerializedName("kapasitas")
     private int roomCapacity;
 
+    @ColumnInfo(name = "room_alias")
+    @SerializedName("room_alias")
+    private String roomAlias;
+
+
+    @SerializedName("statusPrinter")
+    private String statusPrinter;
+
     @ColumnInfo(name = "room_state")
     @SerializedName("status_kamar")
     private int roomState;
@@ -318,6 +326,10 @@ public class Room implements Serializable {
         return qm1;
     }
 
+    public String getStatusPrinter(){
+        return statusPrinter;
+    }
+
     public int getQm2() {
         return qm2;
     }
@@ -344,6 +356,10 @@ public class Room implements Serializable {
 
     public int getQf4() {
         return qf4;
+    }
+
+    public String getAlias(){
+        return roomAlias;
     }
 
     public String getTotalVisitor() {

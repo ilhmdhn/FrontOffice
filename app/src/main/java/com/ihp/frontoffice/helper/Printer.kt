@@ -4,11 +4,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
-import com.dantsu.escposprinter.textparser.PrinterTextParserImg
-import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataPrintTransfer
 import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
 import com.ihp.frontoffice.data.remote.respons.PrintInvoiceDataResponse
@@ -20,9 +17,45 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 class Printer {
 
-    var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+    private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
 
-    val ihpRepository = IhpRepository()
+    fun disconnectPrinter(){
+        printer.disconnectPrinter()
+    }
+
+    fun testPrint(){
+        printer.disconnectPrinter()
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+        printer.printFormattedText(
+//                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.ic_baseline_fastfood_24, DisplayMetrics.DENSITY_MEDIUM))+"</img>\n" +
+            "[L]\n" +
+                    "[C]================================\n"+
+                    "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
+                    "[L]\n" +
+                    "[L]\n" +
+                    "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
+                    "[L]  + Size : S\n" +
+                    "[L]\n" +
+                    "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
+                    "[L]  + Size : 57/58\n" +
+                    "[L]\n" +
+                    "[C]--------------------------------\n" +
+                    "[R]TOTAL PRICE :[R]34.98e\n" +
+                    "[R]TAX :[R]4.23e\n" +
+                    "[L]\n" +
+                    "[C]================================\n" +
+                    "[L]\n" +
+                    "[L]<font size='tall'>Customer :</font>\n" +
+                    "[L]Raymond DUPONT\n" +
+                    "[L]5 rue des girafes\n" +
+                    "[L]31547 PERPETES\n" +
+                    "[L]Tel : +33801201456\n" +
+                    "[L]\n" +
+                    "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
+                    "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
+        )
+    }
+
     fun printBill(billData: PrintBillDataResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             printer.disconnectPrinter()
@@ -280,8 +313,6 @@ class Printer {
 
     fun transferPrint(dataTransfer: DataPrintTransfer?, user: String): String{
 
-        Log.d("sampai sini loh", dataTransfer?.dataRoom?.ruangan.toString())
-
         val transferData: String
 
         val selling = StringBuilder()
@@ -355,7 +386,7 @@ class Printer {
                 "[C]${dataTransfer?.dataOutlet?.alamatOutlet}\n" +
                 "[C]${dataTransfer?.dataOutlet?.kota}\n" +
                 "[C]${dataTransfer?.dataOutlet?.telepon}\n" +
-                "\n[C]Transfer Data\n\n" +
+                "\n[C]Transfer Room\n\n" +
                 "[L]Ruangan : ${dataTransfer?.dataRoom?.ruangan}\n" +
                 "[L]Nama    : ${dataTransfer?.dataRoom?.nama}\n" +
                 "[L]Tanggal : ${dataTransfer?.dataRoom?.tanggal}\n" +
@@ -387,5 +418,13 @@ class Printer {
                 "\n[R]${currentDate} ${user}"
 
         return transferData
+    }
+
+    fun printerKas():Boolean{
+        try {
+            return true
+        }catch(error: java.lang.Exception){
+            return false
+        }
     }
 }

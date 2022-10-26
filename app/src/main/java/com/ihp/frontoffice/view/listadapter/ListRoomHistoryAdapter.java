@@ -73,10 +73,14 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder holder, int position) {
         Room room = roomList.get(position);
+        StringBuilder alias = new StringBuilder();
         final RoomViewHolder roomViewHolder = (RoomViewHolder) holder;
         roomViewHolder.setGone();
         roomViewHolder.setRoom(room);
-        roomViewHolder._roomKode.setText(room.getRoomCode());
+        if (room.getAlias() != null){
+            alias.append(" ("+room.getAlias()+")");
+        }
+        roomViewHolder._roomKode.setText(room.getRoomCode() + alias);
         roomViewHolder._roomTipe.setText(room.getRoomType());
         roomViewHolder._checkinTime.setText(AppUtils.getTanggal(room.getRoomCheckinHours()));
         roomViewHolder._checkoutTime.setText(AppUtils.getTanggal(room.getRoomCheckoutHours()));
@@ -284,6 +288,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
             });
 
             btnReprintInvoice.setOnClickListener(view ->{
+                Log.d("isinya apa ajaa", "");
                 context = itemView.getContext();
                 String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
                 String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();

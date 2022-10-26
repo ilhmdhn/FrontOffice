@@ -20,12 +20,14 @@ import com.ihp.frontoffice.R
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.Printer
 import es.dmoral.toasty.Toasty
 
 class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
+    private val printer = Printer()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -44,6 +46,10 @@ class SettingFragment : Fragment() {
 
         binding.button.setOnClickListener {
             testPrint()
+        }
+
+        binding.btnDcPrint.setOnClickListener {
+            printer.disconnectPrinter()
         }
 
         val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
@@ -88,35 +94,7 @@ class SettingFragment : Fragment() {
         }
 
         try {
-            val printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
-            printer.printFormattedText(
-//                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.ic_baseline_fastfood_24, DisplayMetrics.DENSITY_MEDIUM))+"</img>\n" +
-                "[L]\n" +
-                        "[C]================================\n"+
-                        "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-                        "[L]\n" +
-                        "[L]\n" +
-                        "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-                        "[L]  + Size : S\n" +
-                        "[L]\n" +
-                        "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-                        "[L]  + Size : 57/58\n" +
-                        "[L]\n" +
-                        "[C]--------------------------------\n" +
-                        "[R]TOTAL PRICE :[R]34.98e\n" +
-                        "[R]TAX :[R]4.23e\n" +
-                        "[L]\n" +
-                        "[C]================================\n" +
-                        "[L]\n" +
-                        "[L]<font size='tall'>Customer :</font>\n" +
-                        "[L]Raymond DUPONT\n" +
-                        "[L]5 rue des girafes\n" +
-                        "[L]31547 PERPETES\n" +
-                        "[L]Tel : +33801201456\n" +
-                        "[L]\n" +
-                        "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-                        "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
-            )
+            printer.testPrint()
         }catch (e: java.lang.Exception){
             Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show()
             Log.e("error", e.toString())

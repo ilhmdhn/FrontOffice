@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ihp.frontoffice.helper.DataUtils;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -186,7 +187,6 @@ public class OperasionalListRoomToExtendFragment extends Fragment {
                 bindData(currentPage);
 
             }
-
             progressBar.setVisibility(View.GONE);
         });
     }
@@ -216,14 +216,20 @@ public class OperasionalListRoomToExtendFragment extends Fragment {
             buttonNext.setEnabled(true);
             buttonPrevious.setEnabled(true);
         }
-
     }
 
     private void bindData(int page) {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), p.getCurrentData(page));
+
+        //filterBilled
+        DataUtils dataUtils = new DataUtils();
+        ArrayList<Room> filteredData = dataUtils.filterBilled(p.getCurrentData(page));
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), filteredData);
+
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), filteredData);
+        //roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), p.getCurrentData(page));
         roomRecyclerView.setAdapter(roomAdapter);
         roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();

@@ -40,7 +40,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val url = (this@MyFirebaseMessagingService.applicationContext as MyApp).baseUrl
         val user = (this@MyFirebaseMessagingService.applicationContext as MyApp).userFo
 
-        if (!url.isNullOrEmpty()){
+        if (!url.isEmpty()){
             ihpRepository.insertToken(this@MyFirebaseMessagingService, url, token, user.userId, user.levelUser)
         } else{
             return onNewToken(token)
