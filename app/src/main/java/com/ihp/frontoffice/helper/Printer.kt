@@ -2,14 +2,16 @@ package com.ihp.frontoffice.helper
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
+import com.dantsu.escposprinter.textparser.PrinterTextParserImg
+import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataPrintTransfer
 import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
 import com.ihp.frontoffice.data.remote.respons.PrintInvoiceDataResponse
-import com.ihp.frontoffice.data.repository.IhpRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,36 +25,17 @@ class Printer {
         printer.disconnectPrinter()
     }
 
-    fun testPrint(){
+    fun testPrint(context: Context){
         printer.disconnectPrinter()
         printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
         printer.printFormattedText(
-//                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, this.getApplicationContext().getResources().getDrawableForDensity(R.drawable.ic_baseline_fastfood_24, DisplayMetrics.DENSITY_MEDIUM))+"</img>\n" +
             "[L]\n" +
+                    "[C]PRINTER TEST PAGE\n" +
+                    "[C]Printer Work Normally\n" +
                     "[C]================================\n"+
-                    "[C]<u><font size='big'>ORDER N°045</font></u>\n" +
-                    "[L]\n" +
-                    "[L]\n" +
-                    "[L]<b>BEAUTIFUL SHIRT</b>[R]9.99e\n" +
-                    "[L]  + Size : S\n" +
-                    "[L]\n" +
-                    "[L]<b>AWESOME HAT</b>[R]24.99e\n" +
-                    "[L]  + Size : 57/58\n" +
-                    "[L]\n" +
-                    "[C]--------------------------------\n" +
-                    "[R]TOTAL PRICE :[R]34.98e\n" +
-                    "[R]TAX :[R]4.23e\n" +
-                    "[L]\n" +
-                    "[C]================================\n" +
-                    "[L]\n" +
-                    "[L]<font size='tall'>Customer :</font>\n" +
-                    "[L]Raymond DUPONT\n" +
-                    "[L]5 rue des girafes\n" +
-                    "[L]31547 PERPETES\n" +
-                    "[L]Tel : +33801201456\n" +
-                    "[L]\n" +
-                    "[C]<barcode type='ean13' height='10'>831254784551</barcode>\n" +
-                    "[C]<qrcode size='20'>http://www.developpeur-web.dantsu.com/</qrcode>"
+                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                R.drawable.puppy_icon, DisplayMetrics.DENSITY_MEDIUM))+"</img>\n"+
+                    "[L]\n\n\n"
         )
     }
 

@@ -94,7 +94,7 @@ class SettingFragment : Fragment() {
         }
 
         try {
-            printer.testPrint()
+            printer.testPrint(requireActivity())
         }catch (e: java.lang.Exception){
             Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show()
             Log.e("error", e.toString())

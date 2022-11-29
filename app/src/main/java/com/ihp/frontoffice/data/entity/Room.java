@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Room implements Serializable {
 
-    private static final long serialVersionUID = -9176475615850942210L;
+//    private static final long serialVersionUID = -9176475615850942210L;
 
     @ColumnInfo(name = "room_number")
     @SerializedName("kamar")
@@ -29,7 +29,7 @@ public class Room implements Serializable {
     private String roomAlias;
 
 
-    @SerializedName("statusPrinter")
+    @SerializedName("status_print")
     private String statusPrinter;
 
     @ColumnInfo(name = "room_state")
