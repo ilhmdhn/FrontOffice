@@ -19,7 +19,7 @@ import java.util.*
 @SuppressLint("SimpleDateFormat")
 class Printer {
 
-    private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+    private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
 
     fun disconnectPrinter(){
         printer.disconnectPrinter()
@@ -27,7 +27,8 @@ class Printer {
 
     fun testPrint(context: Context){
         printer.disconnectPrinter()
-        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
         printer.printFormattedText(
             "[L]\n" +
                     "[C]PRINTER TEST PAGE\n" +
@@ -42,7 +43,7 @@ class Printer {
     fun printBill(billData: PrintBillDataResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
             val selling = StringBuilder()
             val cancelOrder = StringBuilder()
             val promoFnB = StringBuilder()
@@ -167,7 +168,7 @@ class Printer {
 
         try {
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 48f, 32)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
             val selling = StringBuilder()
             val cancelOrder = StringBuilder()
             val promoFnB = StringBuilder()
