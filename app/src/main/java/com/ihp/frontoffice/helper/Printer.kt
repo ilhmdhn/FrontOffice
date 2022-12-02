@@ -223,9 +223,8 @@ class Printer {
                     cancelOrder.append("[L]${invoiceData.data.cancelOrderData[i]?.jumlah} x ${utils.getCurrency(invoiceData.data.cancelOrderData[i]?.harga?.toLong())} [R](${utils.getCurrency(invoiceData.data.cancelOrderData[i]?.total?.toLong())})\n")
                 }
             }
-
             if (invoiceData.data?.promoOrderData != null){
-                promoFnB.append("\n[L]${invoiceData.data.promoOrderData.promo}[R](${invoiceData.data.promoOrderData.totalPromo})\n")
+                promoFnB.append("\n[L]${invoiceData.data.promoOrderData.promo}[R](${utils.getCurrency(invoiceData.data.promoOrderData.totalPromo?.toLong())})\n")
             }
 
             if (invoiceData.data?.transferListData != null){
@@ -285,7 +284,7 @@ class Printer {
                         "[R]Jumlah Bersih [R]${utils.getCurrency(jumlahBersih.toLong())}\n\n"+
                         paymentList+
                         "[R]-------------\n"+
-                        "[L]<font size='wide'><b>Kembali ${utils.getCurrency(totalPayment - jumlahBersih.toLong())}</b></font>"+
+                        "[L]<font size='wide'><b>Kembali [R]${utils.getCurrency(totalPayment - jumlahBersih.toLong())}</b></font>"+
                         transferBill
             )
             return true
