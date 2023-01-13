@@ -16,6 +16,15 @@ data class StatusKasResponse(
 
 data class DataStatusKas(
 
+		@field:SerializedName("outlet_name")
+		val outletName: String? = "",
+		@field:SerializedName("outlet_address")
+		val outletAddress: String? = "",
+		@field:SerializedName("outlet_telephone")
+		val outletPhone: String? = "",
+		@field:SerializedName("outlet_city")
+		val outletCity: String? = "",
+
 	@field:SerializedName("jumlah_tamu_piutang")
 	val jumlahTamuPiutang: Long? = 0,
 

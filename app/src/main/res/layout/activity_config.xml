@@ -48,7 +48,7 @@
                 android:id="@+id/txt_server_ip"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
+                android:inputType="number|text"
                 android:textCursorDrawable="@drawable/cursor_blue" />
         </com.google.android.material.textfield.TextInputLayout>
 

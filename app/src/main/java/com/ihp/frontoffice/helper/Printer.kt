@@ -10,13 +10,13 @@ import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataPrintTransfer
+import com.ihp.frontoffice.data.remote.respons.DataStatusKas
 import com.ihp.frontoffice.data.remote.respons.PrintBillDataResponse
 import com.ihp.frontoffice.data.remote.respons.PrintInvoiceDataResponse
 import java.text.SimpleDateFormat
 import java.util.*
 
 
-@SuppressLint("SimpleDateFormat")
 class Printer {
 
     private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
@@ -27,7 +27,6 @@ class Printer {
 
     fun testPrint(context: Context){
         printer.disconnectPrinter()
-        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
         printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
         printer.printFormattedText(
             "[L]\n" +
@@ -403,8 +402,39 @@ class Printer {
         return transferData
     }
 
-    fun printerKas():Boolean{
+    fun printerKas(Shift: Int, data: DataStatusKas):Boolean{
         try {
+            printer.disconnectPrinter()
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+
+            printer.printFormattedText(
+                    "\n\n[C]\n"+
+                    "[C]${data.outletName}\n"+
+                    "[C]${data.outletAddress}\n"+
+                    "[C]${data.outletCity}\n"+
+                    "[C]${data.outletPhone}\n"+
+                    "\n"+
+                    "[L]Shift $Shift[R]${data.tanggal}\n"+
+                    "[L]Kamar[R]${utils.getCurrency(data.jumlahNilaiKamar)}\n"+
+                    "[L]Makanan & Minuman[R]${utils.getCurrency(data.makananMinuman)}\n"+
+                    "[L]UM Reservasi[R]${utils.getCurrency(data.totalHutangReservasi)}\n"+
+                    "[L]Pendapatan Lain[R]${utils.getCurrency(data.jumlahPendapatanLain)}\n"+
+                    "[R]---------------\n"+
+                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
+                    "[R]===============\n"+
+                    "[L]Poin Membership[R]${utils.getCurrency(data.jumlahPembayaranPoinMembership)}\n"+
+                    "[L]E Money[R]${utils.getCurrency(data.jumlahPembayaranEmoney)}\n"+
+                    "[L]Transfer[R]${utils.getCurrency(data.jumlahPembayaranTransfer)}\n"+
+                    "[L]Cash[R]${utils.getCurrency(data.jumlahPembayaranCash)}\n"+
+                    "[L]Credit Card[R]${utils.getCurrency(data.jumlahPembayaranCreditCard)}\n"+
+                    "[L]Debet Card[R]${utils.getCurrency(data.jumlahPembayaranDebetCard)}\n"+
+                    "[L]Voucher[R]${utils.getCurrency(data.jumlahPembayaranVoucher)}\n"+
+                    "[L]Piutang[R]${utils.getCurrency(data.jumlahPembayaranPiutang)}\n"+
+                    "[L]Entertainment[R]${utils.getCurrency(data.jumlahPembayaranComplimentary)}\n"+
+                    "[R]---------------\n"+
+                    "[L]Setoran[R]${utils.getCurrency(data.totalPembayaran)}\n"+
+                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"
+            )
             return true
         }catch(error: java.lang.Exception){
             return false

@@ -64,8 +64,6 @@ public class LoginActivity extends AppCompatActivity {
         HideKey.initialize(this);
         BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
 
-       /* _usernameTxt.setText("AIN");
-        _passwordTxt.setText("AI1");*/
         _loginButton.setOnClickListener(v -> {
             if (!isBaseURLset()) {
                 return;
