@@ -51,7 +51,7 @@ class Printer {
             var totalTransfer = 0
             val biayaLain = StringBuilder()
             val transferBill = StringBuilder()
-            val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+            val sdf = SimpleDateFormat("dd/M/yyyy HH:MM")
             val currentDate = sdf.format(Date())
 
             if (isCopies){
@@ -304,7 +304,7 @@ class Printer {
         val copies = StringBuilder()
         var totalTransfer = 0
         val biayaLain = StringBuilder()
-        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm")
+        val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
         val currentDate = sdf.format(Date())
 
         if (dataTransfer?.dataInvoice?.overpax !=null && dataTransfer.dataInvoice.overpax > 0){
@@ -402,11 +402,12 @@ class Printer {
         return transferData
     }
 
-    fun printerKas(Shift: Int, data: DataStatusKas):Boolean{
+    fun printerKas(Shift: Int, data: DataStatusKas, chusr: String):Boolean{
         try {
             printer.disconnectPrinter()
             printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-
+            val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
+            val currentDate = sdf.format(Date())
             printer.printFormattedText(
                     "\n\n[C]\n"+
                     "[C]${data.outletName}\n"+
@@ -433,7 +434,8 @@ class Printer {
                     "[L]Entertainment[R]${utils.getCurrency(data.jumlahPembayaranComplimentary)}\n"+
                     "[R]---------------\n"+
                     "[L]Setoran[R]${utils.getCurrency(data.totalPembayaran)}\n"+
-                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"
+                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
+                    "\n[R]$currentDate $chusr\n"
             )
             return true
         }catch(error: java.lang.Exception){

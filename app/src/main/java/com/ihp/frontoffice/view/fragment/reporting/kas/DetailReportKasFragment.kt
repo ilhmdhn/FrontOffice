@@ -109,7 +109,7 @@ class DetailReportKasFragment : Fragment() {
             builder.setMessage(R.string.print_kas)
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
             //    ihpRepository.printKas(url, tanggal, shift, chusr, requireActivity())
-                dataKas.dataStatusKas?.let { it1 -> Printer().printerKas(shift.toInt(), it1) }
+                dataKas.dataStatusKas?.let { it1 -> Printer().printerKas(shift.toInt(), it1, chusr) }
             }
 
             builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
