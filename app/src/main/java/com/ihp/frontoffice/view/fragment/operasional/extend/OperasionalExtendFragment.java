@@ -252,8 +252,7 @@ public class OperasionalExtendFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MemberResponse> call, Throwable t) {
-
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
