@@ -147,6 +147,7 @@ public class OperasionalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
+
         BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         user = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
 

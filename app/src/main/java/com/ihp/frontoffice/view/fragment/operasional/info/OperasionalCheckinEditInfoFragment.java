@@ -1830,6 +1830,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
             isMemberScanActive = false;
         } else if (isVoucherScanActive) {
+            Toast.makeText(requireActivity(), "isVoucherScanActive", Toast.LENGTH_SHORT).show();
             if (scanResult.getData() != null) {
                 buttonScanQRCodeVoucher.setVisibility(View.GONE);
                 buttonResetCodeVoucher.setVisibility(View.VISIBLE);
