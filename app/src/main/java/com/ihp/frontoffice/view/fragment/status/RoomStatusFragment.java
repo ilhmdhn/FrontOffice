@@ -112,7 +112,7 @@ public class RoomStatusFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         progressBar.setVisibility(View.VISIBLE);
 
 
@@ -173,10 +173,10 @@ public class RoomStatusFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
-        roomTypeViewModel = new ViewModelProvider(getActivity())
+        roomTypeViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomTypeViewModel.class);
         roomTypeViewModel.init(BASE_URL);
 
@@ -223,9 +223,9 @@ public class RoomStatusFragment extends Fragment {
 
     private void setupRoomRecyclerView() {
         if (roomCinAdapter == null) {
-            roomCinAdapter = new ListRoomStatusAdapter(getContext(), roomArrayList);
+            roomCinAdapter = new ListRoomStatusAdapter(requireActivity(), roomArrayList);
             roomCinRecyclerView.setAdapter(roomCinAdapter);
-            roomCinRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+            roomCinRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 1));
 
         } else {
             roomCinAdapter.notifyDataSetChanged();
@@ -238,8 +238,8 @@ public class RoomStatusFragment extends Fragment {
         refreshRecyclerView();
         roomViewModel
                 .getRoomCheckinByType(roomCodeParam, roomCodeParam, roomTypeParam, roomCapacityParam)
-                .observe(getActivity(), roomResponse -> {
-                    roomResponse.displayMessage(getContext());
+                .observe(getViewLifecycleOwner(), roomResponse -> {
+                    roomResponse.displayMessage(requireActivity());
                     swipeContainer.setRefreshing(false);
                     if (roomResponse.isOkay()) {
                         roomArrayList.clear();
@@ -253,9 +253,9 @@ public class RoomStatusFragment extends Fragment {
     }
 
     private void reloadRecyclerView() {
-        roomCinAdapter = new ListRoomStatusAdapter(getContext(), roomArrayList);
+        roomCinAdapter = new ListRoomStatusAdapter(requireActivity(), roomArrayList);
         roomCinRecyclerView.setAdapter(roomCinAdapter);
-        roomCinRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        roomCinRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 1));
         roomCinAdapter.notifyDataSetChanged();
     }
 

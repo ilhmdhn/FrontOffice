@@ -163,7 +163,7 @@ public class RoomOrderPromoInventoryFragment extends Fragment {
         listPromoInventory = (ArrayList<InventoryPromo>) roomOrder.getInventoryPromos();
         if (listPromoInventory.size() > 0) {
             if (null == listPromoInventoryAdapter) {
-                listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), listPromoInventory);
+                listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), listPromoInventory);
                 detailListViewPromoInventory.setAdapter(listPromoInventoryAdapter);
             }
 

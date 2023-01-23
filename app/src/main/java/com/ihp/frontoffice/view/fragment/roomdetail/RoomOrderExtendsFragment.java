@@ -173,7 +173,7 @@ public class RoomOrderExtendsFragment extends Fragment {
         listRoomOrderExtend = (ArrayList<Room>) roomOrder.getOrderRoomExtends();
         if (listRoomOrderExtend.size() > 0) {
             if (null == listDetailRoomOrderExtendAdapter) {
-                listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(getContext(), listRoomOrderExtend);
+                listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(requireActivity(), listRoomOrderExtend);
                 detailListViewRoomOrderExtend.setAdapter(listDetailRoomOrderExtendAdapter);
 
             }

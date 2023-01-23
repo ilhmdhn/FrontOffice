@@ -150,8 +150,8 @@ public class ListRoomFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         progressBar.setVisibility(View.VISIBLE);
         materialButtonToggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
@@ -258,10 +258,10 @@ public class ListRoomFragment extends Fragment {
             }
         });
 
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
-        roomTypeViewModel = new ViewModelProvider(getActivity())
+        roomTypeViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomTypeViewModel.class);
         roomTypeViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
@@ -282,9 +282,9 @@ public class ListRoomFragment extends Fragment {
         super.onResume();
         allRoomSetupData();
 
-        roomAdapter = new ListRoomAdapter(getContext(), roomArrayList);
+        roomAdapter = new ListRoomAdapter(requireActivity(), roomArrayList);
         roomRecyclerView.setAdapter(roomAdapter);
-        roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+        roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 1));
 
         roomAdapter.notifyDataSetChanged();
 
@@ -311,13 +311,13 @@ public class ListRoomFragment extends Fragment {
         roomTypeArrayList.clear();
         roomTypeViewModel
                 .getRoomTypeLiveData()
-                .observe(getActivity(), roomTypeRespon -> {
+                .observe(getViewLifecycleOwner(), roomTypeRespon -> {
                     if (roomTypeRespon.isOkay()) {
                         List<RoomType> roomTypes = roomTypeRespon.getRoomTypes();
                         roomTypeArrayList.addAll(roomTypes);
                         setupChipGroup();
                     } else {
-                        roomTypeRespon.displayMessage(getContext());
+                        roomTypeRespon.displayMessage(requireActivity());
                     }
                 });
 
@@ -326,13 +326,13 @@ public class ListRoomFragment extends Fragment {
     private void readyRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomReady().observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomReady().observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
                 roomAdapter.notifyDataSetChanged();
             } else {
-                roomResponse.displayMessage(getContext());
+                roomResponse.displayMessage(requireActivity());
                 allRoomSetupData();
 
             }
@@ -344,13 +344,13 @@ public class ListRoomFragment extends Fragment {
     private void checkinRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomCheckin("").observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckin("").observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
                 roomAdapter.notifyDataSetChanged();
             } else {
-                roomResponse.displayMessage(getContext());
+                roomResponse.displayMessage(requireActivity());
                 allRoomSetupData();
             }
 
@@ -361,13 +361,13 @@ public class ListRoomFragment extends Fragment {
     private void paidRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomPaid(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomPaid(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
                 roomAdapter.notifyDataSetChanged();
             } else {
-                roomResponse.displayMessage(getContext());
+                roomResponse.displayMessage(requireActivity());
                 allRoomSetupData();
             }
 
@@ -378,14 +378,14 @@ public class ListRoomFragment extends Fragment {
     private void cleanRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomCheckout(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckout(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             if (roomResponse.isOkay()) {
-                roomResponse.displayMessage(getContext());
+                roomResponse.displayMessage(requireActivity());
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
                 roomAdapter.notifyDataSetChanged();
             } else {
-                roomResponse.displayMessage(getContext());
+                roomResponse.displayMessage(requireActivity());
                 allRoomSetupData();
 
             }
@@ -400,8 +400,8 @@ public class ListRoomFragment extends Fragment {
         refreshRecyclerView();
         roomViewModel
                 .getAllRoom(cariData)
-                .observe(getActivity(), roomResponse -> {
-                    roomResponse.displayMessage(getContext());
+                .observe(getViewLifecycleOwner(), roomResponse -> {
+                    roomResponse.displayMessage(requireActivity());
                     if (roomResponse.isOkay()) {
                         List<Room> listRoom = roomResponse.getRooms();
                         roomArrayList.addAll(listRoom);
@@ -415,8 +415,8 @@ public class ListRoomFragment extends Fragment {
     private void roomByTypeSetupData(RoomType roomType) {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
-        roomViewModel.getRoomByType(roomType).observe(getActivity(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+        roomViewModel.getRoomByType(roomType).observe(getViewLifecycleOwner(), roomResponse -> {
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);
@@ -435,9 +435,9 @@ public class ListRoomFragment extends Fragment {
 
     private void setupRoomRecyclerView() {
         if (roomAdapter == null) {
-            roomAdapter = new ListRoomAdapter(getContext(), roomArrayList);
+            roomAdapter = new ListRoomAdapter(requireActivity(), roomArrayList);
             roomRecyclerView.setAdapter(roomAdapter);
-            roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
+            roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 1));
         } else {
             roomAdapter.notifyDataSetChanged();
         }
@@ -446,7 +446,7 @@ public class ListRoomFragment extends Fragment {
     private void setupChipGroup() {
         chipGroupRoomType.removeAllViews();
         for (RoomType roomType : roomTypeArrayList) {
-            final Chip chip = new Chip(getContext());
+            final Chip chip = new Chip(requireActivity());
 
             int paddingDp = (int) TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP, 2,
@@ -482,7 +482,7 @@ public class ListRoomFragment extends Fragment {
 
     private void checkoutRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(requireActivity());
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_checkout_room, null);
         dialogBuilder.setView(dialogView);
@@ -526,7 +526,7 @@ public class ListRoomFragment extends Fragment {
                             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                                 progressBar.setVisibility(View.GONE);
                                 RoomOrderResponse res = response.body();
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     paidRoomSetupData();
                                 }
@@ -536,7 +536,7 @@ public class ListRoomFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 alertDialog.dismiss();
                             }
@@ -551,7 +551,7 @@ public class ListRoomFragment extends Fragment {
 
     private void cleanRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new AlertDialog.Builder(requireActivity());
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_clean_room, null);
         dialogBuilder.setView(dialogView);
@@ -580,7 +580,7 @@ public class ListRoomFragment extends Fragment {
                             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                                 progressBar.setVisibility(View.GONE);
                                 RoomOrderResponse res = response.body();
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     cleanRoomSetupData();
                                 }
@@ -591,7 +591,7 @@ public class ListRoomFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 alertDialog.dismiss();
                             }

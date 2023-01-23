@@ -326,7 +326,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
             @Override
             public void handleOnBackPressed() {
                 // Handle the back button event
-                Toasty.warning(getContext(), "Mohon Lengkapi Data", Toasty.LENGTH_SHORT).show();
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Data", Toasty.LENGTH_SHORT).show();
                 return;
             }
         };
@@ -339,16 +339,16 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_operasional_reservasi_add_info, container, false);
         ButterKnife.bind(this, view);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
-        roomPromoViewModel = new ViewModelProvider(getActivity())
+        roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
 
-        inventoryPromoViewModel = new ViewModelProvider(getActivity())
+        inventoryPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
@@ -369,7 +369,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         EMPTY_CARD_DP = getResources().getString(R.string.type_card);
         choicecard = EMPTY_CARD_DP;
 
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
 
@@ -385,7 +385,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                     inputDpNominal.getEditText().setText(current);
                     inputDpNominal.getEditText().setSelection(current.length());
                     Toasty
-                            .warning(getContext(), "Pembayaran Maksimal Ratusan Juta")
+                            .warning(requireActivity(), "Pembayaran Maksimal Ratusan Juta")
                             .show();
                     return;
                 }
@@ -482,8 +482,8 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         visibleProgressBar();
         roomOrderViewModel
                 .getRoomOrderResponseMutableLiveData(room.getRoomCode())
-                .observe(getActivity(), roomOrderResponse -> {
-                    roomOrderResponse.displayMessage(getContext());
+                .observe(getViewLifecycleOwner(), roomOrderResponse -> {
+                    roomOrderResponse.displayMessage(requireActivity());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
                         getMemberCheckinRoom(roomOrder);
@@ -500,7 +500,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
             public void onResponse(Call<MemberResponse> call, Response<MemberResponse> response) {
                invisibleProgressBar();
                 MemberResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -510,7 +510,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<MemberResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 invisibleProgressBar();
             }
         });
@@ -663,10 +663,10 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
     private void dialogCardType() {
         banks = getResources().getStringArray(R.array.bank_values);
-        adapterBanks = new ArrayAdapter<String>(getContext(),
+        adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -693,10 +693,10 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
             initEdcType();
         }
 
-        listEdcTypeAdapter = new ListEdcTypeAdapter(getContext(), typesListEdc);
+        listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -731,23 +731,23 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         visibleProgressBar();
         inventoryPromoViewModel
                 .getFoodPromoResponseMutableLiveData(room.getRoomType(), room.getRoomCode())
-                .observe(getActivity(), foodPromoResponse -> {
+                .observe(getViewLifecycleOwner(), foodPromoResponse -> {
                     invisibleProgressBar();
                     if (foodPromoResponse.isOkay()) {
                         this.promoFoodList
                                 .addAll(foodPromoResponse.getInventoryPromos());
                         dialogPromoFood();
                     } else {
-                        foodPromoResponse.displayMessage(getContext());
+                        foodPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoFood() {
-        listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), promoFoodList);
+        listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -756,7 +756,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                         buttonPromoFood.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -779,23 +779,23 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
       visibleProgressBar();
         roomPromoViewModel
                 .getRoomPromoResponseMutableLiveData(room.getRoomType())
-                .observe(getActivity(), roomPromoResponse -> {
+                .observe(getViewLifecycleOwner(), roomPromoResponse -> {
                     invisibleProgressBar();
                     if (roomPromoResponse.isOkay()) {
                         List<RoomPromo> roomPromos = roomPromoResponse.getRoomPromos();
                         this.promoRoomList.addAll(roomPromos);
                         dialogPromoRoom();
                     } else {
-                        roomPromoResponse.displayMessage(getContext());
+                        roomPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoRoom() {
-        listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), promoRoomList);
+        listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -804,7 +804,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                         buttonPromoRoom.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -898,7 +898,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                         qmDewasa = 0;
                         inputCountQmDewasa.setText(String.valueOf(qmDewasa));
                          /* Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();*/
                     }
 
@@ -906,7 +906,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                     qmDewasa = 0;
                     inputCountQmDewasa.setText(String.valueOf(qmDewasa));
                    /* Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();*/
                 }
             }
@@ -1079,7 +1079,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -1103,7 +1103,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         buttonCheckCodeVoucher.setOnClickListener(view -> {
             String codeVcr = inputCodeVoucher.getEditText().getText().toString();
             if (codeVcr.equals("") || codeVcr == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -1122,12 +1122,12 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                     if (!res.isOkay()) {
                         errorMessageVoucher = res.getMessage();
                         outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
-                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Toast
-                                        .makeText(getContext(),
+                                        .makeText(requireActivity(),
                                                 res.getMessage(),
                                                 Toast.LENGTH_SHORT)
                                         .show();
@@ -1143,7 +1143,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                     finalVoucherCode = codeVcr;
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                     outputCheckTxtVoucher.setText("Valid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                     buttonResetCodeVoucher.setVisibility(View.VISIBLE);
                     confirmVoucher(res.getVoucher());
                 }
@@ -1151,7 +1151,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                 @Override
                 public void onFailure(Call<VoucherResponse> call, Throwable t) {
 
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                    invisibleProgressBar();
                 }
             });
@@ -1169,28 +1169,28 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                 if (!res.isOkay()) {
                     errorMessageVoucher = errorMessageVoucher + "" + res.getMessage();
                     Toast
-                            .makeText(getContext(),
+                            .makeText(requireActivity(),
                                     res.getMessage(),
                                     Toast.LENGTH_SHORT)
                             .show();
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
                     outputCheckTxtVoucher.setText(errorMessageVoucher);
                     outputCheckTxtVoucher.setText("Invalid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                     return;
                 }
 
                 finalVoucherCode = codVcr;
                 outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                 outputCheckTxtVoucher.setText("Valid");
-                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                 confirmVoucher(res.getVoucher());
 
             }
 
             @Override
             public void onFailure(Call<VoucherResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 invisibleProgressBar();
             }
         });
@@ -1200,7 +1200,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         if (!voucher.getJenis_kamar().equals("")) {
             String voucherRoom = voucher.getJenis_kamar().toUpperCase();
             if (!voucherRoom.contains(room.getRoomType())) {
-                new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                         .setTitle("Jenis Kamar Voucher Tidak Sama")
                         .setMessage("Voucher berlaku untuk Room " + voucher.getJenis_kamar() + ", lanjutkan transaksi ?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1276,7 +1276,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(),
                     new DatePickerDialog.OnDateSetListener() {
 
                         @Override
@@ -1302,7 +1302,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
                 EdcTypeResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
 
                     return;
                 }
@@ -1318,7 +1318,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<EdcTypeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 invisibleProgressBar();
             }
         });
@@ -1349,7 +1349,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         if (isUseDP) {
             if (!isInputValid(inputDpNominal.getEditText())) {
                 Toast
-                        .makeText(getContext(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
+                        .makeText(requireActivity(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
                         .show();
                 return;
             }
@@ -1363,12 +1363,12 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                         .replaceAll("[.]", "");
             } catch (Exception e) {
                 Toasty
-                        .warning(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                        .warning(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                         .show();
             }
             keteranganUangMuka = dpType;
             Toast
-                    .makeText(getContext(), keteranganUangMuka, Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), keteranganUangMuka, Toast.LENGTH_SHORT)
                     .show();
             if (isUseDpCard) {
                 /*if (!isInputValid(inputDpNamaDebetCredit.getEditText()) ||
@@ -1377,7 +1377,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                         null == choiceTypeEdc ||
                         choicecard.equals(EMPTY_CARD_DP)) {
                     Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
@@ -1395,7 +1395,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
 
         if (isEmptyVisitor()) {
-            Toasty.warning(getContext(), "Anda belum input jumlah tamu ", Toast.LENGTH_SHORT, true)
+            Toasty.warning(requireActivity(), "Anda belum input jumlah tamu ", Toast.LENGTH_SHORT, true)
                     .show();
             return;
         }
@@ -1406,7 +1406,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
         String input4NomorApproval = "";
         String edcMachine = "0";
         keteranganUangMuka = "TRANSFER";
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Simpan Data Checkin")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1447,7 +1447,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
                             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                                 invisibleProgressBar();
                                 RoomOrderResponse res = response.body();
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (!res.isOkay()) {
                                     return;
                                 }
@@ -1456,7 +1456,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 invisibleProgressBar();
                             }
                         });
@@ -1539,14 +1539,14 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
     private void visibleProgressBar(){
         progressBar.setVisibility(View.VISIBLE);
-        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+        requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     private void invisibleProgressBar(){
 
         progressBar.setVisibility(View.GONE);
-        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
 

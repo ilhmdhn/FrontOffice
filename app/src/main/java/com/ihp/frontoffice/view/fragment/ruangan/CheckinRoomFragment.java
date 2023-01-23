@@ -360,17 +360,17 @@ public class CheckinRoomFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_room_checkin, container, false);
         ButterKnife.bind(this, view);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
 
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
-        roomPromoViewModel = new ViewModelProvider(getActivity())
+        roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
 
-        inventoryPromoViewModel = new ViewModelProvider(getActivity())
+        inventoryPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
@@ -460,14 +460,14 @@ public class CheckinRoomFragment extends Fragment {
             @Override
             public void onStartSigning() {
 
-                //Toast.makeText(getActivity(), "1", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireActivity(), "1", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSigned() {
                 //mSaveButton.setEnabled(true);
                 isSignatureOk = true;
-                Toast.makeText(getActivity(), "Anda sudah TTD", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "Anda sudah TTD", Toast.LENGTH_SHORT).show();
                 clearSign.setEnabled(true);
             }
 
@@ -491,7 +491,7 @@ public class CheckinRoomFragment extends Fragment {
     }
 
     private void submitChecksound() {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Checksoun Room")
                 .setMessage("Anda ingin melanjutkan ?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -507,18 +507,18 @@ public class CheckinRoomFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 RoomOrderResponse res = response.body();
                                 if (!res.isOkay()) {
-                                    res.displayMessage(getContext());
+                                    res.displayMessage(requireActivity());
 
                                     return;
                                 }
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 navToMain();
                                 //submitImageSign(res.getRoomOrder().getKodeRcp());
                             }
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -543,7 +543,7 @@ public class CheckinRoomFragment extends Fragment {
 
                 EdcTypeResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
 
                     return;
                 }
@@ -559,7 +559,7 @@ public class CheckinRoomFragment extends Fragment {
 
             @Override
             public void onFailure(Call<EdcTypeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -615,7 +615,7 @@ public class CheckinRoomFragment extends Fragment {
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
+            DatePickerDialog datePickerDialog = new DatePickerDialog(requireActivity(),
                     new DatePickerDialog.OnDateSetListener() {
 
                         @Override
@@ -651,10 +651,10 @@ public class CheckinRoomFragment extends Fragment {
             initEdcType();
         }
 
-        listEdcTypeAdapter = new ListEdcTypeAdapter(getContext(), typesListEdc);
+        listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -677,10 +677,10 @@ public class CheckinRoomFragment extends Fragment {
 
     private void dialogCardType() {
         banks = getResources().getStringArray(R.array.bank_values);
-        adapterBanks = new ArrayAdapter<String>(getContext(),
+        adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -716,7 +716,7 @@ public class CheckinRoomFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -743,7 +743,7 @@ public class CheckinRoomFragment extends Fragment {
         buttonCheckCodeMember.setOnClickListener(view -> {
             String codeMbr = inputCodeMember.getEditText().getText().toString();
             if (codeMbr.equals("") || codeMbr == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -760,18 +760,18 @@ public class CheckinRoomFragment extends Fragment {
                     viewOutputCekCodeMember.setVisibility(View.VISIBLE);
                     MemberResponse res = response.body();
                     if (!res.isOkay()) {
-                        res.displayMessage(getContext());
+                        res.displayMessage(requireActivity());
                         outputCheckImgMember.setImageResource(R.drawable.ic_unverified);
                         outputCheckTxtMember.setText("Invalid");
-                        outputCheckTxtMember.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                        outputCheckTxtMember.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                         return;
                     }
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
                     inputVisitorName.getEditText().setText(res.getMember().getFullName());
                     inputVisitorPhone.getEditText().setText(res.getMember().getHp());
                     outputCheckImgMember.setImageResource(R.drawable.ic_verified);
                     outputCheckTxtMember.setText("Valid");
-                    outputCheckTxtMember.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    outputCheckTxtMember.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                     buttonResetCodeMember.setVisibility(View.VISIBLE);
                 }
 
@@ -779,7 +779,7 @@ public class CheckinRoomFragment extends Fragment {
                 public void onFailure(Call<MemberResponse> call, Throwable t) {
                     Log.e(TAG, t.toString());
                     Log.e(TAG, t.getMessage());
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             });
@@ -803,7 +803,7 @@ public class CheckinRoomFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -827,7 +827,7 @@ public class CheckinRoomFragment extends Fragment {
         buttonCheckCodeVoucher.setOnClickListener(view -> {
             String codeVcr = inputCodeVoucher.getEditText().getText().toString();
             if (codeVcr.equals("") || codeVcr == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -846,12 +846,12 @@ public class CheckinRoomFragment extends Fragment {
                     if (!res.isOkay()) {
                         errorMessageVoucher = res.getMessage();
                         outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
-                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                        outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Toast
-                                        .makeText(getContext(),
+                                        .makeText(requireActivity(),
                                                 res.getMessage(),
                                                 Toast.LENGTH_SHORT)
                                         .show();
@@ -867,7 +867,7 @@ public class CheckinRoomFragment extends Fragment {
                     finalVoucherCode = codeVcr;
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                     outputCheckTxtVoucher.setText("Valid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                     buttonResetCodeVoucher.setVisibility(View.VISIBLE);
                     confirmVoucher(res.getVoucher());
                 }
@@ -875,7 +875,7 @@ public class CheckinRoomFragment extends Fragment {
                 @Override
                 public void onFailure(Call<VoucherResponse> call, Throwable t) {
 
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             });
@@ -893,28 +893,28 @@ public class CheckinRoomFragment extends Fragment {
                 if (!res.isOkay()) {
                     errorMessageVoucher = errorMessageVoucher + "" + res.getMessage();
                     Toast
-                            .makeText(getContext(),
+                            .makeText(requireActivity(),
                                     res.getMessage(),
                                     Toast.LENGTH_SHORT)
                             .show();
                     outputCheckImgVoucher.setImageResource(R.drawable.ic_unverified);
                     outputCheckTxtVoucher.setText(errorMessageVoucher);
                     outputCheckTxtVoucher.setText("Invalid");
-                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                    outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.red));
                     return;
                 }
 
                 finalVoucherCode = codVcr;
                 outputCheckImgVoucher.setImageResource(R.drawable.ic_verified);
                 outputCheckTxtVoucher.setText("Valid");
-                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
+                outputCheckTxtVoucher.setTextColor(ContextCompat.getColor(requireActivity(), R.color.green));
                 confirmVoucher(res.getVoucher());
 
             }
 
             @Override
             public void onFailure(Call<VoucherResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -924,7 +924,7 @@ public class CheckinRoomFragment extends Fragment {
         if (!voucher.getJenis_kamar().equals("")) {
             String voucherRoom = voucher.getJenis_kamar().toUpperCase();
             if (!voucherRoom.contains(room.getRoomType())) {
-                new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+                new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                         .setTitle("Jenis Kamar Voucher Tidak Sama")
                         .setMessage("Voucher berlaku untuk Room " + voucher.getJenis_kamar() + ", lanjutkan transaksi ?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -959,7 +959,7 @@ public class CheckinRoomFragment extends Fragment {
 
                 } catch (Exception e) {
                     Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -982,7 +982,7 @@ public class CheckinRoomFragment extends Fragment {
         buttonCheckCodeReservation.setOnClickListener(view -> {
             String codeRsv = inputCodeReservation.getEditText().getText().toString();
             if (codeRsv.equals("") || codeRsv == "") {
-                Toast.makeText(getContext(),
+                Toast.makeText(requireActivity(),
                         "Kode Masih Kosong",
                         Toast.LENGTH_SHORT)
                         .show();
@@ -1002,7 +1002,7 @@ public class CheckinRoomFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<MemberResponse> call, Throwable t) {
-                    Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
                 }
             });
@@ -1025,23 +1025,23 @@ public class CheckinRoomFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         inventoryPromoViewModel
                 .getFoodPromoResponseMutableLiveData(room.getRoomType(), room.getRoomCode())
-                .observe(getActivity(), foodPromoResponse -> {
+                .observe(getViewLifecycleOwner(), foodPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (foodPromoResponse.isOkay()) {
                         this.promoFoodList
                                 .addAll(foodPromoResponse.getInventoryPromos());
                         dialogPromoFood();
                     } else {
-                        foodPromoResponse.displayMessage(getContext());
+                        foodPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoFood() {
-        listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), promoFoodList);
+        listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -1050,7 +1050,7 @@ public class CheckinRoomFragment extends Fragment {
                         buttonPromoFood.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -1068,23 +1068,23 @@ public class CheckinRoomFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         roomPromoViewModel
                 .getRoomPromoResponseMutableLiveData(room.getRoomType())
-                .observe(getActivity(), roomPromoResponse -> {
+                .observe(getViewLifecycleOwner(), roomPromoResponse -> {
                     progressBar.setVisibility(View.GONE);
                     if (roomPromoResponse.isOkay()) {
                         List<RoomPromo> roomPromos = roomPromoResponse.getRoomPromos();
                         this.promoRoomList.addAll(roomPromos);
                         dialogPromoRoom();
                     } else {
-                        roomPromoResponse.displayMessage(getContext());
+                        roomPromoResponse.displayMessage(requireActivity());
                     }
                 });
     }
 
     private void dialogPromoRoom() {
-        listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), promoRoomList);
+        listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -1093,7 +1093,7 @@ public class CheckinRoomFragment extends Fragment {
                         buttonPromoRoom.setText("Hapus");
                         dialogInterface.dismiss();
                        /* Toast
-                                .makeText(getContext(), choicePromoRoom, Toast.LENGTH_SHORT)
+                                .makeText(requireActivity(), choicePromoRoom, Toast.LENGTH_SHORT)
                                 .show();*/
                     }
                 })
@@ -1249,7 +1249,7 @@ public class CheckinRoomFragment extends Fragment {
                         qmDewasa = 0;
                         inputCountQmDewasa.setText(String.valueOf(qmDewasa));
                          /* Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();*/
                     }
 
@@ -1257,7 +1257,7 @@ public class CheckinRoomFragment extends Fragment {
                     qmDewasa = 0;
                     inputCountQmDewasa.setText(String.valueOf(qmDewasa));
                    /* Toasty
-                            .warning(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .warning(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();*/
                 }
             }
@@ -1431,13 +1431,13 @@ public class CheckinRoomFragment extends Fragment {
                 !isInputValid(inputVisitorPhone.getEditText()) ||
                 (jamCheckin == 0)) {
             Toast
-                    .makeText(getContext(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), "Mohon Periksa Kembali", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
         if (!isSignatureOk) {
             Toast
-                    .makeText(getContext(), "Mohon Periksa Kembali TTD", Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), "Mohon Periksa Kembali TTD", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -1468,7 +1468,7 @@ public class CheckinRoomFragment extends Fragment {
         if (isUseDP) {
             if (!isInputValid(inputDpNominal.getEditText())) {
                 Toast
-                        .makeText(getContext(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
+                        .makeText(requireActivity(), "Mohon Periksa Kembali Nominal Uang Muka", Toast.LENGTH_SHORT)
                         .show();
                 return;
             }
@@ -1476,7 +1476,7 @@ public class CheckinRoomFragment extends Fragment {
             nominalDp = inputDpNominal.getEditText().getText().toString();
             keteranganUangMuka = dpType;
             Toast
-                    .makeText(getContext(), keteranganUangMuka, Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), keteranganUangMuka, Toast.LENGTH_SHORT)
                     .show();
             if (isUseDpCard) {
                 if (!isInputValid(inputDpNamaDebetCredit.getEditText()) ||
@@ -1486,7 +1486,7 @@ public class CheckinRoomFragment extends Fragment {
                         null == choiceTypeEdc ||
                         choicecard.equals(EMPTY_CARD_DP)) {
                     Toast
-                            .makeText(getContext(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
+                            .makeText(requireActivity(), "Mohon Periksa Kembali Input Uang Muka", Toast.LENGTH_SHORT)
                             .show();
                     return;
                 }
@@ -1503,7 +1503,7 @@ public class CheckinRoomFragment extends Fragment {
         }
 
 
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Simpan Checkin")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1547,7 +1547,7 @@ public class CheckinRoomFragment extends Fragment {
                                 progressBar.setVisibility(View.GONE);
                                 RoomOrderResponse res = response.body();
                                 if (!res.isOkay()) {
-                                    res.displayMessage(getContext());
+                                    res.displayMessage(requireActivity());
 
                                     return;
                                 }
@@ -1557,7 +1557,7 @@ public class CheckinRoomFragment extends Fragment {
 
                             @Override
                             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                             }
                         });
@@ -1660,9 +1660,9 @@ public class CheckinRoomFragment extends Fragment {
     private void submitImageSign(String kodeRcp) {
         Bitmap signatureBitmap = mSignaturePad.getSignatureBitmap();
         if (addJpgSignatureToGallery(signatureBitmap, kodeRcp)) {
-            //Toast.makeText(getActivity(), "Signature saved into Gallery "+kodeRcp, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(requireActivity(), "Signature saved into Gallery "+kodeRcp, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getActivity(), "Unable to store the signature", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "Unable to store the signature", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -1678,7 +1678,7 @@ public class CheckinRoomFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
                 if (!res.isOkay()) {
-                    res.displayMessage(getContext());
+                    res.displayMessage(requireActivity());
                     return;
                 }
                 navToMain();
@@ -1686,7 +1686,7 @@ public class CheckinRoomFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
@@ -1707,11 +1707,11 @@ public class CheckinRoomFragment extends Fragment {
 
             saveBitmapToJPG(signature, imgSign);
             scanMediaFile(imgSign);
-            //Toast.makeText(getActivity(), imgSign.getPath()/*+String.format("Signature_%d.jpg", System.currentTimeMillis())*/, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(requireActivity(), imgSign.getPath()/*+String.format("Signature_%d.jpg", System.currentTimeMillis())*/, Toast.LENGTH_SHORT).show();
             result = true;
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "error karena " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "error karena " + e, Toast.LENGTH_SHORT).show();
         }
         return result;
     }
@@ -1727,7 +1727,7 @@ public class CheckinRoomFragment extends Fragment {
             stream.close();
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(getActivity(), "error karena " + e, Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireActivity(), "error karena " + e, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1755,7 +1755,7 @@ public class CheckinRoomFragment extends Fragment {
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri contentUri = Uri.fromFile(photo);
         mediaScanIntent.setData(contentUri);
-        getActivity().sendBroadcast(mediaScanIntent);
+        requireActivity().sendBroadcast(mediaScanIntent);
     }
 
 }

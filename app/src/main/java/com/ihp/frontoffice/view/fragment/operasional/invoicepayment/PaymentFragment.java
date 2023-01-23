@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import java.text.NumberFormat;
@@ -173,7 +174,7 @@ public class PaymentFragment extends Fragment
     private String defaultPaymentType;
     private String emoneyPaymentType;
     private String piutangPaymentType;
-    private ArrayList<Payment> payments = new ArrayList<>();
+    private final ArrayList<Payment> payments = new ArrayList<>();
     private ListPaymentAdapter listPaymentAdapter;
     private static String EMPTY_EDC_DP;
     private static String EMPTY_CARD_DP;
@@ -195,6 +196,7 @@ public class PaymentFragment extends Fragment
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
     private final boolean kasirApproval = false;
+    private Printer printer;
 
     private String current = "";
 
@@ -228,11 +230,11 @@ public class PaymentFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_payment, container, false);
         ButterKnife.bind(this, view);
 
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
-
+        printer = new Printer();
         return view;
     }
 
@@ -241,13 +243,13 @@ public class PaymentFragment extends Fragment
         super.onActivityCreated(savedInstanceState);
 
         ihpRepository = new IhpRepository();
-        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
+        otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
 
         buttonAddMorePayment.setOnClickListener(view -> {
             validationPayments();
         });
         buttonSubmitPayment.setOnClickListener(view -> {
-            new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                     .setTitle("Proses Pembayaran")
                     .setMessage("Anda ingin melanjutkan")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -265,7 +267,7 @@ public class PaymentFragment extends Fragment
                     .show();
 
         });
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         inputNominalPayment.getEditText().addTextChangedListener(new TextWatcher() {
@@ -280,7 +282,7 @@ public class PaymentFragment extends Fragment
                     inputNominalPayment.getEditText().setText(current);
                     inputNominalPayment.getEditText().setSelection(current.length());
                     Toasty
-                            .warning(getContext(),"Pembayaran Maksimal Ratusan Juta")
+                            .warning(requireActivity(),"Pembayaran Maksimal Ratusan Juta")
                             .show();
                     return;
                 }
@@ -402,7 +404,7 @@ public class PaymentFragment extends Fragment
         });
 
         //TODO :: add event on component type payment emoney
-        adapterPaymentEmoney = ArrayAdapter.createFromResource(getContext(),
+        adapterPaymentEmoney = ArrayAdapter.createFromResource(requireActivity(),
                 R.array.emoney_type, android.R.layout.simple_spinner_item);
         adapterPaymentEmoney.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         emoneyPaymentType = adapterPaymentEmoney.getItem(0).toString();
@@ -420,7 +422,7 @@ public class PaymentFragment extends Fragment
         });
 
         //TODO :: add event on component type payment piutang
-        adapterPaymentPiutang = ArrayAdapter.createFromResource(getContext(),
+        adapterPaymentPiutang = ArrayAdapter.createFromResource(requireActivity(),
                 R.array.piutang_type, android.R.layout.simple_spinner_item);
         adapterPaymentPiutang.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         piutangPaymentType = adapterPaymentPiutang.getItem(0).toString();
@@ -447,10 +449,10 @@ public class PaymentFragment extends Fragment
             initEdcType();
         }
 
-        listEdcTypeAdapter = new ListEdcTypeAdapter(getContext(), typesListEdc);
+        listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -474,10 +476,10 @@ public class PaymentFragment extends Fragment
 
     private void dialogCardType() {
         banks = getResources().getStringArray(R.array.bank_values);
-        adapterBanks = new ArrayAdapter<String>(getContext(),
+        adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity())
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -507,7 +509,7 @@ public class PaymentFragment extends Fragment
 
                 visibleProgressBar(false);
                 EdcTypeResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -516,7 +518,7 @@ public class PaymentFragment extends Fragment
 
             @Override
             public void onFailure(Call<EdcTypeResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT).show();
 
                 visibleProgressBar(false);
             }
@@ -525,9 +527,9 @@ public class PaymentFragment extends Fragment
 
     private void setupPaymentRecyclerView() {
         if (listPaymentAdapter == null) {
-            listPaymentAdapter = new ListPaymentAdapter(getContext(), payments, this::onRemovePayment, this::onEditPayment);
+            listPaymentAdapter = new ListPaymentAdapter(requireActivity(), payments, this::onRemovePayment, this::onEditPayment);
             paymentListRecycle.setAdapter(listPaymentAdapter);
-            paymentListRecycle.setLayoutManager(new LinearLayoutManager(getContext()));
+            paymentListRecycle.setLayoutManager(new LinearLayoutManager(requireActivity()));
         } else {
             listPaymentAdapter.notifyDataSetChanged();
         }
@@ -612,11 +614,11 @@ public class PaymentFragment extends Fragment
     private void validatePayment() {
 
         if (totalPayment < invoice.getTotalFinal()) {
-            Toast.makeText(getContext(), "Total Pembayaran Kurang", Toast.LENGTH_LONG)
+            Toast.makeText(requireActivity(), "Total Pembayaran Kurang", Toast.LENGTH_LONG)
                     .show();
             return;
         }
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Email Invoice")
                 .setMessage("Apakah invoice akan di email??")
                 .setPositiveButton("Iya", new DialogInterface.OnClickListener() {
@@ -654,17 +656,27 @@ public class PaymentFragment extends Fragment
 
                 visibleProgressBar(false);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
+                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+                    if (Boolean.TRUE.equals(data.getState())){
+                        if (printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false)){
+                            ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
+                        }
+                    }else{
+                        Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 navToMain();
-                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
+//                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
             }
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT).show();
 
                 visibleProgressBar(false);
             }
@@ -779,13 +791,13 @@ public class PaymentFragment extends Fragment
                             .replaceAll("[.]", ""));
         }catch (Exception e){
             Toasty
-                    .warning(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                    .warning(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                     .show();
         }
 
         if(valuePayment<1){
             Toasty
-                    .warning(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                    .warning(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                     .show();
             return;
         }
@@ -793,7 +805,7 @@ public class PaymentFragment extends Fragment
         if (defaultPaymentType.equals("CASH")) {
             if (!isInputValid(inputNominalPayment.getEditText())) {
                 Toast
-                        .makeText(getContext(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
+                        .makeText(requireActivity(), "Mohon Isi Nominal", Toast.LENGTH_SHORT)
                         .show();
                 return;
             }
@@ -811,7 +823,7 @@ public class PaymentFragment extends Fragment
                     txtEdcDebetCredit.getText().toString().equals(EMPTY_EDC_DP)
 
             ) {
-                Toasty.warning(getContext(), "Mohon Lengkapi Inputan Debet", Toast.LENGTH_SHORT, true)
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan Debet", Toast.LENGTH_SHORT, true)
                         .show();
                 return;
             }
@@ -834,7 +846,7 @@ public class PaymentFragment extends Fragment
                     txtCardDebetCredit.getText().toString().equals(EMPTY_CARD_DP) ||
                     txtEdcDebetCredit.getText().toString().equals(EMPTY_EDC_DP)
             ) {
-                Toasty.warning(getContext(), "Mohon Lengkapi Inputan Credit", Toast.LENGTH_SHORT, true)
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan Credit", Toast.LENGTH_SHORT, true)
                         .show();
                 return;
             }
@@ -855,7 +867,7 @@ public class PaymentFragment extends Fragment
                     !isInputValid(inputPaymentAkunEmoney.getEditText()) ||
                     !isInputValid(inputRefKodeEmoney.getEditText())
             ) {
-                Toasty.warning(getContext(), "Mohon Lengkapi Inputan E-money", Toast.LENGTH_SHORT, true)
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan E-money", Toast.LENGTH_SHORT, true)
                         .show();
                 return;
             }
@@ -873,7 +885,7 @@ public class PaymentFragment extends Fragment
                     !isInputValid(inputInstansiCompliment.getEditText()) ||
                     !isInputValid(inputInstruksiCompliment.getEditText())
             ) {
-                Toasty.warning(getContext(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT, true)
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan Compliment", Toast.LENGTH_SHORT, true)
                         .show();
                 return;
             }
@@ -891,7 +903,7 @@ public class PaymentFragment extends Fragment
                     !isInputValid(inputIdMemberPiutang.getEditText()) ||
                     piutangPaymentType.isEmpty() || piutangPaymentType.equals("")
             ) {
-                Toasty.warning(getContext(), "Mohon Lengkapi Inputan Piutang", Toast.LENGTH_SHORT, true)
+                Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan Piutang", Toast.LENGTH_SHORT, true)
                         .show();
                 return;
             }
@@ -905,7 +917,7 @@ public class PaymentFragment extends Fragment
 
             authPayment(payment);
         } else {
-            Toasty.warning(getContext(), "Mohon Lengkapi Inputan", Toast.LENGTH_SHORT, true)
+            Toasty.warning(requireActivity(), "Mohon Lengkapi Inputan", Toast.LENGTH_SHORT, true)
                     .show();
             return;
         }
@@ -914,11 +926,11 @@ public class PaymentFragment extends Fragment
     private void addPayments(Payment pay) {
         if (null == pay) {
             Toast
-                    .makeText(getContext(), "Ok Messages", Toast.LENGTH_SHORT)
+                    .makeText(requireActivity(), "Ok Messages", Toast.LENGTH_SHORT)
                     .show();
 
         } else {
-            hideKeyboard(getActivity());
+            hideKeyboard(requireActivity());
             if (isEdited) {
                 payments.remove(indexEditPayment);
                 listPaymentAdapter.notifyDataSetChanged();
@@ -936,7 +948,7 @@ public class PaymentFragment extends Fragment
     private void authPayment(Payment pay) {
 
         visibleProgressBar(false);
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
@@ -953,13 +965,12 @@ public class PaymentFragment extends Fragment
         EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
         EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
         MKLoader _loginProgress = dialogView.findViewById(R.id.progress_dialog);
-
-        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getActivity(), data ->{
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data ->{
             boolean kasirApproval = data.getState();
 
             if (kasirApproval){
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
                 builder.setMessage(R.string.payment_confirmation);
 
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -983,7 +994,7 @@ public class PaymentFragment extends Fragment
                         String email = _usernameTxt.getText().toString();
                         String password = _passwordTxt.getText().toString();
                         if (email.isEmpty() && password.isEmpty()) {
-                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                     .show();
                             return;
                         }
@@ -995,7 +1006,7 @@ public class PaymentFragment extends Fragment
                             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                 UserResponse res = response.body();
                                 _loginProgress.setVisibility(View.GONE);
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowPiutangComplimentPayment(user)) {
@@ -1003,7 +1014,7 @@ public class PaymentFragment extends Fragment
                                         addPayments(pay);
                                         alertDialog.dismiss();
                                     } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
 
@@ -1014,7 +1025,7 @@ public class PaymentFragment extends Fragment
                             @Override
                             public void onFailure(Call<UserResponse> call, Throwable t) {
                                 _loginProgress.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                         .show();
                             }
                         });
@@ -1112,11 +1123,11 @@ public class PaymentFragment extends Fragment
     private void visibleProgressBar(boolean isVisible){
         if(isVisible){
             progressBar.setVisibility(View.VISIBLE);
-            getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+            requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                     WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }else{
             progressBar.setVisibility(View.GONE);
-            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
         }
 
     }

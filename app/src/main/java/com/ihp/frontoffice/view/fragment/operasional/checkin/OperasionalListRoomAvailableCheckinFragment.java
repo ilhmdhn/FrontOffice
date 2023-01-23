@@ -138,13 +138,13 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         setMainTitle();
         init();
     }
 
     private void init() {
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
 
         buttonPrevious.setEnabled(false);
@@ -185,7 +185,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
     }
 
     private void setDataMember() {
-        Glide.with(getContext())
+        Glide.with(requireActivity())
                 .load(member.getFotoPathNode())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
@@ -197,9 +197,9 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
 
     private void readyRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomReadyByTypeGrouping(roomType).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomReadyByTypeGrouping(roomType).observe(getViewLifecycleOwner(), roomResponse -> {
             progressBar.setVisibility(View.GONE);
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
@@ -213,9 +213,9 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalReadyRoomAdapter(getContext(), p.getCurrentData(page));
+        roomAdapter = new ListOperasionalReadyRoomAdapter(requireActivity(), p.getCurrentData(page));
         readyRoomRecyclerView.setAdapter(roomAdapter);
-        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -266,7 +266,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
         roomOrder.setCheckinRoom(room);
         jamCheckin = 0;
 
-        dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_operasional_checkin_duration, null);
         dialogBuilder.setView(dialogView);
@@ -333,7 +333,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
 
                 if(room.isRoomNotLobby()){
                     if (jamCheckin < 1) {
-                        Toasty.warning(getContext(), "Durasi jam belum sesuai")
+                        Toasty.warning(requireActivity(), "Durasi jam belum sesuai")
                                 .show();
                         return;
                     }
@@ -367,7 +367,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -383,7 +383,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                         .show();
                 progressBar.setVisibility(View.GONE);
             }
@@ -399,7 +399,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
             public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
+                res.displayMessage(requireActivity());
                 if (!res.isOkay()) {
                     return;
                 }
@@ -415,7 +415,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
 
             @Override
             public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                         .show();
                 progressBar.setVisibility(View.GONE);
             }

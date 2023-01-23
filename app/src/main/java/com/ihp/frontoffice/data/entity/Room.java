@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Room implements Serializable {
 
-    private static final long serialVersionUID = -9176475615850942210L;
+//    private static final long serialVersionUID = -9176475615850942210L;
 
     @ColumnInfo(name = "room_number")
     @SerializedName("kamar")
@@ -23,6 +23,14 @@ public class Room implements Serializable {
     @ColumnInfo(name = "room_capacity")
     @SerializedName("kapasitas")
     private int roomCapacity;
+
+    @ColumnInfo(name = "room_alias")
+    @SerializedName("room_alias")
+    private String roomAlias;
+
+
+    @SerializedName("status_print")
+    private String statusPrinter;
 
     @ColumnInfo(name = "room_state")
     @SerializedName("status_kamar")
@@ -318,6 +326,10 @@ public class Room implements Serializable {
         return qm1;
     }
 
+    public String getStatusPrinter(){
+        return statusPrinter;
+    }
+
     public int getQm2() {
         return qm2;
     }
@@ -344,6 +356,10 @@ public class Room implements Serializable {
 
     public int getQf4() {
         return qf4;
+    }
+
+    public String getAlias(){
+        return roomAlias;
     }
 
     public String getTotalVisitor() {

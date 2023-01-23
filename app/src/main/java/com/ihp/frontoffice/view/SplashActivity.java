@@ -36,14 +36,11 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 _pgrrsLoad.setVisibility(View.GONE);
 
-                if(null!=((MyApp) getApplicationContext()).getUserFo()){
-                    userlogin = ((MyApp) getApplicationContext()).getUserFo();
-                    if(userlogin.isLogin()){
-                        toMainAct();
-                    }else{
-                        toLoginAct();
-                    }
-                }else {
+                ((MyApp) getApplicationContext()).getUserFo();
+                userlogin = ((MyApp) getApplicationContext()).getUserFo();
+                if(userlogin.isLogin()){
+                    toMainAct();
+                }else{
                     toLoginAct();
                 }
             }

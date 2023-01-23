@@ -96,9 +96,9 @@ public class RoomOrderHistoryDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         setMainTitle();
-        roomOrderViewModel = new ViewModelProvider(getActivity())
+        roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
         roomOrderSetupData();
@@ -118,7 +118,7 @@ public class RoomOrderHistoryDetailFragment extends Fragment {
         roomOrder = null;
         roomOrderViewModel
                 .getHistoryRoomOrderResponseMutableLiveData(room.getRoomRcp(),room.getRoomCode())
-                .observe(getActivity(), roomOrderResponse -> {
+                .observe(getViewLifecycleOwner(), roomOrderResponse -> {
                     roomOrderResponse.displayMessage(getContext());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
@@ -147,7 +147,7 @@ public class RoomOrderHistoryDetailFragment extends Fragment {
 
     private void setViewPager() {
         roomOrder.setCheckinRoom(room);
-        viewPager2.setAdapter(new ViewPagerFragmentAdapter(getActivity()));
+        viewPager2.setAdapter(new ViewPagerFragmentAdapter(requireActivity()));
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> tab.setText(titles[position]))
                 .attach();
     }

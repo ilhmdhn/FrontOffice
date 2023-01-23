@@ -64,17 +64,15 @@ public class LoginActivity extends AppCompatActivity {
         HideKey.initialize(this);
         BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
 
-       /* _usernameTxt.setText("AIN");
-        _passwordTxt.setText("AI1");*/
         _loginButton.setOnClickListener(v -> {
             if (!isBaseURLset()) {
                 return;
             }
+            BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
             String email = _usernameTxt.getText().toString();
             String password = _passwordTxt.getText().toString();
             if (validate()) {
                 _loginProgress.setVisibility(View.VISIBLE);
-                BASE_URL = ((MyApp) getApplicationContext()).getBaseUrl();
 
                 UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
                 Call<UserResponse> call = userClient.login(email, password);

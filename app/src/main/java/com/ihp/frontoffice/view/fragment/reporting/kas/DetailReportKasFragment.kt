@@ -16,8 +16,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.MyApp
 import com.ihp.frontoffice.R
+import com.ihp.frontoffice.data.remote.respons.DataStatusKas
+import com.ihp.frontoffice.data.remote.respons.StatusKasResponse
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.databinding.FragmentDetailReportKasBinding
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.utils
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
 
@@ -32,6 +35,7 @@ class DetailReportKasFragment : Fragment() {
     private var username = ""
     private var chusr = ""
     private val ihpRepository = IhpRepository()
+    private lateinit var dataKas: StatusKasResponse
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentDetailReportKasBinding.inflate(inflater, container, false)
@@ -56,6 +60,7 @@ class DetailReportKasFragment : Fragment() {
         binding.tvTanggal.setText("Tanggal: $tanggal")
         binding.tvShiftPiutang.text = "Piutang Shift $shift"
         reportViewModel.statusKas.observe(viewLifecycleOwner, { data ->
+            dataKas = data
             if (data.state == true) {
                 if (data.dataStatusKas != null) {
                     binding.ltEmpty.visibility = View.GONE
@@ -103,13 +108,17 @@ class DetailReportKasFragment : Fragment() {
             val builder = AlertDialog.Builder(requireActivity())
             builder.setMessage(R.string.print_kas)
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
-                ihpRepository.printKas(url, tanggal, shift, chusr, requireActivity())
+            //    ihpRepository.printKas(url, tanggal, shift, chusr, requireActivity())
+                dataKas.dataStatusKas?.let { it1 -> Printer().printerKas(shift.toInt(), it1, chusr) }
             }
 
             builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
                 dialog.dismiss()
             }
-            builder.show()
+
+            if(dataKas.state==true){
+                builder.show()
+            }
         }
     }
 

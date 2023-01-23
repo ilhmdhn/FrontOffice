@@ -126,9 +126,9 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
-        roomViewModel = new ViewModelProvider(getActivity())
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
         roomViewModel.init(BASE_URL);
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
@@ -219,7 +219,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
         }
         roomArrayList.clear();
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomPaid(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomPaid(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             roomResponse.displayMessage(getContext());
             progressBar.setVisibility(View.GONE);
             if (roomResponse.isOkay()) {
@@ -354,7 +354,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     private void lastConfirmCheckOut(Room roomx){
         progressBar.setVisibility(View.VISIBLE);
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle("Proses Checkout")
                 .setMessage("Pastikan Waktu Habis/Pengunjung Pulang")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

@@ -451,5 +451,10 @@
             app:argType="string"
             android:defaultValue=" " />
     </fragment>
+    <fragment
+        android:id="@+id/navSettingFragment"
+        android:name="com.ihp.frontoffice.view.fragment.setting.SettingFragment"
+        android:label="fragment_setting"
+        tools:layout="@layout/fragment_setting" />
 
 </navigation>

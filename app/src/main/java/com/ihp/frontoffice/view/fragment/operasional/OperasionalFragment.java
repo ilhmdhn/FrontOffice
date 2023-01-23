@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -19,10 +20,12 @@ import android.widget.Toast;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.events.DataBusEvent;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -144,8 +147,9 @@ public class OperasionalFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        user = ((MyApp) getActivity().getApplicationContext()).getUserFo();
+
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        user = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
 
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
@@ -261,7 +265,7 @@ public class OperasionalFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (!GlobalBus.getBus().isRegistered(this))
             EventBus.getDefault().register(this);
@@ -327,7 +331,7 @@ public class OperasionalFragment extends Fragment {
     }
 
     private void showInfoDialog(String message, String title) {
-        new MaterialAlertDialogBuilder(getActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -364,4 +368,12 @@ public class OperasionalFragment extends Fragment {
             }
         });
     }
-}
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void approvalResponse(DataBusEvent.approvalResponse data){
+        Log.d("approval sampe sini", data.toString());
+        if (data.isApprove()){
+            Toast.makeText(requireActivity(), data.toString(), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(requireActivity(), "Spv Menolak", Toast.LENGTH_SHORT).show();
+        }
+    }

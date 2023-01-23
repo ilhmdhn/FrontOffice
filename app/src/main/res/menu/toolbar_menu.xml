@@ -9,6 +9,11 @@
         app:actionLayout="@layout/notify_badge_layout"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/setting_menu"
+        android:icon="@drawable/ic_baseline_settings_24"
+        android:title="@string/setting"
+        app:showAsAction="collapseActionView"/>
+    <item
         android:id="@+id/refresh_menu"
         android:icon="@drawable/ic_refresh"
         android:title="@string/refresh"

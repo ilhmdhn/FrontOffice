@@ -1,5 +1,6 @@
-package com.ihp.frontoffice.notif
+package com.ihp.frontoffice.firebase
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,7 +10,6 @@ import android.graphics.BitmapFactory
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ihp.frontoffice.MyApp
@@ -17,7 +17,9 @@ import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.data.local.FrontOfficeDatabase
 import com.ihp.frontoffice.data.repository.IhpRepository
+import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.view.MainActivity
+import org.greenrobot.eventbus.EventBus
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
@@ -29,15 +31,19 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     private val ihpRepository = IhpRepository()
     var userFo: User? = null
+    lateinit var notification: Any
     private lateinit var frontOfficeDatabase: FrontOfficeDatabase
+    val bus: EventBus = EventBus.getDefault()
 
     override fun onNewToken(token: String) {
         super.onNewToken(token)
         val url = (this@MyFirebaseMessagingService.applicationContext as MyApp).baseUrl
         val user = (this@MyFirebaseMessagingService.applicationContext as MyApp).userFo
 
-        if (!url.isNullOrEmpty()){
+        if (!url.isEmpty()){
             ihpRepository.insertToken(this@MyFirebaseMessagingService, url, token, user.userId, user.levelUser)
+        } else{
+            return onNewToken(token)
         }
     }
 
@@ -46,6 +52,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         frontOfficeDatabase = FrontOfficeDatabase.getInstance(this@MyFirebaseMessagingService)
         userFo = frontOfficeDatabase.userDao().userLogin
+        val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (message.data.get("type") == "room_call"){
 
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("FromPushNotify", "ROOM_CALL")
@@ -57,7 +66,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         )
 
         val GROUP_KEY_WORK_EMAIL = "com.android.example.WORK_EMAIL"
-        val mNotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val mBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_notification)
             .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.icon_happy_puppy_group))
@@ -77,16 +85,23 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             mBuilder.setChannelId(CHANNEL_ID)
             mNotificationManager.createNotificationChannel(channel)
         }
-
-        val notification = mBuilder.build()
-
-
-        if (userFo != null){
-            if(userFo!!.isLogin){
-            mNotificationManager.notify(NOTIFICATION_ID, notification)
+            notification = mBuilder.build()
+            if (userFo != null){
+                if(userFo!!.isLogin){
+                    mNotificationManager.notify(NOTIFICATION_ID, notification as Notification)
+                }
+            }else{
+                Log.d("islogin", "Tidak ada user yang login")
             }
-        }else{
-            Log.d("islogin", "Tidak ada user yang login")
+        } else if(message.data.get("type") == "approval"){
+            val bus: EventBus = EventBus.getDefault()
+
+            bus.post(DataBusEvent.approvalResponse(
+                message.data.get("user").toString(),
+                message.data.get("password").toString(),
+                message.data.get("status").toBoolean()
+            ))
+            Log.d("approval send", message.data.toString())
         }
     }
 }

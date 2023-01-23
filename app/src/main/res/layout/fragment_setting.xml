@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.fragment.setting.SettingFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/background_button_checkin"
+            android:backgroundTint="#FFFFFF"
+            android:text="Test Mobile Print"
+            app:layout_constraintStart_toStartOf="@+id/rb_print"
+            app:layout_constraintTop_toBottomOf="@+id/rb_print" />
+
+        <TextView
+            android:id="@+id/tv_dummy_print_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Select Printer"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <RadioGroup
+            android:id="@+id/rb_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@+id/tv_dummy_print_select"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dummy_print_select">
+
+            <RadioButton
+                android:id="@+id/rb_print_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Android Bluetooth"
+                tools:layout_editor_absoluteX="152dp"
+                tools:layout_editor_absoluteY="45dp" />
+
+            <RadioButton
+                android:id="@+id/rb_print_desktop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="POS Desktop"
+                tools:layout_editor_absoluteX="27dp"
+                tools:layout_editor_absoluteY="40dp" />
+
+            <RadioButton
+                android:id="@+id/rb_print_both"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Keduanya"
+                tools:layout_editor_absoluteX="152dp"
+                tools:layout_editor_absoluteY="45dp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_dc_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disconnect Printer"
+            android:backgroundTint="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/button"
+            app:layout_constraintTop_toTopOf="@+id/button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
