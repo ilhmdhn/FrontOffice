@@ -279,7 +279,7 @@
     <string name="bar_filter">Bar</string>
     <string name="pr">PR</string>
     <string name="prepare_check_sound">Prepare / Check Sound</string>
-    <string name="versi_apps">V 2.2 (230116)</string>
+    <string name="versi_apps">V 2.2.1 (230123)</string>
     <string name="status_kas_masuk">Status Kas Masuk</string>
     <string name="data_checkin">Data Checkin</string>
     <string name="stock">Stock</string>
@@ -322,4 +322,7 @@
     <string name="setting">Pengaturan</string>
     <string name="reprint_invoice">Cetak Ulang Invoice</string>
     <string name="preference_print">1</string>
+    <string name="report_rph">Ringkasan Penjualan Harian</string>
+    <string name="remove_room_promo">Hapus Promo Room</string>
+    <string name="remove_fnb_promo">Hapus Promo FnB</string>
 </resources>

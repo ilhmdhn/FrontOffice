@@ -118,15 +118,24 @@
                 android:layout_height="match_parent" />
 
             <Button
-                android:id="@+id/btn_cancel_promo"
+                android:id="@+id/btn_cancel_promo_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:backgroundTint="@color/dark_blue_variant"
-                android:text="Batalkan Promo"
+                android:text="@string/remove_room_promo"
                 android:textColor="@color/dark_primary_text"
                 android:visibility="gone" />
 
+            <Button
+                android:id="@+id/btn_cancel_promo_food"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:backgroundTint="@color/dark_blue_variant"
+                android:text="@string/remove_fnb_promo"
+                android:textColor="@color/dark_primary_text"
+                android:visibility="gone" />
 
             <include
                 layout="@layout/checkin_visitor_female"

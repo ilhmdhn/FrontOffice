@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -194,8 +195,11 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     @BindView(R.id.btn_promo_room)
     Button buttonPromoRoom;
 
-    @BindView(R.id.btn_cancel_promo)
-    Button btnCancelPromo;
+    @BindView(R.id.btn_cancel_promo_room)
+    Button btnCancelPromoRoom;
+
+    @BindView(R.id.btn_cancel_promo_food)
+    Button btnCancelPromoFood;
 
     @BindView(R.id.txt_kode_promo_room)
     TextView kodePromoRoom;
@@ -379,8 +383,12 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             });
         }
 
-        btnCancelPromo.setOnClickListener(view -> {
+        btnCancelPromoRoom.setOnClickListener(view -> {
             removePromo();
+        });
+
+        btnCancelPromoFood.setOnClickListener(view ->{
+            removePromoFood();
         });
 
         inputDpNominal.getEditText().addTextChangedListener(new TextWatcher() {
@@ -711,7 +719,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     buttonOk.setOnClickListener(it -> {
                         String email = _usernameTxt.getText().toString();
                         String password = _passwordTxt.getText().toString();
-                        if (email.isEmpty() && password.isEmpty()) {
+                        if (email.isEmpty() || password.isEmpty()) {
                             Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                     .show();
                             return;
@@ -782,6 +790,97 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     });
                 });
 
+                alertDialog.show();
+            }
+        });
+    }
+
+    private void removePromoFood(){
+        otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), dataResponse->{
+            boolean kasirApproval = dataResponse.getState();
+
+            if(kasirApproval){
+                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+
+                builder.setMessage("Hapus Promo FnB");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        otherViewModel.removePromoFnB(BASE_URL, currentRoomCheckin.getRoomRcp()).observe(getViewLifecycleOwner(), removePromoResponse->{
+                            if(removePromoResponse.getState()){
+                                Toasty.info(requireActivity(), removePromoResponse.getMessage()).show();
+                                roomOrder.getInventoryPromos().clear();
+                                Navigation.findNavController(buttonSubmit)
+                                        .navigate(
+                                                OperasionalCheckinEditInfoFragmentDirections
+                                                        .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                        );
+                            }else{
+                                Toasty.error(requireActivity(), removePromoResponse.getMessage()).show();
+                            }
+                            dialog.dismiss();
+                        });
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setCancelable(true);
+            }else{
+                MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+                LayoutInflater dialogInflater = this.getLayoutInflater();
+
+                View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+                dialogBuilder.setView(dialogView);
+                dialogBuilder.setCancelable(false);
+
+                AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+                AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+
+                _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+                _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+                _parentPassword = dialogView.findViewById(R.id.ed_parent_password);
+
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setOnShowListener(dialogInterface->{
+                    buttonOk.setOnClickListener(it ->{
+                        String email = _usernameTxt.getText().toString();
+                        String password = _passwordTxt.getText().toString();
+
+                        if(email.isEmpty() || password.isEmpty()){
+                            Toasty.warning(requireActivity(), "email/ password empty").show();
+                            return;
+                        }
+
+                        otherViewModel.checkUser(BASE_URL, email, password).observe(getViewLifecycleOwner(), userResponse->{
+                            if(userResponse.isOkay()){
+                                otherViewModel.removePromoFnB(BASE_URL, currentRoomCheckin.getRoomRcp()).observe(getViewLifecycleOwner(), removeResponse->{
+                                    if(removeResponse.getState()){
+                                        Toasty.info(requireActivity(), removeResponse.getMessage()).show();
+                                        roomOrder.getInventoryPromos().clear();
+                                        Navigation.findNavController(buttonSubmit)
+                                                .navigate(
+                                                        OperasionalCheckinEditInfoFragmentDirections
+                                                                .actionNavOperasionalCheckinEditInfoFragmentSelf(roomOrder)
+                                                );
+                                    }else{
+                                        Toasty.error(requireActivity(), removeResponse.getMessage()).show();
+                                    }
+                                });
+                            }else{
+                                Toasty.warning(requireActivity(), userResponse.getMessage()).show();
+                            }
+                            alertDialog.dismiss();
+                        });
+
+                    });
+                    buttonCancel.setOnClickListener(view->{
+                        alertDialog.dismiss();
+                    });
+                });
                 alertDialog.show();
             }
         });
@@ -1088,7 +1187,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             }
             visibleProgressBar(true);
 
-            Call<VoucherResponse> call = memberClient.checkVoucherMembership("HP059", codeVcr);
+            Call<VoucherResponse> call = memberClient.checkVoucherMembership( codeVcr);
             call.enqueue(new Callback<VoucherResponse>() {
                 @Override
                 public void onResponse(Call<VoucherResponse> call, Response<VoucherResponse> response) {
@@ -1345,7 +1444,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             inputCodeVoucher.setEnabled(false);
             buttonScanQRCodeVoucher.setEnabled(false);
             buttonPromoRoom.setText("Terpilih");
-            btnCancelPromo.setVisibility(View.VISIBLE);
+            //disini
+            btnCancelPromoRoom.setVisibility(View.VISIBLE);
             buttonPromoRoom.setEnabled(false);
             promoRoomViewData(
                     roomPromo.getRoomPromoName()+" "+roomPromo.getDiscountPercent()+"%");
@@ -1357,6 +1457,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             inputCodeVoucher.setEnabled(false);
             buttonScanQRCodeVoucher.setEnabled(false);
             buttonPromoFood.setText("Terpilih");
+            btnCancelPromoFood.setVisibility(View.VISIBLE);
             buttonPromoFood.setEnabled(false);
             promoFoodViewData(
                     invPromo.getFoodPromoName()+" "+invPromo.getDiscountPercent()+"%");

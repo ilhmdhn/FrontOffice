@@ -57,6 +57,7 @@ import com.skyfishjy.library.RippleBackground;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,17 +82,6 @@ public class MainActivity extends AppCompatActivity{
     private IhpRepository ihpRepository;
     private String notifToken;
 
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
-
-    @BindView(R.id.toolbar_title)
-    TextView mTitle;
-
-
     private AppBarConfiguration mAppBarConfiguration;
     private NavController navController;
     private TextView textNotifyCount;
@@ -100,15 +90,7 @@ public class MainActivity extends AppCompatActivity{
     private boolean currentStateInstance;
     private LocalRepository localRepository;
 
-    private MaterialAlertDialogBuilder dialogBuilder;
-    private LayoutInflater dialogInflater;
-    private View dialogView;
-    private AppCompatButton buttonConfirmCall, buttonRejectCall;
-    private AlertDialog alertDialog;
-    private RippleBackground rippleBackground;
-    private TextView labelCallRom;
     protected PowerManager.WakeLock mWakeLock;
-    private Intent mServiceIntent;
     private User USER_FO;
     private String BASE_URL;
     private Handler handler;
@@ -143,9 +125,9 @@ public class MainActivity extends AppCompatActivity{
         });
 
         handler = new Handler();
-        if (toolbar != null) {
-            setToolbarActivity();
-        }
+//        if (toolbar != null) {
+//            setToolbarActivity();
+//        }
 
         mUserLearnedDrawer = Boolean
                 .parseBoolean(PreferenceUi
@@ -196,14 +178,14 @@ public class MainActivity extends AppCompatActivity{
 
 
         navController = Navigation.findNavController(this, R.id.my_nav_host_fragment);
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+//        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            appBarLayout.setExpanded(true, true);
+//            appBarLayout.setExpanded(true, true);
             CURRENT_PAGE = "";
             switch (destination.getId()) {
                 case R.id.navOperasionalFragment:
                     showBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     CURRENT_PAGE = OPERASIONAL_PAGE;
                     break;
                 case R.id.navReportFragment:
@@ -211,12 +193,12 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.navListRoomFragment:
                 case R.id.navListInventoryFragment:
                     showBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navNotificationFragment:
                     hideBottomNav();
                     CURRENT_PAGE = NOTIFICATION_PAGE;
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                     break;
                 case R.id.navOperasionalFnbFragment:
                 case R.id.navDetailRoomFragment:
@@ -235,26 +217,27 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.navOperasionalListRoomToCleanFragment:
                 case R.id.navOperasionalInvoiceAndPaymentFragment:
                     hideBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                     break;
                 case R.id.navCheckinRoomFragment:
                     hideBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+                    break;
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                 case R.id.navExtendsRoomFragment:
                     hideBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navTransferRoomFragment:
                     hideBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navReportingFragment:
                     showBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navStatusKasFragment:
                     hideBottomNav();
-                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
+//                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.mySalesReportParentFragment:
                     hideBottomNav();
@@ -270,7 +253,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+//        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         if (isPortraitsLayout) {
             NavigationUI.setupWithNavController(bottomNavigationView, navController);
         }
@@ -305,15 +288,6 @@ public class MainActivity extends AppCompatActivity{
                         ihpRepository.insertToken(MainActivity.this,BASE_URL, token, USER_FO.getUserId(), USER_FO.getLevelUser());
                     }
                 });
-    }
-
-    private void setToolbarActivity() {
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setElevation(0);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
     private void checkPermission() {
@@ -523,8 +497,7 @@ public class MainActivity extends AppCompatActivity{
 
     @Subscribe
     public void changeTitleFragment(EventsWrapper.TitleFragment titleFragment) {
-        setToolbarActivity();
-        mTitle.setText(titleFragment.getTitle());
+        Objects.requireNonNull(getSupportActionBar()).setTitle(titleFragment.getTitle());
     }
 
     @Subscribe

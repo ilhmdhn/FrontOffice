@@ -352,4 +352,48 @@ class IhpRepository {
             }
         })
     }
+
+    fun removePromoFnB(url: String, rcp: String):LiveData<Response>{
+        val client = ApiRestService.getClient(url).create(CheckinDirectClient::class.java)
+        val responseData = MutableLiveData<Response>()
+        client.removePromoFood(rcp).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                if(response.isSuccessful){
+                        responseData.postValue(response.body())
+                }else{
+                    responseData.postValue(Response(false, "response failer"))
+                }
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                responseData.postValue(Response(false, t.message.toString()))
+            }
+        })
+        return responseData
+    }
+
+    fun checkUser(url: String, email: String, password: String):LiveData<UserResponse>{
+        val client = ApiRestService.getClient(url).create(UserClient::class.java)
+        val responseData = MutableLiveData<UserResponse>()
+        val responseFail = UserResponse()
+        client.login(email,password).enqueue(object : Callback<UserResponse>{
+            override fun onResponse(call: Call<UserResponse>, responses: retrofit2.Response<UserResponse>) {
+                if(responses.isSuccessful){
+                    responseData.postValue(responses.body())
+                    Log.d("DEBUNGGING RESPONSE PURE", responses.body()?.user?.userId.toString())
+                }else{
+                    responseFail.isOkay = false
+                    responseFail.message = "response failed"
+                    responseData.postValue(responseFail)
+                }
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                responseFail.isOkay = false
+                responseFail.message = t.message.toString()
+                responseData.postValue(responseFail)
+            }
+        });
+        return responseData;
+    }
 }

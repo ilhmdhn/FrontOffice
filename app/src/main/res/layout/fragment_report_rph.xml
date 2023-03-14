@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragment.reporting.rph.ReportRphFragment">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:textColor="@color/tevelblack"
+        android:textAlignment="center"
+        android:text="Jum'at, 23 February 2023" />
+
+    <ScrollView
+        android:id="@+id/sv_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/date"
+        android:layout_above="@id/btn_send_email"
+        android:layout_height="match_parent">
+
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_send_email"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/background_button_login"
+        android:paddingHorizontal="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:text="Send Email"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"/>
+</RelativeLayout>

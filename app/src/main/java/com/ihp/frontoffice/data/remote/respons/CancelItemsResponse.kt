@@ -9,7 +9,7 @@ data class CancelItemsResponse(
 
 
 	@field:SerializedName("data")
-	val data: List<DataCancelItems>,
+	val data: List<DataCancelItems>?,
 
 	@field:SerializedName("message")
 	val message: String? = null

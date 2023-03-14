@@ -461,7 +461,7 @@ public class TransferRoomFragment extends Fragment {
             }
             progressBar.setVisibility(View.VISIBLE);
 
-            Call<VoucherResponse> call = memberClient.checkVoucherMembership("HP059", codeVcr);
+            Call<VoucherResponse> call = memberClient.checkVoucherMembership(codeVcr);
             call.enqueue(new Callback<VoucherResponse>() {
                 @Override
                 public void onResponse(Call<VoucherResponse> call, Response<VoucherResponse> response) {

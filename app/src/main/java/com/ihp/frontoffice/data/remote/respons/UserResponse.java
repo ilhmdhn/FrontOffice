@@ -15,4 +15,12 @@ public class UserResponse extends BaseResponse{
     public void setUser(User user) {
         this.user = user;
     }
+
+//    public void setState(Boolean state){
+//        super.setOkay(state);
+//    }
+//
+//    public void setMessage(String message){
+//        super.setMessage(message);
+//    }
 }

@@ -45,7 +45,7 @@ class CancelReportFragment : Fragment() {
             if (data.state == false){
                 Toasty.error(requireActivity(), data.message.toString(), Toast.LENGTH_SHORT, true).show()
             }else{
-                if (data.data.isEmpty()){
+                if (data.data.isNullOrEmpty()){
                     Toasty.warning(requireActivity(), "Data Kosong", Toasty.LENGTH_SHORT, true).show()
                 } else{
                     cancelItemsReportAdapter.setData(data.data)

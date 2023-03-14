@@ -219,7 +219,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
         }
         roomArrayList.clear();
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomPaid(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
+        roomViewModel.getRoomPaid(cariData).observe(requireActivity(), roomResponse -> {
             roomResponse.displayMessage(getContext());
             progressBar.setVisibility(View.GONE);
             if (roomResponse.isOkay()) {

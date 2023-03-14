@@ -28,10 +28,11 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         private const val CHANNEL_ID = "channel_01"
         private const val CHANNEL_NAME = "Room Call Chanel"
     }
+    lateinit var notification: Any
 
     private val ihpRepository = IhpRepository()
     var userFo: User? = null
-    lateinit var notification: Any
+
     private lateinit var frontOfficeDatabase: FrontOfficeDatabase
     val bus: EventBus = EventBus.getDefault()
 

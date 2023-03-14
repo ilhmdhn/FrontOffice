@@ -15,9 +15,8 @@ public interface MemberClient {
     @GET("rsv/getRsv/{kode_reservasi}")
     Call<MemberResponse> checkReservasi(@Path("kode_reservasi") String rsv);
 
-    @GET("/voucher/get-voucher-web-membership/{outlet}/{voucher}")
-    Call<VoucherResponse> checkVoucherMembership(@Path("outlet") String outlet,
-                                             @Path("voucher") String kodeVoucher);
+    @GET("/voucher/get-voucher-web-membership/{voucher}")
+    Call<VoucherResponse> checkVoucherMembership(@Path("voucher") String kodeVoucher);
 
     @GET("/voucher/get-voucher/{voucher}")
     Call<VoucherResponse> checkVoucherOutlet(@Path("voucher") String kodeVoucher);

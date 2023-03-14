@@ -14,7 +14,7 @@ open class BaseResponse {
     var length = 0
 
     @SerializedName("message")
-    var message: String? = null
+    open var message: String? = null
     fun displayMessage(context: Context?) {
         if (!isOkay) {
             if (context != null) {

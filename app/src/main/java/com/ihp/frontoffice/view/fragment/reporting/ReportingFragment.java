@@ -10,14 +10,19 @@ import androidx.navigation.Navigation;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.google.android.material.card.MaterialCardView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
+import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
+import com.ihp.frontoffice.helper.UserAuthRole;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,8 +37,15 @@ public class ReportingFragment extends Fragment {
     @BindView(R.id.btn_my_sales)
     MaterialCardView btnMySales;
 
+
     @BindView(R.id.btn_report_cancel_order)
     MaterialCardView btnCancelOrder;
+
+    @BindView(R.id.ll_rph)
+    LinearLayout llRph;
+
+    @BindView(R.id.btn_report_rph)
+    MaterialCardView btnReportRPH;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,6 +91,13 @@ public class ReportingFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        User user = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
+        if(UserAuthRole.isAllowSendRPH(user)){
+            llRph.setVisibility(View.VISIBLE);
+        }else{
+            llRph.setVisibility(View.GONE);
+        }
         setMainTitle();
         btnKasMasuk.setOnClickListener(view -> {
             Navigation.findNavController(view)
@@ -114,6 +133,6 @@ public class ReportingFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+//        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }
 }
