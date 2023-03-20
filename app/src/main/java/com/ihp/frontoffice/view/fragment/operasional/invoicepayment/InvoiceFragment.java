@@ -8,21 +8,29 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import com.ihp.frontoffice.helper.utils;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.data.remote.respons.xBillResponse;
 import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.OrderItemAdapter;
+import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.TransferItemAdapter;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import butterknife.BindView;
@@ -55,68 +63,52 @@ import retrofit2.Response;
 
 public class InvoiceFragment extends Fragment {
 
-    @BindView(R.id.payment_progressbar)
-    MKLoader progressBar;
+    @BindView(R.id.tv_room_price)
+    TextView tvRoomPrice;
 
-    @BindView(R.id.tv_value_jam_checkin)
-    TextView valueCheckin;
+    @BindView(R.id.tv_clock)
+    TextView tvClock;
 
-    @BindView(R.id.tv_value_jam_checkout)
-    TextView valueCheckout;
+    @BindView(R.id.tv_room_discount)
+    TextView tvRoomDiscountPrice;
 
-    @BindView(R.id.tv_value_jam_durasi)
-    TextView valueDurasi;
+    @BindView(R.id.tv_room_plus_fnb)
+    TextView tvRoomPlusFnb;
 
-    @BindView(R.id.value_total_ruangan)
-    TextView valueRuangan;
+    @BindView(R.id.tv_service_price)
+    TextView tvServicePrice;
 
-    @BindView(R.id.value_voucher)
-    TextView valueVoucher;
+    @BindView(R.id.tv_tax_price)
+    TextView tvTaxPrice;
 
-    @BindView(R.id.value_total_all)
-    TextView valueJumlah;
+    @BindView(R.id.rv_order_fnb)
+    RecyclerView rvOrder;
 
-    @BindView(R.id.value_total_service)
-    TextView valueService;
-
-    @BindView(R.id.value_total_tax)
-    TextView valueTax;
-
-    @BindView(R.id.value_jumlah_total)
-    TextView valueJumlahTotal;
-
-    @BindView(R.id.value_total_transfer_room)
-    TextView valueTransferRuangan;
-
-    @BindView(R.id.label_total_transfer_room)
-    TextView labelTransferRuangan;
-
-    @BindView(R.id.value_gift)
-    TextView valueGift;
-
-    @BindView(R.id.value_uang_muka)
-    TextView valueDownPayment;
-
-    @BindView(R.id.value_final_total)
-    TextView valueFinalTotal;
+    @BindView(R.id.rv_transfer)
+    RecyclerView rvTransfer;
 
     @BindView(R.id.info_value_total_invoice)
     TextView infoValueTotalInvoice;
 
-    @BindView(R.id.label_voucher)
-    TextView labelVoucher;
+    @BindView(R.id.sv_invoice)
+    ScrollView svInvoice;
 
-    @BindView(R.id.label_gift)
-    TextView labelGift;
-
-    @BindView(R.id.label_penjualan)
-    TextView labelPenjualan;
+    @BindView(R.id.payment_progressbar)
+    MKLoader loadingIndicator;
 
     @BindView(R.id.btn_to_print)
     ImageButton btnToPrint;
 
     @BindView(R.id.btn_to_payment)
     AppCompatButton btnToPayment;
+
+    @BindView(R.id.tv_dp_nominal)
+    TextView tvDpNominal;
+
+    @BindView(R.id.tv_dummy_dp)
+    TextView tvDpDummy;
+
+
 
     private Invoice invoice;
     private Time timeRcp;
@@ -125,10 +117,11 @@ public class InvoiceFragment extends Fragment {
     private String userLevel;
     private OtherViewModel otherViewModel;
 
+    private OrderItemAdapter orderItemAdapter;
+    private TransferItemAdapter transferAdapter;
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
     private static String BASE_URL;
-    private LinearLayout detailOrderLayout, detailTransferLayout;
     private Printer printer;
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
@@ -160,6 +153,7 @@ public class InvoiceFragment extends Fragment {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -173,6 +167,8 @@ public class InvoiceFragment extends Fragment {
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
         printer = new Printer();
+        orderItemAdapter = new OrderItemAdapter();
+        transferAdapter =  new TransferItemAdapter();
 
         SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE);
         statusPrint = sharedPref.getInt(getString(R.string.preference_print), 2);
@@ -185,7 +181,6 @@ public class InvoiceFragment extends Fragment {
         roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
         roomOrderViewModel.init(BASE_URL);
-        initInvoice();
         btnToPayment.setOnClickListener(view -> {
             GlobalBus
                     .getBus()
@@ -364,157 +359,6 @@ public class InvoiceFragment extends Fragment {
                 });
             }
 
-////Print NodeJS
-
-
-//                    switch (statusPrint.getData().getPrint()) {
-//                        case "-1":
-//                        case "0":
-//                            builder.setMessage(R.string.ask_print_bill);
-//
-//                            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-////                                    ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity());
-//                                    otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
-//                                        Log.d("responnya", data.toString());
-//                                        if (data.getState()){
-//                                            Boolean statusPrint = printer.printBill(data, user, requireActivity());
-//                                        }else{
-//                                            Toast.makeText(requireActivity(), "opo kene? 1 "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//                                        }
-//                                    });
-//                                    dialogInterface.dismiss();
-//                                }
-//                            });
-//
-//                            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    dialogInterface.dismiss();
-//                                }
-//                            });
-//                            AlertDialog dialogPrintBill = builder.create();
-//                            dialogPrintBill.show();
-//                            break;
-//
-//                        default:
-//                            otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), data -> {
-//                                boolean kasirApproval = data.getState();
-//                                Log.d("cek approval kasir ", String.valueOf(kasirApproval));
-//                                if (kasirApproval) {
-//                                    builder.setMessage(R.string.ask_reprint_bill);
-//
-//                                    builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
-//                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-//                                            }
-//
-//                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
-//                                                if (data.getState()){
-//                                                    Boolean statusPrint = printer.printBill(data, user, requireActivity());
-//                                                    if (statusPrint){
-//                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-//                                                    }
-//                                                }else{
-//                                                    Toast.makeText(requireActivity(), "opokene dua "+data.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//                                                }
-//                                            });
-//                                            dialogInterface.dismiss();
-//                                        }
-//                                    });
-//
-//                                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            dialogInterface.dismiss();
-//                                        }
-//                                    });
-//                                    AlertDialog dialogReprintBill = builder.create();
-//                                    dialogReprintBill.show();
-//                                } else {
-//                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
-//                                    LayoutInflater dialogInflater = this.getLayoutInflater();
-//                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
-//                                    dialogBuilder.setView(dialogView);
-//                                    dialogBuilder.setCancelable(false);
-//                                    AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
-//                                    AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
-//
-//                                    EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
-//                                    EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
-//                                    AlertDialog alertDialog = dialogBuilder.create();
-//
-//                                    alertDialog.setOnShowListener(dialogInterface -> {
-//                                        buttonOk.setOnClickListener(it -> {
-//                                            String email = _usernameTxt.getText().toString();
-//                                            String password = _passwordTxt.getText().toString();
-//                                            if (email.isEmpty() && password.isEmpty()) {
-//                                                Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-//                                                        .show();
-//                                                return;
-//                                            }
-//                                            UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-//                                            Call<UserResponse> call = userClient.login(email, password);
-//                                            //---------------------
-//
-//                                            call.enqueue(new Callback<UserResponse>() {
-//                                                @Override
-//                                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-//                                                    UserResponse res = response.body();
-//                                                    //_loginProgress.setVisibility(View.GONE);
-//                                                    res.displayMessage(requireActivity());
-//                                                    if (res.isOkay()) {
-//                                                        User userCek = res.getUser();
-//                                                        if (UserAuthRole.isAllowReprintBill(userCek)) {
-////                                                            if(ihpRepository.printBill(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), user, requireActivity())){
-////                                                                ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-////                                                            }
-//
-//                                                            otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp()).observe(getViewLifecycleOwner(), data->{
-//                                                                if (data.getState()){
-//                                                                    boolean statusPrint = printer.printBill(data, user, requireActivity());
-//                                                                    if (statusPrint){
-//                                                                        ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
-//                                                                    }
-//                                                                }else{
-//                                                                    Toast.makeText(requireActivity(), "opo kene tiga "+data.getMessage(), Toast.LENGTH_SHORT).show();
-//                                                                }
-//                                                            });
-//
-//                                                        } else {
-//                                                            Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-//                                                                    .show();
-//                                                        }
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onFailure(Call<UserResponse> call, Throwable t) {
-//                                                    //_loginProgress.setVisibility(View.GONE);
-//                                                    Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-//                                                            .show();
-//                                                }
-//                                            });
-//
-//                                            //---------------------
-//                                        });
-//                                        buttonCancel.setOnClickListener(it -> {
-//                                            alertDialog.dismiss();
-//                                        });
-//                                    });
-//                                    alertDialog.show();
-//                                }
-//                            });
-//                            break;
-//                    }
-//                } else {
-//                    Toasty.error(requireActivity(), statusPrint.getMessage(), Toasty.LENGTH_SHORT, true).show();
-//                }
-//            });
-
             //Print POS LORONG
 
             if (statusPrint == 2 || statusPrint ==3) {
@@ -525,105 +369,56 @@ public class InvoiceFragment extends Fragment {
         });
     }
 
-    private void addDetailInventoryOrder() {
-        detailOrderLayout = getView().findViewById(R.id.detail_order_layout);
-        LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        for (Inventory data : roomOrder.getSummaryOrderInventories()) {
-            View rowView = inflater.inflate(R.layout.invoice_payment_detail_fnb, null);
-            TextView fnbName = rowView.findViewById(R.id.fnb_name);
-            TextView labelDisc = rowView.findViewById(R.id.fnb_disc_label);
-            TextView fnbQty = rowView.findViewById(R.id.fnb_qty);
-            TextView fnbPrice = rowView.findViewById(R.id.fnb_price);
-            TextView fnbDiskon = rowView.findViewById(R.id.fnb_diskon);
-            TextView fnbTotal = rowView.findViewById(R.id.fnb_total);
+        otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), dataBill ->{
 
-            fnbName.setText(data.getInventoryName());
-            fnbQty.setText("(" + data.getQty());
-            fnbPrice.setText(AppUtils.formatNominal(data.getUnitPrice()) + ")");
-            if (data.getTotalDiscount() > 0) {
-                fnbDiskon.setText("(" + AppUtils.formatNominal(data.getTotalDiscount())+")");
-                //labelDisc.setVisibility(View.VISIBLE);
-            } else {
-                fnbDiskon.setVisibility(View.GONE);
-                labelDisc.setVisibility(View.GONE);
+            if(dataBill.getState() == null){
+                svInvoice.setVisibility(View.GONE);
+                loadingIndicator.setVisibility(View.VISIBLE);
+            }else{
+                loadingIndicator.setVisibility(View.GONE);
+                if(dataBill.getState()){
+                    svInvoice.setVisibility(View.VISIBLE);
+                    createInvoiceLayout(dataBill);
+                }else{
+                    Toasty.error(requireActivity(), dataBill.getMessage()).show();
+                }
             }
-            fnbTotal.setText(AppUtils.formatNominal(data.getTotalAfterDiscount()+data.getTotalDiscount()));
-
-            detailOrderLayout.addView(rowView);
-        }
+        });
     }
 
-    private void addDetailTransferRoom() {
-        detailTransferLayout = getView().findViewById(R.id.detail_room_transfer_layout);
-        LayoutInflater inflater = (LayoutInflater) requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        Room roomCheckin = roomOrder.getCheckinRoom();
-        for (Room room : roomOrder.getHistoryTransferOrderRoom()) {
-            if (!room.getRoomCode().equals(roomCheckin.getRoomCode())) {
-                View rowView = inflater.inflate(R.layout.invoice_payment_detail_room_transfer, null);
-                TextView roomCode = rowView.findViewById(R.id.room_code);
-                TextView total = rowView.findViewById(R.id.total);
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
+    void createInvoiceLayout(xBillResponse data){
 
-                roomCode.setText(room.getRoomType() +" "+ room.getRoomCode());
-                total.setText(AppUtils.formatNominal(room.getTotalAllInvoice()));
+        orderItemAdapter.setData(data.getData());
+        transferAdapter.setData(data.getData().getTransferListData());
+        orderItemAdapter.notifyDataSetChanged();
+        transferAdapter.notifyDataSetChanged();
 
-                detailTransferLayout.addView(rowView);
-            }
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void initInvoice() {
-        labelPenjualan.setVisibility(View.GONE);
-        if (roomOrder.getSummaryOrderInventories().size() > 0) {
-            labelPenjualan.setVisibility(View.VISIBLE);
-            addDetailInventoryOrder();
-        }
-
-        if (roomOrder.getHistoryTransferOrderRoom().size() > 1) {
-            labelTransferRuangan.setVisibility(View.VISIBLE);
-            addDetailTransferRoom();
+        if(data.getData().getDataInvoice().getUangMuka() == 0){
+            tvDpDummy.setVisibility(View.GONE);
+            tvDpNominal.setVisibility(View.GONE);
         }else{
-            labelTransferRuangan.setVisibility(View.GONE);
+            tvDpNominal.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getUangMuka())));
         }
 
-        valueRuangan.setText(AppUtils.formatNominal(invoice.getTotalRoom()));
+        rvOrder.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        rvOrder.setHasFixedSize(true);
+        rvOrder.setAdapter(orderItemAdapter);
 
-        //valueFnb.setText(AppUtils.formatNominal(invoice.getTotalInventory()));
-        valueCheckin.setText(timeRcp.getCheckinTime());
-        valueCheckout.setText(timeRcp.getCheckoutTime());
-        valueDurasi.setText(timeRcp.getTimeClock());
+        rvTransfer.setLayoutManager(new LinearLayoutManager(requireActivity()));
+        rvTransfer.setHasFixedSize(true);
+        rvTransfer.setAdapter(transferAdapter);
 
-        valueJumlah.setText(AppUtils.formatNominal(invoice.getTotalRoomAndInventory()));
-        valueService.setText(AppUtils.formatNominal(invoice.getTotalService()));
-        valueTax.setText(AppUtils.formatNominal(invoice.getTotalTax()));
-        valueJumlahTotal.setText(AppUtils.formatNominal(invoice.getTotalAll()));
-
-        valueTransferRuangan.setText(AppUtils.formatNominal(invoice.getTotalTransfer()));
-        valueTransferRuangan.setVisibility(View.INVISIBLE);
-        valueDownPayment.setText(AppUtils.formatNominal(invoice.getTotalUangMuka()));
-        if (invoice.isGift()) {
-            valueVoucher.setText("Rp0");
-            valueVoucher.setVisibility(View.GONE);
-            valueGift.setText(AppUtils.formatNominal(invoice.getTotalVoucher()));
-            if (invoice.getTotalVoucher() < 1) {
-                valueGift.setVisibility(View.GONE);
-                labelVoucher.setVisibility(View.GONE);
-                labelGift.setVisibility(View.GONE);
-            }
-        } else {
-            valueVoucher.setText(AppUtils.formatNominal(invoice.getTotalVoucher()));
-            valueGift.setText("Rp0");
-            valueGift.setVisibility(View.GONE);
-            if (invoice.getTotalVoucher() < 1) {
-                valueVoucher.setVisibility(View.GONE);
-                labelVoucher.setVisibility(View.GONE);
-                labelGift.setVisibility(View.GONE);
-            }
-        }
-
-
-        valueFinalTotal.setText(AppUtils.formatNominal(invoice.getTotalFinal()));
-        infoValueTotalInvoice.setText(AppUtils.formatNominal(invoice.getTotalFinal()));
+        tvRoomPrice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getSewaRuangan())));
+        tvRoomDiscountPrice.setText("("+AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getPromo()))+")");
+        tvClock.setText(data.getData().getDataRoom().getCheckin() +" - "+data.getData().getDataRoom().getCheckout());
+        tvRoomPlusFnb.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahRuangan() + data.getData().getDataInvoice().getJumlahPenjualan())));
+        tvServicePrice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahService())));
+        tvTaxPrice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahPajak())));
+        infoValueTotalInvoice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahBersih())));
     }
 }

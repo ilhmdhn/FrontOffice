@@ -298,11 +298,11 @@ class IhpRepository {
         })
     }
 
-    fun printMobilePrintBill(url: String, room: String):LiveData<PrintBillDataResponse>{
-        val responseData = MutableLiveData<PrintBillDataResponse>()
+    fun printMobilePrintBill(url: String, room: String):LiveData<xBillResponse>{
+        val responseData = MutableLiveData<xBillResponse>()
         val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
-        client.getPrintBill(room).enqueue(object: Callback<PrintBillDataResponse>{
-            override fun onResponse(call: Call<PrintBillDataResponse>,response: retrofit2.Response<PrintBillDataResponse>) {
+        client.getPrintBill(room).enqueue(object: Callback<xBillResponse>{
+            override fun onResponse(call: Call<xBillResponse>,response: retrofit2.Response<xBillResponse>) {
                 if (response.isSuccessful){
                     if (response.body()?.state == true){
                         responseData.postValue(response.body())
@@ -310,29 +310,29 @@ class IhpRepository {
                 }
             }
 
-            override fun onFailure(call: Call<PrintBillDataResponse>, t: Throwable) {
-                responseData.postValue(PrintBillDataResponse(null, false, t.message))
+            override fun onFailure(call: Call<xBillResponse>, t: Throwable) {
+                responseData.postValue(xBillResponse( null, false, t.message))
             }
         })
         return responseData
     }
 
-    fun printMobileInvoice(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
-        val responseData = MutableLiveData<PrintInvoiceDataResponse>()
-        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
-        client.getPrintInvoice(rcp).enqueue(object: Callback<PrintInvoiceDataResponse>{
-            override fun onResponse(call: Call<PrintInvoiceDataResponse>, response: retrofit2.Response<PrintInvoiceDataResponse>) {
-                if (response.isSuccessful){
-                    responseData.postValue(response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<PrintInvoiceDataResponse>, t: Throwable) {
-                    responseData.postValue(PrintInvoiceDataResponse(null, false, t.message))
-            }
-        })
-        return responseData
-    }
+//    fun printMobileInvoice(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
+//        val responseData = MutableLiveData<PrintInvoiceDataResponse>()
+//        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+//        client.getPrintInvoice(rcp).enqueue(object: Callback<PrintInvoiceDataResponse>{
+//            override fun onResponse(call: Call<PrintInvoiceDataResponse>, response: retrofit2.Response<PrintInvoiceDataResponse>) {
+//                if (response.isSuccessful){
+//                    responseData.postValue(response.body())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<PrintInvoiceDataResponse>, t: Throwable) {
+//                    responseData.postValue(PrintInvoiceDataResponse(null, false, t.message))
+//            }
+//        })
+//        return responseData
+//    }
 
     fun updateStatusPrint(url: String, rcp: String, statusPrint: String, context: Context){
         val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)

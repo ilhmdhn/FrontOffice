@@ -24,13 +24,13 @@ class OtherViewModel: ViewModel() {
         return localDataSource.user
     }
 
-    fun getBillData(url: String, room: String): LiveData<PrintBillDataResponse>{
+    fun getBillData(url: String, room: String): LiveData<xBillResponse>{
         return ihpRepository.printMobilePrintBill(url, room)
     }
 
-    fun getInvoiceData(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
-        return ihpRepository.printMobileInvoice(url, rcp)
-    }
+//    fun getInvoiceData(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
+//        return ihpRepository.printMobileInvoice(url, rcp)
+//    }
 
     fun checkUser(url: String, userId: String, password: String): LiveData<UserResponse>{
         return ihpRepository.checkUser(url, userId, password)

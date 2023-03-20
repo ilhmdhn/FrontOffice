@@ -252,7 +252,6 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
             buttonNext.setEnabled(true);
             buttonPrevious.setEnabled(true);
         }
-
     }
 
     @Override
@@ -332,6 +331,4 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
                                 .actionNavOperasionalListRoomToEditInfoFragmentToNavOperasionalCheckinEditInfoFragment(roomOrder)
                 );
     }
-
-
 }

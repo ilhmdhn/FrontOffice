@@ -181,6 +181,9 @@
         <action
             android:id="@+id/action_navOperasionalCheckinEditInfoFragment_self"
             app:destination="@id/navOperasionalCheckinEditInfoFragment" />
+        <action
+            android:id="@+id/action_navOperasionalCheckinEditInfoFragment_to_navOperasionalListRoomToEditInfoFragment"
+            app:destination="@id/navOperasionalListRoomToEditInfoFragment" />
     </fragment>
 
     <fragment

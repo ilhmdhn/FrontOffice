@@ -660,18 +660,17 @@ public class PaymentFragment extends Fragment
                 if (!res.isOkay()) {
                     return;
                 }
-                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
-                    if (Boolean.TRUE.equals(data.getState())){
-                        if (printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false)){
-                            ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
-                        }
-                    }else{
-                        Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
+//                    if (Boolean.TRUE.equals(data.getState())){
+//                        if (printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false)){
+//                            ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
+//                        }
+//                    }else{
+//                        Toast.makeText(requireActivity(), data.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
                 navToMain();
-//                ihpRepository.printInvoice(BASE_URL, room.getRoomRcp(), requireActivity());
             }
 
             @Override

@@ -19,9 +19,9 @@ public class ApiRestService {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
-//                    .connectTimeout(60, TimeUnit.SECONDS)
-//                    .writeTimeout(60, TimeUnit.SECONDS)
-//                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .writeTimeout(60, TimeUnit.SECONDS)
+                    .readTimeout(60, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

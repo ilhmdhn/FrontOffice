@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_primary_background"
+    android:padding="6dp">
+
+    <TextView
+        android:id="@+id/tv_transfer_room_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/text_tab"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:layout_alignParentStart="true"
+        android:text="TRANSFER PR A" />
+
+    <TextView
+        android:id="@+id/tv_transfer_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        style="@style/text_tab"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:text="100.000"/>
+</RelativeLayout>

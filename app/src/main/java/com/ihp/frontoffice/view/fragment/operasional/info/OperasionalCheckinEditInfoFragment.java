@@ -318,7 +318,6 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 .getRoomOrder();
         member = roomOrder.getMember();
         currentRoomCheckin = roomOrder.getCheckinRoom();
-
     }
 
     @Override
@@ -497,6 +496,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
         initMemberValidationUI();
 
+        if(inputCodeVoucher.getEditText().getText().toString() == currentRoomCheckin.getCodeMemberRef()){
+            inputCodeVoucher.getEditText().setText("");
+        }
     }
 
     private void reduceDuration() {
@@ -526,7 +528,6 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
         otherViewModel.getJumlahApproval(BASE_URL, USER_FO.getUserId()).observe(getViewLifecycleOwner(), data ->{
             boolean kasirApproval = data.getState();
-            Log.d("cek approval kasir ", String.valueOf(kasirApproval));
             if (kasirApproval) {
 //                alert dialog
 
@@ -682,6 +683,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                     if (responsee.body() != null) {
                                         if(responsee.body().getState()){
                                             roomOrder.getRoomPromos().clear();
+
                                             Navigation.findNavController(buttonSubmit)
                                                     .navigate(
                                                             OperasionalCheckinEditInfoFragmentDirections
@@ -810,6 +812,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                             if(removePromoResponse.getState()){
                                 Toasty.info(requireActivity(), removePromoResponse.getMessage()).show();
                                 roomOrder.getInventoryPromos().clear();
+                                ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(),currentRoomCheckin.getRoomCode(), "Remove FnB Promo");
                                 Navigation.findNavController(buttonSubmit)
                                         .navigate(
                                                 OperasionalCheckinEditInfoFragmentDirections
@@ -829,6 +832,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                     }
                 });
                 builder.setCancelable(true);
+                builder.show();
             }else{
                 MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
                 LayoutInflater dialogInflater = this.getLayoutInflater();
@@ -861,6 +865,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                     if(removeResponse.getState()){
                                         Toasty.info(requireActivity(), removeResponse.getMessage()).show();
                                         roomOrder.getInventoryPromos().clear();
+                                        ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(),currentRoomCheckin.getRoomCode(), "Remove FnB Promo");
                                         Navigation.findNavController(buttonSubmit)
                                                 .navigate(
                                                         OperasionalCheckinEditInfoFragmentDirections
@@ -1430,6 +1435,8 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         }
 
         if (!currentRoomCheckin.getVoucherCode().isEmpty()) {
+//            Log.d("DEBUGGING voucherCode", currentRoomCheckin.getVoucherCode());
+            //bukan ini
             inputCodeVoucher.getEditText().setText(currentRoomCheckin.getVoucherCode());
             inputCodeVoucher.setEnabled(false);
             buttonScanQRCodeVoucher.setVisibility(View.GONE);
@@ -1836,9 +1843,14 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     }
 
     private void navToMain() {
-        Navigation
-                .findNavController(this.getView())
-                .popBackStack();
+//        Navigation
+//                .findNavController(this.getView())
+//                .popBackStack();
+        Navigation.findNavController(getView())
+                .navigate(
+                        OperasionalCheckinEditInfoFragmentDirections
+                                .actionNavOperasionalCheckinEditInfoFragmentToNavOperasionalListRoomToEditInfoFragment()
+                );
     }
 
     @Override
@@ -1938,6 +1950,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 
                 inputCodeVoucher.setFocusable(true);
                 inputCodeVoucher.setEnabled(false);
+                Log.d("mosok scan", scanResult.getData());
                 inputCodeVoucher.getEditText().setText(scanResult.getData());
             }
             isVoucherScanActive = false;

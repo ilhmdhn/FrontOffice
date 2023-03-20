@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/dark_primary_background"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/tv_item_order_name"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AYAM CABE GARAM"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_order_count"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_order_name" />
+
+    <TextView
+        android:id="@+id/textView13"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="x"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_count"
+        app:layout_constraintTop_toTopOf="@+id/tv_order_count" />
+
+    <TextView
+        android:id="@+id/tv_order_price"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="100.000"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/textView13"
+        app:layout_constraintTop_toBottomOf="@+id/tv_item_order_name" />
+
+    <TextView
+        android:id="@+id/tv_order_total_price_item"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="200.000"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_order_price" />
+
+    <TextView
+        android:id="@+id/tv_discount_price"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(200.000)"
+        android:textColor="@color/light_yellow_primary"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_order_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_fnb_discount" />
+
+    <TextView
+        android:id="@+id/tv_fnb_discount"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISKON 100%"
+        android:textColor="@color/light_yellow_primary"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_count" />
+
+    <TextView
+        android:id="@+id/tv_retur_item_name"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RETUR AYAM CABE GARAM"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_fnb_discount"
+        app:layout_constraintTop_toBottomOf="@+id/tv_fnb_discount" />
+
+    <TextView
+        android:id="@+id/tv_retur_item_count"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="1"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/tv_retur_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_retur_item_name" />
+
+    <TextView
+        android:id="@+id/tv_dummy_kali_retur"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="x"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_retur_item_count"
+        app:layout_constraintTop_toBottomOf="@+id/tv_retur_item_name" />
+
+    <TextView
+        android:id="@+id/tv_retur_item_price"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:text="100.000"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/tv_dummy_kali_retur"
+        app:layout_constraintTop_toBottomOf="@+id/tv_retur_item_name" />
+
+    <TextView
+        android:id="@+id/tv_retur_item_total_price"
+        style="@style/text_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(100.000)"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/tv_retur_item_price"
+        app:layout_constraintTop_toTopOf="@+id/tv_retur_item_price" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
