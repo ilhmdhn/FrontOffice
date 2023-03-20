@@ -367,9 +367,7 @@ public class OperasionalFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void approvalResponse(DataBusEvent.approvalResponse data){
         Log.d("approval sampe sini", data.toString());
@@ -379,4 +377,3 @@ public class OperasionalFragment extends Fragment {
             Toast.makeText(requireActivity(), "Spv Menolak", Toast.LENGTH_SHORT).show();
         }
     }
-}
