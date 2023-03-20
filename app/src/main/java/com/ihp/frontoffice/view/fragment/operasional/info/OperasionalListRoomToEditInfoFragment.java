@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -95,7 +96,6 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -262,6 +262,8 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
         roomRecyclerView.setAdapter(roomAdapter);
         checkinRoomSetupData();
     }
+
+
 
     @Override
     public void onStart() {

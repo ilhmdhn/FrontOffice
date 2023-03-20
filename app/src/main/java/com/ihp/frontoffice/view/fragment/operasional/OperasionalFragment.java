@@ -368,12 +368,14 @@ public class OperasionalFragment extends Fragment {
             }
         });
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void approvalResponse(DataBusEvent.approvalResponse data){
+    public void approvalResponse(DataBusEvent.approvalResponse data) {
         Log.d("approval sampe sini", data.toString());
-        if (data.isApprove()){
+        if (data.isApprove()) {
             Toast.makeText(requireActivity(), data.toString(), Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(requireActivity(), "Spv Menolak", Toast.LENGTH_SHORT).show();
         }
     }
+}

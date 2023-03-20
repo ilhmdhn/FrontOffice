@@ -72,6 +72,12 @@ public class InvoiceFragment extends Fragment {
     @BindView(R.id.tv_room_discount)
     TextView tvRoomDiscountPrice;
 
+    @BindView(R.id.tv_dummy_voucher)
+    TextView tvDummyVoucher;
+
+    @BindView(R.id.tv_voucher_value)
+    TextView tvVoucherValue;
+
     @BindView(R.id.tv_room_plus_fnb)
     TextView tvRoomPlusFnb;
 
@@ -420,5 +426,11 @@ public class InvoiceFragment extends Fragment {
         tvServicePrice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahService())));
         tvTaxPrice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahPajak())));
         infoValueTotalInvoice.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getJumlahBersih())));
+        if(data.getData().getDataInvoice().getVoucher() == 0){
+            tvDummyVoucher.setVisibility(View.GONE);
+            tvVoucherValue.setVisibility(View.GONE);
+        }else{
+            tvVoucherValue.setText(AppUtils.formatNominal(Double.valueOf(data.getData().getDataInvoice().getVoucher())));
+        }
     }
 }

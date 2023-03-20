@@ -44,12 +44,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="4dp"
-                tools:text="21:41 - 00:41"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                app:layout_constraintTop_toBottomOf="@+id/textView10"
+                tools:text="21:41 - 00:41" />
 
             <TextView
                 android:id="@+id/tv_room_price"
@@ -57,12 +57,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="1.500.000 "
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/tv_clock" />
+                app:layout_constraintTop_toTopOf="@+id/tv_clock"
+                tools:text="1.500.000 " />
 
             <TextView
                 android:id="@+id/tv_room_discount"
@@ -70,12 +70,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="(1.500.000)"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="@+id/textView10"
-                app:layout_constraintTop_toTopOf="@+id/tv_dummy_promo" />
+                app:layout_constraintTop_toTopOf="@+id/tv_dummy_promo"
+                tools:text="(1.500.000)" />
 
             <TextView
                 android:id="@+id/tv_dummy_promo"
@@ -137,12 +137,12 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="8dp"
-                tools:text="3.824.600"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_order_fnb" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_order_fnb"
+                tools:text="3.824.600" />
 
             <TextView
                 android:id="@+id/tv_dummy_promo5"
@@ -163,12 +163,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="pajak"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_dummy_promo6" />
+                app:layout_constraintTop_toTopOf="@+id/tv_dummy_promo6"
+                tools:text="pajak" />
 
             <TextView
                 android:id="@+id/tv_dummy_promo6"
@@ -190,12 +190,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="Service"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_dummy_promo3" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_dummy_promo3"
+                tools:text="Service" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_transfer"
@@ -221,17 +221,43 @@
                 app:layout_constraintTop_toBottomOf="@+id/rv_transfer" />
 
             <TextView
+                android:id="@+id/tv_dummy_voucher"
+                style="@style/text_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Uang Voucher"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_dummy_dp" />
+
+            <TextView
+                android:id="@+id/tv_voucher_value"
+                style="@style/text_tab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                tools:text="Uang Voucher"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_dummy_dp" />
+
+            <TextView
                 android:id="@+id/tv_dp_nominal"
                 style="@style/text_tab"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                tools:text="UANG MUKA"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_transfer" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_transfer"
+                tools:text="UANG MUKA" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

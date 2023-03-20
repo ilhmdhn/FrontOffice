@@ -182,6 +182,8 @@
             android:id="@+id/action_navOperasionalCheckinEditInfoFragment_self"
             app:destination="@id/navOperasionalCheckinEditInfoFragment" />
         <action
+            app:popUpTo="@id/navOperasionalListRoomToEditInfoFragment"
+            app:popUpToInclusive="true"
             android:id="@+id/action_navOperasionalCheckinEditInfoFragment_to_navOperasionalListRoomToEditInfoFragment"
             app:destination="@id/navOperasionalListRoomToEditInfoFragment" />
     </fragment>
