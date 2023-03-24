@@ -28,6 +28,12 @@ class OtherViewModel: ViewModel() {
         return ihpRepository.printMobilePrintBill(url, room)
     }
 
+    fun viewBill(url: String, room: String): LiveData<xBillResponse>{
+        return ihpRepository.getViewBill(url, room)
+    }
+
+
+
 //    fun getInvoiceData(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
 //        return ihpRepository.printMobileInvoice(url, rcp)
 //    }

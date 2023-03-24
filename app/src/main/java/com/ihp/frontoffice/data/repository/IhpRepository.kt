@@ -317,6 +317,23 @@ class IhpRepository {
         return responseData
     }
 
+    fun getViewBill(url: String, room: String):LiveData<xBillResponse>{
+        val responseData = MutableLiveData<xBillResponse>()
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        client.getPrintBill(room).enqueue(object: Callback<xBillResponse>{
+            override fun onResponse(call: Call<xBillResponse>,response: retrofit2.Response<xBillResponse>) {
+                if (response.isSuccessful){
+                        responseData.postValue(response.body())
+                }
+            }
+
+            override fun onFailure(call: Call<xBillResponse>, t: Throwable) {
+                responseData.postValue(xBillResponse( null, false, t.message))
+            }
+        })
+        return responseData
+    }
+
 //    fun printMobileInvoice(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
 //        val responseData = MutableLiveData<PrintInvoiceDataResponse>()
 //        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)

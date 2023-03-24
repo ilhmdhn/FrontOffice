@@ -14,6 +14,11 @@ interface DataPrintClient {
         @Query("room") room: String
     ): Call<xBillResponse>
 
+    @GET("/mobile-print/view-bill")
+    fun getViewBill(
+            @Query("room") room: String
+    ): Call<xBillResponse>
+
 //    @GET("/mobile-print/invoice")
 //    fun getPrintInvoice(
 //        @Query("rcp") rcp: String

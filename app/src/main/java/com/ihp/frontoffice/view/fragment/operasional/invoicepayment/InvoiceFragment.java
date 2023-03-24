@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -186,7 +187,10 @@ public class InvoiceFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         roomOrderViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomOrderViewModel.class);
+
+//        otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
         roomOrderViewModel.init(BASE_URL);
+        btnToPayment.setEnabled(false);
         btnToPayment.setOnClickListener(view -> {
             GlobalBus
                     .getBus()
@@ -376,24 +380,29 @@ public class InvoiceFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), dataBill ->{
-
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        otherViewModel.viewBill(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), dataBill ->{
+            super.onViewCreated(view, savedInstanceState);
             if(dataBill.getState() == null){
                 svInvoice.setVisibility(View.GONE);
                 loadingIndicator.setVisibility(View.VISIBLE);
-            }else{
+            }
+            else{
                 loadingIndicator.setVisibility(View.GONE);
                 if(dataBill.getState()){
+                    btnToPayment.setEnabled(true);
                     svInvoice.setVisibility(View.VISIBLE);
                     createInvoiceLayout(dataBill);
                 }else{
-                    Toasty.error(requireActivity(), dataBill.getMessage()).show();
+                    svInvoice.setVisibility(View.GONE);
+                    showError(dataBill.getMessage());
                 }
             }
         });
+    }
+
+    void showError(String err){
+        Toasty.error(requireActivity(), err, Toasty.LENGTH_LONG).show();
     }
 
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
