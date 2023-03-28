@@ -7,7 +7,6 @@ import android.util.Log
 import android.widget.Toast
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
-import com.dantsu.escposprinter.connection.tcp.TcpConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.*
@@ -18,7 +17,6 @@ import java.util.*
 class Printer {
 
     private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-//    private var printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100), 203, 72f, 48)
 
     fun disconnectPrinter(){
         printer.disconnectPrinter()
@@ -39,14 +37,12 @@ class Printer {
         )
     }
 
+    @SuppressLint("SimpleDateFormat")
     fun printBill(billData: xBillResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             printer.disconnectPrinter()
             printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-//            printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100), 203, 72f, 48)
             val selling = StringBuilder()
-            val cancelOrder = StringBuilder()
-            val promoFnB = StringBuilder()
             val transferRoom = StringBuilder()
             val copies = StringBuilder()
             var totalTransfer = 0
@@ -87,19 +83,25 @@ class Printer {
             if (billData?.data?.orderData != null) {
                 for (i: Int in billData.data.orderData.indices) {
                     selling.append("[L]${billData.data.orderData[i]?.namaItem}\n")
-                    selling.append("[L]${billData.data.orderData[i]?.jumlah} x ${utils.getCurrency(billData.data.orderData[i]?.harga?.toLong())} [R] ${utils.getCurrency(billData.data.orderData[i]?.total?.toLong())}\n")
-                }
-            }
-            if (billData?.data?.cancelOrderData != null) {
-                    cancelOrder.append("\n")
-                for (i in billData.data.cancelOrderData.indices) {
-                    cancelOrder.append("[L]RETUR ${billData.data.cancelOrderData[i]?.namaItem}\n")
-                    cancelOrder.append("[L]${billData.data.cancelOrderData[i]?.jumlah} x ${utils.getCurrency(billData.data.cancelOrderData[i]?.harga?.toLong())}[R](${utils.getCurrency(billData.data.cancelOrderData[i]?.total?.toLong())})\n")
-                }
-            }
+                    selling.append("[L]  ${billData.data.orderData[i]?.jumlah} x ${utils.getCurrency(billData.data.orderData[i]?.harga?.toLong())} [R] ${utils.getCurrency(billData.data.orderData[i]?.total?.toLong())}\n")
 
-            if (billData?.data?.promoOrderData != null) {
-                promoFnB.append("\n[L]${billData.data.promoOrderData[0]?.promoName}[R](${utils.getCurrency(billData.data.promoOrderData[0]?.promoPrice?.toLong())})\n")
+                    if(!billData.data.cancelOrderData.isNullOrEmpty()){
+                        for(cc: Int in billData.data.cancelOrderData.indices){
+                          if(billData.data.orderData[i]?.orderCode == billData.data.cancelOrderData[cc]?.orderCode && billData.data.orderData[i]?.inventoryCode == billData.data.cancelOrderData[cc]?.inventoryCode){
+                            selling.append("[L]RETUR ${billData.data.cancelOrderData[cc]?.namaItem}\n")
+                            selling.append("[L]  ${billData.data.cancelOrderData[cc]?.jumlah} x ${utils.getCurrency(billData.data.cancelOrderData[cc]?.harga?.toLong())}[R](${utils.getCurrency(billData.data.cancelOrderData[cc]?.total?.toLong())})\n")
+                          }
+                        }
+                    }
+
+                    if(!billData.data.promoOrderData.isNullOrEmpty()){
+                        for(j: Int in billData.data.promoOrderData.indices){
+                            if(billData.data.orderData[i]?.orderCode == billData.data.promoOrderData[j]?.orderCode && billData.data.orderData[i]?.inventoryCode == billData.data.promoOrderData[j]?.inventoryCode){
+                                selling.append("[L]${billData.data.promoOrderData[j]?.promoName} [R](${utils.getCurrency(billData.data.promoOrderData[j]?.promoPrice?.toLong())})\n")
+                            }
+                        }
+                    }
+                }
             }
 
             if (!billData?.data?.transferListData.isNullOrEmpty()){
@@ -110,13 +112,12 @@ class Printer {
                 }
             }
 
-            if (billData?.data?.transferBillData != null){
-                for (i in billData.data.transferBillData.indices){
-//                    transferBill.append(transferPrint(billData.data.transferBillData[i], user))
+            if (!billData?.data?.transferBillData.isNullOrEmpty()){
+                for (i in billData?.data?.transferBillData?.indices!!){
+                    transferBill.append(transferPrint(billData.data.transferBillData[i], user))
                 }
             }
 
-            val jumlahBersih = (totalTransfer) + (billData?.data?.dataInvoice?.jumlahTotal ?: 0) - (billData?.data?.dataInvoice?.uangMuka ?: 0)
             printer.printFormattedText(
                 "[L]\n" +
                         copies+
@@ -135,9 +136,7 @@ class Printer {
                         "[L]PROMO[R](${utils.getCurrency(billData?.data?.dataInvoice?.promo?.toLong())})\n" +
                         "\n" +
                         "[L]Rincian Penjualan\n" +
-                        selling +
-                        cancelOrder +
-                        promoFnB+
+                        selling+
                         "--------------------------------\n"+
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
@@ -151,9 +150,9 @@ class Printer {
                         transferRoom+
                         "\n[L][R]Uang Muka [R]${utils.getCurrency(billData?.data?.dataInvoice?.uangMuka?.toLong())}\n"+
                         "[R]-------------\n"+
-                        "[L]Jumlah Bersih [R]${utils.getCurrency(jumlahBersih.toLong())}\n"+
-                        "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(jumlahBersih.toLong())}</b></font>\n"+
-                        "\n[R]${currentDate} ${user}"+
+                        "[L]Jumlah Bersih [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}\n"+
+                        "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
+                        "\n[R]${currentDate} ${user}\n"+
                         transferBill
             )
             return true
@@ -295,120 +294,109 @@ class Printer {
 //        }
 //    }
 
-//    fun transferPrint(dataTransfer: xTransferBillDataItem?, user: String): String{
-//
-//        val transferData: String
-//
-//        val selling = StringBuilder()
-//        val cancelOrder = StringBuilder()
-//        val promoFnB = StringBuilder()
-//        val transferRoom = StringBuilder()
-//        val copies = StringBuilder()
-//        var totalTransfer = 0
-//        val biayaLain = StringBuilder()
-//        val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
-//        val currentDate = sdf.format(Date())
-//
-//        if (dataTransfer?.dataInvoice?.overpax !=null && dataTransfer.dataInvoice.overpax > 0){
-//            biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(dataTransfer.dataInvoice.overpax.toLong())}\n")
-//        }
-//
-//        if (dataTransfer?.dataInvoice?.diskonKamar !=null && dataTransfer.dataInvoice.diskonKamar > 0){
-//            biayaLain.append("[L][R]Diskon Kamar [R](${utils.getCurrency(dataTransfer.dataInvoice.diskonKamar.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.dataInvoice?.surchargeKamar !=null && dataTransfer.dataInvoice.surchargeKamar > 0){
-//            biayaLain.append("[L][R]Surcharge Kamar [R](${utils.getCurrency(dataTransfer.dataInvoice.surchargeKamar.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.dataInvoice?.diskonPenjualan !=null && dataTransfer.dataInvoice.diskonPenjualan > 0){
-//            biayaLain.append("[L][R]Diskon Penjualan [R](${utils.getCurrency(dataTransfer.dataInvoice.diskonPenjualan.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.dataInvoice?.voucher !=null && dataTransfer.dataInvoice.voucher > 0){
-//            biayaLain.append("[L][R]Voucher [R](${utils.getCurrency(dataTransfer.dataInvoice.voucher.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.dataInvoice?.chargeLain !=null && dataTransfer.dataInvoice.chargeLain > 0){
-//            biayaLain.append("[L][R]Charge Lain [R](${utils.getCurrency(dataTransfer.dataInvoice.chargeLain.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.orderData != null) {
-//            for (i: Int in dataTransfer.orderData.indices) {
-//                selling.append("[L]${dataTransfer.orderData[i]?.}\n")
-//                selling.append("[L]${dataTransfer.orderData[i]?.jumlah} x ${utils.getCurrency(
-//                    dataTransfer.orderData[i]?.harga?.toLong())} [R] ${utils.getCurrency(
-//                    dataTransfer.orderData[i]?.total?.toLong())}\n")
-//            }
-//        }
-//        if (dataTransfer?.cancelOrderData != null) {
-//            cancelOrder.append("\n")
-//            for (i in dataTransfer.cancelOrderData.indices) {
-//                cancelOrder.append("[L]RETUR ${dataTransfer.cancelOrderData[i]?.namaItem}\n")
-//                cancelOrder.append("[L]${dataTransfer.cancelOrderData[i]?.jumlah} x ${utils.getCurrency(
-//                    dataTransfer.cancelOrderData[i]?.harga?.toLong())}[R](${utils.getCurrency(
-//                    dataTransfer.cancelOrderData[i]?.total?.toLong())})\n")
-//            }
-//        }
-//
-//        if (dataTransfer?.promoOrderData != null) {
-//            promoFnB.append("\n[L]${dataTransfer.promoOrderData.promo}[R](${utils.getCurrency(dataTransfer.promoOrderData.totalPromo?.toLong())})\n")
-//        }
-//
-//        if (dataTransfer?.transferListData != null){
-//            transferRoom.append("\n[C][R]Transfer Ruangan\n")
-//            for(i in dataTransfer.transferListData.indices){
-//                transferRoom.append("[C][R]${dataTransfer.transferListData[i]?.room} [R]${utils.getCurrency(dataTransfer.transferListData[i]?.transferTotal?.toLong())}\n")
-//                totalTransfer += dataTransfer.transferListData[i]?.transferTotal!!
-//            }
-//        }
-//        val jumlahBersih = totalTransfer + (if(dataTransfer?.dataInvoice?.jumlahTotal==null) 0 else dataTransfer.dataInvoice.jumlahTotal) - (if(dataTransfer?.dataInvoice?.uangMuka==null) 0 else dataTransfer.dataInvoice.uangMuka)
-//
-//        transferData = "[L]\n\n\n\n\n" +
-//                copies+
-//                "[C]${dataTransfer?.dataOutlet?.namaOutlet}\n" +
-//                "[C]${dataTransfer?.dataOutlet?.alamatOutlet}\n" +
-//                "[C]${dataTransfer?.dataOutlet?.kota}\n" +
-//                "[C]${dataTransfer?.dataOutlet?.telepon}\n" +
-//                "\n[C]Transfer Room\n\n" +
-//                "[L]Ruangan : ${dataTransfer?.dataRoom?.ruangan}\n" +
-//                "[L]Nama    : ${dataTransfer?.dataRoom?.nama}\n" +
-//                "[L]Tanggal : ${dataTransfer?.dataRoom?.tanggal}\n" +
-//                "\n" +
-//                "[L]Sewa Ruangan\n" +
-//                "[L]${dataTransfer?.dataRoom?.checkin} - ${dataTransfer?.dataRoom?.checkout}" +
-//                "[R]${utils.getCurrency(dataTransfer?.dataInvoice?.sewaRuangan?.toLong())}\n" +
-//                "[L]PROMO[R](${utils.getCurrency(dataTransfer?.dataInvoice?.promo?.toLong())})\n" +
-//                "\n" +
-//                "[L]Rincian Penjualan\n" +
-//                selling +
-//                cancelOrder +
-//                promoFnB+
-//                "--------------------------------\n"+
-//                "[L]Jumlah Ruangan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
-//                "[L]Jumlah Penjualan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-//                "--------------------------------\n"+
-//                "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
-//                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
-//                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
-//                biayaLain+
-//                "[R]-------------\n"+
-//                "[L][R]Total [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahTotal?.toLong())}\n"+
-//                transferRoom+
-//                "\n[L][R]Uang Muka [R]${utils.getCurrency(dataTransfer?.dataInvoice?.uangMuka?.toLong())}\n"+
-//                "[R]-------------\n"+
-//                "[L]Jumlah Bersih [R]${utils.getCurrency(jumlahBersih.toLong())}\n"+
-//                "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(jumlahBersih.toLong())}</b></font>\n"+
-//                "\n[R]${currentDate} ${user}"
-//
-//        return transferData
-//    }
+    @SuppressLint("SimpleDateFormat")
+    fun transferPrint(dataTransfer: xTransferBillDataItem?, user: String): String{
 
+        val transferData: String
+
+        val selling = StringBuilder()
+        val transferRoom = StringBuilder()
+        val copies = StringBuilder()
+        val biayaLain = StringBuilder()
+        val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
+        val currentDate = sdf.format(Date())
+
+        if (dataTransfer?.dataInvoice?.overpax !=null && dataTransfer.dataInvoice.overpax > 0){
+            biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(dataTransfer.dataInvoice.overpax.toLong())}\n")
+        }
+
+        if (dataTransfer?.dataInvoice?.diskonKamar !=null && dataTransfer.dataInvoice.diskonKamar > 0){
+            biayaLain.append("[L][R]Diskon Kamar [R](${utils.getCurrency(dataTransfer.dataInvoice.diskonKamar.toLong())})\n")
+        }
+
+        if (dataTransfer?.dataInvoice?.surchargeKamar !=null && dataTransfer.dataInvoice.surchargeKamar > 0){
+            biayaLain.append("[L][R]Surcharge Kamar [R](${utils.getCurrency(dataTransfer.dataInvoice.surchargeKamar.toLong())})\n")
+        }
+
+        if (dataTransfer?.dataInvoice?.diskonPenjualan !=null && dataTransfer.dataInvoice.diskonPenjualan > 0){
+            biayaLain.append("[L][R]Diskon Penjualan [R](${utils.getCurrency(dataTransfer.dataInvoice.diskonPenjualan.toLong())})\n")
+        }
+
+        if (dataTransfer?.dataInvoice?.voucher !=null && dataTransfer.dataInvoice.voucher > 0){
+            biayaLain.append("[L][R]Voucher [R](${utils.getCurrency(dataTransfer.dataInvoice.voucher.toLong())})\n")
+        }
+
+        if (dataTransfer?.dataInvoice?.chargeLain !=null && dataTransfer.dataInvoice.chargeLain > 0){
+            biayaLain.append("[L][R]Charge Lain [R](${utils.getCurrency(dataTransfer.dataInvoice.chargeLain.toLong())})\n")
+        }
+
+        if (dataTransfer?.orderData != null) {
+            for (i: Int in dataTransfer.orderData.indices) {
+                selling.append("[L]${dataTransfer.orderData[i]?.namaItem}\n")
+                selling.append("[L]  ${dataTransfer.orderData[i]?.jumlah} x ${utils.getCurrency(dataTransfer.orderData[i]?.harga?.toLong())} [R]${utils.getCurrency(dataTransfer.orderData[i]?.total?.toLong())}\n")
+
+                if(!dataTransfer.cancelOrderData.isNullOrEmpty()){
+                    for(c: Int in dataTransfer.cancelOrderData.indices){
+                        if(dataTransfer.orderData[i]?.orderCode == dataTransfer.cancelOrderData[c]?.orderCode && dataTransfer.orderData[i]?.inventoryCode == dataTransfer.cancelOrderData[c]?.inventoryCode){
+                            selling.append("[L]RETUR ${dataTransfer.cancelOrderData[c]?.namaItem}\n")
+                            selling.append("  ${dataTransfer.cancelOrderData[c]?.jumlah} x ${utils.getCurrency(dataTransfer.cancelOrderData[c]?.harga?.toLong())}[R]${utils.getCurrency(dataTransfer.cancelOrderData[c]?.total?.toLong())}\n")
+                        }
+                    }
+                }
+
+                if(!dataTransfer.promoOrderData.isNullOrEmpty()){
+                    for(p: Int in dataTransfer.promoOrderData.indices){
+                        if(dataTransfer.orderData[i]?.orderCode == dataTransfer.promoOrderData[p]?.orderCode && dataTransfer.orderData[i]?.inventoryCode == dataTransfer.promoOrderData[p]?.inventoryCode){
+                            selling.append("[L]${dataTransfer.promoOrderData[p]?.promoName}[R]${dataTransfer.promoOrderData[p]?.promoPrice}\n")
+                        }
+                    }
+                }
+            }
+        }
+
+        transferData = "[L]\n\n\n\n\n" +
+                copies+
+                "[C]${dataTransfer?.dataOutlet?.namaOutlet}\n" +
+                "[C]${dataTransfer?.dataOutlet?.alamatOutlet}\n" +
+                "[C]${dataTransfer?.dataOutlet?.kota}\n" +
+                "[C]${dataTransfer?.dataOutlet?.telepon}\n" +
+                "\n[C]Transfer Room\n\n" +
+                "[L]Ruangan : ${dataTransfer?.dataRoom?.ruangan}\n" +
+                "[L]Nama    : ${dataTransfer?.dataRoom?.nama}\n" +
+                "[L]Tanggal : ${dataTransfer?.dataRoom?.tanggal}\n" +
+                "\n" +
+                "[L]Sewa Ruangan\n" +
+                "[L]${dataTransfer?.dataRoom?.checkin} - ${dataTransfer?.dataRoom?.checkout}" +
+                "[R]${utils.getCurrency(dataTransfer?.dataInvoice?.sewaRuangan?.toLong())}\n" +
+                "[L]PROMO[R](${utils.getCurrency(dataTransfer?.dataInvoice?.promo?.toLong())})\n" +
+                "\n" +
+                "[L]Rincian Penjualan\n" +
+                selling +
+                "--------------------------------\n"+
+                "[L]Jumlah Ruangan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
+                "[L]Jumlah Penjualan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
+                "--------------------------------\n"+
+                "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
+                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
+                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                biayaLain+
+                "[R]-------------\n"+
+                "[L][R]Total [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahTotal?.toLong())}\n"+
+                transferRoom+
+                "\n[L][R]Uang Muka [R]${utils.getCurrency(dataTransfer?.dataInvoice?.uangMuka?.toLong())}\n"+
+                "[R]-------------\n"+
+                "[L]Jumlah Bersih [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}\n"+
+                "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
+                "\n[R]${currentDate} ${user}"
+
+        return transferData
+    }
+
+    @SuppressLint("SimpleDateFormat")
     fun printerKas(Shift: Int, data: DataStatusKas, chusr: String):Boolean{
         try {
             printer.disconnectPrinter()
             printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-//            printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100), 203, 72f, 48)
             val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
             val currentDate = sdf.format(Date())
             printer.printFormattedText(
