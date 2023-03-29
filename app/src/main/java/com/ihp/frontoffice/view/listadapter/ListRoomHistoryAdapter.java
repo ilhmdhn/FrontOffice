@@ -287,132 +287,133 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                         .post(new EventsWrapper.CleanRoom(this.room));
             });
 
-//            btnReprintInvoice.setOnClickListener(view ->{
-//                Log.d("isinya apa ajaa", "");
-//                context = itemView.getContext();
-//                String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
-//                String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();
-//                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe((LifecycleOwner) itemView.getContext(), data->{
-//                    if (Boolean.TRUE.equals(data.getState())){
-//                        Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
-//                        if (Objects.equals(data.getData().getDataInvoice().getStatusPrint(), "2")){
-//
-//                            AlertDialog.Builder builder;
-//                            builder = new AlertDialog.Builder(context);
-//
-//                            builder.setCancelable(true)
-//                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                                    dialogInterface.dismiss();
-//                                                }
-//                                            })
-//                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialogInterface, int i) {
-//                                            if (printer.printInvoice(data, context,user, true)){
-//                                                ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "1", context);
-//                                            }
-//                                        }
-//                                    });
-//                            AlertDialog alert = builder.create();
-//                            alert.setMessage("Cetak Copy Tagihan?");
-//                            alert.show();
+            btnReprintInvoice.setOnClickListener(view ->{
+                context = itemView.getContext();
+                String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
+                String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();
+                otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe((LifecycleOwner) itemView.getContext(), data->{
+                    if (Boolean.TRUE.equals(data.getState())){
+                        Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
+                        if (Objects.equals(data.getData().getDataInvoice().getStatusPrint(), "2")){
+
+                            AlertDialog.Builder builder;
+                            builder = new AlertDialog.Builder(context);
+
+                            builder.setCancelable(true)
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            })
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            if (printer.printInvoice(data, context,user, true)){
+                                                ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "1", context);
+                                            }
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.setMessage("Cetak Copy Tagihan?");
+                            alert.show();
 //                        }else if(Objects.equals(data.getData().getDataInvoice().getStatusPrint(), "1")){
-//                            otherViewModel.getJumlahApproval(BASE_URL, user).observe((LifecycleOwner) context, dataApproval ->{
-//                                if (dataApproval.getState()){
-//                                    AlertDialog.Builder builder;
-//                                    builder = new AlertDialog.Builder(context);
-//                                    builder.setCancelable(true)
-//                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                                    dialogInterface.dismiss();
-//                                                }
-//                                            })
-//                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                                @Override
-//                                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                                    if(printer.printInvoice(data, context, user, true)){
-//                                                        ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
-//                                                    }
-//                                                }
-//                                            });
-//                                    AlertDialog alert = builder.create();
-//                                    alert.setMessage("Cetak Ulang Tagihan?1");
-//                                    alert.show();
-//                                }else{
-//
-//                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme);
-//                                    LayoutInflater dialogInflater = LayoutInflater.from(context);
-//                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
-//                                    dialogBuilder.setView(dialogView);
-//                                    dialogBuilder.setCancelable(false);
-//                                    AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
-//                                    AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
-//
-//                                    EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
-//                                    EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
-//                                    AlertDialog alertDialog = dialogBuilder.create();
-//
-//                                    alertDialog.setOnShowListener(dialogInterface -> {
-//                                        buttonOk.setOnClickListener(it -> {
-//                                            String email = _usernameTxt.getText().toString();
-//                                            String password = _passwordTxt.getText().toString();
-//                                            if (email.isEmpty() && password.isEmpty()) {
-//                                                Toasty.warning(context, "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
-//                                                        .show();
-//                                                return;
-//                                            }
-//                                            UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
-//                                            Call<UserResponse> call = userClient.login(email, password);
-//                                            //---------------------
-//
-//                                            call.enqueue(new Callback<UserResponse>() {
-//                                                @Override
-//                                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-//                                                    UserResponse res = response.body();
-//                                                    //_loginProgress.setVisibility(View.GONE);
-//                                                    res.displayMessage(context);
-//                                                    if (res.isOkay()) {
-//                                                        User userCek = res.getUser();
-//                                                        if (UserAuthRole.isAllowReprintInvoice(userCek)) {
-//                                                            if(printer.printInvoice(data, context,user, true)){
-//                                                                ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
-//                                                            }
-//                                                        } else {
-//                                                            Toasty.warning(context, "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
-//                                                                    .show();
-//                                                        }
-//                                                    }
-//                                                }
-//
-//                                                @Override
-//                                                public void onFailure(Call<UserResponse> call, Throwable t) {
-//                                                    //_loginProgress.setVisibility(View.GONE);
-//                                                    Toasty.error(context, "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
-//                                                            .show();
-//                                                }
-//                                            });
-//                                            alertDialog.dismiss();
-//                                            //---------------------
-//                                        });
-//                                        buttonCancel.setOnClickListener(it -> {
-//                                            alertDialog.dismiss();
-//                                        });
-//                                    });
-//                                    alertDialog.show();
-//                                }
-//                            });
-//                        }else{
+                        }else{
+                            otherViewModel.getJumlahApproval(BASE_URL, user).observe((LifecycleOwner) context, dataApproval ->{
+                                if (dataApproval.getState()){
+                                    AlertDialog.Builder builder;
+                                    builder = new AlertDialog.Builder(context);
+                                    builder.setCancelable(true)
+                                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            })
+                                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    if(printer.printInvoice(data, context, user, true)){
+                                                        ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
+                                                    }
+                                                }
+                                            });
+                                    AlertDialog alert = builder.create();
+                                    alert.setMessage("Cetak Ulang Tagihan?1");
+                                    alert.show();
+                                }else{
+
+                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme);
+                                    LayoutInflater dialogInflater = LayoutInflater.from(context);
+                                    View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
+                                    dialogBuilder.setView(dialogView);
+                                    dialogBuilder.setCancelable(false);
+                                    AppCompatButton buttonOk = dialogView.findViewById(R.id.btn_ok);
+                                    AppCompatButton buttonCancel = dialogView.findViewById(R.id.btn_cancel);
+
+                                    EditText _usernameTxt = dialogView.findViewById(R.id.input_username_otorisasi);
+                                    EditText _passwordTxt = dialogView.findViewById(R.id.input_password_otorisasi);
+                                    AlertDialog alertDialog = dialogBuilder.create();
+
+                                    alertDialog.setOnShowListener(dialogInterface -> {
+                                        buttonOk.setOnClickListener(it -> {
+                                            String email = _usernameTxt.getText().toString();
+                                            String password = _passwordTxt.getText().toString();
+                                            if (email.isEmpty() && password.isEmpty()) {
+                                                Toasty.warning(context, "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                                                        .show();
+                                                return;
+                                            }
+                                            UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
+                                            Call<UserResponse> call = userClient.login(email, password);
+                                            //---------------------
+
+                                            call.enqueue(new Callback<UserResponse>() {
+                                                @Override
+                                                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                                    UserResponse res = response.body();
+                                                    //_loginProgress.setVisibility(View.GONE);
+                                                    res.displayMessage(context);
+                                                    if (res.isOkay()) {
+                                                        User userCek = res.getUser();
+                                                        if (UserAuthRole.isAllowReprintInvoice(userCek)) {
+                                                            if(printer.printInvoice(data, context,user, true)){
+                                                                ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
+                                                            }
+                                                        } else {
+                                                            Toasty.warning(context, "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                                                    .show();
+                                                        }
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<UserResponse> call, Throwable t) {
+                                                    //_loginProgress.setVisibility(View.GONE);
+                                                    Toasty.error(context, "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                                            .show();
+                                                }
+                                            });
+                                            alertDialog.dismiss();
+                                            //---------------------
+                                        });
+                                        buttonCancel.setOnClickListener(it -> {
+                                            alertDialog.dismiss();
+                                        });
+                                    });
+                                    alertDialog.show();
+                                }
+                            });
+                        }
+//                        else{
 //                            Toasty.warning(context, "Silahkan cetak melalui POS Lorong Desktop", Toasty.LENGTH_SHORT, true).show();
 //                        }
-//
-//                    }else{
-//                        Toast.makeText(itemView.getContext(), data.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            });
+
+                    }else{
+                        Toast.makeText(itemView.getContext(), data.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            });
         }
 
         public void setGone() {

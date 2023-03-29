@@ -334,22 +334,24 @@ class IhpRepository {
         return responseData
     }
 
-//    fun printMobileInvoice(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
-//        val responseData = MutableLiveData<PrintInvoiceDataResponse>()
-//        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
-//        client.getPrintInvoice(rcp).enqueue(object: Callback<PrintInvoiceDataResponse>{
-//            override fun onResponse(call: Call<PrintInvoiceDataResponse>, response: retrofit2.Response<PrintInvoiceDataResponse>) {
-//                if (response.isSuccessful){
-//                    responseData.postValue(response.body())
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<PrintInvoiceDataResponse>, t: Throwable) {
-//                    responseData.postValue(PrintInvoiceDataResponse(null, false, t.message))
-//            }
-//        })
-//        return responseData
-//    }
+    fun printMobileInvoice(url: String, rcp: String): LiveData<xInvoiceResponse>{
+        val responseData = MutableLiveData<xInvoiceResponse>()
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        client.getPrintInvoice(rcp).enqueue(object: Callback<xInvoiceResponse>{
+            override fun onResponse(call: Call<xInvoiceResponse>, response: retrofit2.Response<xInvoiceResponse>) {
+                if (response.isSuccessful){
+                    responseData.postValue(response.body())
+                }else{
+                    responseData.postValue(xInvoiceResponse(state = false))
+                }
+            }
+
+            override fun onFailure(call: Call<xInvoiceResponse>, t: Throwable) {
+                    responseData.postValue(xInvoiceResponse(null, false, t.message))
+            }
+        })
+        return responseData
+    }
 
     fun updateStatusPrint(url: String, rcp: String, statusPrint: String, context: Context){
         val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)

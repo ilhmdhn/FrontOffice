@@ -34,9 +34,9 @@ class OtherViewModel: ViewModel() {
 
 
 
-//    fun getInvoiceData(url: String, rcp: String): LiveData<PrintInvoiceDataResponse>{
-//        return ihpRepository.printMobileInvoice(url, rcp)
-//    }
+    fun getInvoiceData(url: String, rcp: String): LiveData<xInvoiceResponse>{
+        return ihpRepository.printMobileInvoice(url, rcp)
+    }
 
     fun checkUser(url: String, userId: String, password: String): LiveData<UserResponse>{
         return ihpRepository.checkUser(url, userId, password)
