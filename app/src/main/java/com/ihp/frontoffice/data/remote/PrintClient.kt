@@ -24,4 +24,6 @@ interface PrintClient {
     fun printStatus(
         @Query("rcp")  rcp: String
     ): Call<PrintStatusResponse>
+
+
 }

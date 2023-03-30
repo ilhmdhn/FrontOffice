@@ -16,6 +16,7 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
 
     var listOrder = ArrayList<xOrderDataItem>()
     var listCancelOrder = ArrayList<xCancelOrderDataItem>()
+    var listCancelPromo = ArrayList<xPromoOrderCancelItem>()
     var listOrderPromo = ArrayList<xPromoOrderDataItem>()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -23,17 +24,20 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
         listOrder.clear()
         listCancelOrder.clear()
         listOrderPromo.clear()
+        listCancelPromo.clear()
 
         Log.d("liat item masuk adapter", xData.toString())
 
         val listOrderItem = xData.orderData as List<xOrderDataItem>
         val listOrderPromoItem = xData.promoOrderData as List<xPromoOrderDataItem>
         val listCancelOrderDataItem = xData.cancelOrderData as List<xCancelOrderDataItem>
+        val listCancelPromoDataItem = xData.promoOrderCancel as List<xPromoOrderCancelItem>
 
 
         listOrder.addAll(listOrderItem)
         listOrderPromo.addAll(listOrderPromoItem)
         listCancelOrder.addAll(listCancelOrderDataItem)
+        listCancelPromo.addAll(listCancelPromoDataItem)
 
         notifyDataSetChanged()
     }
@@ -41,10 +45,11 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val binding = ListOrderBinding.bind(itemView)
         @SuppressLint("SetTextI18n")
-        fun bind(data: xOrderDataItem, promo: ArrayList<xPromoOrderDataItem>, cancel: ArrayList<xCancelOrderDataItem>){
+        fun bind(data: xOrderDataItem, promo: ArrayList<xPromoOrderDataItem>, cancel: ArrayList<xCancelOrderDataItem>, cancelPromo: ArrayList<xPromoOrderCancelItem>){
             Log.d("liat promo atas ", promo.toString())
             val isCancel = cancel.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
             val isPromo = promo.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
+            val isCancelPromo = promo.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
             with(binding){
 
                 binding.tvItemOrderName.text = data.namaItem
@@ -55,10 +60,13 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                 if(isPromo.isNotEmpty()){
                     binding.tvFnbDiscount.visibility = View.VISIBLE
                     binding.tvDiscountPrice.visibility = View.VISIBLE
-
-                    binding.tvFnbDiscount.text = isPromo[0].promoName
-                    binding.tvDiscountPrice.text = "(${utils.getCurrency(isPromo[0].promoPrice?.toLong())})"
-
+                    if(isCancelPromo.isNotEmpty()){
+                        binding.tvFnbDiscount.text = isPromo[0].promoName
+                        binding.tvDiscountPrice.text = "(${utils.getCurrency(cancelPromo[0].promoPrice?.let { isPromo[0].promoPrice?.toLong()?.minus(it) })})"
+                    }else{
+                        binding.tvFnbDiscount.text = isPromo[0].promoName
+                        binding.tvDiscountPrice.text = "(${utils.getCurrency(isPromo[0].promoPrice?.toLong())})"
+                    }
                 }else{
                     binding.tvFnbDiscount.visibility = View.GONE
                     binding.tvDiscountPrice.visibility = View.GONE
@@ -76,6 +84,15 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                     binding.tvReturItemCount.text = isCancel[0].jumlah.toString()
                     binding.tvReturItemPrice.text = utils.getCurrency(isCancel[0].harga?.toLong())
                     binding.tvReturItemTotalPrice.text = "(" + utils.getCurrency(isCancel[0].total?.toLong()) + ")"
+
+                    if(data.orderCode == isCancel[0].orderCode && data.inventoryCode == isCancel[0].inventoryCode && data.jumlah == isCancel[0].jumlah){
+                        binding.tvFnbDiscount.visibility = View.GONE
+                        binding.tvDiscountPrice.visibility = View.GONE
+                    }else if(isPromo.isNotEmpty()){
+                        binding.tvFnbDiscount.visibility = View.GONE
+                        binding.tvDiscountPrice.visibility = View.GONE
+                    }
+
                 }else{
                     binding.tvReturItemName.visibility = View.GONE
                     binding.tvDummyKaliRetur.visibility = View.GONE
@@ -94,7 +111,7 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listOrder[position]
-        holder.bind(data, listOrderPromo, listCancelOrder)
+        holder.bind(data, listOrderPromo, listCancelOrder, listCancelPromo)
     }
 
     override fun getItemCount(): Int {

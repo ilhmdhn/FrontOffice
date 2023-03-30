@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.data.remote
 
 
+import com.ihp.frontoffice.data.remote.respons.CheckinSlipResponse
 import com.ihp.frontoffice.data.remote.respons.Response
 import com.ihp.frontoffice.data.remote.respons.xBillResponse
 import com.ihp.frontoffice.data.remote.respons.xInvoiceResponse
@@ -30,4 +31,9 @@ interface DataPrintClient {
         @Query("rcp") rcp: String,
         @Query("status_print") printStatus: String
     ): Call<Response>
+
+    @GET("/mobile-print/checkin-slip")
+    fun getCheckinSlip(
+         @Query("rcp") rcp: String
+    ): Call<CheckinSlipResponse>
 }

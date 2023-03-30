@@ -27,11 +27,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
@@ -295,6 +298,8 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
     private static String BASE_URL;
     private User USER_FO;
     private String current = "";
+    private OtherViewModel otherViewModel;
+    private Printer printer;
 
     public OperasionalCheckinAddInfoFragment() {
         // Required empty public constructor
@@ -339,7 +344,6 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
-
         roomPromoViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomPromoViewModel.class);
         roomPromoViewModel.init(BASE_URL);
@@ -348,7 +352,10 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
                 .get(InventoryPromoViewModel.class);
         inventoryPromoViewModel.init(BASE_URL);
 
+        otherViewModel = new OtherViewModel();
 
+
+        printer = new Printer();
 
         return view;
     }
@@ -1447,7 +1454,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
                                 if (!res.isOkay()) {
                                     return;
                                 }
-                                navToMain();
+                                navToMain(res.getRoomOrder().getCheckinRoom().getRoomRcp());
                             }
 
                             @Override
@@ -1477,11 +1484,14 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
     }
 
 
-    private void navToMain() {
-        Navigation
-                .findNavController(getView())
-                .navigate(OperasionalCheckinAddInfoFragmentDirections
-                        .actionNavOperasionalCheckinAddInfoFragmentToNavOperasionalFragment());
+    private void navToMain(String rcp) {
+        otherViewModel.checkinSlip(BASE_URL, rcp).observe(getViewLifecycleOwner(), data->{
+            printer.printerCheckinSlip(data, requireActivity());
+            Navigation
+                    .findNavController(getView())
+                    .navigate(OperasionalCheckinAddInfoFragmentDirections
+                            .actionNavOperasionalCheckinAddInfoFragmentToNavOperasionalFragment());
+        });
     }
 
     @Override

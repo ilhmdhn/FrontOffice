@@ -12,10 +12,11 @@ import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.*
+import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+@SuppressLint("SimpleDateFormat")
 class Printer {
 
     private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
@@ -40,7 +41,6 @@ class Printer {
         )
     }
 
-    @SuppressLint("SimpleDateFormat")
     fun printBill(billData: xBillResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             printer.disconnectPrinter()
@@ -52,7 +52,7 @@ class Printer {
             val biayaLain = StringBuilder()
             val transferBill = StringBuilder()
             val uangMuka = StringBuilder()
-            val sdf = SimpleDateFormat("dd/M/yyyy HH:MM")
+            val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
             val currentDate = sdf.format(Date())
             val promoRoom = StringBuilder()
             var hiddenPromo: Boolean
@@ -113,9 +113,9 @@ class Printer {
                                 if(!hiddenPromo){
                                     if(!billData.data.cancelOrderData.isNullOrEmpty()){
                                         for(cp: Int in billData.data.cancelOrderData.indices){
-                                            if(billData.data.promoOrderData[j]?.orderCode == billData.data.promoOrderCancel!![cp]?.orderCode && billData.data.promoOrderData[j]?.inventoryCode == billData.data.promoOrderCancel[cp]!!.inventoryCode){
+                                            if(billData.data.promoOrderData[j]?.orderCode == billData.data.promoOrderCancel?.get(cp)?.orderCode && billData.data.promoOrderData[j]?.inventoryCode == billData.data.promoOrderCancel?.get(cp)?.inventoryCode){
                                                 promoAndCancel = true
-                                                selling.append("[L]${billData.data.promoOrderData[j]?.promoName} [R](${utils.getCurrency((((billData.data.promoOrderData[j]?.promoPrice)?.toLong() ?: 0) - ((billData.data.promoOrderCancel[cp]?.promoPrice)?.toLong() ?: 0)))})\n")
+                                                selling.append("[L]${billData.data.promoOrderData[j]?.promoName} [R](${utils.getCurrency((((billData.data.promoOrderData[j]?.promoPrice)?.toLong() ?: 0) - ((billData.data.promoOrderCancel?.get(cp)?.promoPrice)?.toLong() ?: 0)))})\n")
                                             }
                                         }
                                     }
@@ -196,7 +196,6 @@ class Printer {
         return false
     }
 
-    @SuppressLint("SimpleDateFormat")
     fun printInvoice(invoiceData: xInvoiceResponse, context: Context, user: String, isCopies: Boolean = false): Boolean{
 
         try {
@@ -212,6 +211,7 @@ class Printer {
             val biayaLain = StringBuilder()
             val transferBill = StringBuilder()
             val promoRoom = StringBuilder()
+            val uangMuka = StringBuilder()
             var hiddenPromo: Boolean
             var promoAndCancel: Boolean
 
@@ -274,9 +274,9 @@ class Printer {
                                 if (!hiddenPromo) {
                                     if (!cancelOrder.isNullOrEmpty()) {
                                         for (cp: Int in cancelOrder.indices) {
-                                            if (promoOrder[j]?.orderCode == promoAndCancelData?.get(cp)?.orderCode && promoOrder[j]?.inventoryCode == promoAndCancelData?.get(cp)?.inventoryCode) {
+                                            if (promoOrder[j]?.orderCode == promoAndCancelData!![cp]?.orderCode && promoOrder[j]?.inventoryCode == promoAndCancelData[cp]?.inventoryCode) {
                                                 promoAndCancel = true
-                                                selling.append("[L]${promoOrder[j]?.promoName} [R](${utils.getCurrency((((promoOrder[j]?.promoPrice)?.toLong() ?: 0) - ((promoAndCancelData!![cp]?.promoPrice)?.toLong() ?: 0)))})\n")
+                                                selling.append("[L]${promoOrder[j]?.promoName} [R](${utils.getCurrency((((promoOrder[j]?.promoPrice)?.toLong() ?: 0) - ((promoAndCancelData[cp]?.promoPrice)?.toLong() ?: 0)))})\n")
                                             }
                                         }
                                     }
@@ -314,20 +314,24 @@ class Printer {
                 "[L]PROMO[R](${utils.getCurrency(invoiceData.data.dataInvoice.promo.toLong())})\n"
             }
 
+            if(invoiceData.data.dataInvoice.uangMuka!! >0){
+                uangMuka.append("[L][R]UANG MUKA [R]${utils.getCurrency(invoiceData.data.dataInvoice.uangMuka.toLong())}\n")
+            }
+
 
             printer.printFormattedText(
                     "" + copies +
                     "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
                             R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
                             "[L]\n" +
-                        "[C]${invoiceData.data?.dataOutlet?.namaOutlet}\n"+
-                        "[C]${invoiceData.data?.dataOutlet?.alamatOutlet}\n"+
-                        "[C]${invoiceData.data?.dataOutlet?.kota}\n"+
-                        "[C]${invoiceData.data?.dataOutlet?.telepon}\n"+
+                        "[C]${invoiceData.data.dataOutlet?.namaOutlet}\n"+
+                        "[C]${invoiceData.data.dataOutlet?.alamatOutlet}\n"+
+                        "[C]${invoiceData.data.dataOutlet?.kota}\n"+
+                        "[C]${invoiceData.data.dataOutlet?.telepon}\n"+
                         "\n[C]<b>INVOICE</b>\n"+
-                        "\n[L]Ruangan : ${invoiceData.data?.dataRoom?.ruangan}"+
-                        "\n[L]Nama    : ${invoiceData.data?.dataRoom?.nama}"+
-                        "\n[L]Tanggal : ${invoiceData.data?.dataRoom?.tanggal}"+
+                        "\n[L]Ruangan : ${invoiceData.data.dataRoom?.ruangan}"+
+                        "\n[L]Nama    : ${invoiceData.data.dataRoom?.nama}"+
+                        "\n[L]Tanggal : ${invoiceData.data.dataRoom?.tanggal}"+
                         "\n\n"+
                         "[L]Sewa Ruangan\n"+
                         "[L]${invoiceData.data?.dataRoom?.checkin} - ${invoiceData.data?.dataRoom?.checkout}" +
@@ -345,9 +349,9 @@ class Printer {
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                         transferRoom+
+                        uangMuka+
                         "[R]-------------\n"+
-                        "[L][R]UANG MUKA ${utils.getCurrency(invoiceData.data?.dataInvoice?.uangMuka?.toLong())}\n\n"+
-                        "[R]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+
+                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+
                         paymentList+
                         "[R]-------------\n"+
                         "[R]${utils.getCurrency(invoiceData.data?.paymentDetail?.payValue?.toLong())}\n\n"+
@@ -362,7 +366,6 @@ class Printer {
         }
     }
 
-    @SuppressLint("SimpleDateFormat")
     fun transferPrint(dataTransfer: xTransferBillDataItem?, user: String): String{
 
         val transferData: String
@@ -371,6 +374,7 @@ class Printer {
         val transferRoom = StringBuilder()
         val copies = StringBuilder()
         val biayaLain = StringBuilder()
+        val uangMuka = StringBuilder()
         val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
         val currentDate = sdf.format(Date())
 
@@ -447,6 +451,10 @@ class Printer {
             }
         }
 
+        if((dataTransfer?.dataInvoice?.uangMuka ?: 0) > 0){
+            uangMuka.append("\n[L][R]Uang Muka [R]${utils.getCurrency(dataTransfer?.dataInvoice?.uangMuka?.toLong())}\n")
+        }
+
         transferData = "[L]\n\n\n\n\n" +
                 copies+
                 "[C]${dataTransfer?.dataOutlet?.namaOutlet}\n" +
@@ -475,7 +483,7 @@ class Printer {
                 "[R]-------------\n"+
                 "[L][R]Total [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                 transferRoom+
-                "\n[L][R]Uang Muka [R]${utils.getCurrency(dataTransfer?.dataInvoice?.uangMuka?.toLong())}\n"+
+                uangMuka+
                 "[R]-------------\n"+
                 "[L]Jumlah Bersih [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}\n"+
                 "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
@@ -484,7 +492,7 @@ class Printer {
         return transferData
     }
 
-    @SuppressLint("SimpleDateFormat")
+
     fun printerKas(Shift: Int, data: DataStatusKas, chusr: String):Boolean{
         try {
             printer.disconnectPrinter()
@@ -523,6 +531,47 @@ class Printer {
             return true
         }catch(error: java.lang.Exception){
             return false
+        }
+    }
+
+    fun printerCheckinSlip(dataCheckin: CheckinSlipResponse, context: Context){
+        try{
+            printer.disconnectPrinter()
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+            val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
+            val currentDate = sdf.format(Date())
+            val slip = dataCheckin.data
+
+            printer.printFormattedText(
+            "\n\n\n"+
+                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                    R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n\n"+
+                    "[C]${slip?.outletInfo?.namaOutlet}\n" +
+                    "[C]${slip?.outletInfo?.alamatOutlet}\n" +
+                    "[C]${slip?.outletInfo?.kota}\n" +
+                    "[C]${slip?.outletInfo?.telepon}\n\n"+
+                    "[C]<b>CHECK-IN SLIP</b>\n\n"+
+                    "[L]Ruangan : <font size='wide'><b>${slip?.checkinDetail?.roomName}</b></font>\n\n" +
+                    "[L]Nama              : ${slip?.checkinDetail?.name}\n" +
+                    "[L]Jumlah Tamu       : ${slip?.checkinDetail?.pax}\n" +
+                    "[L]Jenis Kamar       : ${slip?.checkinDetail?.roomType}\n" +
+                    "[L]Jam Check-In      : ${slip?.checkinDetail?.checkinTime}\n" +
+                    "[L]Lama Sewa         : ${slip?.checkinDetail?.checkinDuration} jam\n" +
+                    "[L]Jumlah Biaya Sewa : ${utils.getCurrency(slip?.checkinDetail?.checkinFee?.toLong())}\n" +
+                    "[L]Jam Checkout      : ${slip?.checkinDetail?.checkoutTime}\n" +
+                    "[L]------------------------------------------------\n"+
+                    "[C]<font size='wide'><b>PERNYATAAN</b></font>\n\n"+
+                    "[C]Saya & rekan tidak  akan membawa masuk dan atau\n"+
+                    "[C]mengkonsumsi makanan/minuman yang bukan berasal\n"+
+                    "[C]dari outlet HAPPY  PUPPY ini. Apabila  terbukti\n"+
+                    "[C]kemudian, saya  bersedia dikenakan denda sesuai\n"+
+                    "[C]daftar yang berlaku\n\n"+
+                    "[L](${slip?.checkinDetail?.name})\n"+
+                    "[L](${slip?.checkinDetail?.phone})\n"+
+                    "[R]${currentDate}\n\n"
+            )
+        }catch(error: java.lang.Exception){
+            Toasty.error(context, "SLIP CHECKIN ERROR ${error}", Toasty.LENGTH_SHORT, true).show()
         }
     }
 }

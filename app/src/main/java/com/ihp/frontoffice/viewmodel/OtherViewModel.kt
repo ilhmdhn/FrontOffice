@@ -45,4 +45,8 @@ class OtherViewModel: ViewModel() {
     fun removePromoFnB(url: String, rcp: String):LiveData<Response>{
         return ihpRepository.removePromoFnB(url, rcp)
     }
+
+    fun checkinSlip(url: String, rcp: String): LiveData<CheckinSlipResponse>{
+        return ihpRepository.checkinSlip(url, rcp)
+    }
 }

@@ -415,4 +415,19 @@ class IhpRepository {
         });
         return responseData;
     }
+
+    fun checkinSlip(url: String, rcp: String):LiveData<CheckinSlipResponse>{
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        val responseData = MutableLiveData<CheckinSlipResponse>()
+        client.getCheckinSlip(rcp).enqueue(object: Callback<CheckinSlipResponse>{
+            override fun onResponse(call: Call<CheckinSlipResponse>, response: retrofit2.Response<CheckinSlipResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<CheckinSlipResponse>, t: Throwable) {
+                responseData.postValue(CheckinSlipResponse(state = false, message = t.message))
+            }
+        })
+        return responseData
+    }
 }

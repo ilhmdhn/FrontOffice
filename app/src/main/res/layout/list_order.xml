@@ -89,7 +89,7 @@
         android:textColor="@color/light_yellow_primary"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_order_count" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_retur_item_price" />
 
     <TextView
         android:id="@+id/tv_retur_item_name"
@@ -99,8 +99,8 @@
         android:text="RETUR AYAM CABE GARAM"
         android:textColor="@color/red"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/tv_fnb_discount"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fnb_discount" />
+        app:layout_constraintStart_toStartOf="@+id/tv_item_order_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_order_price" />
 
     <TextView
         android:id="@+id/tv_retur_item_count"

@@ -291,6 +291,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                 context = itemView.getContext();
                 String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
                 String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();
+
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe((LifecycleOwner) itemView.getContext(), data->{
                     if (Boolean.TRUE.equals(data.getState())){
                         Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
@@ -413,6 +414,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                         Toast.makeText(itemView.getContext(), data.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+
             });
         }
 
