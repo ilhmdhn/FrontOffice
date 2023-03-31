@@ -49,9 +49,10 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
             Log.d("liat promo atas ", promo.toString())
             val isCancel = cancel.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
             val isPromo = promo.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
-            val isCancelPromo = promo.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
+            val isCancelPromo = cancelPromo.filter { it.orderCode == data.orderCode && it.inventoryCode == data.inventoryCode}
+            var hiddenPromo = false
             with(binding){
-
+                hiddenPromo = false
                 binding.tvItemOrderName.text = data.namaItem
                 binding.tvOrderCount.text = data.jumlah.toString()
                 binding.tvOrderPrice.text = utils.getCurrency(data.harga?.toLong())
@@ -61,11 +62,18 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                     binding.tvFnbDiscount.visibility = View.VISIBLE
                     binding.tvDiscountPrice.visibility = View.VISIBLE
                     if(isCancelPromo.isNotEmpty()){
-                        binding.tvFnbDiscount.text = isPromo[0].promoName
-                        binding.tvDiscountPrice.text = "(${utils.getCurrency(cancelPromo[0].promoPrice?.let { isPromo[0].promoPrice?.toLong()?.minus(it) })})"
+                        if(isPromo[0].orderCode == isCancelPromo[0].orderCode && isPromo[0].inventoryCode == isCancelPromo[0].inventoryCode){
+                            binding.tvFnbDiscount.text = isPromo[0].promoName
+                            Log.d("DEBUGGING nominal promo di cancel ", "${isPromo[0].inventoryCode} - ${isCancelPromo[0].inventoryCode}" )
+                            binding.tvDiscountPrice.text = "(${utils.getCurrency(isCancelPromo[0].promoPrice?.let { isPromo[0].promoPrice?.toLong()?.minus(it) })})"
+                            hiddenPromo = true;
+                        }else{
+                            binding.tvFnbDiscount.text = isPromo[0].promoName
+                            binding.tvDiscountPrice.text = "(${utils.getCurrency(isPromo[0].promoPrice?.toLong())})"
+                        }
                     }else{
-                        binding.tvFnbDiscount.text = isPromo[0].promoName
-                        binding.tvDiscountPrice.text = "(${utils.getCurrency(isPromo[0].promoPrice?.toLong())})"
+                            binding.tvFnbDiscount.text = isPromo[0].promoName
+                            binding.tvDiscountPrice.text = "(${utils.getCurrency(isPromo[0].promoPrice?.toLong())})"
                     }
                 }else{
                     binding.tvFnbDiscount.visibility = View.GONE
@@ -80,7 +88,7 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                     binding.tvReturItemTotalPrice.visibility = View.VISIBLE
 
 
-                    binding.tvItemOrderName.text = isCancel[0].namaItem
+                    binding.tvReturItemName.text = isCancel[0].namaItem
                     binding.tvReturItemCount.text = isCancel[0].jumlah.toString()
                     binding.tvReturItemPrice.text = utils.getCurrency(isCancel[0].harga?.toLong())
                     binding.tvReturItemTotalPrice.text = "(" + utils.getCurrency(isCancel[0].total?.toLong()) + ")"
@@ -89,8 +97,8 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                         binding.tvFnbDiscount.visibility = View.GONE
                         binding.tvDiscountPrice.visibility = View.GONE
                     }else if(isPromo.isNotEmpty()){
-                        binding.tvFnbDiscount.visibility = View.GONE
-                        binding.tvDiscountPrice.visibility = View.GONE
+                        binding.tvFnbDiscount.visibility = View.VISIBLE
+                        binding.tvDiscountPrice.visibility = View.VISIBLE
                     }
 
                 }else{

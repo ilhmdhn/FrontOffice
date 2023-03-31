@@ -8,6 +8,8 @@ import com.ihp.frontoffice.data.remote.respons.Response;
 import com.ihp.frontoffice.data.remote.respons.RoomExtendResponse;
 import com.ihp.frontoffice.data.remote.respons.RoomOrderResponse;
 import com.ihp.frontoffice.data.remote.respons.RoomResponse;
+import com.ihp.frontoffice.data.remote.respons.TransferRoomResponse;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -154,10 +156,10 @@ public interface RoomOrderClient {
     Call<RoomOrderResponse> submitOrderLobbyMemberCheckin(@Body RoomOrder jsonRoomOrder);
 
     @POST("checkin-direct/transfer-room-member")
-    Call<RoomOrderResponse> submitTransferRoomToRoom(@Body RoomOrder jsonRoomOrder);
+    Call<TransferRoomResponse> submitTransferRoomToRoom(@Body RoomOrder jsonRoomOrder);
 
     @POST("checkin-direct/transfer-lobby-to-room")
-    Call<RoomOrderResponse> submitTransferLobbyToRoom(@Body RoomOrder jsonRoomOrder);
+    Call<TransferRoomResponse> submitTransferLobbyToRoom(@Body RoomOrder jsonRoomOrder);
 
     @FormUrlEncoded
     @POST("checkin-direct/reduce_duration")

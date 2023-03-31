@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.data.remote.respons.TransferRoomResponse;
+import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -100,6 +102,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private User USER_FO;
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
+    Printer printer;
 
     //pagination
     private BasePagination p;
@@ -144,6 +147,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
         USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
         otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
+        printer = new Printer();
         init();
     }
 
@@ -425,7 +429,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
 
     private void submitTransferRoom(RoomOrder roomOrder) {
         progressBar.setVisibility(View.VISIBLE);
-        Call<RoomOrderResponse> call;
+        Call<TransferRoomResponse> call;
 
         if(roomOrder.getOldRoomBeforeTransfer().isRoomNotLobby()){
             call = roomOrderClient.submitTransferRoomToRoom(roomOrder);
@@ -433,22 +437,20 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
             call = roomOrderClient.submitTransferLobbyToRoom(roomOrder);
         }
 
-        call.enqueue(new Callback<RoomOrderResponse>() {
+        call.enqueue(new Callback<TransferRoomResponse>() {
             @Override
-            public void onResponse(Call<RoomOrderResponse> call, Response<RoomOrderResponse> response) {
+            public void onResponse(Call<TransferRoomResponse> call, Response<TransferRoomResponse> response) {
                 progressBar.setVisibility(View.GONE);
-                RoomOrderResponse res = response.body();
-                res.displayMessage(getContext());
-                if (!res.isOkay()) {
+                TransferRoomResponse res = response.body();
+                if (!res.getState()) {
+                    Toasty.error(requireActivity(), res.getMessage(), Toasty.LENGTH_SHORT, true).show();
                     return;
                 }
                 ihpRepository.submitApproval(BASE_URL, USER_FO.getUserId(), USER_FO.getLevelUser(), roomOrder.getCheckinRoom().getRoomCode(), "Transfer Room");
-                Navigation
-                        .findNavController(getView())
-                        .navigate(
-                                OperasionalListRoomAvailableTransferFragmentDirections
-                                        .actionNavOperasionalTransferAvailableRoomFragmentToNavOperasionalListRoomToTransferFragment()
-                        );
+
+                //disini
+                printCheckinSlip(res.getData().getKodeRcp());
+
 
                /* Navigation
                         .findNavController(getView())
@@ -457,7 +459,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<RoomOrderResponse> call, Throwable t) {
+            public void onFailure(Call<TransferRoomResponse> call, Throwable t) {
                 Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                         .show();
                 progressBar.setVisibility(View.GONE);
@@ -469,5 +471,17 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     @Subscribe
     public void refreshPage(EventsWrapper.RefreshCurrentFragment refreshCurrentFragment) {
         readyRoomSetupData();
+    }
+
+    private void printCheckinSlip(String rcp){
+        otherViewModel.checkinSlip(BASE_URL, rcp).observe(getViewLifecycleOwner(), data->{
+            printer.printerCheckinSlip(data, requireActivity());
+            Navigation
+                    .findNavController(getView())
+                    .navigate(
+                            OperasionalListRoomAvailableTransferFragmentDirections
+                                    .actionNavOperasionalTransferAvailableRoomFragmentToNavOperasionalListRoomToTransferFragment()
+                    );
+        });
     }
 }

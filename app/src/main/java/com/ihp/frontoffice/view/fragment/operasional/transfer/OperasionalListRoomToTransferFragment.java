@@ -161,7 +161,7 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
     private void checkinRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
 
-        roomViewModel.getRoomCheckin(cariData).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomCheckin(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
             roomResponse.displayMessage(getContext());
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
