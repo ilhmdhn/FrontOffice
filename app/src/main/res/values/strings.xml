@@ -325,4 +325,7 @@
     <string name="report_rph">Ringkasan Penjualan Harian</string>
     <string name="remove_room_promo">Hapus Promo Room</string>
     <string name="remove_fnb_promo">Hapus Promo FnB</string>
+    <string name="operasional_order_fnb">Order FnB</string>
+    <string name="list_room_checkin">List Room Checkin</string>
+    <string name="image_fnb">Image FNB</string>
 </resources>

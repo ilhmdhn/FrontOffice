@@ -64,6 +64,9 @@ public class OperasionalFragment extends Fragment {
     @BindView(R.id.operasional_payment_act)
     MaterialCardView bttnPayment;
 
+    @BindView(R.id.operasional_order_fnb)
+    MaterialCardView btnOrderFnB;
+
     @BindView(R.id.operasional_checkout_act)
     MaterialCardView bttnCheckout;
 
@@ -221,6 +224,7 @@ public class OperasionalFragment extends Fragment {
                                     .actionNavOperasionalFragmentToNavOperasionalRoomCheckinFragment());
         });
 
+
         bttnCheckout.setOnClickListener(view -> {
             Navigation.findNavController(view)
                     .navigate(
@@ -250,6 +254,14 @@ public class OperasionalFragment extends Fragment {
                     .navigate(
                             OperasionalFragmentDirections
                                     .actionNavOperasionalFragmentToNavOperasionalListRoomToTransferFragment()
+                    );
+        });
+
+        btnOrderFnB.setOnClickListener(view ->{
+            Navigation.findNavController(view)
+                    .navigate(
+                            OperasionalFragmentDirections
+                                    .actionNavOperasionalFragmentToOrderFnbListRoomFragment()
                     );
         });
 

@@ -5,12 +5,17 @@ import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.liveData
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
+import com.ihp.frontoffice.view.fragment.operasional.orderfnb.order.FnbPagingSource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.create
@@ -429,5 +434,16 @@ class IhpRepository {
             }
         })
         return responseData
+    }
+
+    fun getFnbPaging(category: String, search: String, apiService: InventoryClient): LiveData<PagingData<DataInventoryPaging>> {
+        return Pager(
+                config = PagingConfig(
+                        pageSize = 5
+                ),
+                pagingSourceFactory = {
+                    FnbPagingSource(apiService)
+                }
+        ).liveData
     }
 }

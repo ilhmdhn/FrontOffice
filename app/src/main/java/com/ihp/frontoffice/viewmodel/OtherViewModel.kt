@@ -3,7 +3,13 @@ package com.ihp.frontoffice.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.ihp.frontoffice.data.entity.User
+import com.ihp.frontoffice.data.remote.ApiConfig
+import com.ihp.frontoffice.data.remote.InventoryClient
 import com.ihp.frontoffice.data.remote.respons.*
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.data.repository.LocalRepository
@@ -48,5 +54,9 @@ class OtherViewModel: ViewModel() {
 
     fun checkinSlip(url: String, rcp: String): LiveData<CheckinSlipResponse>{
         return ihpRepository.checkinSlip(url, rcp)
+    }
+    fun fnbPaging(url: String):LiveData<PagingData<DataInventoryPaging>>{
+        val apiService = ApiConfig.getApiService(url)
+        return ihpRepository.getFnbPaging("", "", apiService).cachedIn(viewModelScope)
     }
 }

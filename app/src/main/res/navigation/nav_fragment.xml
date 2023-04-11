@@ -132,6 +132,9 @@
         <action
             android:id="@+id/action_navOperasionalFragment_to_navOperasionalListRoomToAddInfoFragment"
             app:destination="@id/navOperasionalListRoomToEditInfoFragment" />
+        <action
+            android:id="@+id/action_navOperasionalFragment_to_orderFnbListRoomFragment"
+            app:destination="@id/orderFnbListRoomFragment" />
     </fragment>
 
     <fragment
@@ -461,5 +464,19 @@
         android:name="com.ihp.frontoffice.view.fragment.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />
+    <fragment
+        android:id="@+id/orderFnbListRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.orderfnb.OrderFnbListRoomFragment"
+        android:label="fragment_order_fnb_list_room"
+        tools:layout="@layout/fragment_order_fnb_list_room" >
+        <action
+            android:id="@+id/action_orderFnbListRoomFragment_to_orderFnbRoomFragment"
+            app:destination="@id/orderFnbRoomFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderFnbRoomFragment"
+        android:name="com.ihp.frontoffice.view.fragment.operasional.orderfnb.order.OrderFnbRoomFragment"
+        android:label="fragment_order_fnb_room"
+        tools:layout="@layout/fragment_order_fnb_room" />
 
 </navigation>

@@ -248,6 +248,9 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.cancelReportFragment:
                     hideBottomNav();
                     break;
+                case R.id.orderFnbListRoomFragment:
+                    hideBottomNav();
+                    break;
                 default:
                     break;
             }

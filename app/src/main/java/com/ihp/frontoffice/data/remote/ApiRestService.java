@@ -32,4 +32,5 @@ public class ApiRestService {
         }
         return retrofit;
     }
+
 }

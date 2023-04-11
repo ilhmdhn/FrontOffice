@@ -124,4 +124,10 @@ dependencies {
 
     //pos print
     implementation 'com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.2.0'
+
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:3.1.0"
+
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
 }
