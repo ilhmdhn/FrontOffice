@@ -8,7 +8,7 @@ import com.ihp.frontoffice.data.remote.respons.DataInventoryPaging
 import com.ihp.frontoffice.data.remote.respons.InventoryPagingResponse
 import java.io.IOException
 
-class FnbPagingSource(private val inventoryClient: InventoryClient): PagingSource<Int, DataInventoryPaging>() {
+class FnbPagingSource(private val inventoryClient: InventoryClient, private val category: String, private val search: String): PagingSource<Int, DataInventoryPaging>() {
     override fun getRefreshKey(state: PagingState<Int, DataInventoryPaging>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
@@ -19,7 +19,7 @@ class FnbPagingSource(private val inventoryClient: InventoryClient): PagingSourc
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataInventoryPaging> {
         return try{
             val position = params.key ?: INITIAL_PAGE_INDEX
-            val responseData = inventoryClient.getInventoryPaging(position, params.loadSize, "", "")
+            val responseData = inventoryClient.getInventoryPaging(position, params.loadSize, category, search)
             if(responseData.state == false){
                 throw IOException(responseData.message)
             }

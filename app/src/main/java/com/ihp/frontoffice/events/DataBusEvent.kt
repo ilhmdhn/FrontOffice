@@ -6,4 +6,11 @@ object DataBusEvent {
         val password: String,
         val isApprove: Boolean,
     )
+
+    data class OrderModel(
+            var inventoryCode: String,
+            var orderQty: Int,
+            var orderNotes: String,
+            var itemName: String,
+    )
 }

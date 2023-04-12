@@ -55,8 +55,8 @@ class OtherViewModel: ViewModel() {
     fun checkinSlip(url: String, rcp: String): LiveData<CheckinSlipResponse>{
         return ihpRepository.checkinSlip(url, rcp)
     }
-    fun fnbPaging(url: String):LiveData<PagingData<DataInventoryPaging>>{
+    fun fnbPaging(url: String, category: String, search: String):LiveData<PagingData<DataInventoryPaging>>{
         val apiService = ApiConfig.getApiService(url)
-        return ihpRepository.getFnbPaging("", "", apiService).cachedIn(viewModelScope)
+        return ihpRepository.getFnbPaging(category, search, apiService).cachedIn(viewModelScope)
     }
 }

@@ -439,10 +439,10 @@ class IhpRepository {
     fun getFnbPaging(category: String, search: String, apiService: InventoryClient): LiveData<PagingData<DataInventoryPaging>> {
         return Pager(
                 config = PagingConfig(
-                        pageSize = 5
+                        pageSize = 10
                 ),
                 pagingSourceFactory = {
-                    FnbPagingSource(apiService)
+                    FnbPagingSource(apiService, category, search)
                 }
         ).liveData
     }
