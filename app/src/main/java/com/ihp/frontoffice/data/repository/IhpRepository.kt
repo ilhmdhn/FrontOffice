@@ -15,7 +15,7 @@ import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
-import com.ihp.frontoffice.view.fragment.operasional.orderfnb.order.FnbPagingSource
+import com.ihp.frontoffice.view.fragment.operasional.fnb.order.FnbPagingSource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.create

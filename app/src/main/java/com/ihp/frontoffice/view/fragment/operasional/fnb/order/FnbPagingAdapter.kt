@@ -1,4 +1,4 @@
-package com.ihp.frontoffice.view.fragment.operasional.orderfnb.order
+package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
 import android.util.Log
 import android.view.LayoutInflater

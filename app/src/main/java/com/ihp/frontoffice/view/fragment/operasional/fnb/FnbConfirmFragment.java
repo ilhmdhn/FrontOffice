@@ -23,11 +23,6 @@ import com.ihp.frontoffice.helper.InventoryLocationProduction;
 import com.ihp.frontoffice.helper.InventoryState;
 import com.ihp.frontoffice.view.listadapter.ListInventoryOrderAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FnbConfirmFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FnbConfirmFragment extends Fragment {
 
 

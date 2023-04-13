@@ -1,4 +1,4 @@
-package com.ihp.frontoffice.view.fragment.operasional.orderfnb.order
+package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -35,12 +35,12 @@ class FnbInputOrderAdapter: RecyclerView.Adapter<FnbInputOrderAdapter.ListViewHo
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FnbInputOrderAdapter.ListViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.dialog_order, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.list_review_order, parent, false)
         return ListViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FnbInputOrderAdapter.ListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listData[position]
         holder.bind(data, position)
     }

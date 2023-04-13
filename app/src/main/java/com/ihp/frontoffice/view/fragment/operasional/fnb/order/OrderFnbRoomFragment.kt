@@ -1,10 +1,10 @@
-package com.ihp.frontoffice.view.fragment.operasional.orderfnb.order
+package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -48,8 +48,6 @@ class OrderFnbRoomFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val dialogView = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_order, null)
-        rvOrderDialog = dialogView.findViewById(com.ihp.frontoffice.R.id.rv_item_order)
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
         USER_FO = (requireActivity().applicationContext as MyApp).userFo
         otherViewModel = ViewModelProvider(requireActivity()).get(OtherViewModel::class.java)
@@ -103,8 +101,6 @@ class OrderFnbRoomFragment : Fragment() {
 
         getData()
 
-        rvOrderDialog.layoutManager = LinearLayoutManager(requireActivity())
-        rvOrderDialog.setHasFixedSize(true)
         with(binding.rvFnb){
             layoutManager = LinearLayoutManager(requireActivity())
             adapter = fnbPagingAdapter
@@ -118,15 +114,21 @@ class OrderFnbRoomFragment : Fragment() {
             builder = AlertDialog.Builder(requireActivity())
             val inflater = requireActivity().layoutInflater
 
-            builder.setView(inflater.inflate(com.ihp.frontoffice.R.layout.dialog_order, null))
-            builder.setMessage("haaa")
-                    .setCancelable(true)
-                    .setPositiveButton("YES") { dialogInterface, i ->
+            val viewDialog = inflater.inflate(R.layout.dialog_order, null)
+            builder.setView(viewDialog)
+            builder.setCancelable(true)
 
-                    }
-                    .setNegativeButton("No") { dialogInterface, i -> dialogInterface.dismiss() }
             val alert = builder.create()
-            alert.setTitle("List Order")
+
+            val lp = WindowManager.LayoutParams()
+            lp.copyFrom(alert.getWindow()?.getAttributes())
+            lp.height = 400; // Set height here
+            alert.getWindow()?.setAttributes(lp)
+
+//            val dialogView = LayoutInflater.from(requireActivity()).inflate(R.layout.dialog_order, null)
+            rvOrderDialog = viewDialog.findViewById(R.id.rv_item_order)
+            rvOrderDialog.layoutManager = LinearLayoutManager(requireActivity())
+            rvOrderDialog.setHasFixedSize(true)
             rvOrderDialog.adapter = dialogAdapter
             alert.show()
         }

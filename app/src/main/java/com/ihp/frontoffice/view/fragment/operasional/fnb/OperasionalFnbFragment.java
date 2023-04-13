@@ -26,6 +26,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputLayout;
+import com.ihp.frontoffice.view.fragment.operasional.fnb.order.OrderFnbRoomFragment;
+import com.ihp.frontoffice.view.fragment.operasional.fnb.ordersend.OrderSendedFragment;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -74,7 +76,7 @@ public class OperasionalFnbFragment extends Fragment {
     @BindView(R.id.room_inventory_view_pager)
     ViewPager2 viewPager2;
 
-    private String[] titles = new String[]{"Confirm", "Done", "Cancel"};
+    private String[] titles = new String[]{"Order","Send Order","Confirm", "Done", "Cancel"};
 
     private Room room;
     private RoomOrder roomOrder;
@@ -586,13 +588,11 @@ public class OperasionalFnbFragment extends Fragment {
         @Override
         public Fragment createFragment(int position) {
             switch (position) {
-                case 0:
-                    return FnbConfirmFragment.newInstance(roomOrder);
-                case 1:
-                    return FnbProgressFragment.newInstance(roomOrder);
-                case 2:
-                    return FnbCancelFragment.newInstance(roomOrder);
-
+                case 0: return new OrderFnbRoomFragment();
+                case 1: return new OrderSendedFragment();
+                case 2: return FnbConfirmFragment.newInstance(roomOrder);
+                case 3: return FnbProgressFragment.newInstance(roomOrder);
+                case 4: return FnbCancelFragment.newInstance(roomOrder);
             }
             return new Fragment();
         }
