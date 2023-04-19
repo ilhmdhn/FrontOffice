@@ -18,7 +18,6 @@ class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = getItem(position)
-        Log.d("datanya di adapter",data.toString())
         if(data != null){
             holder.bind(data)
         }
@@ -36,7 +35,9 @@ class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.
                         inventoryCode = data.inventoryCode,
                         orderQty = 1,
                         orderNotes = "",
-                        itemName = data.name
+                        itemName = data.name,
+                        itemPrice = data.price.toLong(),
+                        itemLocation = data.location.toString(),
                 ))
             }
             binding.tvFnbName.text = data.name

@@ -588,7 +588,7 @@ public class OperasionalFnbFragment extends Fragment {
         @Override
         public Fragment createFragment(int position) {
             switch (position) {
-                case 0: return new OrderFnbRoomFragment();
+                case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
                 case 1: return new OrderSendedFragment();
                 case 2: return FnbConfirmFragment.newInstance(roomOrder);
                 case 3: return FnbProgressFragment.newInstance(roomOrder);

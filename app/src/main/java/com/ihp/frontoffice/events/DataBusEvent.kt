@@ -12,5 +12,7 @@ object DataBusEvent {
             var orderQty: Int,
             var orderNotes: String,
             var itemName: String,
+            var itemPrice: Long,
+            var itemLocation: String,
     )
 }

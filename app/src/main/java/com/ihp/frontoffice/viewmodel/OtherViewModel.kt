@@ -13,6 +13,7 @@ import com.ihp.frontoffice.data.remote.InventoryClient
 import com.ihp.frontoffice.data.remote.respons.*
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.data.repository.LocalRepository
+import com.ihp.frontoffice.events.DataBusEvent
 
 class OtherViewModel: ViewModel() {
     val ihpRepository = IhpRepository()
@@ -58,5 +59,9 @@ class OtherViewModel: ViewModel() {
     fun fnbPaging(url: String, category: String, search: String):LiveData<PagingData<DataInventoryPaging>>{
         val apiService = ApiConfig.getApiService(url)
         return ihpRepository.getFnbPaging(category, search, apiService).cachedIn(viewModelScope)
+    }
+
+    fun sendOrder(url: String, chusr: String, roomCode: String, rcp: String, roomType: String, checkinDuration: String,  order: ArrayList<DataBusEvent.OrderModel>): LiveData<Response>{
+        return ihpRepository.sendOrder(url, chusr, roomCode, rcp, roomType, checkinDuration, order)
     }
 }

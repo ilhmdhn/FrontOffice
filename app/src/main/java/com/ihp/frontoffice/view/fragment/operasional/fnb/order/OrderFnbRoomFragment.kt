@@ -1,11 +1,13 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -13,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ihp.frontoffice.MyApp
 import com.ihp.frontoffice.R
+import com.ihp.frontoffice.data.entity.RoomOrder
 import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.databinding.FragmentOrderFnbRoomBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.view.fragment.operasional.fnb.FnbConfirmFragment
 import com.ihp.frontoffice.viewmodel.OtherViewModel
+import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.Subscribe
 
 
@@ -37,14 +42,19 @@ class OrderFnbRoomFragment : Fragment() {
     var search: String = ""
 
     private lateinit var rvOrderDialog: RecyclerView
+    private lateinit var btnSendOrder: AppCompatButton
     private var dialogAdapter = FnbInputOrderAdapter()
 
     var orderItem = ArrayList<DataBusEvent.OrderModel>()
 
+    lateinit var roomOrder: RoomOrder
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,savedInstanceState: Bundle?): View? {
         _binding = FragmentOrderFnbRoomBinding.inflate(inflater, container, false)
+        roomOrder = (arguments?.getSerializable(ARG_PARAM1) as RoomOrder)
         return binding.root
      }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -130,6 +140,24 @@ class OrderFnbRoomFragment : Fragment() {
             rvOrderDialog.layoutManager = LinearLayoutManager(requireActivity())
             rvOrderDialog.setHasFixedSize(true)
             rvOrderDialog.adapter = dialogAdapter
+
+            btnSendOrder = viewDialog.findViewById(R.id.btn_send_order)
+
+            btnSendOrder.setOnClickListener {
+                otherViewModel.sendOrder(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomRcp, roomOrder.checkinRoom.roomType, roomOrder.checkinRoom.roomCheckinDuration.toString(), orderItem).observe(viewLifecycleOwner, {response ->
+                    if(response.isLoading == true){
+                        btnSendOrder.isEnabled = false
+                    }else{
+                        btnSendOrder.isEnabled = true
+                        if(response.state == true){
+                            orderItem.clear()
+                            dialogAdapter.setData(orderItem)
+                            alert.dismiss()
+                        }
+                        Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
+                    }
+                })
+            }
             alert.show()
         }
     }
@@ -156,6 +184,7 @@ class OrderFnbRoomFragment : Fragment() {
         GlobalBus.getBus().unregister(this)
     }
 
+
     @Subscribe
     fun addOrder(addedItem: DataBusEvent.OrderModel){
         val filter = orderItem.find { it.inventoryCode == addedItem.inventoryCode }
@@ -169,5 +198,22 @@ class OrderFnbRoomFragment : Fragment() {
         }else{
             binding.fabOrder.visibility = View.VISIBLE
         }
+    }
+
+    @Subscribe
+    fun customOrder(newItem: ArrayList<DataBusEvent.OrderModel>){
+        orderItem = newItem
+        dialogAdapter.setData(orderItem)
+    }
+
+    companion object{
+        private val ARG_PARAM1 = "ROOM_ORDER"
+    }
+    fun newInstance(roomOrder: RoomOrder?): OrderFnbRoomFragment {
+        val fragment = OrderFnbRoomFragment()
+        val args = Bundle()
+        args.putSerializable(ARG_PARAM1, roomOrder)
+        fragment.arguments = args
+        return fragment
     }
 }

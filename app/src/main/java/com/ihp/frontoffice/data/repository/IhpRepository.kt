@@ -15,6 +15,7 @@ import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
+import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.view.fragment.operasional.fnb.order.FnbPagingSource
 import retrofit2.Call
 import retrofit2.Callback
@@ -445,5 +446,36 @@ class IhpRepository {
                     FnbPagingSource(apiService, category, search)
                 }
         ).liveData
+    }
+
+    fun sendOrder(url: String,chusr: String, roomCode: String, rcp: String, roomType: String, checkinDuration: String,  order: ArrayList<DataBusEvent.OrderModel>): LiveData<Response>{
+        val client = ApiRestService.getClient(url).create(InventoryClient::class.java)
+        val responseData = MutableLiveData<Response>()
+        val orderinv = ArrayList<String>()
+        val orderQty = ArrayList<String>()
+        val orderNotes = ArrayList<String>()
+        val orderPrice = ArrayList<String>()
+        val ordername = ArrayList<String>()
+        val orderLocation = ArrayList<String>()
+
+        for (i in order){
+            orderinv.add(i.inventoryCode)
+            orderQty.add(i.orderQty.toString())
+            orderNotes.add(i.orderNotes)
+            orderPrice.add(i.itemPrice.toString())
+            ordername.add(i.itemName)
+            orderLocation.add(i.itemLocation)
+        }
+
+        client.sendOrder(chusr, roomCode, rcp, roomType, checkinDuration, "", "", orderinv, orderQty, orderNotes, orderPrice, ordername, orderLocation).enqueue(object : Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                responseData.postValue(response.body()?.let { Response(state = it.state, message = it.message, isLoading = false) })
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                responseData.postValue(Response(state = false, message = t.message.toString(), isLoading = false))
+            }
+        })
+        return responseData
     }
 }
