@@ -64,4 +64,8 @@ class OtherViewModel: ViewModel() {
     fun sendOrder(url: String, chusr: String, roomCode: String, rcp: String, roomType: String, checkinDuration: String,  order: ArrayList<DataBusEvent.OrderModel>): LiveData<Response>{
         return ihpRepository.sendOrder(url, chusr, roomCode, rcp, roomType, checkinDuration, order)
     }
+
+    fun getOrder(url: String, roomCode: String): LiveData<OrderResponse>{
+        return ihpRepository.getRoomOrder(url, roomCode)
+    }
 }

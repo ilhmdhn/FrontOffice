@@ -6,7 +6,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface PrintClient {
-
     @FormUrlEncoded
     @POST("printer/print-tagihan")
     fun printTagihan(

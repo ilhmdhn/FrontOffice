@@ -22,17 +22,11 @@ class FnbInputOrderAdapter: RecyclerView.Adapter<FnbInputOrderAdapter.ListViewHo
     fun setData(newListData: List<DataBusEvent.OrderModel>){
         listData.clear()
         listData.addAll(newListData)
-        Log.d("datanya", listData.toString())
         notifyDataSetChanged()
     }
 
     fun getData(): ArrayList<DataBusEvent.OrderModel>{
         return listData
-    }
-
-    fun changeValueOrder(index: Int, jumlah: Int){
-        Log.d("DEBUGGING", jumlah.toString() + " " + index.toString())
-        setData(listData)
     }
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -51,11 +45,25 @@ class FnbInputOrderAdapter: RecyclerView.Adapter<FnbInputOrderAdapter.ListViewHo
                         ))
                 }
                 btnMinus.setOnClickListener {
-                    if(listData[index].orderQty>0){
+                    if(listData[index].orderQty>1){
                         listData[index].orderQty--
                         GlobalBus.getBus().post(ArrayList<DataBusEvent.OrderModel>(
                                 listData
                         ))
+                    }else{
+                        val builder: AlertDialog.Builder
+                        builder = AlertDialog.Builder(itemView.context)
+                        builder
+                                .setMessage("Hapus ${data.itemName} ?")
+                                .setPositiveButton("OK",
+                                DialogInterface.OnClickListener{dialog, which ->
+                                    listData.removeAt(index)
+                                    GlobalBus.getBus().post(ArrayList<DataBusEvent.OrderModel>(
+                                            listData
+                                    ))
+                                    dialog.dismiss()
+                                })
+                        builder.show()
                     }
                 }
 

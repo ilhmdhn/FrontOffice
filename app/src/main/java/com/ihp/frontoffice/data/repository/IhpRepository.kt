@@ -9,8 +9,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import com.dantsu.escposprinter.EscPosPrinter
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.ihp.frontoffice.MyApp
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
@@ -19,7 +17,6 @@ import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.view.fragment.operasional.fnb.order.FnbPagingSource
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.create
 
 class IhpRepository {
 
@@ -451,13 +448,12 @@ class IhpRepository {
     fun sendOrder(url: String,chusr: String, roomCode: String, rcp: String, roomType: String, checkinDuration: String,  order: ArrayList<DataBusEvent.OrderModel>): LiveData<Response>{
         val client = ApiRestService.getClient(url).create(InventoryClient::class.java)
         val responseData = MutableLiveData<Response>()
-        val orderinv = ArrayList<String>()
+        val orderinv= ArrayList<String>()
         val orderQty = ArrayList<String>()
         val orderNotes = ArrayList<String>()
         val orderPrice = ArrayList<String>()
         val ordername = ArrayList<String>()
         val orderLocation = ArrayList<String>()
-
         for (i in order){
             orderinv.add(i.inventoryCode)
             orderQty.add(i.orderQty.toString())
@@ -474,6 +470,31 @@ class IhpRepository {
 
             override fun onFailure(call: Call<Response>, t: Throwable) {
                 responseData.postValue(Response(state = false, message = t.message.toString(), isLoading = false))
+            }
+        })
+        return responseData
+    }
+
+    fun getRoomOrder(url: String, roomCode: String): LiveData<OrderResponse>{
+        val client = ApiRestService.getClient(url).create(OrderClient::class.java)
+        val responseData = MutableLiveData<OrderResponse>()
+
+        client.getOrderRoom(roomCode).enqueue(object : Callback<OrderResponse>{
+            override fun onResponse(call: Call<OrderResponse>, response: retrofit2.Response<OrderResponse>) {
+                responseData.postValue(OrderResponse(
+                        isLoading = false,
+                        state = response.body()?.state,
+                        message = response.body()?.message,
+                        data = response.body()?.data ?: mutableListOf()
+                ))
+            }
+
+            override fun onFailure(call: Call<OrderResponse>, t: Throwable) {
+                responseData.postValue(OrderResponse(
+                        isLoading = false,
+                        state = false,
+                        message = t.message
+                ))
             }
         })
         return responseData

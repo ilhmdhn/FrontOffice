@@ -144,19 +144,24 @@ class OrderFnbRoomFragment : Fragment() {
             btnSendOrder = viewDialog.findViewById(R.id.btn_send_order)
 
             btnSendOrder.setOnClickListener {
-                otherViewModel.sendOrder(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomRcp, roomOrder.checkinRoom.roomType, roomOrder.checkinRoom.roomCheckinDuration.toString(), orderItem).observe(viewLifecycleOwner, {response ->
-                    if(response.isLoading == true){
-                        btnSendOrder.isEnabled = false
-                    }else{
-                        btnSendOrder.isEnabled = true
-                        if(response.state == true){
-                            orderItem.clear()
-                            dialogAdapter.setData(orderItem)
-                            alert.dismiss()
+                if(orderItem.isEmpty()){
+                    Toasty.warning(requireActivity(), "Order Kosong", Toasty.LENGTH_SHORT, true).show()
+                }else{
+                    otherViewModel.sendOrder(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomRcp, roomOrder.checkinRoom.roomType, roomOrder.checkinRoom.roomCheckinDuration.toString(), orderItem).observe(viewLifecycleOwner, {response ->
+                        if(response.isLoading == true){
+                            btnSendOrder.isEnabled = false
+                        }else{
+                            btnSendOrder.isEnabled = true
+                            if(response.state == true){
+                                orderItem.clear()
+                                dialogAdapter.setData(orderItem)
+                                fnbPagingAdapter.insertAddItem(orderItem)
+                                alert.dismiss()
+                            }
+                            Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
                         }
-                        Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
-                    }
-                })
+                    })
+                }
             }
             alert.show()
         }
@@ -198,12 +203,15 @@ class OrderFnbRoomFragment : Fragment() {
         }else{
             binding.fabOrder.visibility = View.VISIBLE
         }
+
+        fnbPagingAdapter.insertAddItem(orderItem)
     }
 
     @Subscribe
     fun customOrder(newItem: ArrayList<DataBusEvent.OrderModel>){
         orderItem = newItem
         dialogAdapter.setData(orderItem)
+        fnbPagingAdapter.insertAddItem(orderItem)
     }
 
     companion object{

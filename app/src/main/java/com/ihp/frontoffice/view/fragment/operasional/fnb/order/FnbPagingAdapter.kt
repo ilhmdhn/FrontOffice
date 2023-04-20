@@ -1,14 +1,11 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.ihp.frontoffice.data.model.OrderModel
 import com.ihp.frontoffice.data.remote.respons.DataInventoryPaging
-import com.ihp.frontoffice.data.remote.respons.xOrderDataItem
 import com.ihp.frontoffice.databinding.ListFnbBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
@@ -16,10 +13,16 @@ import com.ihp.frontoffice.helper.utils
 
 class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.MyViewHolder>(DIFF_CALLBACK){
 
+    val addedItem = ArrayList<DataBusEvent.OrderModel>()
+    fun insertAddItem(data: List<DataBusEvent.OrderModel>){
+        addedItem.clear()
+        addedItem.addAll(data)
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = getItem(position)
         if(data != null){
-            holder.bind(data)
+            holder.bind(data, addedItem)
         }
     }
 
@@ -29,16 +32,26 @@ class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.
     }
 
     class MyViewHolder(private val binding: ListFnbBinding): RecyclerView.ViewHolder(binding.root) {
-        fun bind(data: DataInventoryPaging){
-            binding.btnAddOrder.setOnClickListener {
-                GlobalBus.getBus().post(DataBusEvent.OrderModel(
-                        inventoryCode = data.inventoryCode,
-                        orderQty = 1,
-                        orderNotes = "",
-                        itemName = data.name,
-                        itemPrice = data.price.toLong(),
-                        itemLocation = data.location.toString(),
-                ))
+
+        fun bind(data: DataInventoryPaging, added: ArrayList<DataBusEvent.OrderModel>){
+
+            val addedItem = added.filter { it.inventoryCode == data.inventoryCode }
+            if(addedItem.isEmpty()){
+                binding.btnAddOrder.text = "tambahkan"
+                binding.btnAddOrder.isEnabled = true
+                binding.btnAddOrder.setOnClickListener {
+                    GlobalBus.getBus().post(DataBusEvent.OrderModel(
+                            inventoryCode = data.inventoryCode,
+                            orderQty = 1,
+                            orderNotes = "",
+                            itemName = data.name,
+                            itemPrice = data.price.toLong(),
+                            itemLocation = data.location.toString(),
+                    ))
+                }
+            }else{
+                binding.btnAddOrder.text = "Ditambahkan"
+                binding.btnAddOrder.isEnabled = false
             }
             binding.tvFnbName.text = data.name
             binding.tvFnbPrice.text = utils.getCurrency(data.price.toLong())
