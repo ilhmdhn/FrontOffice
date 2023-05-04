@@ -192,6 +192,7 @@ class OrderFnbRoomFragment : Fragment() {
 
     @Subscribe
     fun addOrder(addedItem: DataBusEvent.OrderModel){
+        Log.d("DEBUG", "apakah sekali")
         val filter = orderItem.find { it.inventoryCode == addedItem.inventoryCode }
         if(filter == null){
             orderItem.add(addedItem)

@@ -1,5 +1,8 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.ordersend
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataOrderItem
 import com.ihp.frontoffice.databinding.ListSendedOrderBinding
+import com.ihp.frontoffice.events.DataBusEvent
+import com.ihp.frontoffice.events.EventsWrapper
+import com.ihp.frontoffice.events.GlobalBus
 
 class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder>() {
 
@@ -16,18 +22,70 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
     fun setData(newListData: List<DataOrderItem>){
         listData.clear()
         listData.addAll(newListData)
-        Log.d("DEBUGGING data order sended ", listData.toString())
         notifyDataSetChanged()
     }
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val binding = ListSendedOrderBinding.bind(itemView)
 
+        @SuppressLint("ResourceAsColor", "SetTextI18n")
         fun bind(data: DataOrderItem){
+            var qtyOrder = data.orderQuantity ?: 0
+            var canceled = false
             with(binding){
-                tvFnbName.text = data.orderInventoryNama
-                tvOrderNote.text = data.orderNotes
-                tvFnbJumlah.text = data.orderQuantity.toString()
+                if(data.orderState == "1"){
+                    linearLayout12.visibility = View.VISIBLE
+                    btnEditOrderSubmit.visibility = View.VISIBLE
+                    tvFnbName.text = data.orderInventoryNama
+                    tvFnbName.setTextColor(Color.WHITE)
+                    tvOrderNote.text = data.orderNotes
+
+                    btnPlus.setOnClickListener {
+                        qtyOrder++
+                        tvFnbJumlah.text = qtyOrder.toString()
+                    }
+
+                    btnMinus.setOnClickListener {
+
+                        if(qtyOrder>1){
+                            qtyOrder--
+                            tvFnbJumlah.text = qtyOrder.toString()
+                        }else if(qtyOrder == 1){
+                            val dialog = AlertDialog.Builder(itemView.context)
+                            dialog.setMessage("Hapus Order")
+                                    .setPositiveButton("Yes", {dialog_, which ->
+                                        dialog_.dismiss()
+                                        Log.d("debugging ", "is double?")
+                                        GlobalBus.getBus().post(DataBusEvent.cancelOrder(
+                                                so = data.orderSol!!,
+                                                inventoryCode= data.orderInventory!!,
+                                                qty = data.orderQuantity.toString(),
+                                                rcp = data.orderRoomRcp!!,
+                                                user= data.orderUser!!,
+                                                android= data.orderDevice!!
+                                        ))
+                                    })
+
+                                    .setNegativeButton("Batal", {dialog_, which ->
+                                        dialog_.dismiss()
+                                    })
+                            dialog.show()
+                        }
+                    }
+
+                    tvFnbJumlah.text = qtyOrder.toString()
+
+                }else if(data.orderState=="2"){
+                    linearLayout12.visibility = View.INVISIBLE
+                    btnEditOrderSubmit.visibility = View.INVISIBLE
+                    tvFnbName.setTextColor(Color.RED)
+                    tvFnbName.text = "(CANCEL) ${data.orderInventoryNama}"
+                }else if(data.orderState=="3"){
+                    linearLayout12.visibility = View.INVISIBLE
+                    btnEditOrderSubmit.visibility = View.INVISIBLE
+                    tvFnbName.setTextColor(Color.YELLOW)
+                    tvFnbName.text = "(PROCESS) ${data.orderInventoryNama}"
+                }
             }
         }
     }

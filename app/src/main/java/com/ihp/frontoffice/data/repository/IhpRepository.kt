@@ -323,7 +323,7 @@ class IhpRepository {
     fun getViewBill(url: String, room: String):LiveData<xBillResponse>{
         val responseData = MutableLiveData<xBillResponse>()
         val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
-        client.getPrintBill(room).enqueue(object: Callback<xBillResponse>{
+        client.getViewBill(room).enqueue(object: Callback<xBillResponse>{
             override fun onResponse(call: Call<xBillResponse>,response: retrofit2.Response<xBillResponse>) {
                 if (response.isSuccessful){
                         responseData.postValue(response.body())
@@ -495,6 +495,22 @@ class IhpRepository {
                         state = false,
                         message = t.message
                 ))
+            }
+        })
+        return responseData
+    }
+
+    fun cancelOrder(url: String, so: String, inventoryCode: String, qty: String, rcp: String, user: String, android: String): LiveData<Response>{
+        val client = ApiRestService.getClient(url).create(OrderClient::class.java)
+        val responseData = MutableLiveData<Response>()
+
+        client.cancelOrder(so, inventoryCode, qty, rcp, user, android).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                responseData.postValue(Response(state = false, message = t.message.toString()))
             }
         })
         return responseData

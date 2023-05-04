@@ -15,4 +15,13 @@ object DataBusEvent {
             var itemPrice: Long,
             var itemLocation: String,
     )
+
+    data class cancelOrder(
+            var so: String,
+            var inventoryCode: String,
+            var qty: String,
+            var rcp: String,
+            var user: String,
+            var android: String
+    )
 }

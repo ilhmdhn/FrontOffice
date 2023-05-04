@@ -68,4 +68,7 @@ class OtherViewModel: ViewModel() {
     fun getOrder(url: String, roomCode: String): LiveData<OrderResponse>{
         return ihpRepository.getRoomOrder(url, roomCode)
     }
+    fun cancelOrder(url: String, so: String, inventoryCode: String, qty: String, rcp: String, user: String, android: String): LiveData<Response>{
+        return ihpRepository.cancelOrder(url, so, inventoryCode, qty, rcp, user, android)
+    }
 }
