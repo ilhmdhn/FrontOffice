@@ -76,4 +76,37 @@ public class UserAuthRole {
         }
         return false;
     }
+
+    public static boolean isAllowReceiveNotifCall(User user){
+        if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
+                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
+                user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
+                user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isAllowReceiveNotifSo(User user){
+        if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
+                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
+                user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
+                user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isAllowReceiveNotifDo(User user){
+        if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
+                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
+                user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
+                user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
+        ){
+            return true;
+        }
+        return false;
+    }
 }

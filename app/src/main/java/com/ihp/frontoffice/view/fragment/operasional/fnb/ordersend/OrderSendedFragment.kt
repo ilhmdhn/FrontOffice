@@ -32,6 +32,12 @@ class OrderSendedFragment : Fragment() {
 
     lateinit var roomOrder: RoomOrder
 
+    var cancelOrderData: DataBusEvent.cancelOrder? = null
+    var isCancelProcess: Boolean = false
+
+    var revisiOrderData: DataBusEvent.revisiOrder? = null
+    var isRevisiProcess: Boolean = false
+
     private val orderSendAdapter = OrderSendedAdapter()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentOrderSendedBinding.inflate(inflater, container, false)
@@ -56,16 +62,43 @@ class OrderSendedFragment : Fragment() {
     }
 
     @Subscribe
-    fun cancelOrder(data: DataBusEvent.cancelOrder){
-        Log.d("DEBUG", "asdasdsa")
+    fun revisiOrder(data: DataBusEvent.revisiOrder){
+        if(revisiOrderData == data || isRevisiProcess==true){
+            return
+        }
+
         isLoading(true)
-        otherViewModel.cancelOrder(BASE_URL, data.so, data.inventoryCode, data.qty, data.rcp, data.user, data.android).observe(viewLifecycleOwner, {response ->
+        isRevisiProcess = true
+        otherViewModel.revisiOrder(BASE_URL,  data.so, data.inventoryCode, data.note, data.qty, data.qtyTemp, data.rcp, data.user).observe(viewLifecycleOwner, {response->
             if(response.state==true){
+                revisiOrderData = data
                 getData()
             }else{
                 Toasty.error(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
                 getData()
             }
+            isRevisiProcess = false
+        })
+    }
+
+    @Subscribe
+    fun cancelOrder(data: DataBusEvent.cancelOrder){
+
+        if(cancelOrderData == data || isCancelProcess==true){
+            return
+        }
+
+        isLoading(true)
+        isCancelProcess = true
+        otherViewModel.cancelOrder(BASE_URL, data.so, data.inventoryCode, data.qty, data.rcp, data.user).observe(viewLifecycleOwner, {response ->
+            if(response.state==true){
+                cancelOrderData = data
+                getData()
+            }else{
+                Toasty.error(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
+                getData()
+            }
+            isCancelProcess = false
         })
     }
 
@@ -83,6 +116,7 @@ class OrderSendedFragment : Fragment() {
             val sortedFilter = dataFiltered.sortedBy { it.orderState }
             orderSendAdapter.setData(sortedFilter)
         }else{
+            orderSendAdapter.setData(mutableListOf())
             Toasty.warning(requireActivity(), response.message.toString(), Toasty.LENGTH_LONG).show()
         }
     }
@@ -101,7 +135,7 @@ class OrderSendedFragment : Fragment() {
 //        super.onStart()
 //        GlobalBus.getBus().register(this)
 //    }
-//
+
 //    override fun onStop() {
 //        super.onStop()
 //        GlobalBus.getBus().unregister(this)

@@ -23,4 +23,17 @@ interface OrderClient {
             @Field("order_room_user") user: String,
             @Field("order_model_android") android: String,
     ): Call<Response>
+
+    @FormUrlEncoded
+    @POST("order/revisi-order")
+    fun revisiOrder(
+            @Field("order_slip_order") so: String,
+            @Field("order_inventory") inventoryCode: String,
+            @Field("order_note") note: String,
+            @Field("order_qty") qty: String,
+            @Field("order_qty_temp") qtyTemp: String,
+            @Field("order_room_rcp") rcp: String,
+            @Field("order_room_user") user: String,
+            @Field("order_model_android") android: String,
+    ): Call<Response>
 }

@@ -24,4 +24,15 @@ object DataBusEvent {
             var user: String,
             var android: String
     )
+
+    data class revisiOrder(
+            var so: String,
+            var inventoryCode: String,
+            var note: String,
+            var qty: String,
+            var qtyTemp: String,
+            var rcp: String,
+            var user: String,
+            var android: String
+    )
 }

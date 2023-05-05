@@ -18,6 +18,7 @@ public enum UserRole {
     ADMIN("ADMIN"),
     IT("IT"),
     KASIR("KASIR"),
+    WAITER("WAITER"),
     SERVER("SERVER"),
     DAPUR("DAPUR"),
     BAR("BAR");

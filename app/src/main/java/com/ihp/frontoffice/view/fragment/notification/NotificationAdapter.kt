@@ -26,10 +26,11 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
         fun bind(data: DataRoomCall){
             with(binding){
                 roomCode.text = data.room
-                description.text = data.keterangan
                 if (data.isNow == 0){
+                    description.text = data.keterangan +" "+data.user
                     btnResponse.visibility = View.GONE
                 } else{
+                    description.text = data.keterangan
                     btnResponse.visibility = View.VISIBLE
                 }
                 val ihpRepository = IhpRepository()

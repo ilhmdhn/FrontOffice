@@ -60,7 +60,7 @@ data class DataOrderItem(
 	@field:SerializedName("order_diskon_per_item")
 	val orderDiskonPerItem: Int? = null,
 
-	@field:SerializedName("order_room_rcp")
+	@field:SerializedName("order_room_rcp_fix")
 	val orderRoomRcp: String? = null,
 
 	@field:SerializedName("order_nilai_service")

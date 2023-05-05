@@ -2,12 +2,13 @@ package com.ihp.frontoffice
 
 import android.app.Application
 import android.content.Context
+import android.os.Build
+import android.text.TextUtils
 import android.util.Log
-import com.ihp.frontoffice.data.local.FrontOfficeDatabase
 import android.widget.Toast
 import com.ihp.frontoffice.data.entity.User
+import com.ihp.frontoffice.data.local.FrontOfficeDatabase
 import com.ihp.frontoffice.helper.NetworkUtil
-import java.lang.Exception
 
 class MyApp : Application() {
 
@@ -52,6 +53,32 @@ class MyApp : Application() {
         return !((wifiStatusNya == 0) or (wifiStatusNya == 2))
     }
 
+    fun getDeviceName(): String? {
+        val manufacturer = Build.MANUFACTURER
+        val model = Build.MODEL
+        return if (model.startsWith(manufacturer)) {
+            capitalize(model)
+        } else capitalize(manufacturer) + " " + model
+    }
+    private fun capitalize(str: String): String? {
+        if (TextUtils.isEmpty(str)) {
+            return str
+        }
+        val arr = str.toCharArray()
+        var capitalizeNext = true
+        val phrase = StringBuilder()
+        for (c in arr) {
+            if (capitalizeNext && Character.isLetter(c)) {
+                phrase.append(c.uppercaseChar())
+                capitalizeNext = false
+                continue
+            } else if (Character.isWhitespace(c)) {
+                capitalizeNext = true
+            }
+            phrase.append(c)
+        }
+        return phrase.toString()
+    }
     companion object {
         //init all global data
         @JvmField

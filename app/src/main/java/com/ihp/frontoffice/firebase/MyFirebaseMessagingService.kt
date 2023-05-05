@@ -18,6 +18,7 @@ import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.data.local.FrontOfficeDatabase
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.events.DataBusEvent
+import com.ihp.frontoffice.helper.UserAuthRole
 import com.ihp.frontoffice.view.MainActivity
 import org.greenrobot.eventbus.EventBus
 
@@ -88,7 +89,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
             notification = mBuilder.build()
             if (userFo != null){
-                if(userFo!!.isLogin){
+                if(userFo!!.isLogin && UserAuthRole.isAllowReceiveNotifCall(userFo)){
                     mNotificationManager.notify(NOTIFICATION_ID, notification as Notification)
                 }
             }else{

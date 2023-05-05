@@ -500,17 +500,34 @@ class IhpRepository {
         return responseData
     }
 
-    fun cancelOrder(url: String, so: String, inventoryCode: String, qty: String, rcp: String, user: String, android: String): LiveData<Response>{
+    fun cancelOrder(url: String, so: String, inventoryCode: String, qty: String, rcp: String, user: String): LiveData<Response>{
         val client = ApiRestService.getClient(url).create(OrderClient::class.java)
         val responseData = MutableLiveData<Response>()
-
-        client.cancelOrder(so, inventoryCode, qty, rcp, user, android).enqueue(object: Callback<Response>{
+        val deviceName = MyApp().getDeviceName()
+        client.cancelOrder(so, inventoryCode, qty, rcp, user, deviceName.toString()).enqueue(object: Callback<Response>{
             override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
                 responseData.postValue(response.body())
             }
 
             override fun onFailure(call: Call<Response>, t: Throwable) {
                 responseData.postValue(Response(state = false, message = t.message.toString()))
+            }
+        })
+        return responseData
+    }
+
+    fun revisiOrder(url: String, so: String, inventoryCode: String, note: String, qty: String, qtyTemp: String, rcp: String, user: String):LiveData<Response>{
+        val client = ApiRestService.getClient(url).create(OrderClient::class.java)
+        val responseData = MutableLiveData<Response>()
+        val deviceName = MyApp().getDeviceName()
+
+        client.revisiOrder(so, inventoryCode, note, qty, qtyTemp, rcp, user, deviceName.toString()).enqueue(object: Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                responseData.postValue(Response(state = false, message = t.toString()))
             }
         })
         return responseData
