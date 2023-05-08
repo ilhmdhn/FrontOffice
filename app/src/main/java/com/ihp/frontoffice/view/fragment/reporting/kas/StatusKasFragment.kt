@@ -14,13 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.MyApp
 import com.ihp.frontoffice.R
+import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.databinding.FragmentStatusKasBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.UserAuthRole
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
+import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.Subscribe
 import java.text.SimpleDateFormat
 import java.util.*
@@ -33,6 +35,7 @@ class StatusKasFragment : Fragment() {
     var calendar = Calendar.getInstance()
     var levelUser: String? = null
     var BASE_URL: String? = ""
+    var USERFO: User? = null
     private  lateinit var reportViewModel: ReportViewModel
     var listUser: MutableList<String> = ArrayList()
 
@@ -48,6 +51,7 @@ class StatusKasFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
+        USERFO = (requireActivity().applicationContext as MyApp).userFo
         val levelUserArray = resources.getStringArray(R.array.level_user)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         binding.spinnerUser.isEnabled = false
@@ -148,7 +152,33 @@ class StatusKasFragment : Fragment() {
     }
 
     private fun setDate() {
-        val dateFormat = SimpleDateFormat("dd-MM-yyy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val pickDate = sdf.format(calendar.time)
+
+        val date = Date()
+
+        val currentDate = sdf.format(date)
+        val fixPicedDate = sdf.parse(pickDate)
+        val fixCurrentDate = sdf.parse(currentDate)
+
+        val selisihMs = fixCurrentDate.time - fixPicedDate.time
+        val selisihHari = selisihMs / (1000 * 60 * 60 * 24)
+
+        if(selisihHari>1){
+            if(UserAuthRole.isAllowViewAllKas(USERFO)){
+                binding.tvValueDate.setText(dateFormat.format(calendar.time))
+                return
+            }else{
+                val calendarz = Calendar.getInstance()
+                calendarz.time = date
+                calendarz.add(Calendar.DAY_OF_MONTH, -1)
+
+                binding.tvValueDate.setText(dateFormat.format(calendarz.time))
+                return
+            }
+        }
         binding.tvValueDate.setText(dateFormat.format(calendar.time))
     }
 

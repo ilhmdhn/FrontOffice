@@ -100,10 +100,20 @@ public class UserAuthRole {
     }
 
     public static boolean isAllowReceiveNotifDo(User user){
-        if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
+        if (user.getLevelUser().equals(
+                UserRole.KASIR.getRole()) ||
                 user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
-                user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
-                user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
+                user.getLevelUser().equals(UserRole.SERVER.getRole())
+        ){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isAllowViewAllKas(User user){
+        if (
+                (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                (user.getLevelUser().equals(UserRole.SUPERVISOR.getRole()))
         ){
             return true;
         }
