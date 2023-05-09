@@ -147,6 +147,10 @@ public class OperasionalFnbFragment extends Fragment {
         ihpRepository = new IhpRepository();
 
         otherViewModel = new OtherViewModel();
+
+        if(!UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
+            titles = new String[]{"Order","Send Order"};
+        }
     }
 
     private void roomOrderSetupData() {
@@ -587,12 +591,20 @@ public class OperasionalFnbFragment extends Fragment {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            switch (position) {
-                case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
-                case 1: return new OrderSendedFragment().newInstance(roomOrder);
-                case 2: return FnbConfirmFragment.newInstance(roomOrder);
-                case 3: return FnbProgressFragment.newInstance(roomOrder);
-                case 4: return FnbCancelFragment.newInstance(roomOrder);
+
+            if(UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
+                switch (position) {
+                    case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
+                    case 1: return new OrderSendedFragment().newInstance(roomOrder);
+                    case 2: return FnbConfirmFragment.newInstance(roomOrder);
+                    case 3: return FnbProgressFragment.newInstance(roomOrder);
+                    case 4: return FnbCancelFragment.newInstance(roomOrder);
+                }
+            }else{
+                switch (position) {
+                    case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
+                    case 1: return new OrderSendedFragment().newInstance(roomOrder);
+                }
             }
             return new Fragment();
         }

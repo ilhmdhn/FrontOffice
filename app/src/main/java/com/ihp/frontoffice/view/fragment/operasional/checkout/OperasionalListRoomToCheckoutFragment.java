@@ -82,7 +82,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     //checkout
     RoomOrderClient roomOrderClient;
-    private AlertDialog.Builder dialogBuilder;
+    private MaterialAlertDialogBuilder dialogBuilder;
     private LayoutInflater dialogInflater;
     private View dialogView;
     private TextInputLayout inputNameVisitor,
@@ -307,7 +307,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     private void checkoutRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForCheckout);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_checkout_room, null);
         dialogBuilder.setView(dialogView);
@@ -334,7 +334,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
         inputRoom.setEnabled(false);
         inputCheckoutTime.setEnabled(false);
 
-        final AlertDialog alertDialog = dialogBuilder.create();
+        final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -354,7 +354,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     private void lastConfirmCheckOut(Room roomx){
         progressBar.setVisibility(View.VISIBLE);
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Proses Checkout")
                 .setMessage("Pastikan Waktu Habis/Pengunjung Pulang")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -388,7 +388,7 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
                         });
                     }
                 })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         progressBar.setVisibility(View.GONE);

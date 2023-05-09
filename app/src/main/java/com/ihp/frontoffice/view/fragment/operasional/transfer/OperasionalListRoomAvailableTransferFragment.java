@@ -273,7 +273,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     public void otorisasiOperasionalTransferRoom(EventsWrapper.OperasionalBusCheckinRoom operasionalBusCheckinRoom) {
         Room room = operasionalBusCheckinRoom.getRoom();
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi_transfer, null);
@@ -339,7 +339,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
             boolean kasirApproval = data.getState();
             if (kasirApproval) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
                 builder.setMessage(R.string.transfer_confirmation);
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override

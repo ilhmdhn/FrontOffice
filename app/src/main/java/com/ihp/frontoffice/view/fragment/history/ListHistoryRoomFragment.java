@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tuyenmonkey.mkloader.MKLoader;
 
@@ -113,7 +114,7 @@ public class ListHistoryRoomFragment extends Fragment {
 
 
     RoomOrderClient roomOrderClient;
-    private AlertDialog.Builder dialogBuilder;
+    private MaterialAlertDialogBuilder dialogBuilder;
     private LayoutInflater dialogInflater;
     private View dialogView;
     private TextInputLayout inputNameVisitor,
@@ -531,7 +532,7 @@ public class ListHistoryRoomFragment extends Fragment {
 
     private void checkoutRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_checkout_room, null);
         dialogBuilder.setView(dialogView);
@@ -558,7 +559,7 @@ public class ListHistoryRoomFragment extends Fragment {
         inputRoom.setEnabled(false);
         inputCheckoutTime.setEnabled(false);
 
-        final AlertDialog alertDialog = dialogBuilder.create();
+        final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -600,7 +601,7 @@ public class ListHistoryRoomFragment extends Fragment {
 
     private void cleanRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext());
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_clean_room, null);
         dialogBuilder.setView(dialogView);
@@ -612,7 +613,7 @@ public class ListHistoryRoomFragment extends Fragment {
         inputCleanRoomCode.getEditText().setText(room.getRoomCode());
         inputCleanRoomCode.setEnabled(false);
 
-        final AlertDialog alertDialog = dialogBuilder.create();
+        final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {

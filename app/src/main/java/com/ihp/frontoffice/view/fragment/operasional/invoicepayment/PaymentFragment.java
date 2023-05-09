@@ -249,7 +249,7 @@ public class PaymentFragment extends Fragment
             validationPayments();
         });
         buttonSubmitPayment.setOnClickListener(view -> {
-            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                     .setTitle("Proses Pembayaran")
                     .setMessage("Anda ingin melanjutkan")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -258,7 +258,7 @@ public class PaymentFragment extends Fragment
                             validatePayment();
                         }
                     })
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -452,7 +452,7 @@ public class PaymentFragment extends Fragment
         listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -464,7 +464,7 @@ public class PaymentFragment extends Fragment
                         dialogInterface.dismiss();
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -479,7 +479,7 @@ public class PaymentFragment extends Fragment
         adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -490,7 +490,7 @@ public class PaymentFragment extends Fragment
                         dialogInterface.dismiss();
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -618,7 +618,7 @@ public class PaymentFragment extends Fragment
                     .show();
             return;
         }
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Email Invoice")
                 .setMessage("Apakah invoice akan di email??")
                 .setPositiveButton("Iya", new DialogInterface.OnClickListener() {
@@ -627,7 +627,7 @@ public class PaymentFragment extends Fragment
                        submitPayment(true);
                     }
                 })
-                .setNeutralButton("Tidak", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         submitPayment(false);
@@ -947,7 +947,7 @@ public class PaymentFragment extends Fragment
     private void authPayment(Payment pay) {
 
         visibleProgressBar(false);
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
@@ -968,8 +968,7 @@ public class PaymentFragment extends Fragment
             boolean kasirApproval = data.getState();
 
             if (kasirApproval){
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
                 builder.setMessage(R.string.payment_confirmation);
 
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {

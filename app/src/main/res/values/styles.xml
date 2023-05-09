@@ -70,7 +70,19 @@
 <!--        -->
 <!--    </style>-->
 
-    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+    <style name="MaterialDarkCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColor">@color/white</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
+    </style>
+
+    <style name="MaterialAlertDialogDarkTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:textColor">@color/white</item>
+        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>

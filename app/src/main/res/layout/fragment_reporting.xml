@@ -24,6 +24,7 @@
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/ll_kas"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:orientation="horizontal">
@@ -34,25 +35,26 @@
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/dark_secondary_color"
                     android:clickable="true"
                     android:focusable="true"
                     android:foreground="?android:attr/selectableItemBackground"
                     app:cardCornerRadius="14dp"
                     app:cardElevation="0dp"
-                    android:backgroundTint="@color/dark_secondary_color"
                     app:strokeColor="@color/dark_stroke_primary_button"
                     app:strokeWidth="2dp"
                     tools:ignore="InefficientWeight">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/sfpro_display_bold"
-                        android:text="@string/status_kas_masuk"
-                        android:textSize="18sp"
                         android:gravity="center"
+                        android:text="@string/status_kas_masuk"
                         android:textColor="@color/dark_primary_text"
+                        android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

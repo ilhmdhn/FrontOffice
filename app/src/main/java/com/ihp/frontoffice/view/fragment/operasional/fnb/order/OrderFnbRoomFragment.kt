@@ -121,7 +121,7 @@ class OrderFnbRoomFragment : Fragment() {
 
             val builder: AlertDialog.Builder
 
-            builder = AlertDialog.Builder(requireActivity())
+            builder = AlertDialog.Builder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
             val inflater = requireActivity().layoutInflater
 
             val viewDialog = inflater.inflate(R.layout.dialog_order, null)

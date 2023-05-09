@@ -396,7 +396,7 @@ public class OperasionalExtendFragment extends Fragment {
         listPromoInventoryAdapter = new ListPromoInventoryAdapter(getContext(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -409,7 +409,7 @@ public class OperasionalExtendFragment extends Fragment {
                                 .show();*/
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -449,7 +449,7 @@ public class OperasionalExtendFragment extends Fragment {
         listPromoRoomAdapter = new ListPromoRoomAdapter(getContext(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(getContext())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -462,7 +462,7 @@ public class OperasionalExtendFragment extends Fragment {
                                 .show();*/
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -489,7 +489,7 @@ public class OperasionalExtendFragment extends Fragment {
 
         if (!minus){
 
-            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                     .setTitle("Extend Room")
                     .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -525,7 +525,7 @@ public class OperasionalExtendFragment extends Fragment {
                             });
                         }
                     })
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -544,7 +544,7 @@ public class OperasionalExtendFragment extends Fragment {
                 }
             }
 
-            new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+            new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                     .setTitle("Kurangi Durasi Room")
                     .setMessage( jamXtnd+" Jam "+ menitXtnd+" Menit")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -580,10 +580,10 @@ public class OperasionalExtendFragment extends Fragment {
                             });
                         }
                     })
-                    .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                            dialogInterface.dismiss();
                         }
                     })
                     .show();

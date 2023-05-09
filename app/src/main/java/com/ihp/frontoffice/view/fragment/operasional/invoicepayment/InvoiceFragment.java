@@ -207,9 +207,7 @@ public class InvoiceFragment extends Fragment {
 
                         if (Objects.equals(statusPrint, "0")){
 
-                            AlertDialog.Builder builder;
-
-                            builder = new AlertDialog.Builder(requireActivity());
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
 
                             builder.setMessage("")
                                     .setCancelable(true)
@@ -232,9 +230,8 @@ public class InvoiceFragment extends Fragment {
                             alert.setTitle("Cetak Tagihan?");
                             alert.show();
                         }else if( Objects.equals(statusPrint, "-2")){
-                            AlertDialog.Builder builder;
 
-                            builder = new AlertDialog.Builder(requireActivity());
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
 
                             builder
                                     .setCancelable(true)
@@ -261,7 +258,7 @@ public class InvoiceFragment extends Fragment {
                         else{
                             //hari ini
                             otherViewModel.getJumlahApproval(BASE_URL, user).observe(getViewLifecycleOwner(), dataApproval -> {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity(), R.style.CustomAlertDialogDark);
+                                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
                                 boolean kasirApproval = dataApproval.getState();
                                 if (kasirApproval) {
                                     builder.setMessage(R.string.ask_reprint_bill);
@@ -291,7 +288,7 @@ public class InvoiceFragment extends Fragment {
                                     AlertDialog dialogReprintBill = builder.create();
                                     dialogReprintBill.show();
                                 } else {
-                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+                                    MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
                                     LayoutInflater dialogInflater = this.getLayoutInflater();
                                     View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
                                     dialogBuilder.setView(dialogView);

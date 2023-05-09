@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.tuyenmonkey.mkloader.MKLoader;
 
@@ -74,7 +75,7 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
 
     //checkout
     RoomOrderClient roomOrderClient;
-    private AlertDialog.Builder dialogBuilder;
+    private MaterialAlertDialogBuilder dialogBuilder;
     private LayoutInflater dialogInflater;
     private View dialogView;
     private TextInputLayout inputNameVisitor,
@@ -273,7 +274,7 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
 
     private void cleanRoomDialog(Room room) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForCheckout);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_clean_room, null);
         dialogBuilder.setView(dialogView);
@@ -285,7 +286,7 @@ public class OperasionalListRoomToCleanFragment extends Fragment {
         inputCleanRoomCode.getEditText().setText(room.getRoomCode());
         inputCleanRoomCode.setEnabled(false);
 
-        final AlertDialog alertDialog = dialogBuilder.create();
+        androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {

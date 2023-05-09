@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:hint="@string/nama"
-        android:textColorHint="@color/dark_primary_text"
+        android:textColorHint="@color/white"
         app:boxBackgroundColor="@color/dark_secondary_color"
         app:endIconDrawable="@drawable/ic_person"
         app:endIconMode="custom"

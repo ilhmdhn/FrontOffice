@@ -79,7 +79,6 @@ public class UserAuthRole {
 
     public static boolean isAllowReceiveNotifCall(User user){
         if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
-                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
                 user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
                 user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
         ){
@@ -90,7 +89,6 @@ public class UserAuthRole {
 
     public static boolean isAllowReceiveNotifSo(User user){
         if (user.getLevelUser().equals(UserRole.KASIR.getRole()) ||
-                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
                 user.getLevelUser().equals(UserRole.SERVER.getRole()) ||
                 user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())
         ){
@@ -102,7 +100,6 @@ public class UserAuthRole {
     public static boolean isAllowReceiveNotifDo(User user){
         if (user.getLevelUser().equals(
                 UserRole.KASIR.getRole()) ||
-                user.getLevelUser().equals(UserRole.WAITER.getRole()) ||
                 user.getLevelUser().equals(UserRole.SERVER.getRole())
         ){
             return true;
@@ -118,5 +115,49 @@ public class UserAuthRole {
             return true;
         }
         return false;
+    }
+
+    public static boolean isAllowTransaction(User user){
+         if(
+                 (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                         (user.getLevelUser().equals(UserRole.KASIR.getRole()))
+         ){
+             return true;
+         }else{
+             return false;
+         }
+    }
+    public static boolean isAllowTransactionFnb(User user){
+         if(
+                 (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                 (user.getLevelUser().equals(UserRole.KASIR.getRole())) ||
+                         (user.getLevelUser().equals(UserRole.SERVER.getRole()))
+         ){
+             return true;
+         }else{
+             return false;
+         }
+    }
+
+    public static boolean isAllowTransactionFnbAll(User user){
+         if(
+                 (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                 (user.getLevelUser().equals(UserRole.KASIR.getRole()))
+         ){
+             return true;
+         }else{
+             return false;
+         }
+    }
+    public static boolean isAllowViewKasReport(User user){
+         if(
+                 (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                 (user.getLevelUser().equals(UserRole.KASIR.getRole())) ||
+                         (user.getLevelUser().equals(UserRole.SUPERVISOR.getRole()))
+         ){
+             return true;
+         }else{
+             return false;
+         }
     }
 }

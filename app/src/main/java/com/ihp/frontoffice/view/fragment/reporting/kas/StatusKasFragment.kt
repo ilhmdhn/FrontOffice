@@ -1,6 +1,8 @@
 package com.ihp.frontoffice.view.fragment.reporting.kas
 
+import android.R
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -72,7 +74,14 @@ class StatusKasFragment : Fragment() {
         }
 
 
-        val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+
+        val datePickerDialog = DatePickerDialog(requireActivity(), com.ihp.frontoffice.R.style.MyDatePickerDialogTheme,
+                { view, year, month, dayOfMonth ->
+                    // Implementasi ketika tanggal dipilih
+                }, year, month, dayOfMonth
+        )
+
+        val dateSetListener = object : DatePickerDialog(r).OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,dayOfMonth: Int) {
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)

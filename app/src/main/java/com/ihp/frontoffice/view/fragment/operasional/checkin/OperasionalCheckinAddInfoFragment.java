@@ -521,7 +521,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override

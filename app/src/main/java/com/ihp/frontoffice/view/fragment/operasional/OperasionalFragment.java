@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.events.DataBusEvent;
+import com.ihp.frontoffice.helper.UserAuthRole;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.EventBus;
@@ -150,84 +151,109 @@ public class OperasionalFragment extends Fragment {
 
         BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         user = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
-
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
 
         bttnCheckin.setOnClickListener(view -> {
-            if (!isCheckinScanActive) {
-                try {
-                    progressBar.setVisibility(View.VISIBLE);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            GlobalBus
-                                    .getBus()
-                                    .post(new EventsWrapper
-                                            .XZscan(QRScanType.CHECKIN.getType())
-                                    );
-                            isCheckinScanActive = true;
-                        }
-                    }, 500);
+            if(UserAuthRole.isAllowTransaction(user)){
+                if (!isCheckinScanActive) {
+                    try {
+                        progressBar.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                GlobalBus
+                                        .getBus()
+                                        .post(new EventsWrapper
+                                                .XZscan(QRScanType.CHECKIN.getType())
+                                        );
+                                isCheckinScanActive = true;
+                            }
+                        }, 500);
 
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
+            }else{
+                ShowDialogCantAccess();
             }
         });
 
         bttnReservasi.setOnClickListener(view -> {
-            if (!isReservationScanActive) {
-                try {
-                    progressBar.setVisibility(View.VISIBLE);
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            GlobalBus
-                                    .getBus()
-                                    .post(new EventsWrapper
-                                            .XZscan(QRScanType.RESERVASI.getType()));
-                            isReservationScanActive = true;
-                        }
-                    }, 500);
+            if(UserAuthRole.isAllowTransaction(user)){
+                if (!isReservationScanActive) {
+                    try {
+                        progressBar.setVisibility(View.VISIBLE);
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                GlobalBus
+                                        .getBus()
+                                        .post(new EventsWrapper
+                                                .XZscan(QRScanType.RESERVASI.getType()));
+                                isReservationScanActive = true;
+                            }
+                        }, 500);
 
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                    Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(getContext(), "Error Karena " + e.toString(), Toast.LENGTH_SHORT).show();
+                    }
                 }
+            }else{
+                ShowDialogCantAccess();
             }
         });
 
         bttnAddInfoCheckin.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToNavOperasionalListRoomToAddInfoFragment()
-                    );
+
+            if(UserAuthRole.isAllowTransaction(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToNavOperasionalListRoomToAddInfoFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
         bttnFnb.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToNavOperasionalListRoomToFnbFragment()
-                    );
+
+            if(UserAuthRole.isAllowTransactionFnb(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToNavOperasionalListRoomToFnbFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
         bttnPayment.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToNavOperasionalRoomCheckinFragment());
+            if(UserAuthRole.isAllowTransaction(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToNavOperasionalRoomCheckinFragment());
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
 
         bttnCheckout.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToOperasionalListRoomToCheckoutFragment()
-                    );
+            if(UserAuthRole.isAllowTransaction(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToOperasionalListRoomToCheckoutFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
         bttnClean.setOnClickListener(view -> {
@@ -239,19 +265,27 @@ public class OperasionalFragment extends Fragment {
         });
 
         bttnExtend.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToNavOperasionalListRoomToExtendFragment()
-                    );
+            if(UserAuthRole.isAllowTransaction(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToNavOperasionalListRoomToExtendFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
         bttnTransfer.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                            OperasionalFragmentDirections
-                                    .actionNavOperasionalFragmentToNavOperasionalListRoomToTransferFragment()
-                    );
+            if(UserAuthRole.isAllowTransaction(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                OperasionalFragmentDirections
+                                        .actionNavOperasionalFragmentToNavOperasionalListRoomToTransferFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
 
 
@@ -333,7 +367,7 @@ public class OperasionalFragment extends Fragment {
     }
 
     private void showInfoDialog(String message, String title) {
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle(title)
                 .setMessage(message)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -369,6 +403,20 @@ public class OperasionalFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    void ShowDialogCantAccess(){
+        MaterialAlertDialogBuilder dialog;
+        dialog = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
+        dialog.setTitle("Tidak memiliki akses");
+        dialog.setMessage("User anda tidak memiliki akses ini")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        dialog.show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

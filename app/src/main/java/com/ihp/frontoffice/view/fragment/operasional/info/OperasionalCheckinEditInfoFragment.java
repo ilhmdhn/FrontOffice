@@ -512,7 +512,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             }
         }
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi, null);
@@ -531,7 +531,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             if (kasirApproval) {
 //                alert dialog
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
                 builder.setMessage(R.string.reduce_duration);
 // Add the buttons
                 builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
@@ -901,7 +901,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -912,7 +912,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         dialogInterface.dismiss();
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -931,7 +931,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         listEdcTypeAdapter = new ListEdcTypeAdapter(requireActivity(), typesListEdc);
         listEdcTypeAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih EDC")
                 .setSingleChoiceItems(listEdcTypeAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -942,7 +942,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         dialogInterface.dismiss();
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -1009,7 +1009,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                 .show();*/
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -1057,7 +1057,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                 .show();*/
                     }
                 })
-                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();
@@ -1764,7 +1764,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             return;
         }
         // TODO :: masih belum ngurus nama alias
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Simpan Data Checkin")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1822,7 +1822,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                         });
                     }
                 })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 

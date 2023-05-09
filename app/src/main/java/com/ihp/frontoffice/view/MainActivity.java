@@ -416,7 +416,7 @@ public class MainActivity extends AppCompatActivity{
     }
 
     private void logOut() {
-        new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Log Out")
                 .setMessage("Anda ingin keluar aplikasi?")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -603,7 +603,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void dialogCheckinScanQR() {
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_qrscan_checkin, null);
@@ -673,7 +673,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void dialogReservasiScanQR() {
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_qrscan_reservasi, null);
@@ -741,7 +741,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void dialogVoucherScanQR() {
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_qrscan_voucher, null);
@@ -791,7 +791,7 @@ public class MainActivity extends AppCompatActivity{
 
     private void dialogMemberInfoScanQR() {
 
-        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme);
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme);
         LayoutInflater dialogInflater = this.getLayoutInflater();
 
         View dialogView = dialogInflater.inflate(R.layout.dialog_qrscan_memberlink, null);

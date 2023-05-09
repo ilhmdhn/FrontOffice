@@ -1,9 +1,9 @@
 package com.ihp.frontoffice.view.fragment.reporting;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -17,6 +17,7 @@ import com.google.android.material.card.MaterialCardView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.User;
@@ -33,6 +34,9 @@ public class ReportingFragment extends Fragment {
 
     @BindView(R.id.btn_status_kas_masuk)
     MaterialCardView btnKasMasuk;
+
+    @BindView(R.id.ll_kas)
+    LinearLayout llKas;
 
     @BindView(R.id.btn_my_sales)
     MaterialCardView btnMySales;
@@ -55,6 +59,7 @@ public class ReportingFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
 
     public ReportingFragment() {
         // Required empty public constructor
@@ -98,13 +103,24 @@ public class ReportingFragment extends Fragment {
         }else{
             llRph.setVisibility(View.GONE);
         }
+
         setMainTitle();
+
+        if(!UserAuthRole.isAllowViewKasReport(user)){
+             llKas.setVisibility(View.GONE);
+        }
+
+
         btnKasMasuk.setOnClickListener(view -> {
-            Navigation.findNavController(view)
-                    .navigate(
-                          ReportingFragmentDirections
-                          .actionNavReportingFragmentToStatusKasFragment()
-                    );
+            if(UserAuthRole.isAllowViewKasReport(user)){
+                Navigation.findNavController(view)
+                        .navigate(
+                                ReportingFragmentDirections
+                                        .actionNavReportingFragmentToStatusKasFragment()
+                        );
+            }else{
+                ShowDialogCantAccess();
+            }
         });
         btnMySales.setOnClickListener(view -> {
             Navigation.findNavController(view)
@@ -123,6 +139,19 @@ public class ReportingFragment extends Fragment {
         });
     }
 
+    void ShowDialogCantAccess(){
+        MaterialAlertDialogBuilder dialog;
+        dialog = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
+        dialog.setTitle("Tidak memiliki akses");
+        dialog.setMessage("User anda tidak memiliki akses ini")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        dialog.show();
+    }
     private void setMainTitle() {
         GlobalBus
                 .getBus()

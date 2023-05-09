@@ -266,7 +266,7 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
 
     @Subscribe
     public void printBillInvoice(EventsWrapper.PrintBillInvoice printBillInvoice) {
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Print Tagihan")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -294,10 +294,10 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
                         });
                     }
                 })
-                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        dialogInterface.dismiss();
                     }
                 })
                 .show();

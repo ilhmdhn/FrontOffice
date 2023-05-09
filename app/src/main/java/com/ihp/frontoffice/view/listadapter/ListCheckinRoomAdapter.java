@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +49,12 @@ public class ListCheckinRoomAdapter extends RecyclerView.Adapter<ListCheckinRoom
         roomViewHolder._checkinTime.setText(AppUtils.getTanggal(room.getRoomCheckinHours()));
         roomViewHolder._checkoutTime.setText(AppUtils.getTanggal(room.getRoomCheckoutHours()));
         roomViewHolder._roomMember.setText(room.getRoomGuessName());
+
+        if(Objects.equals(room.getStatusPrinter(), "0")){
+            roomViewHolder._bttnDetail.setVisibility(View.VISIBLE);
+        }else{
+            roomViewHolder._bttnDetail.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void setRooms(List<Room> rooms) {
