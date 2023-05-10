@@ -64,7 +64,6 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                     if(isCancelPromo.isNotEmpty()){
                         if(isPromo[0].orderCode == isCancelPromo[0].orderCode && isPromo[0].inventoryCode == isCancelPromo[0].inventoryCode){
                             binding.tvFnbDiscount.text = isPromo[0].promoName
-                            Log.d("DEBUGGING nominal promo di cancel ", "${isPromo[0].inventoryCode} - ${isCancelPromo[0].inventoryCode}" )
                             binding.tvDiscountPrice.text = "(${utils.getCurrency(isCancelPromo[0].promoPrice?.let { isPromo[0].promoPrice?.toLong()?.minus(it) })})"
                             hiddenPromo = true;
                         }else{
@@ -88,7 +87,7 @@ class OrderItemAdapter: RecyclerView.Adapter<OrderItemAdapter.ListViewHolder>() 
                     binding.tvReturItemTotalPrice.visibility = View.VISIBLE
 
 
-                    binding.tvReturItemName.text = isCancel[0].namaItem
+                    binding.tvReturItemName.text = "RETUR " +isCancel[0].namaItem
                     binding.tvReturItemCount.text = isCancel[0].jumlah.toString()
                     binding.tvReturItemPrice.text = utils.getCurrency(isCancel[0].harga?.toLong())
                     binding.tvReturItemTotalPrice.text = "(" + utils.getCurrency(isCancel[0].total?.toLong()) + ")"

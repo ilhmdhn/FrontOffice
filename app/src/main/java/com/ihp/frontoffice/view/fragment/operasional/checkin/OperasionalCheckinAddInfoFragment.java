@@ -491,7 +491,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         adapterBanks = new ArrayAdapter<String>(requireActivity(),
                 android.R.layout.simple_list_item_1, banks);
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(),R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Bank")
                 .setSingleChoiceItems(adapterBanks, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -572,7 +572,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(),R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -620,7 +620,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity())
+        new MaterialAlertDialogBuilder(requireActivity(),R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -1024,7 +1024,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         if (!voucher.getJenis_kamar().equals("")) {
             String voucherRoom = voucher.getJenis_kamar().toUpperCase();
             if (!voucherRoom.contains(room.getRoomType())) {
-                new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+                new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                         .setTitle("Jenis Kamar Voucher Tidak Sama")
                         .setMessage("Voucher berlaku untuk Room " + voucher.getJenis_kamar() + ", lanjutkan transaksi ?")
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -1409,7 +1409,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
             return;
         }
 
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Simpan Data Checkin")
                 .setMessage("Anda ingin melanjutkan")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

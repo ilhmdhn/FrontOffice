@@ -42,8 +42,10 @@ import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.User;
 import com.ihp.frontoffice.data.repository.IhpRepository;
 import com.ihp.frontoffice.data.repository.LocalRepository;
+import com.ihp.frontoffice.events.DataBusEvent;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
+import com.ihp.frontoffice.firebase.UdpService;
 import com.ihp.frontoffice.helper.PreferenceUi;
 import com.ihp.frontoffice.helper.QRScanType;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;
@@ -117,6 +119,10 @@ public class MainActivity extends AppCompatActivity{
         otherViewModel = new ViewModelProvider(this).get(OtherViewModel.class);
 
         insertToken();
+
+
+        Intent intentService = new Intent(this, UdpService.class);
+        startService(intentService);
 
         otherViewModel.getLoginStatus(getApplicationContext()).observe(this, data->{
         if (data == null || !data.isLogin()){

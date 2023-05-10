@@ -35,4 +35,8 @@ object DataBusEvent {
             var user: String,
             var android: String
     )
+
+    data class soDo(
+            var message: String
+    )
 }

@@ -1,6 +1,5 @@
 package com.ihp.frontoffice.view.fragment.reporting.kas
 
-import android.R
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Context
@@ -17,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.ihp.frontoffice.MyApp
-import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.databinding.FragmentStatusKasBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
@@ -54,7 +52,7 @@ class StatusKasFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
         USERFO = (requireActivity().applicationContext as MyApp).userFo
-        val levelUserArray = resources.getStringArray(R.array.level_user)
+        val levelUserArray = resources.getStringArray(com.ihp.frontoffice.R.array.level_user)
         reportViewModel = ViewModelProvider(requireActivity()).get(ReportViewModel::class.java)
         binding.spinnerUser.isEnabled = false
         binding.spinnerLevelUser.isEnabled = false
@@ -75,13 +73,13 @@ class StatusKasFragment : Fragment() {
 
 
 
-        val datePickerDialog = DatePickerDialog(requireActivity(), com.ihp.frontoffice.R.style.MyDatePickerDialogTheme,
-                { view, year, month, dayOfMonth ->
-                    // Implementasi ketika tanggal dipilih
-                }, year, month, dayOfMonth
-        )
-
-        val dateSetListener = object : DatePickerDialog(r).OnDateSetListener {
+//        val datePickerDialog = DatePickerDialog(requireActivity(), com.ihp.frontoffice.R.style.MyDatePickerDialogTheme,
+//                { view, year, month, dayOfMonth ->
+//                    // Implementasi ketika tanggal dipilih
+//                }, year, month, dayOfMonth
+//        )
+//
+        val dateSetListener = object : OnDateSetListener {
             override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,dayOfMonth: Int) {
                 calendar.set(Calendar.YEAR, year)
                 calendar.set(Calendar.MONTH, monthOfYear)
@@ -95,7 +93,7 @@ class StatusKasFragment : Fragment() {
                     activity?.let {
                         DatePickerDialog(
                             it,
-                            R.style.LightCalendar,
+                            com.ihp.frontoffice.R.style.LightCalendar,
                             dateSetListener,
                             // set DatePickerDialog to point to today's date when it loads up
                             calendar.get(Calendar.YEAR),
@@ -105,7 +103,7 @@ class StatusKasFragment : Fragment() {
                 }
             })
 
-        ArrayAdapter.createFromResource(requireActivity(), R.array.level_user, android.R.layout.simple_spinner_item).also { adapter ->
+        ArrayAdapter.createFromResource(requireActivity(), com.ihp.frontoffice.R.array.level_user, android.R.layout.simple_spinner_item).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinnerLevelUser.adapter = adapter
         }

@@ -1454,8 +1454,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             //disini
             btnCancelPromoRoom.setVisibility(View.VISIBLE);
             buttonPromoRoom.setEnabled(false);
-            promoRoomViewData(
-                    roomPromo.getRoomPromoName()+" "+roomPromo.getDiscountPercent()+"%");
+            promoRoomViewData(roomPromo.getRoomPromoName());
         }
         size = roomOrder.getInventoryPromos().size();
         if (size > 0) {
@@ -1466,8 +1465,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
             buttonPromoFood.setText("Terpilih");
             btnCancelPromoFood.setVisibility(View.VISIBLE);
             buttonPromoFood.setEnabled(false);
-            promoFoodViewData(
-                    invPromo.getFoodPromoName()+" "+invPromo.getDiscountPercent()+"%");
+            promoFoodViewData(invPromo.getFoodPromoName());
         }
 
     }
