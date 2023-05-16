@@ -532,4 +532,21 @@ class IhpRepository {
         })
         return responseData
     }
+
+    fun getOrderOldRoom(url: String, ivc: String): LiveData<OrderBeforeTransferResponse>{
+        val client = ApiRestService.getClient(url).create(OrderClient::class.java)
+        val responseData = MutableLiveData<OrderBeforeTransferResponse>()
+
+        client.getOldOrder(ivc).enqueue(object : Callback<OrderBeforeTransferResponse>{
+            override fun onResponse(call: Call<OrderBeforeTransferResponse>, response: retrofit2.Response<OrderBeforeTransferResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<OrderBeforeTransferResponse>, t: Throwable) {
+                responseData.postValue(OrderBeforeTransferResponse(state = false, message = t.message.toString(), data = mutableListOf(), length = 0))
+            }
+
+        })
+        return responseData
+    }
 }

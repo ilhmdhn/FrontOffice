@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ihp.frontoffice.view.fragment.operasional.fnb.order.OrderFnbRoomFragment;
+import com.ihp.frontoffice.view.fragment.operasional.fnb.orderroomtransfer.OrderRoomTransferFragment;
 import com.ihp.frontoffice.view.fragment.operasional.fnb.ordersend.OrderSendedFragment;
 import com.tuyenmonkey.mkloader.MKLoader;
 
@@ -34,6 +36,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -162,6 +165,9 @@ public class OperasionalFnbFragment extends Fragment {
                     roomOrderResponse.displayMessage(getContext());
                     if (roomOrderResponse.isOkay()) {
                         roomOrder = roomOrderResponse.getRoomOrder();
+                        if(UserAuthRole.isAllowTransactionFnbAll(USER_FO) && !Objects.equals(roomOrder.getCheckinRoom().getIvcTransfer(), "")){
+                            titles = new String[]{"Order","Send Order","Confirm", "Done", "Cancel", "Cancel old Room"};
+                        }
                         setViewPager();
                     }
                     progressBar.setVisibility(View.GONE);
@@ -593,12 +599,23 @@ public class OperasionalFnbFragment extends Fragment {
         public Fragment createFragment(int position) {
 
             if(UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
-                switch (position) {
-                    case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
-                    case 1: return new OrderSendedFragment().newInstance(roomOrder);
-                    case 2: return FnbConfirmFragment.newInstance(roomOrder);
-                    case 3: return FnbProgressFragment.newInstance(roomOrder);
-                    case 4: return FnbCancelFragment.newInstance(roomOrder);
+                if(roomOrder.getCheckinRoom().getIvcTransfer()!=""){
+                    switch (position) {
+                        case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
+                        case 1: return new OrderSendedFragment().newInstance(roomOrder);
+                        case 2: return FnbConfirmFragment.newInstance(roomOrder);
+                        case 3: return FnbProgressFragment.newInstance(roomOrder);
+                        case 4: return FnbCancelFragment.newInstance(roomOrder);
+                        case 5: return new OrderRoomTransferFragment();
+                    }
+                }else{
+                    switch (position) {
+                        case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
+                        case 1: return new OrderSendedFragment().newInstance(roomOrder);
+                        case 2: return FnbConfirmFragment.newInstance(roomOrder);
+                        case 3: return FnbProgressFragment.newInstance(roomOrder);
+                        case 4: return FnbCancelFragment.newInstance(roomOrder);
+                    }
                 }
             }else{
                 switch (position) {

@@ -24,6 +24,10 @@ public class Room implements Serializable {
     @SerializedName("kapasitas")
     private int roomCapacity;
 
+    @ColumnInfo(name = "invoice_transfer")
+    @SerializedName("invoice_transfer")
+    private String ivcTransfer;
+
     @ColumnInfo(name = "room_alias")
     @SerializedName("room_alias")
     private String roomAlias;
@@ -448,6 +452,10 @@ public class Room implements Serializable {
 
     public int getRoomResidualCheckinHoursMinutesTime() {
         return roomResidualCheckinHoursMinutesTime;
+    }
+
+    public String getIvcTransfer() {
+        return ivcTransfer;
     }
 
     public void setRoomResidualCheckinHoursMinutesTime(int roomResidualCheckinHoursMinutesTime) {

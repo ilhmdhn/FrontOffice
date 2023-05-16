@@ -75,4 +75,8 @@ class OtherViewModel: ViewModel() {
     fun revisiOrder(url: String, so: String, inventoryCode: String, note: String, qty: String, qtyTemp: String, rcp: String, user: String): LiveData<Response>{
         return ihpRepository.revisiOrder(url, so, inventoryCode, note, qty, qtyTemp, rcp, user)
     }
+
+    fun getOrderRoomOld(url: String, ivc: String): LiveData<OrderBeforeTransferResponse>{
+        return ihpRepository.getOrderOldRoom(url, ivc)
+    }
 }

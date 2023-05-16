@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.data.remote
 
 import com.ihp.frontoffice.data.remote.respons.BaseResponse
+import com.ihp.frontoffice.data.remote.respons.OrderBeforeTransferResponse
 import com.ihp.frontoffice.data.remote.respons.OrderResponse
 import com.ihp.frontoffice.data.remote.respons.Response
 import retrofit2.Call
@@ -36,4 +37,9 @@ interface OrderClient {
             @Field("order_room_user") user: String,
             @Field("order_model_android") android: String,
     ): Call<Response>
+
+    @GET("order/old-room")
+    fun getOldOrder(
+            @Query("ivc")invoice: String
+    ):Call<OrderBeforeTransferResponse>
 }
