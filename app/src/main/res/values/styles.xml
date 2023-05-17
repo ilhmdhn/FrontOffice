@@ -176,11 +176,6 @@
         <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
     </style>
 
-    <style name="CustomAlertDialogDarkForNoActionBAr" parent="android:Theme.Holo.Dialog.NoActionBar">
-        <item name="buttonBarPositiveButtonStyle">@style/AlertButtonPositive</item>
-        <item name="buttonBarNegativeButtonStyle">@style/AlertButtonNegative</item>
-    </style>
-
     <style name="LightCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
         <item name="buttonCompat">@style/AlertButtonPositive</item>
     </style>

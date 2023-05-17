@@ -28,6 +28,11 @@ public class Room implements Serializable {
     @SerializedName("invoice_transfer")
     private String ivcTransfer;
 
+
+    @ColumnInfo(name = "invoice")
+    @SerializedName("invoice")
+    private String invoice;
+
     @ColumnInfo(name = "room_alias")
     @SerializedName("room_alias")
     private String roomAlias;
@@ -468,5 +473,9 @@ public class Room implements Serializable {
 
     public String getCodeMemberRef() {
         return codeMemberRef;
+    }
+
+    public String getInvoice() {
+        return invoice;
     }
 }

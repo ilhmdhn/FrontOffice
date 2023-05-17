@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ihp.frontoffice.data.entity.User
+import com.ihp.frontoffice.data.model.CancelOrderModel
 import com.ihp.frontoffice.data.remote.ApiConfig
 import com.ihp.frontoffice.data.remote.InventoryClient
 import com.ihp.frontoffice.data.remote.respons.*
@@ -78,5 +79,13 @@ class OtherViewModel: ViewModel() {
 
     fun getOrderRoomOld(url: String, ivc: String): LiveData<OrderBeforeTransferResponse>{
         return ihpRepository.getOrderOldRoom(url, ivc)
+    }
+
+    fun userLogin(url: String, user: String, password: String): LiveData<UserResponse>{
+        return ihpRepository.userLogin(url, user, password)
+    }
+
+    fun cancelOld(url: String, user: String, room: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
+        return ihpRepository.cancelOld(url, user, room, cancelList)
     }
 }

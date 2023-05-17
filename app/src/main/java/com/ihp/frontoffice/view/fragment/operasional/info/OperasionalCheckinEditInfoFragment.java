@@ -996,7 +996,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         listPromoInventoryAdapter = new ListPromoInventoryAdapter(requireActivity(), promoFoodList);
         listPromoInventoryAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.CustomAlertDialogDarkForNoActionBAr)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Food")
                 .setSingleChoiceItems(listPromoInventoryAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override
@@ -1044,7 +1044,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
         listPromoRoomAdapter = new ListPromoRoomAdapter(requireActivity(), promoRoomList);
         listPromoRoomAdapter.notifyDataSetChanged();
 
-        new MaterialAlertDialogBuilder(requireActivity(), R.style.CustomAlertDialogDarkForNoActionBAr)
+        new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
                 .setTitle("Pilih Promo Room")
                 .setSingleChoiceItems(listPromoRoomAdapter, -1, new DialogInterface.OnClickListener() {
                     @Override

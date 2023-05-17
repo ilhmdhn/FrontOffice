@@ -10,6 +10,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.ihp.frontoffice.MyApp
+import com.ihp.frontoffice.data.model.CancelOrderModel
+import com.ihp.frontoffice.data.model.OrderInventory
+import com.ihp.frontoffice.data.model.RequestData
 import es.dmoral.toasty.Toasty
 import com.ihp.frontoffice.data.remote.*
 import com.ihp.frontoffice.data.remote.respons.*
@@ -546,6 +549,52 @@ class IhpRepository {
                 responseData.postValue(OrderBeforeTransferResponse(state = false, message = t.message.toString(), data = mutableListOf(), length = 0))
             }
 
+        })
+        return responseData
+    }
+
+    fun userLogin(url: String, user: String, password: String):LiveData<UserResponse>{
+        val client = ApiRestService.getClient(url).create(UserClient::class.java)
+        val responseData = MutableLiveData<UserResponse>()
+
+        client.login(user, password).enqueue(object: Callback<UserResponse>{
+            override fun onResponse(call: Call<UserResponse>, response: retrofit2.Response<UserResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                responseData.postValue(UserResponse())
+            }
+        })
+        return responseData
+    }
+
+    fun cancelOld(url: String, user: String, room: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
+        val client = ApiRestService.getClient(url).create(OrderClient::class.java)
+        val responseData = MutableLiveData<Response>()
+
+        val orderInventory = OrderInventory(
+                cancelList[0].inventory,
+                cancelList[0].nama,
+                cancelList[0].order_penjualan,
+                cancelList[0].qty.toInt(),
+                cancelList[0].slip_order,
+        )
+
+        val requestData = RequestData(
+                user,
+                room,
+                listOf(orderInventory)
+        )
+
+        client.cancelOrder(requestData).enqueue(object : Callback<Response>{
+            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<Response>, t: Throwable) {
+                responseData.postValue(Response(false, t.message.toString()))
+            }
         })
         return responseData
     }

@@ -45,6 +45,9 @@ data class OkdBeforeTransferItem(
 	@field:SerializedName("order_code")
 	val orderCode: String,
 
+	@field:SerializedName("slip_order_code")
+	val soCode: String,
+
 	@field:SerializedName("note")
 	val note: String,
 

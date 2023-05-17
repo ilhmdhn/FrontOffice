@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.android.material.textfield.TextInputLayout;
@@ -85,7 +86,7 @@ public class OperasionalFnbFragment extends Fragment {
     private RoomOrder roomOrder;
     private RoomOrderViewModel roomOrderViewModel;
     private InventoryOrderClient inventoryOrderClient;
-    private AlertDialog.Builder dialogBuilder;
+    private MaterialAlertDialogBuilder dialogBuilder;
     private LayoutInflater dialogInflater;
     private View dialogView;
     private TextInputLayout inventoryName, inventoryCode, inventoryQty;
@@ -190,7 +191,7 @@ public class OperasionalFnbFragment extends Fragment {
 
     private void deliveryOrderInventoryDialog(Inventory inventory) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_delivery_order_inventory, null);
         dialogBuilder.setView(dialogView);
@@ -243,7 +244,7 @@ public class OperasionalFnbFragment extends Fragment {
             }
         });
 
-        final AlertDialog alertDialog = dialogBuilder.create();
+        final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialogInterface) {
@@ -305,7 +306,7 @@ public class OperasionalFnbFragment extends Fragment {
     @SuppressLint("SetTextI18n")
     private void cancelInventoryOrderDialog(Inventory inventory) {
         progressBar.setVisibility(View.GONE);
-        dialogBuilder = new AlertDialog.Builder(getContext(), R.style.CustomAlertDialogDarkForNoActionBAr);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_cancel_order_inventory, null);
         dialogBuilder.setView(dialogView);
@@ -370,7 +371,7 @@ public class OperasionalFnbFragment extends Fragment {
                 textInputLayoutPassword.setVisibility(View.GONE);
                 tvNeedSpv.setVisibility(View.GONE);
 
-                final AlertDialog alertDialog = dialogBuilder.create();
+                final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
@@ -437,7 +438,7 @@ public class OperasionalFnbFragment extends Fragment {
 
 //      --------MULAI SINI-------------
             } else{
-                final AlertDialog alertDialog = dialogBuilder.create();
+                final androidx.appcompat.app.AlertDialog alertDialog = dialogBuilder.create();
                 alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
                     @Override
                     public void onShow(DialogInterface dialogInterface) {
@@ -606,7 +607,7 @@ public class OperasionalFnbFragment extends Fragment {
                         case 2: return FnbConfirmFragment.newInstance(roomOrder);
                         case 3: return FnbProgressFragment.newInstance(roomOrder);
                         case 4: return FnbCancelFragment.newInstance(roomOrder);
-                        case 5: return new OrderRoomTransferFragment();
+                        case 5: return new OrderRoomTransferFragment().newInstance(roomOrder);
                     }
                 }else{
                     switch (position) {

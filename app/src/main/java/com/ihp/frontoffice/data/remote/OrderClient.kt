@@ -1,6 +1,6 @@
 package com.ihp.frontoffice.data.remote
 
-import com.ihp.frontoffice.data.remote.respons.BaseResponse
+import com.ihp.frontoffice.data.model.RequestData
 import com.ihp.frontoffice.data.remote.respons.OrderBeforeTransferResponse
 import com.ihp.frontoffice.data.remote.respons.OrderResponse
 import com.ihp.frontoffice.data.remote.respons.Response
@@ -42,4 +42,9 @@ interface OrderClient {
     fun getOldOrder(
             @Query("ivc")invoice: String
     ):Call<OrderBeforeTransferResponse>
+
+    @POST("cancelorder/add")
+    fun cancelOrder(
+            @Body requestData: RequestData
+    ): Call<Response>
 }

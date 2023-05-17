@@ -39,4 +39,12 @@ object DataBusEvent {
     data class soDo(
             var message: String
     )
+
+    data class cancelOldOrder(
+            var inventoryCode: String,
+            var orderCode: String,
+            var soCode: String,
+            var itemName: String,
+            var orderQty: Int,
+    )
 }
