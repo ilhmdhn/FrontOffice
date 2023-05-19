@@ -569,7 +569,7 @@ class IhpRepository {
         return responseData
     }
 
-    fun cancelOld(url: String, user: String, room: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
+    fun cancelOld(url: String, user: String, room: String, rcpOld: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
         val client = ApiRestService.getClient(url).create(OrderClient::class.java)
         val responseData = MutableLiveData<Response>()
 
@@ -584,6 +584,7 @@ class IhpRepository {
         val requestData = RequestData(
                 user,
                 room,
+                rcpOld,
                 listOf(orderInventory)
         )
 

@@ -44,6 +44,8 @@ object DataBusEvent {
             var inventoryCode: String,
             var orderCode: String,
             var soCode: String,
+            var rcpCode: String,
+            var roomCode: String,
             var itemName: String,
             var orderQty: Int,
     )

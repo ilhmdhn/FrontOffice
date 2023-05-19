@@ -21,5 +21,6 @@ data class OrderInventory(
 data class RequestData(
         @SerializedName("chusr") val chusr: String,
         @SerializedName("room") val room: String,
+        @SerializedName("rcp_old") val rcpOld: String,
         @SerializedName("order_inventory") val orderInventory: List<OrderInventory>
 )

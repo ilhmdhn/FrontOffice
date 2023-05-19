@@ -48,7 +48,7 @@ class OrderOldRoomAdapter: RecyclerView.Adapter<OrderOldRoomAdapter.ListViewHold
                 btnCancel.setOnClickListener {
                     GlobalBus
                             .getBus()
-                            .post(DataBusEvent.cancelOldOrder(data.inventoryCode, data.orderCode, data.soCode, data.name, data.qty))
+                            .post(DataBusEvent.cancelOldOrder(data.inventoryCode, data.orderCode, data.soCode, roomCode[0].rcpCode, roomCode[0].room,data.name, data.qty))
                 }
             }
         }

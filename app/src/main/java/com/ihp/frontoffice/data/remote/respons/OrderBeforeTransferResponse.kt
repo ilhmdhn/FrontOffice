@@ -30,6 +30,9 @@ data class OklBeforeTransfer(
 	@field:SerializedName("discount")
 	val discount: Int,
 
+	@field:SerializedName("rcp_code")
+	val rcpCode: String,
+
 	@field:SerializedName("okd")
 	val okd: List<OkdBeforeTransferItem> = mutableListOf(),
 

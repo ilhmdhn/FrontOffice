@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -86,11 +88,16 @@ class OrderRoomTransferFragment : Fragment() {
         val dialog = MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme)
         val dialogView = layoutInflater.inflate(R.layout.dialog_cancel_order_inventory, null)
         dialog.setView(dialogView)
+
+        var qtyCancel: Int = 0;
         val etUser = dialogView.findViewById<EditText>(R.id.input_username_otorisasi)
         val etPassword = dialogView.findViewById<EditText>(R.id.input_password_otorisasi)
         val etInventoryName = dialogView.findViewById<TextInputLayout>(R.id.inventory_name_dialog)
         val etInventoryCode = dialogView.findViewById<TextInputLayout>(R.id.inventory_code_dialog)
         val etInventoryQty = dialogView.findViewById<TextInputLayout>(R.id.inventory_qty_dialog)
+        val tvQtyCancel = dialogView.findViewById<TextView>(R.id.inventory_count_cancel)
+        val IvQtyMinus = dialogView.findViewById<ImageView>(R.id.inventory_min_cancel)
+        val IvQtyPlus = dialogView.findViewById<ImageView>(R.id.inventory_plus_cancel)
 
         etInventoryName.isEnabled = false
         etInventoryCode.isEnabled = false
@@ -100,7 +107,32 @@ class OrderRoomTransferFragment : Fragment() {
         etInventoryCode.editText?.setText("${data.inventoryCode} | ${data.soCode}")
         etInventoryQty.editText?.setText(data.orderQty.toString())
 
-        dialog.setPositiveButton("Submit", DialogInterface.OnClickListener { dialog, which ->
+        IvQtyMinus.setOnClickListener {
+            if(qtyCancel>0){
+                qtyCancel--
+                tvQtyCancel.text = qtyCancel.toString()
+            }
+        }
+
+        IvQtyPlus.setOnClickListener {
+            if(qtyCancel<data.orderQty){
+                qtyCancel++
+                tvQtyCancel.text = qtyCancel.toString()
+            }
+        }
+
+
+        tvQtyCancel.text = qtyCancel.toString()
+        dialog.setPositiveButton("Submit", DialogInterface.OnClickListener { dialogs, which ->
+            if(qtyCancel<1){
+                Toasty.warning(requireActivity(), "Jumlah cancel dibawah 1", Toasty.LENGTH_SHORT, true).show()
+                return@OnClickListener
+            }
+
+            if(etUser.text.toString().isEmpty() || etPassword.text.toString().isEmpty()){
+                Toasty.warning(requireActivity(), "Lengkapi user dan password", Toasty.LENGTH_SHORT, true).show()
+                return@OnClickListener
+            }
             otherViewModel.userLogin(BASE_URL, etUser.text.toString(), etPassword.text.toString()).observe(viewLifecycleOwner, {response->
                 isLoading(true)
                 if (response.isOkay){
@@ -110,20 +142,28 @@ class OrderRoomTransferFragment : Fragment() {
                                 data.inventoryCode,
                                 data.itemName,
                                 data.orderCode,
-                                data.orderQty.toString(),
+                                qtyCancel.toString(),
                                 data.soCode
                         ))
                         val cancelList: List<CancelOrderModel>
                         cancelList = cancelListtemp
-                        otherViewModel.cancelOld(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, cancelList)
+                        otherViewModel.cancelOld(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, data.rcpCode, cancelList).observe(viewLifecycleOwner, {res->
+                            if(res.state == true){
+                                Toasty.info(requireActivity(), "Berhasil", Toasty.LENGTH_SHORT, true).show()
+                                dialogs.dismiss()
+                            }else{
+                                Toasty.error(requireActivity(), res.message, Toasty.LENGTH_SHORT, true).show()
+                                dialogs.dismiss()
+                            }
+                        })
 
                     }else{
                         Toasty.info(requireActivity(), "User tidak memiliki akses ini", Toasty.LENGTH_LONG).show()
-                        dialog.dismiss()
+                        dialogs.dismiss()
                     }
                 }else{
                     Toasty.error(requireActivity(), response.message.toString(), Toasty.LENGTH_LONG).show()
-                    dialog.dismiss()
+                    dialogs.dismiss()
                 }
                 getData()
             })

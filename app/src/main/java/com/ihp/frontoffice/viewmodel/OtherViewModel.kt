@@ -85,7 +85,7 @@ class OtherViewModel: ViewModel() {
         return ihpRepository.userLogin(url, user, password)
     }
 
-    fun cancelOld(url: String, user: String, room: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
-        return ihpRepository.cancelOld(url, user, room, cancelList)
+    fun cancelOld(url: String, user: String, room: String, rcpOld: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
+        return ihpRepository.cancelOld(url, user, room, rcpOld, cancelList)
     }
 }

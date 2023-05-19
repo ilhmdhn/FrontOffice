@@ -226,9 +226,9 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
         //filterBilled
         DataUtils dataUtils = new DataUtils();
         ArrayList<Room> filteredData = dataUtils.filterBilled(p.getCurrentData(page));
-        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), filteredData);
+//        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), filteredData);
 
-//        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), p.getCurrentData(page));
+        roomAdapter = new ListOperasionalCheckinRoomAdapter(requireActivity(), p.getCurrentData(page));
         roomRecyclerView.setAdapter(roomAdapter);
         roomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();
