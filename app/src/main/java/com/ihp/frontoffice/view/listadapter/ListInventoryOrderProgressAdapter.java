@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.view.listadapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +55,13 @@ public class ListInventoryOrderProgressAdapter extends RecyclerView.Adapter<List
         } else {
             code = ent.getInventoryCode();
         }
-
+        Log.d("DEBUGGING note", ent.toString());
+        if(!ent.note.isEmpty()){
+            viewHolder.tvNote.setVisibility(View.VISIBLE);
+            viewHolder.tvNote.setText("Note: "+ent.note);
+        }else{
+            viewHolder.tvNote.setVisibility(View.GONE);
+        }
         viewHolder.detailInventoryName.setText(ent.getInventoryName());
         viewHolder.detailInventoryTotal.setText(total);
         viewHolder.detailInventoryCode.setText(code);
@@ -103,6 +110,9 @@ public class ListInventoryOrderProgressAdapter extends RecyclerView.Adapter<List
 
         @BindView(R.id.bttn_cancel)
         TextView buttonCancel;
+
+        @BindView(R.id.tv_note)
+        TextView tvNote;
 
         Inventory inventory;
 
