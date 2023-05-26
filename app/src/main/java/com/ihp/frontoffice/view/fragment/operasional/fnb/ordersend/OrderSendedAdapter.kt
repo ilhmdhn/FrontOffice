@@ -23,6 +23,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
     fun setData(newListData: List<DataOrderItem>){
         listData.clear()
         listData.addAll(newListData)
+        listData.sortWith(compareByDescending<DataOrderItem> { it.orderSol }.thenBy { it.orderInventoryNama })
         notifyDataSetChanged()
     }
 
@@ -38,9 +39,28 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
                 if(data.orderState == "1"){
                     linearLayout12.visibility = View.VISIBLE
                     btnEditOrderSubmit.visibility = View.VISIBLE
+                    tvSolCode.text = "Kode order: ${data.orderSol}"
                     tvFnbName.text = data.orderInventoryNama
                     tvFnbName.setTextColor(Color.WHITE)
                     tvOrderNote.text = orderNote
+
+                    btnReprintSol.setOnClickListener {
+                        val dialog = MaterialAlertDialogBuilder(itemView.context, R.style.MaterialAlertDialogDarkTheme)
+                        dialog.setTitle("Cetak Ulang Slip Order ?")
+
+                        dialog.setPositiveButton("Yes", {dialog_, which ->
+                            dialog_.dismiss()
+                            GlobalBus.getBus().post(DataBusEvent.reprintSlipOrder(
+                                    data.orderSol.toString()
+                            ))
+                        })
+
+                        dialog.setNegativeButton("Batal", {dialog_, which_ ->
+                            dialog_.dismiss()
+                        })
+
+                        dialog.show()
+                    }
 
                     btnPlus.setOnClickListener {
                         qtyOrder++

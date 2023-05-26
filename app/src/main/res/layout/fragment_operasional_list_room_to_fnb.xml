@@ -74,4 +74,19 @@
         card_view:layout_constraintTop_toTopOf="parent"
         card_view:mk_color="@color/dark_primary_white"
         card_view:mk_type="LineSpinner" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_scan"
+        android:layout_width="58dp"
+        android:layout_height="58dp"
+        android:background="@drawable/ic_qr_scan"
+        android:src="@drawable/ic_qr_scan"
+        android:tint="@color/white"
+        app:backgroundTint="@color/White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/linear_layout"
+        app:layout_constraintHorizontal_bias="0.83"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
 </androidx.constraintlayout.widget.ConstraintLayout>

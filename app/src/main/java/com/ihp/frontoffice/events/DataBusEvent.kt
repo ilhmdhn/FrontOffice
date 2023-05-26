@@ -49,4 +49,8 @@ object DataBusEvent {
             var itemName: String,
             var orderQty: Int,
     )
+
+    data class reprintSlipOrder(
+            var soCode: String
+    )
 }

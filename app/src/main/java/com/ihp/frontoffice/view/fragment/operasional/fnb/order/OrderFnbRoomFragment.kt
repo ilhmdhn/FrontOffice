@@ -20,6 +20,7 @@ import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.databinding.FragmentOrderFnbRoomBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.view.fragment.operasional.fnb.FnbConfirmFragment
 import com.ihp.frontoffice.viewmodel.OtherViewModel
 import es.dmoral.toasty.Toasty
@@ -156,6 +157,7 @@ class OrderFnbRoomFragment : Fragment() {
                                 orderItem.clear()
                                 dialogAdapter.setData(orderItem)
                                 fnbPagingAdapter.insertAddItem(orderItem)
+                                printSo(roomOrder.checkinRoom.roomRcp)
                                 alert.dismiss()
                             }
                             Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
@@ -174,8 +176,20 @@ class OrderFnbRoomFragment : Fragment() {
         }else{
             binding.btnChooseCategory.visibility = View.GONE
         }
-        otherViewModel.fnbPaging(BASE_URL, category, search).observe(requireActivity(), {data->
+        otherViewModel.fnbPaging(BASE_URL, category, search).observe(viewLifecycleOwner, {data->
             fnbPagingAdapter.submitData( lifecycle,data)
+        })
+    }
+
+    private fun printSo(rcp: String){
+        otherViewModel.getLatestSo(BASE_URL, rcp).observe(viewLifecycleOwner, {responseSO->
+          if(responseSO.state == true){
+            otherViewModel.getListSo(BASE_URL, responseSO.data).observe(viewLifecycleOwner, {listSoResponse->
+                if(listSoResponse.state==true){
+                    Printer().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, responseSO.data, USER_FO.userId, listSoResponse.data)
+                }
+            })
+          }
         })
     }
 

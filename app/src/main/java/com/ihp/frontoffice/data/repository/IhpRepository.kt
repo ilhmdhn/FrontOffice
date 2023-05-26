@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.data.repository
 
 import android.content.Context
+import android.printservice.PrintDocument
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
@@ -596,6 +597,39 @@ class IhpRepository {
             override fun onFailure(call: Call<Response>, t: Throwable) {
                 responseData.postValue(Response(false, t.message.toString()))
             }
+        })
+        return responseData
+    }
+
+    fun latestSoCode(url: String, rcp: String): LiveData<StringResponse>{
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        val responseData = MutableLiveData<StringResponse>()
+
+        client.getLatestSoCode(rcp).enqueue(object: Callback<StringResponse>{
+            override fun onResponse(call: Call<StringResponse>, response: retrofit2.Response<StringResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<StringResponse>, t: Throwable) {
+                responseData.postValue(StringResponse(message = t.message.toString()))
+            }
+        })
+        return responseData
+    }
+
+    fun listSol(url: String, sol: String): LiveData<ListSolResponse>{
+        val client = ApiRestService.getClient(url).create(DataPrintClient::class.java)
+        val responseData = MutableLiveData<ListSolResponse>()
+
+        client.getListSol(sol).enqueue(object: Callback<ListSolResponse>{
+            override fun onResponse(call: Call<ListSolResponse>, response: retrofit2.Response<ListSolResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<ListSolResponse>, t: Throwable) {
+                responseData.postValue(ListSolResponse(state = false, message = t.message.toString()))
+            }
+
         })
         return responseData
     }

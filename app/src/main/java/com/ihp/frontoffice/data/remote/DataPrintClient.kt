@@ -1,10 +1,7 @@
 package com.ihp.frontoffice.data.remote
 
 
-import com.ihp.frontoffice.data.remote.respons.CheckinSlipResponse
-import com.ihp.frontoffice.data.remote.respons.Response
-import com.ihp.frontoffice.data.remote.respons.xBillResponse
-import com.ihp.frontoffice.data.remote.respons.xInvoiceResponse
+import com.ihp.frontoffice.data.remote.respons.*
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -36,4 +33,14 @@ interface DataPrintClient {
     fun getCheckinSlip(
          @Query("rcp") rcp: String
     ): Call<CheckinSlipResponse>
+
+    @GET("/mobile-print/latest-so")
+    fun getLatestSoCode(
+            @Query("rcp") rcp: String
+    ): Call<StringResponse>
+
+    @GET("/mobile-print/list-so")
+    fun getListSol(
+            @Query("sol") solCode: String
+    ): Call<ListSolResponse>
 }

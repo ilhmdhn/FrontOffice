@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataRoomCall
@@ -36,6 +37,8 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
                 val ihpRepository = IhpRepository()
                 btnResponse.setOnClickListener {
                     ihpRepository.responseRoomCall(itemView.context, data.room, 0)
+                    Navigation.findNavController(itemView).navigate(NotificationFragmentDirections.actionNavNotificationFragmentSelf())
+//                    Navigation.findNavController(itemView).popBackStack()
                 }
             }
         }

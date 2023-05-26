@@ -22,28 +22,33 @@ class NotificationFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var notificationViewModel: NotificationViewModel
     private val notificationAdapter = NotificationAdapter()
+    private lateinit var BASE_URL: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNotificationBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        BASE_URL = (requireActivity().applicationContext as MyApp).baseUrl
         setMainTitle()
         notificationViewModel = ViewModelProvider(requireActivity()).get(NotificationViewModel::class.java)
 
-        val url = (requireActivity().applicationContext as MyApp).baseUrl
-
         binding.lySwipe.setOnRefreshListener {
-            getData(url)
+            getData(BASE_URL)
             binding.lySwipe.isRefreshing = false
         }
 
-        getData(url)
+        getData(BASE_URL)
+    }
+
+    override fun onResume() {
+        getData(BASE_URL)
+        super.onResume()
     }
 
     private fun getData(url: String){

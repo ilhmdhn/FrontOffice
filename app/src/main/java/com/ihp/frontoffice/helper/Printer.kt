@@ -25,7 +25,6 @@ class Printer {
         printer.disconnectPrinter()
     }
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     fun testPrint(context: Context){
         printer.disconnectPrinter()
         printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
@@ -573,5 +572,36 @@ class Printer {
         }catch(error: java.lang.Exception){
             Toasty.error(context, "SLIP CHECKIN ERROR ${error}", Toasty.LENGTH_SHORT, true).show()
         }
+    }
+
+    fun printSlipOrder(roomCode: String, guestName: String, pax: String, solCode: String, user: String, listSol: List<DataListSol>){
+        printer.disconnectPrinter()
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+        val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
+        val time = SimpleDateFormat("HH:mm")
+        val currentDate = sdf.format(Date())
+        val currentTime = time.format(Date())
+        val isiSo = StringBuilder()
+
+        for(so in listSol){
+            isiSo.append("[L]<font size='wide'><b>${so.qty} ${so.name}</b></font>\n")
+            if(!isiSo.isEmpty()){
+                isiSo.append("[L]${so.note}\n")
+            }
+        }
+
+        printer.printFormattedText(
+                "\n\n\n"+
+                        "[C]<b>SLIP ORDER</b>\n\n"+
+                        "[L]Kamar    : <font size='wide'><b>$roomCode</b></font>\n"+
+                        "[L]Jam      : <font size='wide'><b>$currentTime</b></font>\n"+
+                        "[L]Nama     : $guestName\n"+
+                        "[L]Jml Tamu : $pax\n"+
+                        "[L]No Bukti : $solCode\n"+
+                        "------------------------------------------------\n"+
+                        isiSo+
+                        "------------------------------------------------\n"+
+                        "[R]Dibuat Oleh: $user\n"
+        )
     }
 }

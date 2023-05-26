@@ -99,7 +99,11 @@
     <fragment
         android:id="@+id/navNotificationFragment"
         android:name="com.ihp.frontoffice.view.fragment.notification.NotificationFragment"
-        android:label=""/>
+        android:label="">
+        <action
+            android:id="@+id/action_navNotificationFragment_self"
+            app:destination="@id/navNotificationFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navOperasionalFragment"

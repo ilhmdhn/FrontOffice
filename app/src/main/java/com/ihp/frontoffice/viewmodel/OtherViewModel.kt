@@ -40,8 +40,6 @@ class OtherViewModel: ViewModel() {
         return ihpRepository.getViewBill(url, room)
     }
 
-
-
     fun getInvoiceData(url: String, rcp: String): LiveData<xInvoiceResponse>{
         return ihpRepository.printMobileInvoice(url, rcp)
     }
@@ -87,5 +85,13 @@ class OtherViewModel: ViewModel() {
 
     fun cancelOld(url: String, user: String, room: String, rcpOld: String, cancelList: List<CancelOrderModel>): LiveData<Response>{
         return ihpRepository.cancelOld(url, user, room, rcpOld, cancelList)
+    }
+
+    fun getLatestSo(url: String, rcp: String): LiveData<StringResponse>{
+        return ihpRepository.latestSoCode(url, rcp)
+    }
+
+    fun getListSo(url: String, solCode: String): LiveData<ListSolResponse>{
+        return ihpRepository.listSol(url, solCode)
     }
 }
