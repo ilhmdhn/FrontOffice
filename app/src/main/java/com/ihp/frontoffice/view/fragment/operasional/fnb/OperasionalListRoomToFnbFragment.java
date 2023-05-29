@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +16,10 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ihp.frontoffice.helper.DataUtils;
+import com.ihp.frontoffice.helper.QRScanType;
+import com.ihp.frontoffice.helper.utils;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -54,6 +58,9 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
 
     @BindView(R.id.bttn_next)
     ImageButton buttonNext;
+
+    @BindView(R.id.btn_scan)
+    FloatingActionButton btnScan;
 
     //pagination
     private BasePagination p;
@@ -154,6 +161,26 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
             }
         });
 
+        btnScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            GlobalBus
+                                    .getBus()
+                                    .post(new EventsWrapper
+                                            .XZscan(QRScanType.ENTER_ROOM.getType())
+                                    );
+                        }
+                    }, 500);
+
+                } catch (Exception e) {
+                    Toasty.error(requireActivity(), "Error Karena " + e, Toasty.LENGTH_SHORT, true).show();
+                }
+            }
+        });
     }
 
     private void setMainTitle() {
@@ -260,6 +287,22 @@ public class OperasionalListRoomToFnbFragment extends Fragment {
     @Subscribe
     public void refreshPage(EventsWrapper.RefreshCurrentFragment refreshCurrentFragment) {
         checkinRoomSetupData();
+    }
+
+    @Subscribe
+    public void scanRoomResult(EventsWrapper.ScanResult dataScan){
+
+        Room choseeRoom = utils.INSTANCE.searchRoom(roomArrayList, dataScan.getData());
+
+        if(choseeRoom != null){
+            Navigation
+                    .findNavController(this.requireView())
+                    .navigate(
+                            OperasionalListRoomToFnbFragmentDirections.actionNavOperasionalListRoomToFnbFragmentToNavOperasionalFnbFragment(choseeRoom)
+                    );
+        }else{
+         Toasty.warning(requireActivity(), "Room belum checkin", Toasty.LENGTH_LONG, true).show();
+        }
     }
 
     @Subscribe

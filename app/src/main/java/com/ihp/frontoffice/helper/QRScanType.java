@@ -4,6 +4,8 @@ public enum QRScanType {
     CHECKIN("CHECKIN"),
     RESERVASI("RESERVASI"),
     VOUCHER("VOUCHER"),
+
+    ENTER_ROOM("ENTER_ROOM"),
     MEMBER_INFO("MEMBER");
 
     private final String type;

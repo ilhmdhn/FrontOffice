@@ -30,9 +30,15 @@ class NotificationAdapter: RecyclerView.Adapter<NotificationAdapter.ListViewHold
                 if (data.isNow == 0){
                     description.text = data.keterangan +" "+data.user
                     btnResponse.visibility = View.GONE
+                    tvCallResponse.text ="Waktu Response "+ data.date
+                    tvCallResponse.visibility = View.VISIBLE
+                    tvCallTime.visibility = View.VISIBLE
+                    tvCallTime.text = "Waktu Panggilan "+ data.dateCall
                 } else{
                     description.text = data.keterangan
                     btnResponse.visibility = View.VISIBLE
+                    tvCallResponse.visibility = View.GONE
+                    tvCallTime.visibility = View.GONE
                 }
                 val ihpRepository = IhpRepository()
                 btnResponse.setOnClickListener {

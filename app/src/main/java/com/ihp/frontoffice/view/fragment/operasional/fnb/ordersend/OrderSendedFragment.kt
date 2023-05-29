@@ -114,8 +114,8 @@ class OrderSendedFragment : Fragment() {
     private fun setData(response: OrderResponse){
         if(response.state == true){
             val dataFiltered = response.data.filter { it.orderState == "1" || it.orderState == "2" || it.orderState == "3"}
-            val sortedFilter = dataFiltered.sortedBy { it.orderState }
-            orderSendAdapter.setData(sortedFilter)
+//            val sortedFilter = dataFiltered.sortedBy { it.orderState }
+            orderSendAdapter.setData(dataFiltered)
         }else{
             orderSendAdapter.setData(mutableListOf())
             Toasty.warning(requireActivity(), response.message.toString(), Toasty.LENGTH_LONG).show()

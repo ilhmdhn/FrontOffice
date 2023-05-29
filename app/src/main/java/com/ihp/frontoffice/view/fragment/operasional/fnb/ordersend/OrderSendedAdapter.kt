@@ -23,7 +23,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
     fun setData(newListData: List<DataOrderItem>){
         listData.clear()
         listData.addAll(newListData)
-        listData.sortWith(compareByDescending<DataOrderItem> { it.orderSol }.thenBy { it.orderInventoryNama })
+        listData.sortWith(compareBy<DataOrderItem> { it.orderState }.thenByDescending { it.orderSol }.thenBy { it.orderInventoryNama })
         notifyDataSetChanged()
     }
 

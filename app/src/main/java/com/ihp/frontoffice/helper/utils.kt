@@ -23,4 +23,13 @@ object utils {
         listData.addAll(arrayListData.filter{it.statusPrinter == "0"})
         return listData
     }
+
+    fun searchRoom(roomList: ArrayList<Room>, roomCode: String):Room?{
+        val room = roomList.find{it.roomCode == roomCode}
+        if(room != null){
+            return room
+        }else{
+            return null
+        }
+    }
 }

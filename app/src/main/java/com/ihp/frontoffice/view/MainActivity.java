@@ -603,6 +603,13 @@ public class MainActivity extends AppCompatActivity{
                     dialogMemberInfoScanQR();
                 }
             });
+        }else if(scanType.getScanTypeAction().equals(QRScanType.ENTER_ROOM.getType())){
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    dialogScanRoomNumber();
+                }
+            });
         }
 
     }
@@ -838,6 +845,47 @@ public class MainActivity extends AppCompatActivity{
                                 .ScanResult(false,null)
                         );
             });
+        });
+        scanQrDialog.show();
+    }
+
+    private void dialogScanRoomNumber(){
+        MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(this, R.style.MaterialAlertDialogDarkTheme);
+        LayoutInflater dialogInflater = this.getLayoutInflater();
+
+        View dialogView = dialogInflater.inflate(R.layout.dialog_qrscan_room, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setCancelable(true);
+        dialogBuilder.setTitle("Scan pada Room Number");
+        dialogBuilder.setCancelable(false);
+
+        FrameLayout frameLayout = dialogView.findViewById(R.id.frame_layout_camera);
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mScannerView.stopCamera();
+                scanQrDialog.dismiss();
+            }
+        });
+        mScannerView = new ZXingScannerView(this);
+        mScannerView.setAutoFocus(true);
+
+        mScannerView.setResultHandler(new ZXingScannerView.ResultHandler() {
+            @Override
+            public void handleResult(Result result) {
+                GlobalBus
+                        .getBus()
+                        .post(new EventsWrapper.ScanResult(true, result.getText()));
+                scanQrDialog.dismiss();
+                mScannerView.stopCamera();
+            }
+        });
+
+        frameLayout.addView(mScannerView);
+
+        scanQrDialog = dialogBuilder.create();
+        scanQrDialog.setOnShowListener(dialogInterface -> {
+            mScannerView.startCamera();
         });
         scanQrDialog.show();
     }

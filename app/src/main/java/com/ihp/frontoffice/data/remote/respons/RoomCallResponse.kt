@@ -36,5 +36,8 @@ data class DataRoomCall(
     val user: String,
 
     @field:SerializedName("date")
-    val date: String
+    val date: String,
+
+    @field:SerializedName("call_date")
+    val dateCall: String
 ) : Parcelable
