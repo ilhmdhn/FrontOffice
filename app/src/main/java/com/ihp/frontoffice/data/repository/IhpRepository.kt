@@ -270,7 +270,7 @@ class IhpRepository {
             }
 
             override fun onFailure(call: Call<RoomCallResponse>, t: Throwable) {
-                responseData.postValue(RoomCallResponse(false, null, t.message))
+                responseData.postValue(RoomCallResponse(false, mutableListOf(), t.message.toString()))
             }
         })
 

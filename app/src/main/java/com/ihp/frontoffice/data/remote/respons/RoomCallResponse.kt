@@ -8,19 +8,19 @@ import kotlinx.android.parcel.Parcelize
 data class RoomCallResponse(
 
     @field:SerializedName("state")
-    val state: Boolean? = null,
+    val state: Boolean = false,
 
     @field:SerializedName("data")
-    val data: List<DataRoomCall?>? = null,
+    val data: List<DataRoomCall> = mutableListOf(),
 
     @field:SerializedName("message")
-    val message: String? = null
+    val message: String = ""
 ) : Parcelable
 
 @Parcelize
 data class DataRoomCall(
 
-    @field:SerializedName("waktu")
+    @field:SerializedName("is_now")
     val isNow: Int,
 
     @field:SerializedName("notif_type")
@@ -29,15 +29,15 @@ data class DataRoomCall(
     @field:SerializedName("room")
     val room: String,
 
-    @field:SerializedName("keterangan")
+    @field:SerializedName("description")
     val keterangan: String,
 
-    @field:SerializedName("chusr")
+    @field:SerializedName("user")
     val user: String,
 
-    @field:SerializedName("date")
-    val date: String,
+    @field:SerializedName("call_time")
+    val callTime: String,
 
-    @field:SerializedName("call_date")
-    val dateCall: String
+    @field:SerializedName("call_response")
+    val responseTime: String
 ) : Parcelable

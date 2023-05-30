@@ -25,8 +25,8 @@ class NotificationFragment : Fragment() {
     private lateinit var BASE_URL: String
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotificationBinding.inflate(layoutInflater, container, false)
         return binding.root
@@ -51,19 +51,19 @@ class NotificationFragment : Fragment() {
         super.onResume()
     }
 
-    private fun getData(url: String){
+    private fun getData(url: String) {
         binding.notifyProgressbar.visibility = View.VISIBLE
-        notificationViewModel.getCallRoom(url).observe(viewLifecycleOwner, {data ->
-            if (data.state == false){
+        notificationViewModel.getCallRoom(url).observe(viewLifecycleOwner, { data ->
+            if (data.state == false) {
                 Toast.makeText(requireActivity(), data.message.toString(), Toast.LENGTH_SHORT).show()
                 binding.notifyRecyclerview.visibility = View.GONE
-            } else{
-                if (data.data.isNullOrEmpty()){
+            } else {
+                if (data.data.isNullOrEmpty()) {
                     binding.notifyRecyclerview.visibility = View.GONE
                     Toast.makeText(requireActivity(), "Data Kosong", Toast.LENGTH_SHORT).show()
-                }else{
+                } else {
                     notificationAdapter.setData(data.data as List<DataRoomCall>)
-                    with(binding.notifyRecyclerview){
+                    with(binding.notifyRecyclerview) {
                         binding.notifyRecyclerview.visibility = View.VISIBLE
                         layoutManager = LinearLayoutManager(requireActivity())
                         setHasFixedSize(true)
@@ -77,8 +77,8 @@ class NotificationFragment : Fragment() {
 
     private fun setMainTitle() {
         GlobalBus
-            .getBus()
-            .post(TitleFragment("Notifikasi"))
+                .getBus()
+                .post(TitleFragment("Notifikasi"))
     }
 
     override fun onStart() {
