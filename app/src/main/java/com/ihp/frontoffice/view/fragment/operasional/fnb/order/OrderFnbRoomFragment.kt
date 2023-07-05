@@ -21,6 +21,7 @@ import com.ihp.frontoffice.databinding.FragmentOrderFnbRoomBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
 import com.ihp.frontoffice.helper.Printer
+import com.ihp.frontoffice.helper.PushNotification
 import com.ihp.frontoffice.view.fragment.operasional.fnb.FnbConfirmFragment
 import com.ihp.frontoffice.viewmodel.OtherViewModel
 import es.dmoral.toasty.Toasty
@@ -41,6 +42,7 @@ class OrderFnbRoomFragment : Fragment() {
     var category: String = ""
     var categoryName: String = ""
     var search: String = ""
+    var sendOrderClick = false
 
     private lateinit var rvOrderDialog: RecyclerView
     private lateinit var btnSendOrder: AppCompatButton
@@ -145,10 +147,20 @@ class OrderFnbRoomFragment : Fragment() {
             btnSendOrder = viewDialog.findViewById(R.id.btn_send_order)
 
             btnSendOrder.setOnClickListener {
+
+                if(sendOrderClick){
+                    Toasty.warning(requireActivity(), "Sedang diproses", Toasty.LENGTH_SHORT,true).show()
+                    return@setOnClickListener
+                }
+
+                sendOrderClick = true
+
                 if(orderItem.isEmpty()){
                     Toasty.warning(requireActivity(), "Order Kosong", Toasty.LENGTH_SHORT, true).show()
+                    sendOrderClick = false
                 }else{
                     otherViewModel.sendOrder(BASE_URL, USER_FO.userId, roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomRcp, roomOrder.checkinRoom.roomType, roomOrder.checkinRoom.roomCheckinDuration.toString(), orderItem).observe(viewLifecycleOwner, {response ->
+                        sendOrderClick = false
                         if(response.isLoading == true){
                             btnSendOrder.isEnabled = false
                         }else{
@@ -159,6 +171,8 @@ class OrderFnbRoomFragment : Fragment() {
                                 fnbPagingAdapter.insertAddItem(orderItem)
                                 printSo(roomOrder.checkinRoom.roomRcp)
                                 alert.dismiss()
+                            }else{
+                                PushNotification().pushNotifOrderFailed("Gagal", response.message, requireActivity())
                             }
                             Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()
                         }

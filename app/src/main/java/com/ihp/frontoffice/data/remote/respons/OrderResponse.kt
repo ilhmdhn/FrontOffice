@@ -22,7 +22,7 @@ data class OrderResponse(
 data class DataOrderItem(
 
 	@field:SerializedName("order_nilai_pajak")
-	val orderNilaiPajak: Int? = null,
+	val orderNilaiPajak: Number? = null,
 
 	@field:SerializedName("order_durasi_diterima")
 	val orderDurasiDiterima: Int? = null,
@@ -46,7 +46,7 @@ data class DataOrderItem(
 	val orderDateTerkirim: String? = null,
 
 	@field:SerializedName("order_urutan")
-	val orderUrutan: Int? = null,
+	val orderUrutan: Int = 0,
 
 	@field:SerializedName("order_qty_belum_terkirim")
 	val orderQtyBelumTerkirim: Int? = null,
@@ -67,7 +67,7 @@ data class DataOrderItem(
 	val orderNilaiService: Int? = null,
 
 	@field:SerializedName("order_price_include_service_pajak")
-	val orderPriceIncludeServicePajak: Int? = null,
+	val orderPriceIncludeServicePajak: Number? = null,
 
 	@field:SerializedName("order_inventory_nama")
 	val orderInventoryNama: String? = null,

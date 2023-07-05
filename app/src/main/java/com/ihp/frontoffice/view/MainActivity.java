@@ -45,7 +45,7 @@ import com.ihp.frontoffice.data.repository.LocalRepository;
 import com.ihp.frontoffice.events.DataBusEvent;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
-import com.ihp.frontoffice.firebase.UdpService;
+import com.ihp.frontoffice.view.fragment.operasional.firebase.UdpService;
 import com.ihp.frontoffice.helper.PreferenceUi;
 import com.ihp.frontoffice.helper.QRScanType;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;

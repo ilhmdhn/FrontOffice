@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataOrderItem
+import com.ihp.frontoffice.data.remote.respons.OrderResponse
 import com.ihp.frontoffice.databinding.ListSendedOrderBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
@@ -19,11 +21,17 @@ import com.ihp.frontoffice.events.GlobalBus
 class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder>() {
 
     private var listData = ArrayList<DataOrderItem>()
-
+    private var listSortirReprint = ArrayList<DataOrderItem>()
+    private var filterPertama = ArrayList<DataOrderItem>()
+    private var filterKedua = ArrayList<DataOrderItem>()
     fun setData(newListData: List<DataOrderItem>){
         listData.clear()
+        listSortirReprint.clear()
         listData.addAll(newListData)
-        listData.sortWith(compareBy<DataOrderItem> { it.orderState }.thenByDescending { it.orderSol }.thenBy { it.orderInventoryNama })
+        listData.sortWith(compareBy<DataOrderItem> { it.orderState }.thenByDescending { it.orderSol }.thenBy { it.orderUrutan })
+        filterPertama.addAll(listData.filter{ it.orderState == "1" })
+        filterKedua.addAll(filterPertama)
+        Log.d("DEBUGGING sort", filterKedua.toString())
         notifyDataSetChanged()
     }
 
@@ -31,7 +39,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
         private val binding = ListSendedOrderBinding.bind(itemView)
 
         @SuppressLint("ResourceAsColor", "SetTextI18n")
-        fun bind(data: DataOrderItem){
+        fun bind(data: DataOrderItem, reprintFilter: ArrayList<DataOrderItem>){
             var qtyOrder = data.orderQuantity ?: 0
             var canceled = false
             var orderNote: String = data.orderNotes ?: ""
@@ -43,6 +51,14 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
                     tvFnbName.text = data.orderInventoryNama
                     tvFnbName.setTextColor(Color.WHITE)
                     tvOrderNote.text = orderNote
+
+                    val allowReprint = reprintFilter.find { it.orderSol == data.orderSol  && it.orderInventory == data.orderInventory}
+
+                    if(allowReprint != null){
+                        btnReprintSol.visibility = View.VISIBLE
+                    }else{
+                        btnReprintSol.visibility = View.GONE
+                    }
 
                     btnReprintSol.setOnClickListener {
                         val dialog = MaterialAlertDialogBuilder(itemView.context, R.style.MaterialAlertDialogDarkTheme)
@@ -144,6 +160,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
                     btnEditOrderSubmit.visibility = View.INVISIBLE
                     tvFnbName.setTextColor(Color.RED)
                     tvFnbName.text = "(CANCEL) ${data.orderInventoryNama}"
+                    btnReprintSol.visibility = View.GONE
                 }else if(data.orderState=="3"){
                     linearLayout12.visibility = View.INVISIBLE
                     btnEditOrderSubmit.visibility = View.INVISIBLE
@@ -161,7 +178,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listData[position]
-        holder.bind(data)
+        holder.bind(data, filterKedua)
     }
 
     override fun getItemCount(): Int {

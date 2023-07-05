@@ -28,7 +28,7 @@
         android:supportsRtl="true"
         android:theme="@style/MainTheme">
         <service
-            android:name="com.ihp.frontoffice.firebase.MyFirebaseMessagingService"
+            android:name="com.ihp.frontoffice.view.fragment.operasional.firebase.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -36,7 +36,7 @@
             </intent-filter>
         </service>
 
-        <service android:name=".firebase.UdpService"/>
+        <service android:name=".view.fragment.operasional.firebase.UdpService"/>
 
         <activity
             android:name="com.ihp.frontoffice.view.SplashActivity"
