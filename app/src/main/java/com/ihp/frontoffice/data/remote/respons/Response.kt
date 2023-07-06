@@ -7,5 +7,6 @@ data class Response(
 	var state: Boolean = false,
 	@SerializedName("message")
 	var message: String = "error",
-	var isLoading: Boolean = true
+	var isLoading: Boolean = true,
+	var isBack: Boolean = false
 )

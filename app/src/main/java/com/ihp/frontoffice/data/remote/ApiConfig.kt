@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit
 class ApiConfig {
     companion object{
 
-        val TIMEOUT_SECONDS = 15L
+        private val TIMEOUT_SECONDS = 30L
         fun getApiService(url: String): InventoryClient {
             val loggingInterceptor =
                     HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)

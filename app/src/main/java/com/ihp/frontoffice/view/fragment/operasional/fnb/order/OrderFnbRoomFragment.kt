@@ -172,6 +172,13 @@ class OrderFnbRoomFragment : Fragment() {
                                 printSo(roomOrder.checkinRoom.roomRcp)
                                 alert.dismiss()
                             }else{
+                                if(response.isBack){
+                                    orderItem.clear()
+                                    dialogAdapter.setData(orderItem)
+                                    fnbPagingAdapter.insertAddItem(orderItem)
+                                    printSo(roomOrder.checkinRoom.roomRcp)
+                                    alert.dismiss()
+                                }
                                 PushNotification().pushNotifOrderFailed("Gagal", response.message, requireActivity())
                             }
                             Toasty.info(requireActivity(), response.message, Toasty.LENGTH_LONG, true).show()

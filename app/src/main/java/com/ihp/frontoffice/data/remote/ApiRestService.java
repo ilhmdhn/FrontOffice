@@ -10,8 +10,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class ApiRestService {
-    private static Retrofit retrofit =null;
-
+    private static Retrofit retrofit = null;
+    private static final Long TIMEOUT_SECONDS = 60L;
     public static Retrofit getClient(String baseURL) {
         if (retrofit == null) {
             String BASE_URL = baseURL + "/";
@@ -19,9 +19,9 @@ public class ApiRestService {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             OkHttpClient client = new OkHttpClient.Builder()
                     .addInterceptor(interceptor)
-                    .connectTimeout(15, TimeUnit.SECONDS)
-                    .writeTimeout(15, TimeUnit.SECONDS)
-                    .readTimeout(15, TimeUnit.SECONDS)
+                    .connectTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                    .writeTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
+                    .readTimeout(TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     .build();
 
             retrofit = new Retrofit.Builder()

@@ -9,9 +9,7 @@ class DataUtils {
         val listData = ArrayList<Room>()
         val gson = Gson()
         val json = gson.toJson(data)
-        Log.d("list unprinted 0 ", json)
         listData.addAll(data.filter{it.statusPrinter == "0"})
-        Log.d("list unprinted",listData.toString())
         return listData
     }
 }

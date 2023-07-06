@@ -473,7 +473,7 @@ class IhpRepository {
             }
 
             override fun onFailure(call: Call<Response>, t: Throwable) {
-                responseData.postValue(Response(state = false, message = "Cek order masuk " +t.message.toString(), isLoading = false))
+                responseData.postValue(Response(state = false, message = "Cek order masuk " +t.message.toString(), isLoading = false, isBack = true))
             }
         })
         return responseData

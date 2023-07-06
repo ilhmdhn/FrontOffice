@@ -55,7 +55,6 @@ public class ListInventoryOrderProgressAdapter extends RecyclerView.Adapter<List
         } else {
             code = ent.getInventoryCode();
         }
-        Log.d("DEBUGGING note", ent.toString());
         if(!ent.note.isEmpty()){
             viewHolder.tvNote.setVisibility(View.VISIBLE);
             viewHolder.tvNote.setText("Note: "+ent.note);

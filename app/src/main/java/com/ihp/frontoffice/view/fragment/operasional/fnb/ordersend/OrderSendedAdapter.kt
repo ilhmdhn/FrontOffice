@@ -21,17 +21,18 @@ import com.ihp.frontoffice.events.GlobalBus
 class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder>() {
 
     private var listData = ArrayList<DataOrderItem>()
-    private var listSortirReprint = ArrayList<DataOrderItem>()
-    private var filterPertama = ArrayList<DataOrderItem>()
-    private var filterKedua = ArrayList<DataOrderItem>()
+    private var filterReprint = ArrayList<filterReprintSOl>()
+
+    data class filterReprintSOl(
+        val sol: String,
+        val inventory: String
+    )
     fun setData(newListData: List<DataOrderItem>){
         listData.clear()
-        listSortirReprint.clear()
+        filterReprint.clear()
         listData.addAll(newListData)
         listData.sortWith(compareBy<DataOrderItem> { it.orderState }.thenByDescending { it.orderSol }.thenBy { it.orderUrutan })
-        filterPertama.addAll(listData.filter{ it.orderState == "1" })
-        filterKedua.addAll(filterPertama)
-        Log.d("DEBUGGING sort", filterKedua.toString())
+        filterReprint = doFilter(listData)
         notifyDataSetChanged()
     }
 
@@ -39,7 +40,7 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
         private val binding = ListSendedOrderBinding.bind(itemView)
 
         @SuppressLint("ResourceAsColor", "SetTextI18n")
-        fun bind(data: DataOrderItem, reprintFilter: ArrayList<DataOrderItem>){
+        fun bind(data: DataOrderItem, reprintFilter: ArrayList<filterReprintSOl>){
             var qtyOrder = data.orderQuantity ?: 0
             var canceled = false
             var orderNote: String = data.orderNotes ?: ""
@@ -52,9 +53,9 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
                     tvFnbName.setTextColor(Color.WHITE)
                     tvOrderNote.text = orderNote
 
-                    val allowReprint = reprintFilter.find { it.orderSol == data.orderSol  && it.orderInventory == data.orderInventory}
+                    val showReprint = reprintFilter.find { it.sol == data.orderSol && it.inventory == data.orderInventory }
 
-                    if(allowReprint != null){
+                    if(showReprint != null){
                         btnReprintSol.visibility = View.VISIBLE
                     }else{
                         btnReprintSol.visibility = View.GONE
@@ -178,10 +179,22 @@ class OrderSendedAdapter: RecyclerView.Adapter<OrderSendedAdapter.ListViewHolder
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listData[position]
-        holder.bind(data, filterKedua)
+        holder.bind(data, filterReprint)
     }
 
     override fun getItemCount(): Int {
         return listData.size
+    }
+
+    private fun doFilter(listData: ArrayList<DataOrderItem>): ArrayList<filterReprintSOl>{
+        listData.forEach { order ->
+            if(order.orderState == "1"){
+                val filled = filterReprint.find{  it.sol == order.orderSol }
+                if(filled == null){
+                    filterReprint.add(filterReprintSOl(order.orderSol?:"", order.orderInventory?:""))
+                }
+            }
+        }
+        return filterReprint
     }
 }
