@@ -1,9 +1,11 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -11,14 +13,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.Inventory;
 import com.ihp.frontoffice.data.entity.Room;
 import com.ihp.frontoffice.data.entity.RoomOrder;
+import com.ihp.frontoffice.data.entity.User;
+import com.ihp.frontoffice.helper.AppUtils;
+import com.ihp.frontoffice.helper.UserAuthRole;
 import com.ihp.frontoffice.view.listadapter.ListInventoryOrderProgressAdapter;
 
 /**
@@ -34,7 +42,14 @@ public class FnbProgressFragment extends Fragment {
     @BindView(R.id.warning_layout)
     View warnLayout;
 
+    @BindView(R.id.total_order)
+    TextView tvOrderDone;
+
+    @BindView(R.id.total_process)
+    TextView tvOrderProcess;
+
     private Room room;
+    private User USER_FO;
 
     private ListInventoryOrderProgressAdapter listDetailInventoryOrderProgressAdapter;
     private ArrayList<Inventory> listOrderInventoryProgress = new ArrayList<>();
@@ -85,15 +100,30 @@ public class FnbProgressFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        Double progressPrice  = 0.0;
         room = roomOrder.getCheckinRoom();
-
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         setRecycleOrderInventoryProgress();
+        for (Inventory order : roomOrder.getInventoryOnOrderProgress()) {
+            if (order.getInventoryState() == 3) {
+                progressPrice += (order.unitPrice*order.qty);
+            }
+        }
+        tvOrderDone.setText(AppUtils.formatNominal(Double.parseDouble(roomOrder.getCheckinRoom().getChargePenjualan())));
+        tvOrderProcess.setText(AppUtils.formatNominal(progressPrice));
     }
 
     //TODO : Cancel Order Inventory
     private void setRecycleOrderInventoryProgress() {
         listOrderInventoryProgress = (ArrayList<Inventory>) roomOrder.getInventories();
+
+        Boolean canCancel = true;
+
+        if(UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
+            canCancel = true;
+        }else{
+            canCancel = false;
+        }
 
         filterListOrderInventory = (ArrayList<Inventory>) listOrderInventoryProgress.stream()
                 .filter(inventory ->
@@ -102,7 +132,7 @@ public class FnbProgressFragment extends Fragment {
 
         if (filterListOrderInventory.size() > 0) {
             if (null == listDetailInventoryOrderProgressAdapter) {
-                listDetailInventoryOrderProgressAdapter = new ListInventoryOrderProgressAdapter(getContext(), filterListOrderInventory);
+                listDetailInventoryOrderProgressAdapter = new ListInventoryOrderProgressAdapter(getContext(), filterListOrderInventory, canCancel);
                 detailRecycleOrderInventoryProgress.setAdapter(listDetailInventoryOrderProgressAdapter);
                 detailRecycleOrderInventoryProgress.setLayoutManager(new LinearLayoutManager(getContext()));
             }

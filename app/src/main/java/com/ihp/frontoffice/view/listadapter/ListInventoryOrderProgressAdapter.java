@@ -1,7 +1,6 @@
 package com.ihp.frontoffice.view.listadapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +23,12 @@ import com.ihp.frontoffice.helper.AppUtils;
 public class ListInventoryOrderProgressAdapter extends RecyclerView.Adapter<ListInventoryOrderProgressAdapter.InventoryOrderViewHolder> {
     private final LayoutInflater layoutInflater;
     private List<Inventory> inventoryList;
+    private Boolean canCancel = true;
 
-    public ListInventoryOrderProgressAdapter(Context context, ArrayList<Inventory> roomArrayList) {
+    public ListInventoryOrderProgressAdapter(Context context, ArrayList<Inventory> roomArrayList, Boolean canCancel) {
         this.layoutInflater = LayoutInflater.from(context);
         this.inventoryList = roomArrayList;
+        this.canCancel = canCancel;
     }
 
     @NonNull
@@ -46,6 +47,12 @@ public class ListInventoryOrderProgressAdapter extends RecyclerView.Adapter<List
 
         if (ent.getTotalDiscount() > 0) {
             desc = desc + " UNIT DISCOUNT : @" + AppUtils.formatNominal(ent.getUnitDiscount());
+        }
+
+        if(canCancel){
+            viewHolder.buttonCancel.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.buttonCancel.setVisibility(View.GONE);
         }
 
         String total = "Total : " + AppUtils.formatNominal(ent.getTotalAfterDiscount());

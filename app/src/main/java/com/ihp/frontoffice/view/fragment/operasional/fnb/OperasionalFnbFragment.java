@@ -153,7 +153,7 @@ public class OperasionalFnbFragment extends Fragment {
         otherViewModel = new OtherViewModel();
 
         if(!UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
-            titles = new String[]{"Order","Send Order"};
+            titles = new String[]{"Order","Send Order", "Done"};
         }
     }
 
@@ -600,7 +600,7 @@ public class OperasionalFnbFragment extends Fragment {
         public Fragment createFragment(int position) {
 
             if(UserAuthRole.isAllowTransactionFnbAll(USER_FO)){
-                if(roomOrder.getCheckinRoom().getIvcTransfer()!=""){
+                if(roomOrder.getCheckinRoom().getIvcTransfer() != ""){
                     switch (position) {
                         case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
                         case 1: return new OrderSendedFragment().newInstance(roomOrder);
@@ -622,6 +622,7 @@ public class OperasionalFnbFragment extends Fragment {
                 switch (position) {
                     case 0: return new OrderFnbRoomFragment().newInstance(roomOrder);
                     case 1: return new OrderSendedFragment().newInstance(roomOrder);
+                    case 2: return FnbProgressFragment.newInstance(roomOrder);
                 }
             }
             return new Fragment();

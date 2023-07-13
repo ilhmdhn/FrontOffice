@@ -231,6 +231,9 @@ public class Room implements Serializable {
     @SerializedName("pay_value_voucher")
     private String voucherNominal;
 
+    @ColumnInfo(name = "charge_penjualan")
+    @SerializedName("charge_penjualan")
+    private String chargePenjualan;
     @SerializedName("summary_order_inventory")
     private List<Inventory> summaryOrderInventories;
 
@@ -243,6 +246,8 @@ public class Room implements Serializable {
     @SerializedName("order_inventory_progress")
     private List<Inventory> inventoryOnOrderProgress;
 
+
+    public String getChargePenjualan(){return chargePenjualan;}
     public List<Inventory> getSummaryOrderInventories() {
         return summaryOrderInventories;
     }

@@ -39,7 +39,6 @@ public class RoomOrder implements Serializable {
     @SerializedName("transfer_reason")
     private String transferReason;
 
-
     @ColumnInfo(name = "is_send_email_invoice")
     @SerializedName("is_send_email_invoice")
     private boolean isSendEmailInvoice;
@@ -221,6 +220,8 @@ public class RoomOrder implements Serializable {
     public String getTransferReason() {
         return transferReason;
     }
+
+
 
     public void setTransferReason(String transferReason) {
         this.transferReason = transferReason;

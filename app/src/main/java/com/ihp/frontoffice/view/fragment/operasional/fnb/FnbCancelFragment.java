@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import es.dmoral.toasty.Toasty;
+
 import com.ihp.frontoffice.R;
 import com.ihp.frontoffice.data.entity.Inventory;
 import com.ihp.frontoffice.data.entity.Room;
@@ -83,7 +85,6 @@ public class FnbCancelFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         room = roomOrder.getCheckinRoom();
         setRecycleOrderInventoryCancel();
     }
