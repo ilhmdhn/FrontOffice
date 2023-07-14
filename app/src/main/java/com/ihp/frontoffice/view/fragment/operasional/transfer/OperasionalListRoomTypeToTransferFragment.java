@@ -242,7 +242,8 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
                                 .filter(data ->
                                         (!data.getRoomType().equals("SOFA")&&!data.getRoomType().equals("BAR"))
                                 ).collect(Collectors.toList());
-                        roomTypeArrayList.addAll(filterListRoomCheckin);
+//                        roomTypeArrayList.addAll(filterListRoomCheckin);
+                        roomTypeArrayList.addAll(listRoom);
                         bindData(currentPage);
                     }
                 });
