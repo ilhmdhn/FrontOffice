@@ -3,6 +3,7 @@ package com.ihp.frontoffice.view.fragment.operasional.transfer;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,8 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +112,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private int totalPages;
     private int currentPage = 0;
     private int durasiJamtransfer;
+    private Boolean isLobby = false;
 
     public OperasionalListRoomAvailableTransferFragment() {
         // Required empty public constructor
@@ -130,6 +134,16 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         member = roomOrder.getMember();
         roomType = roomOrder.getCheckinRoomType();
         oldRoomBeforeTransfer = roomOrder.getOldRoomBeforeTransfer();
+
+        if(Objects.equals(oldRoomBeforeTransfer.getRoomType(), "LOBBY") ||
+                Objects.equals(oldRoomBeforeTransfer.getRoomType(), "BAR") ||
+                Objects.equals(oldRoomBeforeTransfer.getRoomType(), "LOUNGE") ||
+                Objects.equals(oldRoomBeforeTransfer.getRoomType(), "RESTO")){
+            isLobby = true;
+        }
+
+        Log.d("DEBUGGING old room type", oldRoomBeforeTransfer.getRoomType());
+
     }
 
     @Override
@@ -211,7 +225,14 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
-                roomArrayList.addAll(listRoom);
+
+                if(isLobby){
+                    Log.d("DEBUGGING ATAS", "");
+                    roomArrayList.addAll(listRoom.stream().filter(data -> Objects.equals(data.getRoomType(), "LOBBY") || Objects.equals(data.getRoomType(), "BAR") || Objects.equals(data.getRoomType(), "LOUNGE") || Objects.equals(data.getRoomType(), "RESTO")).collect(Collectors.toList()));
+                }else{
+                    Log.d("DEBUGGING BAWAH", "");
+                    roomArrayList.addAll(listRoom);
+                }
                 bindData(currentPage);
             }
         });

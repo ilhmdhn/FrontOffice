@@ -29,6 +29,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -88,6 +89,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
     @BindView(R.id.progressbar)
     MKLoader progressBar;
 
+    private Boolean isLobby = false;
 
     private RoomTypeViewModel roomTypeViewModel;
     private MemberClient memberClient;
@@ -127,6 +129,12 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         oldRoom = OperasionalListRoomTypeToTransferFragmentArgs.fromBundle(getArguments()).getRoom();
+        if(Objects.equals(oldRoom.getRoomType(), "LOBBY") ||
+                Objects.equals(oldRoom.getRoomType(), "BAR") ||
+                Objects.equals(oldRoom.getRoomType(), "LOUNGE") ||
+                Objects.equals(oldRoom.getRoomType(), "RESTO")){
+            isLobby = true;
+        }
     }
 
     @Override
@@ -240,10 +248,16 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
                         List<RoomType> listRoom = roomTypeResponse.getRoomTypes();
                         ArrayList<RoomType> filterListRoomCheckin = (ArrayList<RoomType>) listRoom.stream()
                                 .filter(data ->
-                                        (!data.getRoomType().equals("SOFA")&&!data.getRoomType().equals("BAR"))
+                                        (data.getRoomType().equals("SOFA")||
+                                                data.getRoomType().equals("BAR")||
+                                                data.getRoomType().equals("LOUNGE")||
+                                                data.getRoomType().equals("RESTO"))
                                 ).collect(Collectors.toList());
-//                        roomTypeArrayList.addAll(filterListRoomCheckin);
-                        roomTypeArrayList.addAll(listRoom);
+                        if(isLobby){
+                            roomTypeArrayList.addAll(filterListRoomCheckin);
+                        }else{
+                            roomTypeArrayList.addAll(listRoom);
+                        }
                         bindData(currentPage);
                     }
                 });
