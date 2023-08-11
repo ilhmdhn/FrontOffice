@@ -380,7 +380,7 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
         roomOrder.setChuser(USER_FO.getUserId());
 
         Navigation
-                .findNavController(getView())
+                .findNavController(requireView())
                 .navigate(
                         OperasionalListRoomTypeToCheckinFragmentDirections
                                 .actionNavOperasionalListRoomTypeToCheckinFragmentToNavOperasionalCheckinAvailableRoomFragment(roomOrder));
@@ -402,7 +402,7 @@ public class OperasionalListRoomTypeToCheckinFragment extends Fragment {
                     return;
                 }
                 Navigation
-                        .findNavController(getView())
+                        .findNavController(requireView())
                         .navigate(
                                 OperasionalListRoomTypeToCheckinFragmentDirections
                                         .actionNavOperasionalListRoomTypeToCheckinFragmentToNavOperasionalCheckinAddInfoFragment(res.getRoomOrder())

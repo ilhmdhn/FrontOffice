@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.fragment.operasional.transfer;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -131,6 +132,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
         oldRoom = OperasionalListRoomTypeToTransferFragmentArgs.fromBundle(getArguments()).getRoom();
         if(Objects.equals(oldRoom.getRoomType(), "LOBBY") ||
                 Objects.equals(oldRoom.getRoomType(), "BAR") ||
+                Objects.equals(oldRoom.getRoomType(), "SOFA") ||
                 Objects.equals(oldRoom.getRoomType(), "LOUNGE") ||
                 Objects.equals(oldRoom.getRoomType(), "RESTO")){
             isLobby = true;
@@ -218,12 +220,14 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
     }
 
     private void setDataMember() {
-        Glide.with(getContext())
-                .load(member.getFotoPathNode())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.user)
-                .skipMemoryCache(true)
-                .into(memberFoto);
+        if(isAdded()){
+            Glide.with(requireActivity())
+                    .load(member.getFotoPathNode())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .error(R.drawable.user)
+                    .skipMemoryCache(true)
+                    .into(memberFoto);
+        }
         memberName.setText(member.getFullName());
         memberPhone.setText(member.getHp());
         memberPoin.setText(" Poin " + String.valueOf(member.getPointReward()));
@@ -318,6 +322,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
         GlobalBus.getBus().unregister(this);
     }
 
+    @SuppressLint("SetTextI18n")
     @Subscribe
     public void operasionalCheckinRoomType(EventsWrapper.OperasionalBusRoomType operasionalBusRoomType) {
         RoomType roomType = operasionalBusRoomType.getRoomType();
@@ -329,7 +334,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
         roomOrder.setOldRoomBeforeTransfer(oldRoom);
 
         //dialogBuilder = new AlertDialog.Builder(getContext());
-        dialogBuilder = new MaterialAlertDialogBuilder(getContext(), R.style.AlertDialogTheme);
+        dialogBuilder = new MaterialAlertDialogBuilder(requireActivity(), R.style.AlertDialogTheme);
         dialogInflater = this.getLayoutInflater();
         dialogView = dialogInflater.inflate(R.layout.dialog_operasional_transfer_duration, null);
         dialogBuilder.setView(dialogView);
@@ -355,7 +360,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
             buttonChooseRoom.setOnClickListener(view -> {
                 alertDialog.dismiss();
                 Navigation
-                        .findNavController(getView())
+                        .findNavController(requireView())
                         .navigate(
                                 OperasionalListRoomTypeToTransferFragmentDirections
                                         .actionNavOperasionalRoomTypeToTransferFragmentToNavOperasionalTransferAvailableRoomFragment(roomOrder));
@@ -376,7 +381,7 @@ public class OperasionalListRoomTypeToTransferFragment extends Fragment {
 
     private void navBack() {
         Navigation
-                .findNavController(this.getView())
+                .findNavController(this.requireView())
                 .popBackStack();
     }
 }

@@ -373,7 +373,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
                 }
 
                 Navigation
-                        .findNavController(getView())
+                        .findNavController(requireView())
                         .navigate(
                                 OperasionalListRoomAvailableCheckinFragmentDirections
                                         .actionNavOperasionalCheckinAvailableRoomFragmentToNavOperasionalCheckinAddInfoFragment(res.getRoomOrder())
@@ -405,7 +405,7 @@ public class OperasionalListRoomAvailableCheckinFragment extends Fragment {
                 }
 
                 Navigation
-                        .findNavController(getView())
+                        .findNavController(requireView())
                         .navigate(
                                 OperasionalListRoomAvailableCheckinFragmentDirections
                                 .actionNavOperasionalCheckinAvailableRoomFragmentToNavOperasionalCheckinAddInfoFragment(res.getRoomOrder())

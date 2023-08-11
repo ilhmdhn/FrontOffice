@@ -58,6 +58,7 @@ public class ListOperasionalCheckinRoomAdapter extends RecyclerView.Adapter<List
         else return 0;
     }
 
+    private Boolean isLoading = false;
 
     class RoomViewHolder extends RecyclerView.ViewHolder
     implements View.OnClickListener {
@@ -92,9 +93,12 @@ public class ListOperasionalCheckinRoomAdapter extends RecyclerView.Adapter<List
 
         @Override
         public void onClick(View view) {
-            GlobalBus
-                    .getBus()
-                    .post(new EventsWrapper.OperasionalBusCheckinRoom(this.room));
+            if(!isLoading){
+                GlobalBus
+                        .getBus()
+                        .post(new EventsWrapper.OperasionalBusCheckinRoom(this.room));
+                isLoading = true;
+            }
         }
 
         public void setInfoTime(){

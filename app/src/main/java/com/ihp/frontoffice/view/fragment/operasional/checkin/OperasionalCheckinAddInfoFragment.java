@@ -1488,7 +1488,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         otherViewModel.checkinSlip(BASE_URL, rcp).observe(getViewLifecycleOwner(), data->{
             printer.printerCheckinSlip(data, requireActivity());
             Navigation
-                    .findNavController(getView())
+                    .findNavController(requireView())
                     .navigate(OperasionalCheckinAddInfoFragmentDirections
                             .actionNavOperasionalCheckinAddInfoFragmentToNavOperasionalFragment());
         });

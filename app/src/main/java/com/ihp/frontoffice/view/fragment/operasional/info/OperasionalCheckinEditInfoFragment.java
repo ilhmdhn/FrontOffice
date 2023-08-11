@@ -945,7 +945,6 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         dialogInterface.dismiss();
                     }
                 })
@@ -962,15 +961,19 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
     }
 
     private void visibleProgressBar(boolean isVisible){
-        if(isVisible){
-            progressBar.setVisibility(View.VISIBLE);
-            requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                    WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+        if(isAdded()){
+            if(isVisible){
+                progressBar.setVisibility(View.VISIBLE);
+                requireActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }else{
+                progressBar.setVisibility(View.GONE);
+                progressBar.setVisibility(View.GONE);
+                requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            }
         }else{
-            progressBar.setVisibility(View.GONE);
-            requireActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            visibleProgressBar(isVisible);
         }
-
     }
 
 
@@ -1844,7 +1847,7 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
 //        Navigation
 //                .findNavController(this.getView())
 //                .popBackStack();
-        Navigation.findNavController(getView())
+        Navigation.findNavController(requireView())
                 .navigate(
                         OperasionalCheckinEditInfoFragmentDirections
                                 .actionNavOperasionalCheckinEditInfoFragmentToNavOperasionalListRoomToEditInfoFragment()

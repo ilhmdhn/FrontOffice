@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.ihp.frontoffice.data.remote.TransferClient;
 import com.ihp.frontoffice.data.remote.respons.TransferRoomResponse;
 import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
@@ -101,6 +102,8 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private Room oldRoomBeforeTransfer;
     private ArrayList<Room> roomArrayList = new ArrayList<>();
     private RoomOrderClient roomOrderClient;
+
+    private TransferClient transferClient;
     private static String BASE_URL;
     private User USER_FO;
     private IhpRepository ihpRepository;
@@ -132,11 +135,13 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         super.onCreate(savedInstanceState);
         roomOrder = OperasionalListRoomAvailableTransferFragmentArgs.fromBundle(getArguments()).getRoomOrder();
         member = roomOrder.getMember();
+//        setDataMember();
         roomType = roomOrder.getCheckinRoomType();
         oldRoomBeforeTransfer = roomOrder.getOldRoomBeforeTransfer();
 
         if(Objects.equals(oldRoomBeforeTransfer.getRoomType(), "LOBBY") ||
                 Objects.equals(oldRoomBeforeTransfer.getRoomType(), "BAR") ||
+                Objects.equals(oldRoomBeforeTransfer.getRoomType(), "SOFA") ||
                 Objects.equals(oldRoomBeforeTransfer.getRoomType(), "LOUNGE") ||
                 Objects.equals(oldRoomBeforeTransfer.getRoomType(), "RESTO")){
             isLobby = true;
@@ -158,20 +163,20 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setMainTitle();
-        BASE_URL = ((MyApp) getActivity().getApplicationContext()).getBaseUrl();
-        USER_FO = ((MyApp) getActivity().getApplicationContext()).getUserFo();
-        otherViewModel = new ViewModelProvider(getActivity()).get(OtherViewModel.class);
+        BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
+        otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
         printer = new Printer();
         init();
     }
 
     private void init() {
-        roomViewModel = new ViewModelProvider(getActivity())
+        roomViewModel = new ViewModelProvider(requireActivity())
                 .get(RoomViewModel.class);
-        setDataMember();
         ihpRepository = new IhpRepository();
         readyRoomSetupData();
         roomOrderClient = ApiRestService.getClient(BASE_URL).create(RoomOrderClient.class);
+        transferClient = ApiRestService.getClient(BASE_URL).create(TransferClient.class);
 
         //NAVIGATE
         buttonNext.setOnClickListener(new View.OnClickListener() {
@@ -205,30 +210,33 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                         .TitleFragment(oldRoomBeforeTransfer.getRoomCode()));
     }
 
+    @SuppressLint("SetTextI18n")
     private void setDataMember() {
-        Glide.with(getContext())
-                .load(member.getFotoPathNode())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(memberFoto);
-        memberName.setText(member.getFullName());
-        memberPhone.setText(member.getHp());
+        if(member.getFotoPathNode() !=null){
+            Glide.with(requireActivity())
+                    .load(member.getFotoPathNode())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(memberFoto);
+        }
+        memberName.setText(member.getFullName()!= null ? member.getFullName() : "");
+        memberPhone.setText(member.getHp() != null ? member.getHp() : "");
         memberPoin.setText("Poin " + String.valueOf(member.getPointReward()));
     }
 
 
     private void readyRoomSetupData() {
         progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomReadyByTypeGrouping(roomType).observe(getActivity(), roomResponse -> {
+        roomViewModel.getRoomReadyByTypeGrouping(roomType).observe(requireActivity(), roomResponse -> {
             progressBar.setVisibility(View.GONE);
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireActivity());
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
 
                 if(isLobby){
                     Log.d("DEBUGGING ATAS", "");
-                    roomArrayList.addAll(listRoom.stream().filter(data -> Objects.equals(data.getRoomType(), "LOBBY") || Objects.equals(data.getRoomType(), "BAR") || Objects.equals(data.getRoomType(), "LOUNGE") || Objects.equals(data.getRoomType(), "RESTO")).collect(Collectors.toList()));
+                    roomArrayList.addAll(listRoom.stream().filter(data -> Objects.equals(data.getRoomType(), "LOBBY") || Objects.equals(data.getRoomType(), "BAR") || Objects.equals(data.getRoomType(), "SOFA") || Objects.equals(data.getRoomType(), "LOUNGE") || Objects.equals(data.getRoomType(), "RESTO")).collect(Collectors.toList()));
                 }else{
                     Log.d("DEBUGGING BAWAH", "");
                     roomArrayList.addAll(listRoom);
@@ -242,9 +250,9 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         p = new BasePagination(roomArrayList);
         p.setItemsPerPage(9);
         totalPages = p.getTotalPages();
-        roomAdapter = new ListOperasionalReadyRoomAdapter(getContext(), p.getCurrentData(page));
+        roomAdapter = new ListOperasionalReadyRoomAdapter(requireActivity(), p.getCurrentData(page));
         readyRoomRecyclerView.setAdapter(roomAdapter);
-        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        readyRoomRecyclerView.setLayoutManager(new GridLayoutManager(requireActivity(), 3));
         roomAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -314,8 +322,9 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         if(oldRoomBeforeTransfer.isRoomNotLobby()){
             layoutTransferDuration.setVisibility(View.GONE);
         }else{
+            layoutTransferDuration.setVisibility(View.GONE);
             durasiJamtransfer = 0;
-            layoutTransferDuration.setVisibility(View.VISIBLE);
+//            layoutTransferDuration.setVisibility(View.VISIBLE);
             transferCountHours.setText(String.valueOf(durasiJamtransfer));
             buttonMinHours.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -387,20 +396,20 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                         String email = _usernameTxt.getText().toString();
                         String password = _passwordTxt.getText().toString();
                         if (email.isEmpty() && password.isEmpty()) {
-                            Toasty.warning(getContext(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
+                            Toasty.warning(requireActivity(), "Anda belum input user dan password ", Toast.LENGTH_SHORT, true)
                                     .show();
                             return;
                         }
 
-                        if(!oldRoomBeforeTransfer.isRoomNotLobby()){
-                            if(durasiJamtransfer<1){
-                                Toasty.warning(getContext(), "Anda belum isi durasi checkin ", Toast.LENGTH_SHORT, true)
-                                        .show();
-                                return;
-                            }else{
-                                roomOrder.setDurasiJam(durasiJamtransfer);
-                            }
-                        }
+//                        if(!oldRoomBeforeTransfer.isRoomNotLobby()){
+//                            if(durasiJamtransfer<1){
+//                                Toasty.warning(requireActivity(), "Anda belum isi durasi checkin ", Toast.LENGTH_SHORT, true)
+//                                        .show();
+//                                return;
+//                            }else{
+//                                roomOrder.setDurasiJam(durasiJamtransfer);
+//                            }
+//                        }
 
                         _loginProgress.setVisibility(View.VISIBLE);
                         UserClient userClient = ApiRestService.getClient(BASE_URL).create(UserClient.class);
@@ -410,7 +419,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                                 UserResponse res = response.body();
                                 _loginProgress.setVisibility(View.GONE);
-                                res.displayMessage(getContext());
+                                res.displayMessage(requireActivity());
                                 if (res.isOkay()) {
                                     User user = res.getUser();
                                     if (UserAuthRole.isAllowTransferRoom(user)) {
@@ -419,18 +428,16 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
                                         submitTransferRoom(roomOrder);
                                         alertDialog.dismiss();
                                     } else {
-                                        Toasty.warning(getContext(), "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
+                                        Toasty.warning(requireActivity(), "User tidak dapat melakukan operasi ini.", Toast.LENGTH_SHORT, true)
                                                 .show();
                                     }
-
                                 }
-
                             }
 
                             @Override
                             public void onFailure(Call<UserResponse> call, Throwable t) {
                                 _loginProgress.setVisibility(View.GONE);
-                                Toasty.error(getContext(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
+                                Toasty.error(requireActivity(), "On Failure : " + t.getMessage(), Toast.LENGTH_SHORT, true)
                                         .show();
                             }
                         });
@@ -452,10 +459,18 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         Call<TransferRoomResponse> call;
 
-        if(roomOrder.getOldRoomBeforeTransfer().isRoomNotLobby()){
-            call = roomOrderClient.submitTransferRoomToRoom(roomOrder);
+        if(Objects.equals(roomOrder.getOldRoomBeforeTransfer().getRoomType(), "LOBBY") ||
+                Objects.equals(roomOrder.getOldRoomBeforeTransfer().getRoomType(), "BAR") ||
+                Objects.equals(roomOrder.getOldRoomBeforeTransfer().getRoomType(), "LOUNGE") ||
+                Objects.equals(roomOrder.getOldRoomBeforeTransfer().getRoomType(), "RESTO") &&
+
+                Objects.equals(roomOrder.getCheckinRoom().getRoomType(), "LOBBY") ||
+                Objects.equals(roomOrder.getCheckinRoom().getRoomType(), "BAR") ||
+                Objects.equals(roomOrder.getCheckinRoom().getRoomType(), "LOUNGE") ||
+                Objects.equals(roomOrder.getCheckinRoom().getRoomType(), "RESTO")){
+            call = transferClient.transferLobbyToLobby(roomOrder.getOldRoomBeforeTransfer().getRoomCode(), roomOrder.getCheckinRoom().getRoomCode(), roomOrder.getChusr());
         }else{
-            call = roomOrderClient.submitTransferLobbyToRoom(roomOrder);
+            call = roomOrderClient.submitTransferRoomToRoom(roomOrder);
         }
 
         call.enqueue(new Callback<TransferRoomResponse>() {
@@ -481,7 +496,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
 
             @Override
             public void onFailure(Call<TransferRoomResponse> call, Throwable t) {
-                Toasty.error(getContext(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
+                Toasty.error(requireActivity(), "On Failure : " + t.toString(), Toast.LENGTH_SHORT)
                         .show();
                 progressBar.setVisibility(View.GONE);
             }
@@ -498,7 +513,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         otherViewModel.checkinSlip(BASE_URL, rcp).observe(getViewLifecycleOwner(), data->{
             printer.printerCheckinSlip(data, requireActivity());
             Navigation
-                    .findNavController(getView())
+                    .findNavController(requireView())
                     .navigate(
                             OperasionalListRoomAvailableTransferFragmentDirections
                                     .actionNavOperasionalTransferAvailableRoomFragmentToNavOperasionalListRoomToTransferFragment()

@@ -466,7 +466,7 @@ public class ListHistoryRoomFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
         refreshRecyclerView();
         roomViewModel.getRoomByType(roomType).observe(getViewLifecycleOwner(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireContext());
             if (roomResponse.isOkay()) {
                 List<Room> listRoom = roomResponse.getRooms();
                 roomArrayList.addAll(listRoom);

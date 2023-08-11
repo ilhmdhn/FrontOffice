@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity{
             CURRENT_PAGE = "";
             switch (destination.getId()) {
                 case R.id.navOperasionalFragment:
-                    showBottomNav();
+//                    showBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     CURRENT_PAGE = OPERASIONAL_PAGE;
                     break;
@@ -198,11 +198,11 @@ public class MainActivity extends AppCompatActivity{
                 case R.id.navRoomStatusFragment:
                 case R.id.navListRoomFragment:
                 case R.id.navListInventoryFragment:
-                    showBottomNav();
+//                    showBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navNotificationFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
                     CURRENT_PAGE = NOTIFICATION_PAGE;
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                     break;
@@ -226,33 +226,33 @@ public class MainActivity extends AppCompatActivity{
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_NO_SCROLL);
                     break;
                 case R.id.navCheckinRoomFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
                     break;
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                 case R.id.navExtendsRoomFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navTransferRoomFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navReportingFragment:
-                    showBottomNav();
+//                    showBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.navStatusKasFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
 //                    params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL);
                     break;
                 case R.id.mySalesReportParentFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
                     break;
                 case R.id.itemSalesFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
                     break;
                 case R.id.cancelReportFragment:
-                    hideBottomNav();
+//                    hideBottomNav();
                     break;
                 default:
                     break;
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity{
                 break;
 
             case R.id.setting_menu:
-                navController.navigate(R.id.navSettingFragment);
+                navController.navigate(R.id.settingFragment);
                 break;
 
             case R.id.logout_menu:

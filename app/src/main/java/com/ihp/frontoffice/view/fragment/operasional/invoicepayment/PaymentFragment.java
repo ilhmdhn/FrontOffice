@@ -688,7 +688,7 @@ public class PaymentFragment extends Fragment
                 .navigate(OperasionalPaymentFragmentDirections
                         .actionNavOperasionalPaymentFragmentToNavOperasionalListRoomToPaymentFragment());*/
         Navigation
-                .findNavController(this.getView())
+                .findNavController(this.requireView())
                 .popBackStack();
     }
 

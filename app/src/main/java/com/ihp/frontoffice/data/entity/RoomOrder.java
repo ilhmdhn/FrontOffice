@@ -185,6 +185,10 @@ public class RoomOrder implements Serializable {
         this.chuser = chuser;
     }
 
+    public String getChusr(){
+        return chuser;
+    }
+
     public List<Payment> getOrderRoomPayments() {
         return orderRoomPayments;
     }

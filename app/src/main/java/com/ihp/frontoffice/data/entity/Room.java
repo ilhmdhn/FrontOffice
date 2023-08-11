@@ -26,7 +26,7 @@ public class Room implements Serializable {
 
     @ColumnInfo(name = "invoice_transfer")
     @SerializedName("invoice_transfer")
-    private String ivcTransfer;
+    private String ivcTransfer = "";
 
 
     @ColumnInfo(name = "invoice")

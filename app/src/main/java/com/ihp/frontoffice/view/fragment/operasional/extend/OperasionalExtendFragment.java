@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.fragment.operasional.extend;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
@@ -259,13 +260,16 @@ public class OperasionalExtendFragment extends Fragment {
 
     }
 
+    @SuppressLint("SetTextI18n")
     private void setDataMember(Member member) {
-        Glide.with(getContext())
-                .load(member.getFotoPathNode())
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .error(R.drawable.user)
-                .skipMemoryCache(true)
-                .into(memberFoto);
+        if(isAdded()){
+            Glide.with(requireActivity())
+                    .load(member.getFotoPathNode())
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .error(R.drawable.user)
+                    .skipMemoryCache(true)
+                    .into(memberFoto);
+        }
         memberName.setText(member.getFullName());
         memberPhone.setText(member.getHp());
         memberPoin.setText(" Poin " + String.valueOf(member.getPointReward()));
@@ -301,7 +305,7 @@ public class OperasionalExtendFragment extends Fragment {
     }
 
     private void viewInfoHistoryExtend() {
-        listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(getContext(), listRoomExtendHistory);
+        listDetailRoomOrderExtendAdapter = new ListDetailRoomOrderExtendAdapter(requireContext(), listRoomExtendHistory);
         historyecyclerview.setAdapter(listDetailRoomOrderExtendAdapter);
         historyecyclerview.setDivider(null);
         listDetailRoomOrderExtendAdapter.notifyDataSetChanged();
@@ -597,7 +601,7 @@ public class OperasionalExtendFragment extends Fragment {
                 .navigate(OperasionalExtendFragmentDirections
                         .actionNavOperasionalExtendFragmentToNavOperasionalListRoomToExtendFragment());*/
         Navigation
-                .findNavController(this.getView())
+                .findNavController(this.requireView())
                 .popBackStack();
     }
 

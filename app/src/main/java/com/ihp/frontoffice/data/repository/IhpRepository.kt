@@ -633,4 +633,20 @@ class IhpRepository {
         })
         return responseData
     }
+
+    fun transferLobbyTOLobby (url: String, roomCode: String, roomDestination: String, user: String): LiveData<TransferRoomResponse>{
+        val client = ApiRestService.getClient(url).create(TransferClient::class.java)
+        val responseData = MutableLiveData<TransferRoomResponse>()
+
+        client.transferLobbyToLobby(roomCode, roomDestination, user).enqueue(object: Callback<TransferRoomResponse>{
+            override fun onResponse(call: Call<TransferRoomResponse>, response: retrofit2.Response<TransferRoomResponse>) {
+                responseData.postValue(response.body())
+            }
+
+            override fun onFailure(call: Call<TransferRoomResponse>, t: Throwable) {
+                responseData.postValue(TransferRoomResponse(null, false, t.message))
+            }
+        })
+        return responseData
+    }
 }

@@ -24,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import butterknife.BindView;
@@ -80,6 +81,8 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
 
+    private Boolean onCreateViewCalled = false;
+
     public OperasionalListRoomToEditInfoFragment() {
         // Required empty public constructor
     }
@@ -104,7 +107,7 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_operasional_list_room_to_edit_info, container, false);
         ButterKnife.bind(this, view);
-
+        onCreateViewCalled = true;
         return view;
     }
 
@@ -309,7 +312,9 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
             public void onResponse(Call<MemberResponse> call, Response<MemberResponse> response) {
                 progressBar.setVisibility(View.GONE);
                 MemberResponse res = response.body();
-                res.displayMessage(requireActivity());
+                if(isAdded()){
+                    res.displayMessage(requireActivity());
+                }
                 if (!res.isOkay()) {
                     return;
                 }
@@ -326,11 +331,15 @@ public class OperasionalListRoomToEditInfoFragment extends Fragment {
     }
 
     private void navigateToAddInfo(RoomOrder roomOrder) {
-        Navigation
-                .findNavController(this.getView())
-                .navigate(
-                        OperasionalListRoomToEditInfoFragmentDirections
-                                .actionNavOperasionalListRoomToEditInfoFragmentToNavOperasionalCheckinEditInfoFragment(roomOrder)
-                );
+        if(onCreateViewCalled){
+            Navigation
+                    .findNavController(Objects.requireNonNull(this.requireView()))
+                    .navigate(
+                            OperasionalListRoomToEditInfoFragmentDirections
+                                    .actionNavOperasionalListRoomToEditInfoFragmentToNavOperasionalCheckinEditInfoFragment(roomOrder)
+                    );
+        }else{
+            navigateToAddInfo(roomOrder);
+        }
     }
 }

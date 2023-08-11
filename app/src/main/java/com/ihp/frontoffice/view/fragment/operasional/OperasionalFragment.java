@@ -352,7 +352,7 @@ public class OperasionalFragment extends Fragment {
                     showInfoDialog(res.getMessage(), "Info Reservasi");
                     return;
                 }
-                Navigation.findNavController(getView())
+                Navigation.findNavController(requireView())
                         .navigate(OperasionalFragmentDirections
                                 .actionNavOperasionalFragmentToNavOperasionalReservasiFragment(res.getMember()));
             }
@@ -391,7 +391,7 @@ public class OperasionalFragment extends Fragment {
                 if (!res.isOkay()) {
                     return;
                 }
-                Navigation.findNavController(getView())
+                Navigation.findNavController(requireView())
                         .navigate(OperasionalFragmentDirections
                                 .actionNavOperasionalFragmentToOperasionalCheckinFragment(res.getMember()));
             }

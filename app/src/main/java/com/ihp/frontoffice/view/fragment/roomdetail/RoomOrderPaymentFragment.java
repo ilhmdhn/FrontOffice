@@ -216,7 +216,7 @@ public class RoomOrderPaymentFragment extends Fragment {
             if (null == listDetailRoomOrderPaymentAdapter) {
                 listDetailRoomOrderPaymentAdapter = new ListDetailRoomOrderPaymentAdapter(getContext(), listPayment);
                 detailRecycleRoomOrder.setAdapter(listDetailRoomOrderPaymentAdapter);
-                detailRecycleRoomOrder.setLayoutManager(new LinearLayoutManager(getContext()));
+                detailRecycleRoomOrder.setLayoutManager(new LinearLayoutManager(requireActivity()));
 
             }
             listDetailRoomOrderPaymentAdapter.notifyDataSetChanged();

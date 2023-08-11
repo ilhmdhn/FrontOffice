@@ -1483,7 +1483,7 @@ public class OperasionalReservasiAddInfoFragment extends Fragment {
 
     private void navToMain() {
         Navigation
-                .findNavController(getView())
+                .findNavController(requireView())
                 .navigate(OperasionalReservasiAddInfoFragmentDirections
                         .actionNavOperasionalReservasiAddInfoFragmentToNavOperasionalFragment());
     }

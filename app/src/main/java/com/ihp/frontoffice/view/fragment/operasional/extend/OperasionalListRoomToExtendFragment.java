@@ -267,7 +267,7 @@ public class OperasionalListRoomToExtendFragment extends Fragment {
     public void operasionalCheckinRoom(EventsWrapper.OperasionalBusCheckinRoom operasionalBusCheckinRoom) {
         Room room = operasionalBusCheckinRoom.getRoom();
         Navigation
-                .findNavController(this.getView())
+                .findNavController(this.requireView())
                 .navigate(
                         OperasionalListRoomToExtendFragmentDirections
                         .actionNavOperasionalListRoomToExtendFragmentToNavOperasionalExtendFragment(room)

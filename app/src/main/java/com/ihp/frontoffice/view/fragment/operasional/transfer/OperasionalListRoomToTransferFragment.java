@@ -162,7 +162,7 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         roomViewModel.getRoomCheckin(cariData).observe(getViewLifecycleOwner(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
+            roomResponse.displayMessage(requireContext());
             if (roomResponse.isOkay()) {
                 roomArrayList.clear();
                 List<Room> listRoom = roomResponse.getRooms();
@@ -174,7 +174,7 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
                         ).collect(Collectors.toList());
 
                 if(filterListRoomCheckin.size()<1){
-                    Toasty.info(getContext(),"Data Kosong").show();
+                    Toasty.info(requireContext(),"Data Kosong").show();
                     roomAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
                     //return;
@@ -199,7 +199,7 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
 
 //        roomAdapter = new ListOperasionalCheckinRoomAdapter(getContext(), p.getCurrentData(page));
         roomRecyclerView.setAdapter(roomAdapter);
-        roomRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        roomRecyclerView.setLayoutManager(new GridLayoutManager(requireContext(), 3));
         roomAdapter.notifyDataSetChanged();
         toggleButtons();
     }
@@ -264,7 +264,7 @@ public class OperasionalListRoomToTransferFragment extends Fragment {
     public void operasionalCheckinRoom(EventsWrapper.OperasionalBusCheckinRoom operasionalBusCheckinRoom) {
         Room room = operasionalBusCheckinRoom.getRoom();
         Navigation
-                .findNavController(this.getView())
+                .findNavController(this.requireView())
                 .navigate(
                        OperasionalListRoomToTransferFragmentDirections
                         .actionNavOperasionalListRoomToTransferFragmentToNavOperasionalRoomTypeToTransferFragment(room)

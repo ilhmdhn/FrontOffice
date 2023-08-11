@@ -109,8 +109,7 @@ class SettingFragment : Fragment() {
         }
     }
 
-    private val requestMultiplePermissions =
-        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+    private val requestMultiplePermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
 //                Log.d("test006", "${it.key} = ${it.value}")
             }

@@ -136,6 +136,9 @@
         <action
             android:id="@+id/action_navOperasionalFragment_to_navOperasionalListRoomToAddInfoFragment"
             app:destination="@id/navOperasionalListRoomToEditInfoFragment" />
+        <action
+            android:id="@+id/action_navOperasionalFragment_to_settingFragment"
+            app:destination="@id/settingFragment" />
     </fragment>
 
     <fragment
@@ -461,7 +464,7 @@
             android:defaultValue=" " />
     </fragment>
     <fragment
-        android:id="@+id/navSettingFragment"
+        android:id="@+id/settingFragment"
         android:name="com.ihp.frontoffice.view.fragment.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" />

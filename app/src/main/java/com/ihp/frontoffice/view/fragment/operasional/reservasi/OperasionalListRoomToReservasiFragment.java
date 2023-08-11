@@ -402,7 +402,7 @@ public class OperasionalListRoomToReservasiFragment extends Fragment {
 
     private void navToMain(Room roomOrder) {
            Navigation
-                .findNavController(getView())
+                .findNavController(requireView())
                    .navigate(OperasionalListRoomToReservasiFragmentDirections
                    .actionNavOperasionalReservasiFragmentToNavOperasionalReservasiAddInfoFragment(roomOrder,reservasiPayment));
     }
