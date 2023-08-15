@@ -226,10 +226,21 @@ class OrderFnbRoomFragment : Fragment() {
 
 
     @Subscribe
+    fun deleteOrder(inventoryCode: DataBusEvent.DeleteOrder){
+        val index = orderItem.indexOfFirst { it.inventoryCode == inventoryCode.inventoryCode }
+        orderItem.removeAt(index)
+        dialogAdapter.setData(orderItem)
+        fnbPagingAdapter.insertAddItem(orderItem)
+    }
+
+    @Subscribe
     fun addOrder(addedItem: DataBusEvent.OrderModel){
         val filter = orderItem.find { it.inventoryCode == addedItem.inventoryCode }
+        val index = orderItem.indexOfFirst { it.inventoryCode == addedItem.inventoryCode }
         if(filter == null){
             orderItem.add(addedItem)
+        }else{
+            orderItem[index].orderQty = addedItem.orderQty
         }
 
         dialogAdapter.setData(orderItem)

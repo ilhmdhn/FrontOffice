@@ -328,4 +328,5 @@
     <string name="operasional_order_fnb">Order FnB</string>
     <string name="list_room_checkin">List Room Checkin</string>
     <string name="image_fnb">Image FNB</string>
+    <string name="plus">+</string>
 </resources>

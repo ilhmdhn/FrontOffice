@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -214,21 +215,25 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
     }
 
     private void paymentRoomSetupData() {
-        if(roomAdapter.getItemCount()>0){
-            roomAdapter.clearItem();
-        }
-        roomArrayList.clear();
-        progressBar.setVisibility(View.VISIBLE);
-        roomViewModel.getRoomPaid(cariData).observe(requireActivity(), roomResponse -> {
-            roomResponse.displayMessage(getContext());
-            progressBar.setVisibility(View.GONE);
-            if (roomResponse.isOkay()) {
-                List<Room> listRoom = roomResponse.getRooms();
-                roomArrayList.addAll(listRoom);
-                bindData(0);
+        if(isAdded()){
+            if(roomAdapter.getItemCount()>0){
+                roomAdapter.clearItem();
             }
-            toggleButtons();
-        });
+            roomArrayList.clear();
+            progressBar.setVisibility(View.VISIBLE);
+            roomViewModel.getRoomPaid(cariData).observe((LifecycleOwner) requireContext(), roomResponse -> {
+                roomResponse.displayMessage(getContext());
+                progressBar.setVisibility(View.GONE);
+                if (roomResponse.isOkay()) {
+                    List<Room> listRoom = roomResponse.getRooms();
+                    roomArrayList.addAll(listRoom);
+                    bindData(0);
+                }
+                toggleButtons();
+            });
+        }else{
+            paymentRoomSetupData();
+        }
     }
 
 
@@ -245,8 +250,6 @@ public class OperasionalListRoomToCheckoutFragment extends Fragment {
 
     private void toggleButtons() {
         //SINGLE PAGE DATA
-        Log.i("PAGING", "totalPages = " + totalPages);
-        Log.i("PAGING", "currentPage = " + currentPage);
         if (totalPages <= 1) {
            /* buttonNext.setEnabled(false);
             buttonPrevious.setEnabled(false);*/

@@ -233,14 +233,11 @@ public class OperasionalFragment extends Fragment {
         });
 
         bttnPayment.setOnClickListener(view -> {
-            if(UserAuthRole.isAllowTransaction(user)){
                 Navigation.findNavController(view)
                         .navigate(
                                 OperasionalFragmentDirections
                                         .actionNavOperasionalFragmentToNavOperasionalRoomCheckinFragment());
-            }else{
-                ShowDialogCantAccess();
-            }
+
         });
 
 

@@ -1,10 +1,15 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.DataInventoryPaging
 import com.ihp.frontoffice.databinding.ListFnbBinding
 import com.ihp.frontoffice.events.DataBusEvent
@@ -38,6 +43,8 @@ class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.
             val addedItem = added.filter { it.inventoryCode == data.inventoryCode }
             if(addedItem.isEmpty()){
                 binding.btnAddOrder.text = "tambahkan"
+                binding.btnAddOrder.visibility = View.VISIBLE
+                binding.llPlusMinus.visibility = View.GONE
                 binding.btnAddOrder.isEnabled = true
                 binding.btnAddOrder.setOnClickListener {
                     GlobalBus.getBus().post(DataBusEvent.OrderModel(
@@ -50,8 +57,54 @@ class FnbPagingAdapter: PagingDataAdapter<DataInventoryPaging, FnbPagingAdapter.
                     ))
                 }
             }else{
-                binding.btnAddOrder.text = "Ditambahkan"
+                var qtyOrder = addedItem[0].orderQty;
+//                binding.btnAddOrder.text = "Ditambahkan"
+                binding.tvFnbJumlah.text = addedItem[0].orderQty.toString()
+                binding.btnAddOrder.visibility = View.GONE
+                binding.llPlusMinus.visibility = View.VISIBLE
                 binding.btnAddOrder.isEnabled = false
+
+                binding.btnPlus.setOnClickListener {
+                    qtyOrder++
+                    addedItem[0].orderQty = qtyOrder
+                    GlobalBus.getBus().post(DataBusEvent.OrderModel(
+                        inventoryCode = data.inventoryCode,
+                        orderQty = qtyOrder,
+                        orderNotes = "",
+                        itemName = data.name,
+                        itemPrice = data.price.toLong(),
+                        itemLocation = data.location.toString(),
+                    ))
+                }
+
+                binding.btnMinus.setOnClickListener {
+                    qtyOrder--
+                    if(qtyOrder>0){
+                        addedItem[0].orderQty = qtyOrder
+                        GlobalBus.getBus().post(DataBusEvent.OrderModel(
+                            inventoryCode = data.inventoryCode,
+                            orderQty = qtyOrder,
+                            orderNotes = "",
+                            itemName = data.name,
+                            itemPrice = data.price.toLong(),
+                            itemLocation = data.location.toString(),
+                        ))
+                    }else{
+                        val builder = MaterialAlertDialogBuilder(itemView.context, R.style.AlertDialogTheme)
+//                        val builder: AlertDialog.Builder.
+//                        builder = AlertDialog.Builder(itemView.context)
+                        builder
+                            .setMessage("Hapus ${data.name} ?")
+                            .setPositiveButton("OK",
+                                DialogInterface.OnClickListener{ dialog, which ->
+                                    GlobalBus.getBus().post(DataBusEvent.DeleteOrder(
+                                        inventoryCode = data.inventoryCode
+                                    ))
+                                    dialog.dismiss()
+                                })
+                        builder.show()
+                    }
+                }
             }
             binding.tvFnbName.text = data.name
             binding.tvFnbPrice.text = utils.getCurrency(data.price.toLong())

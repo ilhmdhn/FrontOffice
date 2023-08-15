@@ -613,7 +613,9 @@ public class OperasionalCheckinEditInfoFragment extends Fragment {
                                             }
                                             @Override
                                             public void onFailure(Call<com.ihp.frontoffice.data.remote.respons.Response> call, Throwable t) {
-                                                Toasty.error(requireActivity(), "Mengurangi Durasi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                if(isAdded()){
+                                                    Toasty.error(requireActivity(), "Mengurangi Durasi" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                }
                                             }
                                         });
                                     } else {

@@ -60,7 +60,7 @@ class MyApp : Application() {
             capitalize(model)
         } else capitalize(manufacturer) + " " + model
     }
-    private fun capitalize(str: String): String? {
+    private fun capitalize(str: String): String {
         if (TextUtils.isEmpty(str)) {
             return str
         }

@@ -160,4 +160,16 @@ public class UserAuthRole {
              return false;
          }
     }
+
+    public static boolean isAllowPay(User user){
+        if(
+                (user.getLevelUser().equals(UserRole.ACCOUNTING.getRole())) ||
+                        (user.getLevelUser().equals(UserRole.KASIR.getRole())) ||
+                        (user.getLevelUser().equals(UserRole.SUPERVISOR.getRole()))
+        ){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

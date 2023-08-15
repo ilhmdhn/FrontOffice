@@ -69,6 +69,37 @@
             app:tint="@color/graylight" />
         -->
 
+        <LinearLayout
+            android:id="@+id/ll_plus_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/btn_minus"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_remove_circle"
+                app:tint="@color/graylight"
+                android:contentDescription="@string/minus" />
+
+            <TextView
+                android:id="@+id/tv_fnb_jumlah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="3dp"
+                android:textColor="@color/dark_primary_text"
+                android:textSize="16sp"
+                tools:text="0" />
+
+            <ImageView
+                android:id="@+id/btn_plus"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:src="@drawable/ic_add"
+                app:tint="@color/graylight"
+                android:contentDescription="@string/plus" />
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_add_order"
             android:layout_width="wrap_content"

@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.data.remote.respons.xBillResponse;
 import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.view.fragment.operasional.OperasionalFragmentDirections;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.OrderItemAdapter;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.TransferItemAdapter;
 import com.tuyenmonkey.mkloader.MKLoader;
@@ -134,6 +135,7 @@ public class InvoiceFragment extends Fragment {
     private static final String ARG_PARAM2 = "ROOM_ORDER";
     private static final String ARG_PARAM3 = "TIME_RCP";
     private Integer statusPrint;
+    private User USER_FO;
 
     public InvoiceFragment() {
         // Required empty public constructor
@@ -170,6 +172,7 @@ public class InvoiceFragment extends Fragment {
 
         BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         user = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getUserId();
+        USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         userLevel = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getLevelUser();
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
@@ -192,9 +195,23 @@ public class InvoiceFragment extends Fragment {
         roomOrderViewModel.init(BASE_URL);
         btnToPayment.setEnabled(false);
         btnToPayment.setOnClickListener(view -> {
-            GlobalBus
-                    .getBus()
-                    .post(new EventsWrapper.NavigationInvoicePayment(true));
+            if(UserAuthRole.isAllowPay(USER_FO)){
+                GlobalBus
+                        .getBus()
+                        .post(new EventsWrapper.NavigationInvoicePayment(true));
+            }else{
+                MaterialAlertDialogBuilder dialog;
+                dialog = new MaterialAlertDialogBuilder(requireActivity(), R.style.MaterialAlertDialogDarkTheme);
+                dialog.setTitle("Tidak memiliki akses");
+                dialog.setMessage("User anda tidak memiliki akses ini")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
+                dialog.show();
+            }
         });
 
         btnToPrint.setOnClickListener(view -> {

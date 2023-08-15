@@ -196,15 +196,16 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_dummy_promo3"
                 tools:text="Service" />
 
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_transfer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_dummy_promo6"
                 tools:listitem="@layout/list_transfer" />
-
 
             <TextView
                 android:id="@+id/tv_dummy_dp"

@@ -16,6 +16,10 @@ object DataBusEvent {
             var itemLocation: String,
     )
 
+    data class DeleteOrder(
+        var inventoryCode: String
+    )
+
     data class cancelOrder(
             var so: String,
             var inventoryCode: String,

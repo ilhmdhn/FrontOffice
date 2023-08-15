@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.databinding.DialogOrderBinding
 import com.ihp.frontoffice.databinding.ListReviewOrderBinding
@@ -51,8 +52,9 @@ class FnbInputOrderAdapter: RecyclerView.Adapter<FnbInputOrderAdapter.ListViewHo
                                 listData
                         ))
                     }else{
-                        val builder: AlertDialog.Builder
-                        builder = AlertDialog.Builder(itemView.context)
+                        val builder = MaterialAlertDialogBuilder(itemView.context, R.style.AlertDialogTheme)
+//                        val builder: AlertDialog.Builder
+//                        builder = AlertDialog.Builder(itemView.context)
                         builder
                                 .setMessage("Hapus ${data.itemName} ?")
                                 .setPositiveButton("OK",
