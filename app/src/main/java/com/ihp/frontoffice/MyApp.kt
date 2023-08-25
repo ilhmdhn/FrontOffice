@@ -1,4 +1,5 @@
 package com.ihp.frontoffice
+import com.gu.toolargetool.TooLargeTool;
 
 import android.app.Application
 import android.content.Context
@@ -17,6 +18,7 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        TooLargeTool.startLogging(this);
         frontOfficeDatabase = FrontOfficeDatabase.getInstance(this.applicationContext)
         setBaseUrl()
         setUserLogin()

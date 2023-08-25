@@ -130,4 +130,6 @@ dependencies {
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.4.0"
+
+    implementation 'com.gu.android:toolargetool:0.3.0'
 }
