@@ -278,10 +278,9 @@ public class OperasionalInvoiceAndPaymentFragment extends Fragment {
                             @Override
                             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                                 progressBar.setVisibility(View.GONE);
-                                if (response.body().isOkay()) {
+                                if (response.body().isOkay() && isAdded()) {
                                     Toasty.info(requireActivity(), "Print OK", Toast.LENGTH_SHORT).show();
-                                    return;
-                                } else {
+                                } else if(isAdded()) {
                                     Toasty.warning(requireActivity(), response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }

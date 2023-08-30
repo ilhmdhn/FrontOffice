@@ -135,9 +135,7 @@ public class MainActivity extends AppCompatActivity{
 //            setToolbarActivity();
 //        }
 
-        mUserLearnedDrawer = Boolean
-                .parseBoolean(PreferenceUi
-                        .readSharedSetting(this, PREF_USER_LEARNED_DRAWER, "false"));
+        mUserLearnedDrawer = Boolean.parseBoolean(PreferenceUi.readSharedSetting(this, PREF_USER_LEARNED_DRAWER, "false"));
 
 
         if (savedInstanceState != null) {
