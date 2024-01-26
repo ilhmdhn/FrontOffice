@@ -14,12 +14,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.dantsu.escposprinter.EscPosPrinter
-import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.Printer58
 import es.dmoral.toasty.Toasty
 
@@ -27,8 +26,7 @@ class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
-    private val printer = Printer58()
-
+    private var printCode = 0;
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding = FragmentSettingBinding.inflate(layoutInflater, container, false)
@@ -43,21 +41,27 @@ class SettingFragment : Fragment() {
         val context = requireActivity()
         val sharedPref = context.getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-
+        val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+        printCode = printSetting;
         binding.button.setOnClickListener {
             testPrint()
         }
 
         binding.btnDcPrint.setOnClickListener {
-            printer.disconnectPrinter()
+            if(printSetting == 1){
+                com.ihp.frontoffice.helper.Printer().disconnectPrinter()
+            }else if(printSetting == 4){
+                Printer58().disconnectPrinter();
+            }
         }
 
-        val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+
 
         when(printSetting){
             1 -> binding.rbPrintMobile.isChecked = true
             2 -> binding.rbPrintDesktop.isChecked = true
             3 -> binding.rbPrintBoth.isChecked = true
+            4 -> binding.rbPrintBt58.isChecked = true
         }
 
         binding.rbPrint.setOnCheckedChangeListener { radioGroup, i ->
@@ -65,7 +69,12 @@ class SettingFragment : Fragment() {
                 R.id.rb_print_mobile -> {
                     editor.putInt(getString(R.string.preference_print), 1)
                     editor.apply()
-                    Toasty.info(requireActivity(), "Android Print", Toasty.LENGTH_SHORT, true).show()
+                    Toasty.info(requireActivity(), "Portable 80mm", Toasty.LENGTH_SHORT, true).show()
+                }
+                R.id.rb_print_bt58 -> {
+                    editor.putInt(getString(R.string.preference_print), 4)
+                    editor.apply()
+                    Toasty.info(requireActivity(), "Portable 58mm", Toasty.LENGTH_SHORT, true).show()
                 }
                 R.id.rb_print_desktop -> {
                     editor.putInt(getString(R.string.preference_print), 2)
@@ -94,7 +103,11 @@ class SettingFragment : Fragment() {
         }
 
         try {
-            printer.testPrint(requireActivity())
+            if(printCode == 1){
+                Printer().testPrint(requireActivity())
+            }else if(printCode == 4){
+                Printer58().testPrint(requireActivity())
+            }
         }catch (e: java.lang.Exception){
             Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show()
             Log.e("error", e.message.toString())

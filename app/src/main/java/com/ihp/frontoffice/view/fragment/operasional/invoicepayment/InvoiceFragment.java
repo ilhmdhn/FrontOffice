@@ -5,32 +5,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import com.ihp.frontoffice.helper.utils;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.data.remote.respons.xBillResponse;
+import com.ihp.frontoffice.helper.Printer;
 import com.ihp.frontoffice.helper.Printer58;
-import com.ihp.frontoffice.view.fragment.operasional.OperasionalFragmentDirections;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.OrderItemAdapter;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.TransferItemAdapter;
 import com.tuyenmonkey.mkloader.MKLoader;
@@ -40,9 +35,7 @@ import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import com.ihp.frontoffice.MyApp;
 import com.ihp.frontoffice.R;
-import com.ihp.frontoffice.data.entity.Inventory;
 import com.ihp.frontoffice.data.entity.Invoice;
-import com.ihp.frontoffice.data.entity.Room;
 import com.ihp.frontoffice.data.entity.RoomOrder;
 import com.ihp.frontoffice.data.entity.Time;
 import com.ihp.frontoffice.data.entity.User;
@@ -130,11 +123,10 @@ public class InvoiceFragment extends Fragment {
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
     private static String BASE_URL;
-    private Printer58 printer;
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
     private static final String ARG_PARAM3 = "TIME_RCP";
-    private Integer statusPrint;
+    private Integer statusPrinter;
     private User USER_FO;
 
     public InvoiceFragment() {
@@ -176,12 +168,11 @@ public class InvoiceFragment extends Fragment {
         userLevel = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getLevelUser();
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
-        printer = new Printer58();
         orderItemAdapter = new OrderItemAdapter();
         transferAdapter =  new TransferItemAdapter();
 
         SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE);
-        statusPrint = sharedPref.getInt(getString(R.string.preference_print), 2);
+        statusPrinter = sharedPref.getInt(getString(R.string.preference_print), 2);
         return view;
     }
 
@@ -216,7 +207,7 @@ public class InvoiceFragment extends Fragment {
 
         btnToPrint.setOnClickListener(view -> {
 
-            if (statusPrint == 1 || statusPrint == 3){
+            if (statusPrinter == 1 || statusPrinter == 3){
                 otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
                     if (Boolean.TRUE.equals(data.getState())){
 
@@ -231,7 +222,15 @@ public class InvoiceFragment extends Fragment {
                                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if (printer.printBill(data, user, requireActivity(), false)){
+                                            Boolean statePrintBill = false;
+                                            if(statusPrinter == 1){
+                                                Printer printer = new Printer();
+                                                statePrintBill = printer.printBill(data, user, requireActivity(), false);
+                                            }else if(statusPrinter == 4){
+                                                Printer58 printer = new Printer58();
+                                                statePrintBill = printer.printBill(data, user, requireActivity(), false);
+                                            }
+                                            if (statePrintBill){
                                                 ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-2", requireActivity());
                                             }
                                         }
@@ -255,9 +254,20 @@ public class InvoiceFragment extends Fragment {
                                     .setPositiveButton("YES", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if (printer.printBill(data, user, requireActivity(), true)){
+                                            boolean statePrintBill = false;
+
+                                            if(statusPrinter == 1){
+                                                Printer printer = new Printer();
+                                                statePrintBill = printer.printBill(data, user, requireActivity(), true);
+                                            }else if(statusPrinter == 4){
+                                                Printer58 printer = new Printer58();
+                                                statePrintBill = printer.printBill(data, user, requireActivity(), true);
+                                            }
+
+                                            if(statePrintBill){
                                                 ihpRepository.updateStatusPrint(BASE_URL, roomOrder.getCheckinRoom().getRoomRcp(), "-1", requireActivity());
                                             }
+
                                         }
                                     })
                                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -284,7 +294,14 @@ public class InvoiceFragment extends Fragment {
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
                                                 if (Boolean.TRUE.equals(data.getState())){
-                                                    boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                    boolean statusPrint = false;
+                                                    if(statusPrinter == 1){
+                                                        Printer printer = new Printer();
+                                                        statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                    }else if(statusPrinter == 4){
+                                                        Printer58 printer = new Printer58();
+                                                        statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                    }
                                                     if (statusPrint){
                                                         ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
                                                     }
@@ -341,7 +358,14 @@ public class InvoiceFragment extends Fragment {
                                                         if (UserAuthRole.isAllowReprintBill(userCek)) {
                                                             otherViewModel.getBillData(BASE_URL, roomOrder.getCheckinRoom().getRoomCode()).observe(getViewLifecycleOwner(), data->{
                                                                 if (Boolean.TRUE.equals(data.getState())){
-                                                                    boolean statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                                    boolean statusPrint = false;
+                                                                    if(statusPrinter == 1){
+                                                                        Printer printer = new Printer();
+                                                                        statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                                    }else if(statusPrinter == 4){
+                                                                        Printer58 printer = new Printer58();
+                                                                        statusPrint = printer.printBill(data, user, requireActivity(), true);
+                                                                    }
                                                                     if (statusPrint){
                                                                         ihpRepository.submitApproval(BASE_URL, user, userLevel, roomOrder.getCheckinRoom().getRoomCode(), "Reprint Bill");
                                                                     }
@@ -385,7 +409,7 @@ public class InvoiceFragment extends Fragment {
 
             //Print POS LORONG
 
-            if (statusPrint == 2 || statusPrint ==3) {
+            if (statusPrinter == 2 || statusPrinter ==3) {
             GlobalBus.getBus()
                     .post(new EventsWrapper
                             .PrintBillInvoice(roomOrder.getCheckinRoom().getRoomCode()));

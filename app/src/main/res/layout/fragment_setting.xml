@@ -44,7 +44,15 @@
                 android:id="@+id/rb_print_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Android Bluetooth"
+                android:text="bt80"
+                tools:layout_editor_absoluteX="152dp"
+                tools:layout_editor_absoluteY="45dp" />
+
+            <RadioButton
+                android:id="@+id/rb_print_bt58"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="bt58"
                 tools:layout_editor_absoluteX="152dp"
                 tools:layout_editor_absoluteY="45dp" />
 
@@ -60,7 +68,7 @@
                 android:id="@+id/rb_print_both"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Keduanya"
+                android:text="bt and POS"
                 tools:layout_editor_absoluteX="152dp"
                 tools:layout_editor_absoluteY="45dp" />
         </RadioGroup>

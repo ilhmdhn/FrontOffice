@@ -331,9 +331,9 @@ class Printer {
                 "[L]PROMO[R](${utils.getCurrency(invoiceData.data.dataInvoice.promo.toLong())})\n"
             }
 
-            if(invoiceData.data.dataInvoice.uangMuka!! >0){
-                uangMuka.append("[L][R]UANG MUKA [R]${utils.getCurrency(invoiceData.data.dataInvoice.uangMuka.toLong())}\n")
-            }
+//            if(invoiceData.data.dataInvoice.uangMuka!! >0){
+//                uangMuka.append("[L][R]UANG MUKA [R]${utils.getCurrency(invoiceData.data.dataInvoice.uangMuka.toLong())}\n")
+//            }
 
 
             printer.printFormattedText(

@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.order
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ import com.ihp.frontoffice.databinding.FragmentOrderFnbRoomBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
 import com.ihp.frontoffice.helper.Printer58
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.PushNotification
 import com.ihp.frontoffice.view.fragment.operasional.fnb.FnbConfirmFragment
 import com.ihp.frontoffice.viewmodel.OtherViewModel
@@ -207,7 +209,13 @@ class OrderFnbRoomFragment : Fragment() {
           if(responseSO.state == true){
             otherViewModel.getListSo(BASE_URL, responseSO.data).observe(viewLifecycleOwner, {listSoResponse->
                 if(listSoResponse.state==true){
-                    Printer58().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, responseSO.data, USER_FO.userId, listSoResponse.data)
+                    val sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
+                    val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+                    if(printSetting == 1){
+                        Printer().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, responseSO.data, USER_FO.userId, listSoResponse.data)
+                    }else if(printSetting == 4){
+                        Printer58().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, responseSO.data, USER_FO.userId, listSoResponse.data)
+                    }
                 }
             })
           }

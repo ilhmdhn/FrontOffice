@@ -155,11 +155,11 @@ class Printer58 {
                 }
             }
 
-            if(billData?.data?.dataInvoice?.uangMuka!! > 0){
-                uangMuka.append("\n[L][R]Uang Muka [R]${utils.getCurrency(billData.data.dataInvoice.uangMuka.toLong())}\n")
-            }
+//            if(billData?.data?.dataInvoice?.uangMuka!! > 0){
+//                uangMuka.append("\n[L][R]Uang Muka [R]${utils.getCurrency(billData.data.dataInvoice.uangMuka.toLong())}\n")
+//            }
 
-            if(billData.data.dataInvoice.promo!! > 0){
+            if(billData?.data?.dataInvoice?.promo!! > 0){
                 promoRoom.append("[L]PROMO[R](${utils.getCurrency(billData.data.dataInvoice.promo.toLong())})\n")
             }
 

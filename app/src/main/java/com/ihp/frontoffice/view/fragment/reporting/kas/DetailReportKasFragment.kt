@@ -1,6 +1,7 @@
 package com.ihp.frontoffice.view.fragment.reporting.kas
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,7 @@ import com.ihp.frontoffice.data.remote.respons.DataStatusKas
 import com.ihp.frontoffice.data.remote.respons.StatusKasResponse
 import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.databinding.FragmentDetailReportKasBinding
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.Printer58
 import com.ihp.frontoffice.helper.utils
 import com.ihp.frontoffice.view.fragment.reporting.ReportViewModel
@@ -109,7 +111,13 @@ class DetailReportKasFragment : Fragment() {
             builder.setMessage(R.string.print_kas)
             builder.setPositiveButton(android.R.string.yes) { dialog, which ->
             //    ihpRepository.printKas(url, tanggal, shift, chusr, requireActivity())
-                dataKas.dataStatusKas?.let { it1 -> Printer58().printerKas(shift.toInt(), it1, chusr) }
+                val sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
+                val printerCode = sharedPref.getInt(getString(R.string.preference_print), 2)
+                if(printerCode == 1){
+                    dataKas.dataStatusKas?.let { it1 -> Printer().printerKas(shift.toInt(), it1, chusr) }
+                }else if(printerCode == 4){
+                    dataKas.dataStatusKas?.let { it1 -> Printer58().printerKas(shift.toInt(), it1, chusr) }
+                }
             }
 
             builder.setNegativeButton(android.R.string.cancel) { dialog, which ->

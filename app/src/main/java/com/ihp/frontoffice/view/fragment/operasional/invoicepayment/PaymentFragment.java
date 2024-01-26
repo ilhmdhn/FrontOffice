@@ -1,7 +1,9 @@
 package com.ihp.frontoffice.view.fragment.operasional.invoicepayment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -33,6 +35,7 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.ihp.frontoffice.helper.Printer58;
+import com.ihp.frontoffice.helper.Printer;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import java.text.NumberFormat;
@@ -196,7 +199,7 @@ public class PaymentFragment extends Fragment
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
     private final boolean kasirApproval = false;
-    private Printer58 printer;
+//    private Printer58 printer;
 
     private String current = "";
 
@@ -234,7 +237,6 @@ public class PaymentFragment extends Fragment
         USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
-        printer = new Printer58();
         return view;
     }
 
@@ -662,7 +664,19 @@ public class PaymentFragment extends Fragment
                 }
                 otherViewModel.getInvoiceData(BASE_URL, room.getRoomRcp()).observe(getViewLifecycleOwner(), data->{
                     if (Boolean.TRUE.equals(data.getState())){
-                        if (printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false)){
+                        boolean printState = false;
+
+                        SharedPreferences sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE);
+                        int printerCode = sharedPref.getInt(getString(R.string.preference_print), 2);
+                        if(printerCode == 1){
+                            Printer printer = new Printer();
+                            printState = printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false);
+                        }else if(printerCode == 4){
+                            Printer58 printer = new Printer58();
+                            printState = printer.printInvoice(data, requireActivity(), USER_FO.getUserId(), false);
+                        }
+
+                        if(printState){
                             ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "2", requireActivity());
                         }
                     }else{

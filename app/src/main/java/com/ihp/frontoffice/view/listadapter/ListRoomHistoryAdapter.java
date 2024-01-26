@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ import com.ihp.frontoffice.data.repository.IhpRepository;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
 import com.ihp.frontoffice.helper.AppUtils;
+import com.ihp.frontoffice.helper.Printer;
 import com.ihp.frontoffice.helper.Printer58;
 import com.ihp.frontoffice.helper.RoomState;
 import com.ihp.frontoffice.helper.UserAuthRole;
@@ -84,6 +86,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         roomViewHolder._roomTipe.setText(room.getRoomType());
         roomViewHolder._checkinTime.setText(AppUtils.getTanggal(room.getRoomCheckinHours()));
         roomViewHolder._checkoutTime.setText(AppUtils.getTanggal(room.getRoomCheckoutHours()));
+
         if(room.getMemberName()!=null){
             roomViewHolder._roomMember.setText(room.getMemberName());
         }
@@ -204,7 +207,6 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         private Room room;
         private final OtherViewModel otherViewModel;
 
-        private final Printer58 printer;
 
         private RoomViewHolder(View itemView) {
             super(itemView);
@@ -212,8 +214,6 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
             this.context = itemView.getContext();
             otherViewModel = new ViewModelProvider((ViewModelStoreOwner) itemView.getContext()).get(OtherViewModel.class);
             ihpRepository = new IhpRepository();
-
-            printer = new Printer58();
 
             _bttnCheckin.setVisibility(View.GONE);
             _bttnOrder.setVisibility(View.GONE);
@@ -289,6 +289,8 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
 
             btnReprintInvoice.setOnClickListener(view ->{
                 context = itemView.getContext();
+                SharedPreferences sharedPref = context.getSharedPreferences(context.getString(R.string.preference_print), Context.MODE_PRIVATE);
+                int printerCode = sharedPref.getInt(context.getString(R.string.preference_print), 2);
                 String BASE_URL = ((MyApp) itemView.getContext().getApplicationContext()).baseUrl;
                 String user = ((MyApp) itemView.getContext().getApplicationContext()).getUserFo().getUserId();
 
@@ -296,7 +298,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                     if (Boolean.TRUE.equals(data.getState())){
                         Objects.requireNonNull(Objects.requireNonNull(data.getData()).getDataInvoice()).getStatusPrint();
                         if (Objects.equals(data.getData().getDataInvoice().getStatusPrint(), "2")){
-
+                            Toasty.info(context, "siji", Toasty.LENGTH_LONG).show();
                             AlertDialog.Builder builder;
                             builder = new AlertDialog.Builder(context);
 
@@ -310,9 +312,20 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
-                                            if (printer.printInvoice(data, context,user, true)){
+                                            boolean printerState = false;
+                                            if(printerCode == 1){
+                                                Printer printer = new Printer();
+                                                printerState = printer.printInvoice(data, context, user, true);
+                                            } else if (printerCode == 4) {
+                                                Printer58 printer = new Printer58();
+                                                printerState = printer.printInvoice(data, context, user, true);
+                                            }
+                                            if(printerState){
                                                 ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "1", context);
                                             }
+//                                            if (printer.printInvoice(data, context,user, true)){
+//                                                ihpRepository.updateStatusPrint(BASE_URL, room.getRoomRcp(), "1", context);
+//                                            }
                                         }
                                     });
                             AlertDialog alert = builder.create();
@@ -334,7 +347,16 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                 @Override
                                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                                    if(printer.printInvoice(data, context, user, true)){
+                                                    boolean printerState = false;
+                                                    Toasty.info(context, "loro "+printerCode, Toasty.LENGTH_LONG).show();
+                                                    if(printerCode == 1){
+                                                        Printer printer = new Printer();
+                                                        printerState = printer.printInvoice(data, context, user, true);
+                                                    } else if (printerCode == 4) {
+                                                        Printer58 printer = new Printer58();
+                                                        printerState = printer.printInvoice(data, context, user, true);
+                                                    }
+                                                    if(printerState){
                                                         ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
                                                     }
                                                 }
@@ -372,15 +394,27 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
                                             call.enqueue(new Callback<UserResponse>() {
                                                 @Override
                                                 public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                                                    Toasty.info(context, "telu "+printerCode, Toasty.LENGTH_LONG).show();
                                                     UserResponse res = response.body();
                                                     //_loginProgress.setVisibility(View.GONE);
                                                     res.displayMessage(context);
                                                     if (res.isOkay()) {
                                                         User userCek = res.getUser();
                                                         if (UserAuthRole.isAllowReprintInvoice(userCek)) {
-                                                            if(printer.printInvoice(data, context,user, true)){
+                                                            boolean printerState = false;
+                                                            if(printerCode == 1){
+                                                                Printer printer = new Printer();
+                                                                printerState = printer.printInvoice(data, context, user, true);
+                                                            } else if (printerCode == 4) {
+                                                                Printer58 printer = new Printer58();
+                                                                printerState = printer.printInvoice(data, context, user, true);
+                                                            }
+                                                            if(printerState){
                                                                 ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
                                                             }
+//                                                            if(printer.printInvoice(data, context,user, true)){
+//                                                                ihpRepository.submitApproval(BASE_URL, user, user, room.getRoomCode(), "Reprint Invoice");
+//                                                            }
                                                         } else {
                                                             Toasty.warning(context, "User tidak dapat melakukan operasi ini", Toast.LENGTH_SHORT, true)
                                                                     .show();

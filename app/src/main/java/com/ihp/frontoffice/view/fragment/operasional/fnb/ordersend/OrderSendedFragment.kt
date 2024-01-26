@@ -1,5 +1,6 @@
 package com.ihp.frontoffice.view.fragment.operasional.fnb.ordersend
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,12 +10,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ihp.frontoffice.MyApp
+import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.entity.RoomOrder
 import com.ihp.frontoffice.data.entity.User
 import com.ihp.frontoffice.data.remote.respons.OrderResponse
 import com.ihp.frontoffice.databinding.FragmentOrderSendedBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.Printer58
 import com.ihp.frontoffice.viewmodel.OtherViewModel
 import es.dmoral.toasty.Toasty
@@ -126,7 +129,13 @@ class OrderSendedFragment : Fragment() {
     fun reprintSlipOrder(solCode: DataBusEvent.reprintSlipOrder){
         otherViewModel.getListSo(BASE_URL, solCode.soCode).observe(viewLifecycleOwner, {listSoResponse->
             if(listSoResponse.state==true){
-                Printer58().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, solCode.soCode, USER_FO.userId, listSoResponse.data)
+                val sharedPref = requireActivity().getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
+                val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+                if(printSetting == 1){
+                    Printer().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, solCode.soCode, USER_FO.userId, listSoResponse.data)
+                }else if(printSetting == 4){
+                    Printer58().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, solCode.soCode, USER_FO.userId, listSoResponse.data)
+                }
             }
         })
     }
