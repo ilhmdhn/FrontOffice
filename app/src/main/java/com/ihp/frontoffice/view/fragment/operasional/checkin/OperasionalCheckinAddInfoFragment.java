@@ -33,7 +33,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.helper.Printer58;
 import com.ihp.frontoffice.viewmodel.OtherViewModel;
 import com.tuyenmonkey.mkloader.MKLoader;
 
@@ -299,7 +299,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
     private User USER_FO;
     private String current = "";
     private OtherViewModel otherViewModel;
-    private Printer printer;
+    private Printer58 printer;
 
     public OperasionalCheckinAddInfoFragment() {
         // Required empty public constructor
@@ -355,7 +355,7 @@ public class OperasionalCheckinAddInfoFragment extends Fragment {
         otherViewModel = new OtherViewModel();
 
 
-        printer = new Printer();
+        printer = new Printer58();
 
         return view;
     }

@@ -20,14 +20,14 @@ import com.ihp.frontoffice.R
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
-import com.ihp.frontoffice.helper.Printer
+import com.ihp.frontoffice.helper.Printer58
 import es.dmoral.toasty.Toasty
 
 class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
-    private val printer = Printer()
+    private val printer = Printer58()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -97,7 +97,7 @@ class SettingFragment : Fragment() {
             printer.testPrint(requireActivity())
         }catch (e: java.lang.Exception){
             Toast.makeText(requireActivity(), e.toString(), Toast.LENGTH_SHORT).show()
-            Log.e("error", e.toString())
+            Log.e("error", e.message.toString())
         }
     }
 

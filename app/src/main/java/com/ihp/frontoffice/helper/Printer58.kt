@@ -1,14 +1,11 @@
 package com.ihp.frontoffice.helper
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.DisplayMetrics
 import android.util.Log
 import android.widget.Toast
-//import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
-import com.dantsu.escposprinter.connection.tcp.TcpConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.remote.respons.*
@@ -16,11 +13,8 @@ import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
 import java.util.*
 
-
-@SuppressLint("SimpleDateFormat")
-class Printer {
-
-    private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+class Printer58 {
+    private var printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
 
     fun disconnectPrinter(){
         printer.disconnectPrinter()
@@ -29,25 +23,26 @@ class Printer {
     fun testPrint(context: Context){
 
         printer.disconnectPrinter()
-        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-//        printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100, 10), 203, 72f, 48)
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
+//        printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100, 10), 203, 49f, 32)
         printer.printFormattedTextAndCut(
             "[L]\n" +
                     "[C]PRINTER TEST PAGE\n" +
                     "[C]Printer Work Normally\n" +
                     "[C]================================\n"+
-                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
+                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                R.drawable.bhktv58, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
                     "[L]\n\n\n"
         )
 //        Thread({
-//            val printerz = EscPosPrinter(TcpConnection("192.168.1.222", 9100, 15), 203, 48f, 32)
+//            val printerz = EscPosPrinter(TcpConnection("192.168.1.222", 9100, 15), 203, 32f, 32)
 //                try {
 //                    printerz.printFormattedTextAndCut(
 //                        "[L]\n" +
 //                                "[C]PRINTER TEST PAGE\n" +
 //                                "[C]Printer Work Normally\n" +
 //                                "[C]================================\n"+
-//                                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
+//                                "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(R.drawable.bhktv58, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
 //                                "[L]\n\n\n"
 //                    )
 //                }catch (e: Exception){
@@ -61,7 +56,7 @@ class Printer {
     fun printBill(billData: xBillResponse?, user: String, context: Context, isCopies: Boolean =  false): Boolean {
         try {
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
             val selling = StringBuilder()
             val transferRoom = StringBuilder()
             val copies = StringBuilder()
@@ -113,13 +108,13 @@ class Printer {
                     hiddenPromo = false
                     if(!billData.data.cancelOrderData.isNullOrEmpty()){
                         for(cc: Int in billData.data.cancelOrderData.indices){
-                          if(billData.data.orderData[i]?.orderCode == billData.data.cancelOrderData[cc]?.orderCode && billData.data.orderData[i]?.inventoryCode == billData.data.cancelOrderData[cc]?.inventoryCode){
-                              if(billData.data.orderData[i]?.jumlah == billData.data.cancelOrderData[cc]?.jumlah){
-                                  hiddenPromo = true
-                              }
-                            selling.append("[L]RETUR ${billData.data.cancelOrderData[cc]?.namaItem}\n")
-                            selling.append("[L]  ${billData.data.cancelOrderData[cc]?.jumlah} x ${utils.getCurrency(billData.data.cancelOrderData[cc]?.harga?.toLong())}[R](${utils.getCurrency(billData.data.cancelOrderData[cc]?.total?.toLong())})\n")
-                          }
+                            if(billData.data.orderData[i]?.orderCode == billData.data.cancelOrderData[cc]?.orderCode && billData.data.orderData[i]?.inventoryCode == billData.data.cancelOrderData[cc]?.inventoryCode){
+                                if(billData.data.orderData[i]?.jumlah == billData.data.cancelOrderData[cc]?.jumlah){
+                                    hiddenPromo = true
+                                }
+                                selling.append("[L]RETUR ${billData.data.cancelOrderData[cc]?.namaItem}\n")
+                                selling.append("[L]  ${billData.data.cancelOrderData[cc]?.jumlah} x ${utils.getCurrency(billData.data.cancelOrderData[cc]?.harga?.toLong())}[R](${utils.getCurrency(billData.data.cancelOrderData[cc]?.total?.toLong())})\n")
+                            }
                         }
                     }
 
@@ -169,28 +164,28 @@ class Printer {
             }
 
             printer.printFormattedText(
-                    "" + copies +
-                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
-                            R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
-                        "[C]${billData?.data?.dataOutlet?.namaOutlet}\n" +
-                        "[C]${billData?.data?.dataOutlet?.alamatOutlet}\n" +
-                        "[C]${billData?.data?.dataOutlet?.kota}\n" +
-                        "[C]${billData?.data?.dataOutlet?.telepon}\n" +
+                "" + copies +
+                        "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                    R.drawable.bhktv58, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
+                        "[C]${billData.data.dataOutlet?.namaOutlet}\n" +
+                        "[C]${billData.data.dataOutlet?.alamatOutlet}\n" +
+                        "[C]${billData.data.dataOutlet?.kota}\n" +
+                        "[C]${billData.data.dataOutlet?.telepon}\n" +
                         "\n[C]<b>TAGIHAN</b>\n\n" +
-                        "[L]Ruangan : ${billData?.data?.dataRoom?.ruangan}\n" +
-                        "[L]Nama    : ${billData?.data?.dataRoom?.nama}\n" +
-                        "[L]Tanggal : ${billData?.data?.dataRoom?.tanggal}\n" +
+                        "[L]Ruangan : ${billData.data.dataRoom?.ruangan}\n" +
+                        "[L]Nama    : ${billData.data.dataRoom?.nama}\n" +
+                        "[L]Tanggal : ${billData.data.dataRoom?.tanggal}\n" +
                         "\n" +
                         "[L]Sewa Ruangan\n" +
-                        "[L]${billData?.data?.dataRoom?.checkin} - ${billData?.data?.dataRoom?.checkout}" +
-                        "[R]${utils.getCurrency(billData?.data?.dataInvoice?.sewaRuangan?.toLong())}\n" +
+                        "[L]${billData?.data.dataRoom?.checkin} - ${billData.data.dataRoom?.checkout}" +
+                        "[R]${utils.getCurrency(billData?.data?.dataInvoice.sewaRuangan?.toLong())}\n" +
                         promoRoom+
                         "\n" +
                         selling+
-                        "------------------------------------------------\n"+
+                        "--------------------------------\n"+
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-                        "------------------------------------------------\n"+
+                        "--------------------------------\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
@@ -200,7 +195,7 @@ class Printer {
                         transferRoom+
                         uangMuka+
                         "[R]-------------\n"+
-                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}\n"+
+                        "[L]Jumlah Bersih [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}\n"+
                         "\n[C]<font size='wide'><b>Rp.${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
                         "\n[R]${currentDate} ${user}\n"+
                         transferBill
@@ -217,8 +212,8 @@ class Printer {
 
         try {
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
-//            printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100), 203, 72f, 48)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
+//            printer = EscPosPrinter(TcpConnection("192.168.1.222", 9100), 203, 49f, 32)
             val selling = StringBuilder()
             val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
             val currentDate = sdf.format(Date())
@@ -337,10 +332,10 @@ class Printer {
 
 
             printer.printFormattedText(
-                    "" + copies +
-                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
-                            R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
-                            "[L]\n" +
+                "" + copies +
+                        "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                    R.drawable.bhktv58, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
+                        "[L]\n" +
                         "[C]${invoiceData.data.dataOutlet?.namaOutlet}\n"+
                         "[C]${invoiceData.data.dataOutlet?.alamatOutlet}\n"+
                         "[C]${invoiceData.data.dataOutlet?.kota}\n"+
@@ -355,10 +350,10 @@ class Printer {
                         "[R]${utils.getCurrency(invoiceData.data?.dataInvoice?.sewaRuangan?.toLong())}\n" +
                         promoRoom+
                         selling+
-                        "------------------------------------------------\n"+
+                        "--------------------------------\n"+
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-                        "------------------------------------------------\n"+
+                        "--------------------------------\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
@@ -368,11 +363,11 @@ class Printer {
                         transferRoom+
                         uangMuka+
                         "[R]-------------\n"+
-                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+
+                        "[L]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+
                         paymentList+
                         "[R]-------------\n"+
                         "[R]${utils.getCurrency(invoiceData.data?.paymentDetail?.payValue?.toLong())}\n\n"+
-                        "[L][R]<font size='wide'><b>Kembali[R] ${utils.getCurrency(invoiceData.data?.paymentDetail?.changeValue?.toLong())}</b></font>\n"+
+                        "[L]<font size='wide'><b>Kembali[R] ${utils.getCurrency(invoiceData.data?.paymentDetail?.changeValue?.toLong())}</b></font>\n"+
                         "\n[R]${currentDate} ${user}\n"+
                         transferBill
             )
@@ -513,37 +508,37 @@ class Printer {
     fun printerKas(Shift: Int, data: DataStatusKas, chusr: String):Boolean{
         try {
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
             val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
             val currentDate = sdf.format(Date())
             printer.printFormattedText(
-                    "\n\n[C]\n"+
-                    "[C]${data.outletName}\n"+
-                    "[C]${data.outletAddress}\n"+
-                    "[C]${data.outletCity}\n"+
-                    "[C]${data.outletPhone}\n"+
-                    "\n"+
-                    "[L]Shift $Shift[R]${data.tanggal}\n"+
-                    "[L]Kamar[R]${utils.getCurrency(data.jumlahNilaiKamar)}\n"+
-                    "[L]Makanan & Minuman[R]${utils.getCurrency(data.makananMinuman)}\n"+
-                    "[L]UM Reservasi[R]${utils.getCurrency(data.totalHutangReservasi)}\n"+
-                    "[L]Pendapatan Lain[R]${utils.getCurrency(data.jumlahPendapatanLain)}\n"+
-                    "[R]---------------\n"+
-                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
-                    "[R]===============\n"+
-                    "[L]Poin Membership[R]${utils.getCurrency(data.jumlahPembayaranPoinMembership)}\n"+
-                    "[L]E Money[R]${utils.getCurrency(data.jumlahPembayaranEmoney)}\n"+
-                    "[L]Transfer[R]${utils.getCurrency(data.jumlahPembayaranTransfer)}\n"+
-                    "[L]Cash[R]${utils.getCurrency(data.jumlahPembayaranCash)}\n"+
-                    "[L]Credit Card[R]${utils.getCurrency(data.jumlahPembayaranCreditCard)}\n"+
-                    "[L]Debet Card[R]${utils.getCurrency(data.jumlahPembayaranDebetCard)}\n"+
-                    "[L]Voucher[R]${utils.getCurrency(data.jumlahPembayaranVoucher)}\n"+
-                    "[L]Piutang[R]${utils.getCurrency(data.jumlahPembayaranPiutang)}\n"+
-                    "[L]Entertainment[R]${utils.getCurrency(data.jumlahPembayaranComplimentary)}\n"+
-                    "[R]---------------\n"+
-                    "[L]Setoran[R]${utils.getCurrency(data.totalPembayaran)}\n"+
-                    "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
-                    "\n[R]$currentDate $chusr\n"
+                "\n\n[C]\n"+
+                        "[C]${data.outletName}\n"+
+                        "[C]${data.outletAddress}\n"+
+                        "[C]${data.outletCity}\n"+
+                        "[C]${data.outletPhone}\n"+
+                        "\n"+
+                        "[L]Shift $Shift[R]${data.tanggal}\n"+
+                        "[L]Kamar[R]${utils.getCurrency(data.jumlahNilaiKamar)}\n"+
+                        "[L]Makanan & Minuman[R]${utils.getCurrency(data.makananMinuman)}\n"+
+                        "[L]UM Reservasi[R]${utils.getCurrency(data.totalHutangReservasi)}\n"+
+                        "[L]Pendapatan Lain[R]${utils.getCurrency(data.jumlahPendapatanLain)}\n"+
+                        "[R]---------------\n"+
+                        "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
+                        "[R]===============\n"+
+                        "[L]Poin Membership[R]${utils.getCurrency(data.jumlahPembayaranPoinMembership)}\n"+
+                        "[L]E Money[R]${utils.getCurrency(data.jumlahPembayaranEmoney)}\n"+
+                        "[L]Transfer[R]${utils.getCurrency(data.jumlahPembayaranTransfer)}\n"+
+                        "[L]Cash[R]${utils.getCurrency(data.jumlahPembayaranCash)}\n"+
+                        "[L]Credit Card[R]${utils.getCurrency(data.jumlahPembayaranCreditCard)}\n"+
+                        "[L]Debet Card[R]${utils.getCurrency(data.jumlahPembayaranDebetCard)}\n"+
+                        "[L]Voucher[R]${utils.getCurrency(data.jumlahPembayaranVoucher)}\n"+
+                        "[L]Piutang[R]${utils.getCurrency(data.jumlahPembayaranPiutang)}\n"+
+                        "[L]Entertainment[R]${utils.getCurrency(data.jumlahPembayaranComplimentary)}\n"+
+                        "[R]---------------\n"+
+                        "[L]Setoran[R]${utils.getCurrency(data.totalPembayaran)}\n"+
+                        "[L]Total[R]${utils.getCurrency(data.totalPenjualan)}\n"+
+                        "\n[R]$currentDate $chusr\n"
             )
             return true
         }catch(error: java.lang.Exception){
@@ -554,38 +549,40 @@ class Printer {
     fun printerCheckinSlip(dataCheckin: CheckinSlipResponse, context: Context){
         try{
             printer.disconnectPrinter()
-            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+            printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
             val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
             val currentDate = sdf.format(Date())
             val slip = dataCheckin.data
 
             printer.printFormattedText(
-            "\n\n\n"+
-                    "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
-                    R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n\n"+
-                    "[C]${slip?.outletInfo?.namaOutlet}\n" +
-                    "[C]${slip?.outletInfo?.alamatOutlet}\n" +
-                    "[C]${slip?.outletInfo?.kota}\n" +
-                    "[C]${slip?.outletInfo?.telepon}\n\n"+
-                    "[C]<b>CHECK-IN SLIP</b>\n\n"+
-                    "[L]Ruangan : <font size='wide'><b>${slip?.checkinDetail?.roomName}</b></font>\n\n" +
-                    "[L]Nama              : ${slip?.checkinDetail?.name}\n" +
-                    "[L]Jumlah Tamu       : ${slip?.checkinDetail?.pax}\n" +
-                    "[L]Jenis Kamar       : ${slip?.checkinDetail?.roomType}\n" +
-                    "[L]Jam Check-In      : ${slip?.checkinDetail?.checkinTime}\n" +
-                    "[L]Lama Sewa         : ${slip?.checkinDetail?.checkinDuration} jam\n" +
-                    "[L]Jumlah Biaya Sewa : ${utils.getCurrency(slip?.checkinDetail?.checkinFee?.toLong())}\n" +
-                    "[L]Jam Checkout      : ${slip?.checkinDetail?.checkoutTime}\n" +
-                    "[L]------------------------------------------------\n"+
-                    "[C]<font size='wide'><b>PERNYATAAN</b></font>\n\n"+
-                    "[C]Saya & rekan tidak  akan membawa masuk dan atau\n"+
-                    "[C]mengkonsumsi makanan/minuman yang bukan berasal\n"+
-                    "[C]dari outlet HAPPY  PUPPY ini. Apabila  terbukti\n"+
-                    "[C]kemudian, saya  bersedia dikenakan denda sesuai\n"+
-                    "[C]daftar yang berlaku\n\n"+
-                    "[L](${slip?.checkinDetail?.name})\n"+
-                    "[L](${slip?.checkinDetail?.phone})\n"+
-                    "[R]${currentDate}\n\n"
+                "\n\n\n"+
+                        "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
+                    R.drawable.bhktv58, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n\n"+
+                        "[C]${slip?.outletInfo?.namaOutlet}\n" +
+                        "[C]${slip?.outletInfo?.alamatOutlet}\n" +
+                        "[C]${slip?.outletInfo?.kota}\n" +
+                        "[C]${slip?.outletInfo?.telepon}\n\n"+
+                        "[C]<b>CHECK-IN SLIP</b>\n\n"+
+                        "[L]Ruangan : <font size='wide'><b>${slip?.checkinDetail?.roomName}</b></font>\n\n" +
+                        "[L]Nama              : ${slip?.checkinDetail?.name}\n" +
+                        "[L]Jumlah Tamu       : ${slip?.checkinDetail?.pax}\n" +
+                        "[L]Jenis Kamar       : ${slip?.checkinDetail?.roomType}\n" +
+                        "[L]Jam Check-In      : ${slip?.checkinDetail?.checkinTime}\n" +
+                        "[L]Lama Sewa         : ${slip?.checkinDetail?.checkinDuration} jam\n" +
+                        "[L]Jumlah Biaya Sewa : ${utils.getCurrency(slip?.checkinDetail?.checkinFee?.toLong())}\n" +
+                        "[L]Jam Checkout      : ${slip?.checkinDetail?.checkoutTime}\n" +
+                        "[L]--------------------------------\n"+
+                        "[C]<font size='wide'><b>PERNYATAAN</b></font>\n\n"+
+                        "[C]Saya & rekan tidak  akan membawa\n" +
+                        "[C]masuk atau  mengkonsumsi makanan\n" +
+                        "[C]atau minuman yang  bukan berasal\n"+
+                        "[C]dari  outlet  HAPPY  PUPPY  ini.\n" +
+                        "[C]Apabila  terbukti kemudian, saya\n" +
+                        "[C]bersedia  dikenakan denda sesuai\n"+
+                        "[C]daftar yang berlaku\n\n"+
+                        "[L](${slip?.checkinDetail?.name})\n"+
+                        "[L](${slip?.checkinDetail?.phone})\n"+
+                        "[R]${currentDate}\n\n"
             )
         }catch(error: java.lang.Exception){
             Toasty.error(context, "SLIP CHECKIN ERROR ${error}", Toasty.LENGTH_SHORT, true).show()
@@ -594,7 +591,7 @@ class Printer {
 
     fun printSlipOrder(roomCode: String, guestName: String, pax: String, solCode: String, user: String, listSol: List<DataListSol>){
         printer.disconnectPrinter()
-        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 72f, 48)
+        printer = EscPosPrinter(BluetoothPrintersConnections.selectFirstPaired(), 203, 49f, 32)
         val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
         val time = SimpleDateFormat("HH:mm")
         val currentDate = sdf.format(Date())
@@ -609,17 +606,17 @@ class Printer {
         }
 
         printer.printFormattedText(
-                "\n\n\n"+
-                        "[C]<b>SLIP ORDER</b>\n\n"+
-                        "[L]Kamar    : <font size='wide'><b>$roomCode</b></font>\n"+
-                        "[L]Jam      : <font size='wide'><b>$currentTime</b></font>\n"+
-                        "[L]Nama     : $guestName\n"+
-                        "[L]Jml Tamu : $pax\n"+
-                        "[L]No Bukti : $solCode\n"+
-                        "------------------------------------------------\n"+
-                        isiSo+
-                        "------------------------------------------------\n"+
-                        "[R]Dibuat Oleh: $user\n"
+            "\n\n\n"+
+                    "[C]<b>SLIP ORDER</b>\n\n"+
+                    "[L]Kamar    : <font size='wide'><b>$roomCode</b></font>\n"+
+                    "[L]Jam      : <font size='wide'><b>$currentTime</b></font>\n"+
+                    "[L]Nama     : $guestName\n"+
+                    "[L]Jml Tamu : $pax\n"+
+                    "[L]No Bukti : $solCode\n"+
+                    "--------------------------------\n"+
+                    isiSo+
+                    "--------------------------------\n"+
+                    "[R]Dibuat Oleh: $user\n"
         )
     }
 }

@@ -15,7 +15,7 @@ import com.ihp.frontoffice.data.remote.respons.OrderResponse
 import com.ihp.frontoffice.databinding.FragmentOrderSendedBinding
 import com.ihp.frontoffice.events.DataBusEvent
 import com.ihp.frontoffice.events.GlobalBus
-import com.ihp.frontoffice.helper.Printer
+import com.ihp.frontoffice.helper.Printer58
 import com.ihp.frontoffice.viewmodel.OtherViewModel
 import es.dmoral.toasty.Toasty
 import org.greenrobot.eventbus.Subscribe
@@ -126,7 +126,7 @@ class OrderSendedFragment : Fragment() {
     fun reprintSlipOrder(solCode: DataBusEvent.reprintSlipOrder){
         otherViewModel.getListSo(BASE_URL, solCode.soCode).observe(viewLifecycleOwner, {listSoResponse->
             if(listSoResponse.state==true){
-                Printer().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, solCode.soCode, USER_FO.userId, listSoResponse.data)
+                Printer58().printSlipOrder(roomOrder.checkinRoom.roomCode, roomOrder.checkinRoom.roomGuessName, roomOrder.checkinRoom.totalVisitor, solCode.soCode, USER_FO.userId, listSoResponse.data)
             }
         })
     }

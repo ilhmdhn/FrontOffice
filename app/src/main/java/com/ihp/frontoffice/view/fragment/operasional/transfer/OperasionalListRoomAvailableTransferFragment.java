@@ -27,7 +27,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.data.remote.TransferClient;
 import com.ihp.frontoffice.data.remote.respons.TransferRoomResponse;
-import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.helper.Printer58;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -108,7 +108,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
     private User USER_FO;
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
-    Printer printer;
+    Printer58 printer;
 
     //pagination
     private BasePagination p;
@@ -166,7 +166,7 @@ public class OperasionalListRoomAvailableTransferFragment extends Fragment {
         BASE_URL = ((MyApp) requireActivity().getApplicationContext()).getBaseUrl();
         USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         otherViewModel = new ViewModelProvider(requireActivity()).get(OtherViewModel.class);
-        printer = new Printer();
+        printer = new Printer58();
         init();
     }
 

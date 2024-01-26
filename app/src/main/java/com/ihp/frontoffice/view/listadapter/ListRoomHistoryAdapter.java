@@ -46,7 +46,7 @@ import com.ihp.frontoffice.data.repository.IhpRepository;
 import com.ihp.frontoffice.events.EventsWrapper;
 import com.ihp.frontoffice.events.GlobalBus;
 import com.ihp.frontoffice.helper.AppUtils;
-import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.helper.Printer58;
 import com.ihp.frontoffice.helper.RoomState;
 import com.ihp.frontoffice.helper.UserAuthRole;
 import com.ihp.frontoffice.view.fragment.history.ListHistoryRoomFragmentDirections;
@@ -204,7 +204,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
         private Room room;
         private final OtherViewModel otherViewModel;
 
-        private final Printer printer;
+        private final Printer58 printer;
 
         private RoomViewHolder(View itemView) {
             super(itemView);
@@ -213,7 +213,7 @@ public class ListRoomHistoryAdapter extends RecyclerView.Adapter<ListRoomHistory
             otherViewModel = new ViewModelProvider((ViewModelStoreOwner) itemView.getContext()).get(OtherViewModel.class);
             ihpRepository = new IhpRepository();
 
-            printer = new Printer();
+            printer = new Printer58();
 
             _bttnCheckin.setVisibility(View.GONE);
             _bttnOrder.setVisibility(View.GONE);

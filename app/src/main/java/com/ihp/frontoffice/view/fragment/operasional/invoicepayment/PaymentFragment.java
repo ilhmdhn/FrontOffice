@@ -32,7 +32,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
-import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.helper.Printer58;
 import com.tuyenmonkey.mkloader.MKLoader;
 
 import java.text.NumberFormat;
@@ -196,7 +196,7 @@ public class PaymentFragment extends Fragment
     private IhpRepository ihpRepository;
     private OtherViewModel otherViewModel;
     private final boolean kasirApproval = false;
-    private Printer printer;
+    private Printer58 printer;
 
     private String current = "";
 
@@ -234,7 +234,7 @@ public class PaymentFragment extends Fragment
         USER_FO = ((MyApp) requireActivity().getApplicationContext()).getUserFo();
         memberClient = ApiRestService.getClient(BASE_URL).create(MemberClient.class);
         paymentOrderClient = ApiRestService.getClient(BASE_URL).create(PaymentOrderClient.class);
-        printer = new Printer();
+        printer = new Printer58();
         return view;
     }
 

@@ -29,7 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.ihp.frontoffice.data.remote.respons.xBillResponse;
-import com.ihp.frontoffice.helper.Printer;
+import com.ihp.frontoffice.helper.Printer58;
 import com.ihp.frontoffice.view.fragment.operasional.OperasionalFragmentDirections;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.OrderItemAdapter;
 import com.ihp.frontoffice.view.fragment.operasional.invoicepayment.adapter.TransferItemAdapter;
@@ -130,7 +130,7 @@ public class InvoiceFragment extends Fragment {
     private RoomOrderViewModel roomOrderViewModel;
     private RoomOrder roomOrder;
     private static String BASE_URL;
-    private Printer printer;
+    private Printer58 printer;
     private static final String ARG_PARAM1 = "INVOICE";
     private static final String ARG_PARAM2 = "ROOM_ORDER";
     private static final String ARG_PARAM3 = "TIME_RCP";
@@ -176,7 +176,7 @@ public class InvoiceFragment extends Fragment {
         userLevel = ((MyApp) requireActivity().getApplicationContext()).getUserFo().getLevelUser();
         ihpRepository = new IhpRepository();
         otherViewModel = new OtherViewModel();
-        printer = new Printer();
+        printer = new Printer58();
         orderItemAdapter = new OrderItemAdapter();
         transferAdapter =  new TransferItemAdapter();
 
