@@ -187,10 +187,10 @@ class Printer {
                         promoRoom+
                         "\n" +
                         selling+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
@@ -355,10 +355,10 @@ class Printer {
                         "[R]${utils.getCurrency(invoiceData.data?.dataInvoice?.sewaRuangan?.toLong())}\n" +
                         promoRoom+
                         selling+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
                         "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
                         "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
@@ -489,10 +489,10 @@ class Printer {
                 "[L]PROMO[R](${utils.getCurrency(dataTransfer?.dataInvoice?.promo?.toLong())})\n" +
                 "\n" +
                 selling +
-                "--------------------------------\n"+
+                "------------------------------------------------\n"+
                 "[L]Jumlah Ruangan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                 "[L]Jumlah Penjualan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
-                "--------------------------------\n"+
+                "------------------------------------------------\n"+
                 "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
                 "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
                 "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
@@ -576,7 +576,7 @@ class Printer {
                     "[L]Lama Sewa         : ${slip?.checkinDetail?.checkinDuration} jam\n" +
                     "[L]Jumlah Biaya Sewa : ${utils.getCurrency(slip?.checkinDetail?.checkinFee?.toLong())}\n" +
                     "[L]Jam Checkout      : ${slip?.checkinDetail?.checkoutTime}\n" +
-                    "[L]------------------------------------------------\n"+
+                    "[L]<b>------------------------------------------------</b>\n"+
                     "[C]<font size='wide'><b>PERNYATAAN</b></font>\n\n"+
                     "[C]Saya & rekan tidak  akan membawa masuk dan atau\n"+
                     "[C]mengkonsumsi makanan/minuman yang bukan berasal\n"+
@@ -616,9 +616,9 @@ class Printer {
                         "[L]Nama     : $guestName\n"+
                         "[L]Jml Tamu : $pax\n"+
                         "[L]No Bukti : $solCode\n"+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         isiSo+
-                        "------------------------------------------------\n"+
+                        "<b>------------------------------------------------</b>\n"+
                         "[R]Dibuat Oleh: $user\n"
         )
     }

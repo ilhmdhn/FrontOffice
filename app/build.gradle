@@ -12,8 +12,8 @@ android {
         applicationId "com.ihp.frontoffice"
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 8
-        versionName "2.3.5 (NEW CALCULATE)"
+        versionCode 9
+        versionName "2.3.5 DEVELOPMENT"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
