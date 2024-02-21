@@ -91,6 +91,18 @@ data class xDataInvoice(
     @field:SerializedName("jumlah_pajak")
     val jumlahPajak: Int? = null,
 
+    @field:SerializedName("room_service")
+    val roomService: Int? = null,
+
+    @field:SerializedName("room_tax")
+    val roomTax: Int? = null,
+
+    @field:SerializedName("fnb_service")
+    val fnbService: Int? = null,
+
+    @field:SerializedName("fnb_tax")
+    val fnbTax: Int? = null,
+
     @field:SerializedName("transfer")
     val transfer: String? = null,
 
@@ -137,7 +149,10 @@ data class xData(
     val dataOutlet: xDataOutlet? = null,
 
     @field:SerializedName("dataInvoice")
-    val dataInvoice: xDataInvoice? = null
+    val dataInvoice: xDataInvoice? = null,
+
+    @field:SerializedName("service_percent")
+    val serviceTax: taxServiceModel
 )
 
 data class xDataOutlet(
@@ -185,7 +200,10 @@ data class xTransferBillDataItem(
     val dataOutlet: xDataOutlet? = null,
 
     @field:SerializedName("dataInvoice")
-    val dataInvoice: xDataInvoice? = null
+    val dataInvoice: xDataInvoice? = null,
+
+    @field:SerializedName("service_percent")
+    val serviceTax: taxServiceModel
 )
 
 data class xOrderDataItem(
@@ -243,4 +261,18 @@ data class xDataRoom(
 
     @field:SerializedName("tanggal")
     val tanggal: String? = null
+)
+data class taxServiceModel(
+
+    @field:SerializedName("service_room_percent")
+    val roomServicePercent: Int = 0,
+
+    @field:SerializedName("tax_room_percent")
+    val roomTaxPercent: Int = 0,
+
+    @field:SerializedName("service_fnb_percent")
+    val fnbServicePercent: Int = 0,
+
+    @field:SerializedName("tax_fnb_percent")
+    val fnbTaxPercent: Int = 0,
 )

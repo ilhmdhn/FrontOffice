@@ -11,6 +11,7 @@ import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnection
 import com.dantsu.escposprinter.connection.tcp.TcpConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
+import com.ihp.frontoffice.data.model.ServiceTaxModel
 import com.ihp.frontoffice.data.remote.respons.*
 import es.dmoral.toasty.Toasty
 import java.text.SimpleDateFormat
@@ -75,6 +76,21 @@ class Printer {
             var hiddenPromo: Boolean
             var promoAndCancel: Boolean
 
+            val detailInvoice = billData?.data?.dataInvoice
+            val detailPercentService = billData?.data?.serviceTax
+
+            val serviceTaxData = ServiceTaxModel(
+                detailPercentService?.roomServicePercent?:0,
+                detailPercentService?.roomTaxPercent?:0,
+                detailPercentService?.fnbServicePercent?:0,
+                detailPercentService?.fnbTaxPercent?:0,
+                detailInvoice?.roomService?:0,
+                detailInvoice?.roomTax?:0,
+                detailInvoice?.fnbService?:0,
+                detailInvoice?.fnbTax?:0
+            )
+
+            val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
 
             if (isCopies){
                 copies.append("[L]Copy\n")
@@ -156,7 +172,7 @@ class Printer {
 
             if (!billData?.data?.transferBillData.isNullOrEmpty()){
                 for (i in billData?.data?.transferBillData?.indices!!){
-                    transferBill.append(transferPrint(billData.data.transferBillData[i], user))
+                    transferBill.append(transferPrint(context ,billData.data.transferBillData[i], user))
                 }
             }
 
@@ -192,8 +208,9 @@ class Printer {
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                         "<b>------------------------------------------------</b>\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
-                        "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
-                        "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+//                        "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
+//                        "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                        serviceTax+
                         biayaLain+
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
@@ -205,12 +222,12 @@ class Printer {
                         "\n[R]${currentDate} ${user}\n"+
                         transferBill
             )
-            return true
         } catch (e: java.lang.Exception) {
             Toast.makeText(context, "Mosok kene" + e.toString(), Toast.LENGTH_SHORT).show()
             Log.e("error", e.toString())
+            return false
         }
-        return false
+        return true
     }
 
     fun printInvoice(invoiceData: xInvoiceResponse, context: Context, user: String, isCopies: Boolean = false): Boolean{
@@ -237,6 +254,21 @@ class Printer {
             val promoOrder = invoiceData.data?.promoOrderData
             val promoAndCancelData = invoiceData.data?.promoOrderCancel
 
+            val detailInvoice = invoiceData.data?.dataInvoice
+            val detailPercentService = invoiceData.data?.serviceTax
+            val serviceTaxData = ServiceTaxModel(
+                detailPercentService?.roomServicePercent?:0,
+                detailPercentService?.roomTaxPercent?:0,
+                detailPercentService?.fnbServicePercent?:0,
+                detailPercentService?.fnbTaxPercent?:0,
+                detailInvoice?.roomService?:0,
+                detailInvoice?.roomTax?:0,
+                detailInvoice?.fnbService?:0,
+                detailInvoice?.fnbTax?:0
+            )
+
+            val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
+
             if (invoiceData.data?.dataInvoice?.overpax !=null && invoiceData.data.dataInvoice.overpax > 0){
                 biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(invoiceData.data.dataInvoice.overpax.toLong())}\n")
             }
@@ -259,6 +291,10 @@ class Printer {
 
             if (invoiceData.data?.dataInvoice?.chargeLain !=null && invoiceData.data.dataInvoice.chargeLain > 0){
                 biayaLain.append("[L][R]Charge Lain [R]${utils.getCurrency(invoiceData.data.dataInvoice.chargeLain.toLong())}\n")
+            }
+
+            if((invoiceData.data?.dataInvoice?.promo?:0) > 0){
+                promoRoom.append("[L]PROMO[R](${utils.getCurrency(invoiceData.data?.dataInvoice?.promo?.toLong())})\n")
             }
 
             if (isCopies){
@@ -323,7 +359,7 @@ class Printer {
 
             if (!invoiceData.data?.transferBillData.isNullOrEmpty()){
                 for(i in invoiceData.data?.transferBillData?.indices!!){
-                    transferBill.append(transferPrint(invoiceData.data.transferBillData[i], user))
+                    transferBill.append(transferPrint(context ,invoiceData.data.transferBillData[i], user))
                 }
             }
 
@@ -360,9 +396,10 @@ class Printer {
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                         "<b>------------------------------------------------</b>\n"+
                         "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
-                        "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
-                        "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
-                        biayaLain+
+//                        "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
+//                        "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                            serviceTax+
+                            biayaLain+
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                         transferRoom+
@@ -376,14 +413,14 @@ class Printer {
                         "\n[R]${currentDate} ${user}\n"+
                         transferBill
             )
-            return true
         }catch(e: java.lang.Exception){
             Toast.makeText(context, e.toString(), Toast.LENGTH_SHORT).show()
             return false
         }
+        return true
     }
 
-    fun transferPrint(dataTransfer: xTransferBillDataItem?, user: String): String{
+    fun transferPrint(context: Context, dataTransfer: xTransferBillDataItem?, user: String): String{
 
         val transferData: String
 
@@ -392,6 +429,7 @@ class Printer {
         val copies = StringBuilder()
         val biayaLain = StringBuilder()
         val uangMuka = StringBuilder()
+        val promoRoom = StringBuilder()
         val sdf = SimpleDateFormat("dd/M/yyyy HH:mm")
         val currentDate = sdf.format(Date())
 
@@ -402,6 +440,21 @@ class Printer {
         val cancelOrder = dataTransfer?.cancelOrderData
         val promoOrder = dataTransfer?.promoOrderData
         val promoAndCancelData = dataTransfer?.promoOrderCancel
+
+        val detailInvoice = dataTransfer?.dataInvoice
+        val detailPercentService = dataTransfer?.serviceTax
+        val serviceTaxData = ServiceTaxModel(
+            detailPercentService?.roomServicePercent?:0,
+            detailPercentService?.roomTaxPercent?:0,
+            detailPercentService?.fnbServicePercent?:0,
+            detailPercentService?.fnbTaxPercent?:0,
+            detailInvoice?.roomService?:0,
+            detailInvoice?.roomTax?:0,
+            detailInvoice?.fnbService?:0,
+            detailInvoice?.fnbTax?:0
+        )
+
+        val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
 
         if (dataTransfer?.dataInvoice?.overpax !=null && dataTransfer.dataInvoice.overpax > 0){
             biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(dataTransfer.dataInvoice.overpax.toLong())}\n")
@@ -425,6 +478,10 @@ class Printer {
 
         if (dataTransfer?.dataInvoice?.chargeLain !=null && dataTransfer.dataInvoice.chargeLain > 0){
             biayaLain.append("[L][R]Charge Lain [R](${utils.getCurrency(dataTransfer.dataInvoice.chargeLain.toLong())})\n")
+        }
+
+        if((dataTransfer?.dataInvoice?.promo?:0) > 0){
+            promoRoom.append("[L]PROMO[R](${utils.getCurrency(dataTransfer?.dataInvoice?.promo?.toLong())})\n")
         }
 
         if (!orderData.isNullOrEmpty()) {
@@ -486,7 +543,7 @@ class Printer {
                 "[L]Sewa Ruangan\n" +
                 "[L]${dataTransfer?.dataRoom?.checkin} - ${dataTransfer?.dataRoom?.checkout}" +
                 "[R]${utils.getCurrency(dataTransfer?.dataInvoice?.sewaRuangan?.toLong())}\n" +
-                "[L]PROMO[R](${utils.getCurrency(dataTransfer?.dataInvoice?.promo?.toLong())})\n" +
+                promoRoom+
                 "\n" +
                 selling +
                 "------------------------------------------------\n"+
@@ -494,8 +551,9 @@ class Printer {
                 "[L]Jumlah Penjualan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                 "------------------------------------------------\n"+
                 "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
-                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
-                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+//                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
+//                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+                serviceTax+
                 biayaLain+
                 "[R]-------------\n"+
                 "[L][R]Total [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahTotal?.toLong())}\n"+

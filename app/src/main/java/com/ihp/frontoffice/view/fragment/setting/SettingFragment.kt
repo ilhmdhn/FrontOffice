@@ -10,6 +10,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +20,7 @@ import com.ihp.frontoffice.R
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
+import com.ihp.frontoffice.helper.PreferencesData
 import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.Printer58
 import es.dmoral.toasty.Toasty
@@ -37,7 +40,7 @@ class SettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setMainTitle()
-
+        val preferencesData = PreferencesData(requireActivity())
         val context = requireActivity()
         val sharedPref = context.getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
@@ -89,6 +92,25 @@ class SettingFragment : Fragment() {
             }
         }
 
+        val spinnerService =  binding.spinnerServiceTaxStyle
+        val languages = arrayOf("Style 1", "Style 2", "Style 3", "Style 4", "Style 5", "Style 6", "Style 7" )
+
+        // Buat adapter untuk Spinner
+        val adapter = ArrayAdapter(requireActivity(), android.R.layout.simple_spinner_item, languages)
+
+        // Atur tata letak dropdown
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerService.adapter = adapter
+        spinnerService.setSelection(preferencesData.getServiceStyle() - 1)
+        spinnerService.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                preferencesData.setServiceStyle(position+1)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Implementasi ini diperlukan oleh antarmuka tetapi tidak digunakan dalam contoh ini
+            }
+        }
     }
 
     private fun testPrint(){

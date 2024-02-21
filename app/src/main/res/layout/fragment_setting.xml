@@ -1,86 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".view.fragment.setting.SettingFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_button_checkin"
+        android:backgroundTint="#FFFFFF"
+        android:text="Test Mobile Print"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rb_print" />
 
-        <Button
-            android:id="@+id/button"
+    <TextView
+        android:id="@+id/tv_dummy_print_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Printer"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/rb_print"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/tv_dummy_print_select"
+        app:layout_constraintTop_toBottomOf="@+id/tv_dummy_print_select">
+
+        <RadioButton
+            android:id="@+id/rb_print_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/background_button_checkin"
-            android:backgroundTint="#FFFFFF"
-            android:text="Test Mobile Print"
-            app:layout_constraintStart_toStartOf="@+id/rb_print"
-            app:layout_constraintTop_toBottomOf="@+id/rb_print" />
+            android:text="bt80"
+            tools:layout_editor_absoluteX="152dp"
+            tools:layout_editor_absoluteY="45dp" />
 
-        <TextView
-            android:id="@+id/tv_dummy_print_select"
+        <RadioButton
+            android:id="@+id/rb_print_bt58"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Select Printer"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:text="bt58"
+            tools:layout_editor_absoluteX="152dp"
+            tools:layout_editor_absoluteY="45dp" />
 
-        <RadioGroup
-            android:id="@+id/rb_print"
+        <RadioButton
+            android:id="@+id/rb_print_desktop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="@+id/tv_dummy_print_select"
-            app:layout_constraintTop_toBottomOf="@+id/tv_dummy_print_select">
+            android:text="POS Desktop"
+            tools:layout_editor_absoluteX="27dp"
+            tools:layout_editor_absoluteY="40dp" />
 
-            <RadioButton
-                android:id="@+id/rb_print_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="bt80"
-                tools:layout_editor_absoluteX="152dp"
-                tools:layout_editor_absoluteY="45dp" />
-
-            <RadioButton
-                android:id="@+id/rb_print_bt58"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="bt58"
-                tools:layout_editor_absoluteX="152dp"
-                tools:layout_editor_absoluteY="45dp" />
-
-            <RadioButton
-                android:id="@+id/rb_print_desktop"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="POS Desktop"
-                tools:layout_editor_absoluteX="27dp"
-                tools:layout_editor_absoluteY="40dp" />
-
-            <RadioButton
-                android:id="@+id/rb_print_both"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="bt and POS"
-                tools:layout_editor_absoluteX="152dp"
-                tools:layout_editor_absoluteY="45dp" />
-        </RadioGroup>
-
-        <Button
-            android:id="@+id/btn_dc_print"
+        <RadioButton
+            android:id="@+id/rb_print_both"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Disconnect Printer"
-            android:backgroundTint="#FFFFFF"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button"
-            app:layout_constraintTop_toTopOf="@+id/button" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+            android:text="bt and POS"
+            tools:layout_editor_absoluteX="152dp"
+            tools:layout_editor_absoluteY="45dp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_dc_print"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:text="Disconnect Printer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toTopOf="@+id/button" />
+
+    <Spinner
+        android:id="@+id/spinnerServiceTaxStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/spinner_light"
+
+        android:backgroundTint="#FAF9F9"
+        android:paddingVertical="9dp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Style Service and Tax"
+        android:textColor="#FBF6F6"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+</androidx.constraintlayout.widget.ConstraintLayout>

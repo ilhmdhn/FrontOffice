@@ -46,7 +46,10 @@ data class xInvoiceData(
         val paymentDetail: xpaymentDetail? = null,
 
         @field:SerializedName("paymentData")
-        val paymentList: List<xpaymentList>? = null
+        val paymentList: List<xpaymentList>? = null,
+
+        @field:SerializedName("service_percent")
+        val serviceTax: taxServiceModel
 )
 
 data class xpaymentDetail(
