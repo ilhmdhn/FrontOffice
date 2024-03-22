@@ -8,7 +8,6 @@ import android.widget.Toast
 //import androidx.test.core.app.ApplicationProvider.getApplicationContext
 import com.dantsu.escposprinter.EscPosPrinter
 import com.dantsu.escposprinter.connection.bluetooth.BluetoothPrintersConnections
-import com.dantsu.escposprinter.connection.tcp.TcpConnection
 import com.dantsu.escposprinter.textparser.PrinterTextParserImg
 import com.ihp.frontoffice.R
 import com.ihp.frontoffice.data.model.ServiceTaxModel
@@ -75,22 +74,6 @@ class Printer {
             val promoRoom = StringBuilder()
             var hiddenPromo: Boolean
             var promoAndCancel: Boolean
-
-            val detailInvoice = billData?.data?.dataInvoice
-            val detailPercentService = billData?.data?.serviceTax
-
-            val serviceTaxData = ServiceTaxModel(
-                detailPercentService?.roomServicePercent?:0,
-                detailPercentService?.roomTaxPercent?:0,
-                detailPercentService?.fnbServicePercent?:0,
-                detailPercentService?.fnbTaxPercent?:0,
-                detailInvoice?.roomService?:0,
-                detailInvoice?.roomTax?:0,
-                detailInvoice?.fnbService?:0,
-                detailInvoice?.fnbTax?:0
-            )
-
-            val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
 
             if (isCopies){
                 copies.append("[L]Copy\n")
@@ -184,6 +167,27 @@ class Printer {
                 promoRoom.append("[L]PROMO[R](${utils.getCurrency(billData.data.dataInvoice.promo.toLong())})\n")
             }
 
+            val detailInvoice = billData?.data?.dataInvoice
+            val detailPercentService = billData?.data?.serviceTax
+
+            val totalAmount = ServiceTaxModel(
+                detailPercentService?.roomServicePercent?:0,
+                detailPercentService?.roomTaxPercent?:0,
+                detailPercentService?.fnbServicePercent?:0,
+                detailPercentService?.fnbTaxPercent?:0,
+                detailInvoice?.roomService?:0,
+                detailInvoice?.roomTax?:0,
+                detailInvoice?.fnbService?:0,
+                detailInvoice?.fnbTax?:0,
+                detailInvoice?.jumlah?:0,
+                biayaLain,
+                transferRoom,
+                uangMuka,
+                detailInvoice?.jumlahTotal?:0,
+                detailInvoice?.jumlahBersih?:0,
+            )
+            val amountResult = PrinterStyle.serviceTaxStyle(context, totalAmount)
+
             printer.printFormattedText(
                     "" + copies +
                     "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
@@ -193,7 +197,7 @@ class Printer {
                         "[C]${billData?.data?.dataOutlet?.kota}\n" +
                         "[C]${billData?.data?.dataOutlet?.telepon}\n" +
                         "\n[C]<b>TAGIHAN</b>\n\n" +
-                        "[L]Ruangan : ${billData?.data?.dataRoom?.ruangan}\n" +
+                        "[L]Ruangan : ${billData?.data?.dataRoom?.roomCode} - ${billData?.data?.dataRoom?.ruangan}\n" +
                         "[L]Nama    : ${billData?.data?.dataRoom?.nama}\n" +
                         "[L]Tanggal : ${billData?.data?.dataRoom?.tanggal}\n" +
                         "\n" +
@@ -207,17 +211,17 @@ class Printer {
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                         "<b>------------------------------------------------</b>\n"+
-                        "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
-//                        "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
-//                        "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
-                        serviceTax+
+/*                        "[L][R]Jumlah [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlah?.toLong())}\n"+
+                        "[L][R]Service [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahService?.toLong())}\n"+
+                        "[L][R]Pajak [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
                         biayaLain+
                         "[R]-------------\n"+
                         "[L][R]Total [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                         transferRoom+
                         uangMuka+
                         "[R]-------------\n"+
-                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}\n"+
+                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}\n"+ */
+                        amountResult+
                         "\n[C]<font size='wide'><b>Rp.${utils.getCurrency(billData?.data?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
                         "\n[R]${currentDate} ${user}\n"+
                         transferBill
@@ -254,21 +258,6 @@ class Printer {
             val promoOrder = invoiceData.data?.promoOrderData
             val promoAndCancelData = invoiceData.data?.promoOrderCancel
 
-            val detailInvoice = invoiceData.data?.dataInvoice
-            val detailPercentService = invoiceData.data?.serviceTax
-            val serviceTaxData = ServiceTaxModel(
-                detailPercentService?.roomServicePercent?:0,
-                detailPercentService?.roomTaxPercent?:0,
-                detailPercentService?.fnbServicePercent?:0,
-                detailPercentService?.fnbTaxPercent?:0,
-                detailInvoice?.roomService?:0,
-                detailInvoice?.roomTax?:0,
-                detailInvoice?.fnbService?:0,
-                detailInvoice?.fnbTax?:0
-            )
-
-            val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
-
             if (invoiceData.data?.dataInvoice?.overpax !=null && invoiceData.data.dataInvoice.overpax > 0){
                 biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(invoiceData.data.dataInvoice.overpax.toLong())}\n")
             }
@@ -303,7 +292,7 @@ class Printer {
             }
 
             if (orderData != null) {
-                selling.append("[L]Rincian Penjualan\n\n")
+                selling.append("\n[L]Rincian Penjualan\n\n")
                 for (i: Int in orderData.indices) {
                     selling.append("[L]${orderData[i]?.namaItem}\n")
                     selling.append("[L]  ${orderData[i]?.jumlah} x ${utils.getCurrency(orderData[i]?.harga?.toLong())} [R] ${utils.getCurrency(orderData[i]?.total?.toLong())}\n")
@@ -363,13 +352,34 @@ class Printer {
                 }
             }
 
-            if(invoiceData.data?.dataInvoice?.promo!!>0){
-                "[L]PROMO[R](${utils.getCurrency(invoiceData.data.dataInvoice.promo.toLong())})\n"
+            if((invoiceData.data?.dataInvoice?.promo ?: 0) > 0){
+                "[L]PROMO[R](${utils.getCurrency(invoiceData.data?.dataInvoice?.promo?.toLong())})\n"
             }
 
 //            if(invoiceData.data.dataInvoice.uangMuka!! >0){
 //                uangMuka.append("[L][R]UANG MUKA [R]${utils.getCurrency(invoiceData.data.dataInvoice.uangMuka.toLong())}\n")
 //            }
+
+            val detailInvoice = invoiceData.data?.dataInvoice
+            val detailPercentService = invoiceData.data?.serviceTax
+
+            val totalAmount = ServiceTaxModel(
+                detailPercentService?.roomServicePercent?:0,
+                detailPercentService?.roomTaxPercent?:0,
+                detailPercentService?.fnbServicePercent?:0,
+                detailPercentService?.fnbTaxPercent?:0,
+                detailInvoice?.roomService?:0,
+                detailInvoice?.roomTax?:0,
+                detailInvoice?.fnbService?:0,
+                detailInvoice?.fnbTax?:0,
+                detailInvoice?.jumlah?:0,
+                biayaLain,
+                transferRoom,
+                uangMuka,
+                detailInvoice?.jumlahTotal?:0,
+                detailInvoice?.jumlahBersih?:0,
+            )
+            val amountResult = PrinterStyle.serviceTaxStyle(context, totalAmount)
 
 
             printer.printFormattedText(
@@ -377,14 +387,14 @@ class Printer {
                     "[C]<img>" + PrinterTextParserImg.bitmapToHexadecimalString(printer, context.getResources().getDrawableForDensity(
                             R.drawable.bhktv, DisplayMetrics.DENSITY_DEFAULT))+"</img>\n"+
                             "[L]\n" +
-                        "[C]${invoiceData.data.dataOutlet?.namaOutlet}\n"+
-                        "[C]${invoiceData.data.dataOutlet?.alamatOutlet}\n"+
-                        "[C]${invoiceData.data.dataOutlet?.kota}\n"+
-                        "[C]${invoiceData.data.dataOutlet?.telepon}\n"+
+                        "[C]${invoiceData.data?.dataOutlet?.namaOutlet}\n"+
+                        "[C]${invoiceData.data?.dataOutlet?.alamatOutlet}\n"+
+                        "[C]${invoiceData.data?.dataOutlet?.kota}\n"+
+                        "[C]${invoiceData.data?.dataOutlet?.telepon}\n"+
                         "\n[C]<b>INVOICE</b>\n"+
-                        "\n[L]Ruangan : ${invoiceData.data.dataRoom?.ruangan}"+
-                        "\n[L]Nama    : ${invoiceData.data.dataRoom?.nama}"+
-                        "\n[L]Tanggal : ${invoiceData.data.dataRoom?.tanggal}"+
+                        "\n[L]Ruangan : ${invoiceData.data?.dataRoom?.roomCode} ${invoiceData.data?.dataRoom?.ruangan}"+
+                        "\n[L]Nama    : ${invoiceData.data?.dataRoom?.nama}"+
+                        "\n[L]Tanggal : ${invoiceData.data?.dataRoom?.tanggal}"+
                         "\n\n"+
                         "[L]Sewa Ruangan\n"+
                         "[L]${invoiceData.data?.dataRoom?.checkin} - ${invoiceData.data?.dataRoom?.checkout}" +
@@ -395,9 +405,9 @@ class Printer {
                         "[L]Jumlah Ruangan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                         "[L]Jumlah Penjualan [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                         "<b>------------------------------------------------</b>\n"+
-                        "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
-//                        "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
-//                        "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
+/*                        "[L][R]Jumlah [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlah?.toLong())}\n"+
+                        "[L][R]Service [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahService?.toLong())}\n"+
+                        "[L][R]Pajak [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahPajak?.toLong())}\n"+
                             serviceTax+
                             biayaLain+
                         "[R]-------------\n"+
@@ -405,7 +415,8 @@ class Printer {
                         transferRoom+
                         uangMuka+
                         "[R]-------------\n"+
-                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+
+                        "[L][R]Jumlah Bersih [R]${utils.getCurrency(invoiceData.data?.dataInvoice?.jumlahBersih?.toLong())}\n\n"+*/
+                            amountResult+
                         paymentList+
                         "[R]-------------\n"+
                         "[R]${utils.getCurrency(invoiceData.data?.paymentDetail?.payValue?.toLong())}\n\n"+
@@ -440,21 +451,6 @@ class Printer {
         val cancelOrder = dataTransfer?.cancelOrderData
         val promoOrder = dataTransfer?.promoOrderData
         val promoAndCancelData = dataTransfer?.promoOrderCancel
-
-        val detailInvoice = dataTransfer?.dataInvoice
-        val detailPercentService = dataTransfer?.serviceTax
-        val serviceTaxData = ServiceTaxModel(
-            detailPercentService?.roomServicePercent?:0,
-            detailPercentService?.roomTaxPercent?:0,
-            detailPercentService?.fnbServicePercent?:0,
-            detailPercentService?.fnbTaxPercent?:0,
-            detailInvoice?.roomService?:0,
-            detailInvoice?.roomTax?:0,
-            detailInvoice?.fnbService?:0,
-            detailInvoice?.fnbTax?:0
-        )
-
-        val serviceTax = PrinterStyle.serviceTaxStyle(context, serviceTaxData)
 
         if (dataTransfer?.dataInvoice?.overpax !=null && dataTransfer.dataInvoice.overpax > 0){
             biayaLain.append("[L][R]Overpax [R]${utils.getCurrency(dataTransfer.dataInvoice.overpax.toLong())}\n")
@@ -529,6 +525,26 @@ class Printer {
             uangMuka.append("\n[L][R]Uang Muka [R]${utils.getCurrency(dataTransfer?.dataInvoice?.uangMuka?.toLong())}\n")
         }
 
+        val detailInvoice = dataTransfer?.dataInvoice
+        val detailPercentService = dataTransfer?.serviceTax
+        val totalAmount = ServiceTaxModel(
+            detailPercentService?.roomServicePercent?:0,
+            detailPercentService?.roomTaxPercent?:0,
+            detailPercentService?.fnbServicePercent?:0,
+            detailPercentService?.fnbTaxPercent?:0,
+            detailInvoice?.roomService?:0,
+            detailInvoice?.roomTax?:0,
+            detailInvoice?.fnbService?:0,
+            detailInvoice?.fnbTax?:0,
+            detailInvoice?.jumlah?:0,
+            biayaLain,
+            transferRoom,
+            uangMuka,
+            detailInvoice?.jumlahTotal?:0,
+            detailInvoice?.jumlahBersih?:0,
+        )
+        val amountResult = PrinterStyle.serviceTaxStyle(context, totalAmount)
+
         transferData = "[L]\n\n\n\n\n" +
                 copies+
                 "[C]${dataTransfer?.dataOutlet?.namaOutlet}\n" +
@@ -536,7 +552,7 @@ class Printer {
                 "[C]${dataTransfer?.dataOutlet?.kota}\n" +
                 "[C]${dataTransfer?.dataOutlet?.telepon}\n" +
                 "\n[C]<b>Transfer Room</b>\n\n" +
-                "[L]Ruangan : ${dataTransfer?.dataRoom?.ruangan}\n" +
+                "[L]Ruangan : ${dataTransfer?.dataRoom?.roomCode} - ${dataTransfer?.dataRoom?.ruangan}\n" +
                 "[L]Nama    : ${dataTransfer?.dataRoom?.nama}\n" +
                 "[L]Tanggal : ${dataTransfer?.dataRoom?.tanggal}\n" +
                 "\n" +
@@ -550,17 +566,17 @@ class Printer {
                 "[L]Jumlah Ruangan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahRuangan?.toLong())}\n"+
                 "[L]Jumlah Penjualan [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPenjualan?.toLong())}\n"+
                 "------------------------------------------------\n"+
-                "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
-//                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
-//                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
-                serviceTax+
+/*                "[L][R]Jumlah [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlah?.toLong())}\n"+
+                "[L][R]Service [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahService?.toLong())}\n"+
+                "[L][R]Pajak [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahPajak?.toLong())}\n"+
                 biayaLain+
                 "[R]-------------\n"+
                 "[L][R]Total [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahTotal?.toLong())}\n"+
                 transferRoom+
                 uangMuka+
                 "[R]-------------\n"+
-                "[L]Jumlah Bersih [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}\n"+
+                "[L]Jumlah Bersih [R]${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}\n"+*/
+                amountResult
                 "\n[L]<font size='wide'><b>Rp.${utils.getCurrency(dataTransfer?.dataInvoice?.jumlahBersih?.toLong())}</b></font>\n"+
                 "\n[R]${currentDate} ${user}\n"
 

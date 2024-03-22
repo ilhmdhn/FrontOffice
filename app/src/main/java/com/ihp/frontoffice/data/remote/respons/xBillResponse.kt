@@ -250,6 +250,9 @@ data class xDataRoom(
     @field:SerializedName("ruangan")
     val ruangan: String? = null,
 
+    @field:SerializedName("room_code")
+    val roomCode: String? = null,
+
     @field:SerializedName("Checkout")
     val checkout: String? = null,
 

@@ -3,6 +3,7 @@ package com.ihp.frontoffice.view.fragment.setting
 import android.Manifest
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -12,24 +13,45 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ihp.frontoffice.MyApp
 import com.ihp.frontoffice.R
+import com.ihp.frontoffice.data.remote.ApiRestService
+import com.ihp.frontoffice.data.remote.UserClient
+import com.ihp.frontoffice.data.remote.respons.*
+import com.ihp.frontoffice.data.repository.IhpRepository
 import com.ihp.frontoffice.databinding.FragmentSettingBinding
 import com.ihp.frontoffice.events.EventsWrapper.TitleFragment
 import com.ihp.frontoffice.events.GlobalBus
 import com.ihp.frontoffice.helper.PreferencesData
 import com.ihp.frontoffice.helper.Printer
 import com.ihp.frontoffice.helper.Printer58
+import com.ihp.frontoffice.helper.UserAuthRole
+import com.ihp.frontoffice.viewmodel.OtherViewModel
 import es.dmoral.toasty.Toasty
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.*
+import kotlin.Int
+import kotlin.Long
+import kotlin.Throwable
+import kotlin.arrayOf
+import kotlin.toString
 
 class SettingFragment : Fragment() {
 
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
     private var printCode = 0;
+    private lateinit var otherViewModel: OtherViewModel
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         _binding = FragmentSettingBinding.inflate(layoutInflater, container, false)
@@ -41,10 +63,11 @@ class SettingFragment : Fragment() {
 
         setMainTitle()
         val preferencesData = PreferencesData(requireActivity())
-        val context = requireActivity()
+        var context = requireActivity()
         val sharedPref = context.getSharedPreferences(getString(R.string.preference_print), Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         val printSetting = sharedPref.getInt(getString(R.string.preference_print), 2)
+        otherViewModel = ViewModelProvider(requireActivity()).get(OtherViewModel::class.java)
         printCode = printSetting;
         binding.button.setOnClickListener {
             testPrint()
@@ -56,6 +79,78 @@ class SettingFragment : Fragment() {
             }else if(printSetting == 4){
                 Printer58().disconnectPrinter();
             }
+        }
+
+        binding.btnReprint.setOnClickListener {
+            var ivcCode = binding.etIvc.text
+            val printerCode = sharedPref.getInt(context.getString(R.string.preference_print), 2)
+            val BASE_URL = (context.getApplicationContext() as MyApp).baseUrl
+            val user = (context.getApplicationContext() as MyApp).userFo.userId
+
+
+            val dialogBuilder = MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
+            val dialogInflater = LayoutInflater.from(context)
+            val dialogView = dialogInflater.inflate(R.layout.dialog_otorisasi,null)
+            dialogBuilder.setView(dialogView)
+            dialogBuilder.setCancelable(false)
+            val buttonOk = dialogView.findViewById<AppCompatButton>(R.id.btn_ok)
+            val buttonCancel = dialogView.findViewById<AppCompatButton>(R.id.btn_cancel)
+            val _usernameTxt = dialogView.findViewById<EditText>(R.id.input_username_otorisasi)
+            val _passwordTxt = dialogView.findViewById<EditText>(R.id.input_password_otorisasi)
+            val alertDialog = dialogBuilder.create()
+
+            alertDialog.setOnShowListener { dialogInterface: DialogInterface? ->
+                buttonOk.setOnClickListener { it: View? ->
+                    val email = _usernameTxt.text.toString()
+                    val password = _passwordTxt.text.toString()
+                    if (email.isEmpty() && password.isEmpty()) {
+                        Toasty.warning(context, "Anda belum input user dan password ", Toast.LENGTH_SHORT,true).show()
+                        return@setOnClickListener
+                    }
+                    val userClient = ApiRestService.getClient(BASE_URL).create(UserClient::class.java)
+                    val call = userClient.login(email, password)
+                    //---------------------
+                    call.enqueue(object : Callback<UserResponse?> {
+                        override fun onResponse(call: Call<UserResponse?>,response: Response<UserResponse?>) {
+                            val res = response.body()
+                            res!!.displayMessage(context)
+                            if (res.isOkay) {
+                                val userCek = res.user
+                                if (UserAuthRole.isAllowReprintInvoice(userCek)) {
+
+                                    otherViewModel.getInvoiceData(BASE_URL, ivcCode.toString()).observe(context, {response->
+                                        if(response.state != true){
+                                            Toasty.error(context, response.message.toString(), Toast.LENGTH_SHORT, true).show()
+                                        }else{
+                                            var printerState =false
+                                            if (printerCode == 1) {
+                                                val printer = Printer()
+                                                printerState = printer.printInvoice(response, context, user,true)
+                                            } else if (printerCode == 4) {
+                                                val printer = Printer58()
+                                                printerState = printer.printInvoice(response, context, user,true)
+                                            }
+                                            if (printerState) {
+                                                IhpRepository().submitApproval(BASE_URL, user, user, ivcCode.toString(),"Reprint Invoice Lama"
+                                                )
+                                            }
+                                        }
+                                    })
+                                } else {
+                                    Toasty.warning(context,"User tidak dapat melakukan operasi ini",Toast.LENGTH_SHORT,true).show()
+                                }
+                            }
+                        }
+
+                        override fun onFailure(call: Call<UserResponse?>, t: Throwable) {
+                            Toasty.error(context, "On Failure : " + t.message, Toast.LENGTH_SHORT,true).show()
+                        }
+                    })
+                    alertDialog.dismiss()
+                }
+                buttonCancel.setOnClickListener { it: View? -> alertDialog.dismiss() }
+            }
+            alertDialog.show()
         }
 
 

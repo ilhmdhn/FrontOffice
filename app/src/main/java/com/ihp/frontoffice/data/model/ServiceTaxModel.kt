@@ -8,4 +8,10 @@ data class ServiceTaxModel(
     val roomTaxValue: Int,
     val fnbServiceValue: Int,
     val fnbTaxValue: Int,
+    val amount: Int,
+    val otherCharge: StringBuilder,
+    val transfer: StringBuilder,
+    val downPayment: StringBuilder,
+    val total: Int,
+    val netAmount: Int
 )
